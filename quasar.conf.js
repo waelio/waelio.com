@@ -21,7 +21,9 @@ module.exports = function (ctx) {
     boot: [
 
       'i18n',
-      'axios'
+      'axios',
+      'amplify',
+      'appsync'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -96,7 +98,26 @@ module.exports = function (ctx) {
       // (like functional components as one of the examples),
       // you can manually specify Quasar components/directives to be available everywhere:
       //
-      // components: [],
+      components: [
+        'QLayout',
+        'QHeader',
+        'QDrawer',
+        'QPageContainer',
+        'QPage',
+        'QToolbar',
+        'QToolbarTitle',
+        'QBtn',
+        'QInput',
+        'QDate',
+        'QTime',
+        'QPopupProxy',
+        'QCircularProgress',
+        'QIcon',
+        'QList',
+        'QItem',
+        'QItemSection',
+        'QItemLabel'
+      ],
       // directives: [],
 
       // Quasar plugins

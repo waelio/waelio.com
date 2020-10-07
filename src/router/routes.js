@@ -4,12 +4,41 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', component: () => import('pages/Index.vue') },
+      {
+        path: '',
+        name: 'todo',
+        component: () => import('pages/Todo.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      }
     ]
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
+  {
+    path: '/auth',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [{
+      path: '',
+      name: 'auth',
+      component: () => import('pages/Auth.vue'),
+      meta: {
+        requiresAuth: false
+      }
+    }]
+  },
+  {
+    path: '/profile',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [{
+      name: 'profile',
+      path: '',
+      component: () => import('pages/Profile.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    }]
+  },
   {
     path: '*',
     component: () => import('pages/Error404.vue')
