@@ -1,6 +1,6 @@
 <template>
   <div class="auth">
-    <sign-up :toggle="toggle" v-if="formState === 'signUp'"></sign-up>
+    <sign-up :toggle="toggle" v-if="formState === 'signUp' || 'confirmSignUp'"></sign-up>
     <sign-in v-if="formState === 'signIn'"></sign-in>
     <div class="row justify-end">
       <q-btn @click="toggle" type="submit" class="authButton">
