@@ -11,9 +11,15 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "aws-amplify": "^3.3.3",
+    "aws-amplify-vue": "^2.1.2",
+    "aws-appsync": "^4.0.1",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
     "quasar": "^1.0.0",
+    "vue-apollo": "^3.0.4",
     "vue-i18n": "^8.0.0"
   },
   "devDependencies": {
@@ -26,7 +32,8 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.1.2"
+    "eslint-plugin-vue": "^6.1.2",
+    "workbox-webpack-plugin": "^5.1.4"
   },
   "browserslist": [
     "last 10 Chrome versions",

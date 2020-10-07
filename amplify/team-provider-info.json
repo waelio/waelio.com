@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-waeliocom-dev-101508-authRole",
+      "UnauthRoleArn": "arn:aws:iam::006970456832:role/amplify-waeliocom-dev-101508-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::006970456832:role/amplify-waeliocom-dev-101508-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-waeliocom-dev-101508-deployment",
+      "UnauthRoleName": "amplify-waeliocom-dev-101508-unauthRole",
+      "StackName": "amplify-waeliocom-dev-101508",
+      "StackId": "arn:aws:cloudformation:us-east-1:006970456832:stack/amplify-waeliocom-dev-101508/d7455ef0-086c-11eb-b306-12c5c4f78283",
+      "AmplifyAppId": "d2oa6rxwicwa5g"
+    },
+    "categories": {
+      "auth": {
+        "waeliocom32d828d2": {}
+      }
+    }
+  }
+}
