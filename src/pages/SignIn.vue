@@ -15,6 +15,7 @@
   </div>
 </template>
 <script>
+import { Notify } from 'quasar'
 export default {
   name: 'SignIn',
   data () {
@@ -28,10 +29,35 @@ export default {
   methods: {
     async signIn () {
       const { username, password } = this.form
-      await this.$Auth.signIn(username, password)
-      this.$AmplifyEventBus.$emit('authState', 'signedIn')
-      parent.signedIn = true
-      this.$router.push({ name: 'todo' })
+
+      await this.$Auth.signIn(username, password).then(
+        success => {
+          this.$AmplifyEventBus.$emit('authState', 'signedIn')
+          parent.signedIn = true
+          this.$router.push({ name: 'todo' })
+          console.log('ANSWER', !!success)
+        },
+        problem => {
+          console.error('Error1', problem)
+          if (problem._type === 'UserNotConfirmedException') {
+            this.$AmplifyEventBus.$emit('authState', 'confirmSignUp')
+          }
+          Notify.create({
+            caption: problem.name,
+            message: problem.message,
+            type: 'negative',
+            timeout: 10000
+          })
+        }
+      ).catch(exp => {
+        console.error('Exp', exp)
+        Notify.create({
+          caption: exp.name,
+          message: exp.message,
+          type: 'negative',
+          timeout: 10000
+        })
+      })
     }
   }
 }

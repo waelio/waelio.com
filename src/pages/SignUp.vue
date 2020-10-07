@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+import { Notify } from 'quasar'
 export default {
   name: 'home',
   props: ['toggle'],
@@ -53,13 +54,61 @@ export default {
       const { username, password, email } = this.form
       await this.$Auth.signUp({
         username, password, attributes: { email }
+      }).then(
+        success => {
+          console.log('ANSWER', !!success)
+          this.formState = 'confirmSignUp'
+        },
+        problem => {
+          console.error('Error1', problem)
+          if (problem._type === 'UsernameExistsException') {
+            this.formState = 'signIn'
+          }
+          Notify.create({
+            caption: problem.name,
+            message: problem.message,
+            type: 'negative',
+            timeout: 10000
+          })
+        }
+      ).catch(exp => {
+        console.error('Exp', exp)
+        Notify.create({
+          caption: exp.name,
+          message: exp.message,
+          type: 'negative',
+          timeout: 10000
+        })
       })
-      this.formState = 'confirmSignUp'
     },
     async confirmSignUp () {
       const { username, authCode } = this.form
-      await this.$Auth.confirmSignUp(username, authCode)
-      this.toggle()
+      await this.$Auth.confirmSignUp(username, authCode).then(
+        success => {
+          this.toggle()
+          console.log('ANSWER', !!success)
+        },
+        problem => {
+          console.error('Error1', problem)
+          if (problem._type === 'UserNotConfirmedException') {
+            this.$AmplifyEventBus.$emit('authState', 'signedIn')
+          }
+          Notify.create({
+            caption: problem.name,
+            message: problem.message,
+            type: 'negative',
+            timeout: 10000
+          })
+        }
+      ).catch(exp => {
+        console.error('Exp', exp)
+        Notify.create({
+          caption: exp.name,
+          message: exp.message,
+          type: 'negative',
+          timeout: 10000
+        })
+      })
     }
   }
 }
