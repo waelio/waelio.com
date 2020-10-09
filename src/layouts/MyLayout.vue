@@ -7,10 +7,12 @@
         </q-btn>
         <div class="row">
           <router-link :to="{ name: 'todo' }" tag="span" style="cursor: pointer">
-            <q-toolbar-title>Waelio.com</q-toolbar-title>
+            <q-toolbar-title>
+              <router-link class="text-white text-sm" to="/">
+              Waelio.com</router-link></q-toolbar-title>
           </router-link>
 
-          <div class="fixed-right">Quasar v{{ $q.version }}</div>
+          <div class="fixed-right full-height">v{{ $q.version }}</div>
         </div>
       </q-toolbar>
     </q-header>

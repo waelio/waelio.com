@@ -1,10 +1,14 @@
 <template>
   <div class="auth">
-    <sign-up :toggle="toggle" v-if="formState === 'signUp' || 'confirmSignUp'"></sign-up>
-    <sign-in v-if="formState === 'signIn'"></sign-in>
-    <div class="row justify-end">
-      <q-btn @click="toggle" type="submit" class="authButton">
-        {{ formState === 'signUp' ?
+    <q-select color="white-1" label-color="primary" square outlined v-model="formState" class="q-my-md" :options="formsStates" label="Navigate Sections" />
+    <keep-alive>
+      <q-slide-transition>
+      <component @setFormState="setFormState" :is="formState" ></component>
+      </q-slide-transition>
+    </keep-alive>
+    <div v-if="(formState === 'SignUp') || (formState === 'SignIn')">
+      <q-btn @click="toggle" type="button" class="authButton">
+        {{ formState === 'SignUp' ?
         'Already signed up? Sign In' : 'Need an account? Sign Up'
         }}
       </q-btn>
@@ -12,22 +16,25 @@
   </div>
 </template>
 <script>
-import SignUp from './SignUp'
-import SignIn from './SignIn'
+import AuthMixin from 'src/mixins/AuthMixin'
+import SignUp from 'pages/Auth/SignUp'
+import SignIn from 'pages/Auth/SignIn'
+import ForgotPassword from 'pages/Auth/ForgotPassword'
+import ChangePassword from 'pages/Auth/ChangePassword'
+import VerifyEmail from 'pages/Auth/VerifyEmail'
 export default {
-  name: 'app',
+  name: 'auth',
+  mixins: [AuthMixin],
   components: {
     SignUp,
-    SignIn
+    SignIn,
+    ForgotPassword,
+    ChangePassword,
+    VerifyEmail
   },
   data () {
     return {
-      formState: 'signUp'
-    }
-  },
-  methods: {
-    toggle () {
-      this.formState === 'signUp' ? this.formState = 'signIn' : this.formState = 'signUp'
+      visible: ''
     }
   }
 }
@@ -80,5 +87,6 @@ ul {
 li {
   display: inline-block;
   margin: 0 10px;
+
 }
 </style>

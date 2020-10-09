@@ -1,8 +1,21 @@
 #q-app {
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    padding-top: 20px;
-    padding-bottom: 20px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  .authButton {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #2196f3;
+    border: none;
+    color: white;
+    outline: none;
   }
+  .auth {
+    margin: 0 auto;
+    width: 460px;
+  }
+}
