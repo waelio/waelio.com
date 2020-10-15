@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-// import example from './module-example'
+import LSidebar from 'src/store/LSidebar'
 
 Vue.use(Vuex)
 
@@ -17,7 +16,7 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      // example
+      LSidebar
     },
 
     // enable strict mode (adds overhead!)

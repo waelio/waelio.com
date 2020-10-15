@@ -18,54 +18,7 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
-      <q-list>
-        <q-item-label header>Wael Wahbeh</q-item-label>
-
-        <q-item clickable :to="{name: 'todo'}">
-          <q-item-section avatar>
-            <q-icon name="note"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Todo App</q-item-label>
-            <q-item-label caption>create a todo list..</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <div v-if="isLoggedIn">
-          <q-item clickable :to="{name: 'profile'}">
-            <q-item-section avatar>
-              <q-icon name="settings"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Profile</q-item-label>
-              <q-item-label caption>view your profile</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-
-        <div v-if="isLoggedIn">
-          <q-item clickable @click="signOut">
-            <q-item-section avatar>
-              <q-icon name="stop"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Logout</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-
-        <div v-if="!isLoggedIn">
-          <q-item clickable :to="{name: 'auth'}">
-            <q-item-section avatar>
-              <q-icon name="group"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Login/SignUp</q-item-label>
-              <q-item-label caption>Login or Signup</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-      </q-list>
+      <left-sidebar :isLoggedIn="isLoggedIn" @signOut="signOut" />
     </q-drawer>
 
     <q-page-container>
@@ -76,8 +29,10 @@
 
 <script>
 import { openURL } from 'quasar'
+import LeftSidebar from './LeftSidebar'
 export default {
   name: 'MyLayout',
+  components: { LeftSidebar },
   data () {
     return {
       user: '',

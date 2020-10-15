@@ -6,16 +6,31 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       {
-        path: '',
+        path: 'todo',
         name: 'todo',
         component: () => import('pages/Todo.vue'),
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: 'privacy',
+        name: 'privacy',
+        component: () => import('pages/Privacy')
+      },
+      {
+        path: 'contact',
+        name: 'contact',
+        component: () => import('pages/ContactUs')
+      },
+      {
+        path: 'terms',
+        name: 'terms',
+        component: () => import('pages/Terms')
       }
     ]
   },
-  {
+  { // Protected Routes
     path: '/auth',
     component: () => import('layouts/MyLayout.vue'),
     children: [{
