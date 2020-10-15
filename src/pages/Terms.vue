@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding class="scroll">
     <h2><strong>Terms and Conditions</strong></h2>
 
     <p>Welcome to Wael Wahbeh!</p>

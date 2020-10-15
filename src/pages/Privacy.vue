@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding class="scroll">
     <h1>Privacy Policy for waelio.com</h1>
 
     <p>
@@ -18,15 +18,7 @@
       This Privacy Policy applies only to our online activities and is valid for
       visitors to our website with regards to the information that they shared
       and/or collect in Wael Wahbeh. This policy is not applicable to any
-      information collected offline or via channels other than this website. Our
-      Privacy Policy was created with the help of the
-      <a href="https://www.privacypolicygenerator.info"
-        >Privacy Policy Generator</a
-      >
-      and the
-      <a href="https://www.generateprivacypolicy.com/"
-        >Free Privacy Policy Generator</a
-      >.
+      information collected offline or via channels other than this website.
     </p>
 
     <h2>Consent</h2>
