@@ -26,9 +26,7 @@
     <p>
       By using our website, you hereby consent to our Privacy Policy and agree
       to its terms. For our Terms and Conditions, please visit the
-      <a href="https://www.privacypolicyonline.com/terms-conditions-generator/"
-        >Terms & Conditions Generator</a
-      >.
+      <router-link :to="{name: 'terms'}">Terms & Conditions</router-link>.
     </p>
 
     <h2>Information we collect</h2>
