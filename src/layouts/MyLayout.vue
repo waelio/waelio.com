@@ -24,15 +24,19 @@
     <q-page-container>
       <router-view/>
     </q-page-container>
+    <q-footer reveal elevated bordered>
+      <footer-navs></footer-navs>
+    </q-footer>
   </q-layout>
 </template>
 
 <script>
 import { openURL } from 'quasar'
 import LeftSidebar from './LeftSidebar'
+import FooterNavs from 'src/components/FooterNavs'
 export default {
   name: 'MyLayout',
-  components: { LeftSidebar },
+  components: { LeftSidebar, FooterNavs },
   data () {
     return {
       user: '',

@@ -1,9 +1,9 @@
 <template>
   <q-page padding class="scroll">
-    <h1>Privacy Policy for waelio.com</h1>
+    <h1>Privacy Policy for picmymenu.com</h1>
 
     <p>
-      At Wael Wahbeh, accessible from https://waelio.com, one of our main
+      At Wael Wahbeh, accessible from https://picmymenu.com, one of our main
       priorities is the privacy of our visitors. This Privacy Policy document
       contains types of information that is collected and recorded by Wael
       Wahbeh and how we use it.
@@ -81,10 +81,10 @@
       website, and gathering demographic information.
     </p>
 
-    <h1>Privacy Policy for waelio.com</h1>
+    <h1>Privacy Policy for picmymenu.com</h1>
 
     <p>
-      At Wael Wahbeh, accessible from https://waelio.com, one of our main
+      At Wael Wahbeh, accessible from https://picmymenu.com, one of our main
       priorities is the privacy of our visitors. This Privacy Policy document
       contains types of information that is collected and recorded by Wael
       Wahbeh and how we use it.
@@ -92,7 +92,7 @@
 
     <p>
       If you have additional questions or require more information about our
-      Privacy Policy, do not hesitate to contact us <a href="mailto:wahbehw@gmail.com?subjuct=EMail%20from%20waelio.com">Here</a>.
+      Privacy Policy, do not hesitate to contact us <a href="mailto:wahbehw@gmail.com?subjuct=EMail%20from%20picmymenu.com">Here</a>.
     </p>
     <h2>Consent</h2>
 
