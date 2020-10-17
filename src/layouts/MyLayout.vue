@@ -24,8 +24,8 @@
     <q-page-container>
       <router-view/>
     </q-page-container>
-    <q-footer reveal elevated bordered>
-      <footer-navs></footer-navs>
+    <q-footer reveal elevated bordered >
+      <footer-navs style="max-height: 30vh;" class="scroll" />
       <p class="text-white text-center text-h6">All rights reserved @Waelio2020</p>
     </q-footer>
   </q-layout>

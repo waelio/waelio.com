@@ -1,7 +1,7 @@
 <template>
-  <div class="flex justify-around align-center q-px-0 q-mx-auto pt-0 q-pb-xs">
-    <div class="col-4">
-      <h4 class="q-my-sm text-center width-100 border-white">Projects</h4>
+  <div class="row justify-around align-center q-px-0 q-mx-auto pt-0 q-pb-xs">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+      <h4 class="q-my-sm width-100 border-white">Projects</h4>
       <div class="col">
         <q-btn
           align="center"
@@ -13,7 +13,7 @@
           label="Picmymenu"
         />
       </div>
-      <div class="col">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4">
         <q-btn
           align="center"
           flat
@@ -24,7 +24,7 @@
           label="Sudoku"
         />
       </div>
-      <div class="col">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4">
         <q-btn
           align="center"
           flat
@@ -35,7 +35,7 @@
           label="Q2P"
         />
       </div>
-      <div class="col">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4">
         <q-btn
           align="center"
           flat

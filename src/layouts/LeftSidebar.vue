@@ -1,48 +1,48 @@
 <template>
-      <q-list>
-        <q-item-label header>Wael Wahbeh</q-item-label>
-        <div v-if="isLoggedIn">
-          <q-item clickable :to="{name: 'profile'}">
-            <q-item-section avatar>
-              <q-icon name="settings"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Profile</q-item-label>
-              <q-item-label caption>view your profile</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item clickable @click="$emit('signOut')">
-            <q-item-section avatar>
-              <q-icon name="stop"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Logout</q-item-label>
-            </q-item-section>
-          </q-item>
-q
-          <q-item clickable :to="{name: 'auth'}">
-            <q-item-section avatar>
-              <q-icon name="group"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Login/SignUp</q-item-label>
-              <q-item-label caption>Login or Signup</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-        <div v-for="item in sidebar_public" :key="item.label">
-          <q-item clickable :to="{name: item.to.name}">
-            <q-item-section v-if="item.avatar" avatar>
-              <q-icon :name="item.avatar"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{item.label}}</q-item-label>
-              <q-item-label caption>{{item.caption}}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-      </q-list>
+  <q-list>
+    <q-item-label header>Wael Wahbeh</q-item-label>
+    <div v-if="!isLoggedIn">
+      <q-item clickable :to="{ name: 'auth' }">
+        <q-item-section avatar>
+          <q-icon name="group" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Login/SignUp</q-item-label>
+          <q-item-label caption>Login or Signup</q-item-label>
+        </q-item-section>
+      </q-item>
+    </div>
+    <div v-else>
+      <q-item clickable @click="$emit('signOut')">
+        <q-item-section avatar>
+          <q-icon name="stop" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Logout</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item clickable :to="{ name: 'profile' }">
+        <q-item-section avatar>
+          <q-icon name="settings" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Profile</q-item-label>
+          <q-item-label caption>view your profile</q-item-label>
+        </q-item-section>
+      </q-item>
+    </div>
+    <div v-for="item in sidebar_public" :key="item.label">
+      <q-item clickable :to="{ name: item.to.name }">
+        <q-item-section v-if="item.avatar" avatar>
+          <q-icon :name="item.avatar" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>{{ item.label }}</q-item-label>
+          <q-item-label caption>{{ item.caption }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </div>
+  </q-list>
 </template>
 
 <script>
@@ -56,6 +56,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

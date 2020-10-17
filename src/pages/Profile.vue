@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <h1>Welcome, {{user.username}}</h1>
+  <div class="q-pa-sm q-mx-auto q-my-xs scroll">
+    <div class="text-h3">Welcome,<span> {{user.username}}</span></div>
+    <p>Your Email: {{user.signInUserSession.idToken.payload.email}}</p>
+    <p>Verified: {{user.signInUserSession.idToken.payload.email_verified}}</p>
   </div>
 </template>
 <script>
