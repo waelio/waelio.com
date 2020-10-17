@@ -1,15 +1,21 @@
 <template>
   <div class="q-pa-sm q-mx-auto q-my-xs scroll">
-    <div class="text-h3">Welcome,<span> {{user.username}}</span></div>
-    <p>Your Email: {{user.signInUserSession.idToken.payload.email}}</p>
-    <p>Verified: {{user.signInUserSession.idToken.payload.email_verified}}</p>
+    <div class="text-h3">
+      Welcome,<span> {{ user.username }}</span>
+    </div>
+    <p>Your Email: {{ user.signInUserSession.idToken.payload.email }}</p>
+    <p>Verified: {{ user.signInUserSession.idToken.payload.email_verified }}</p>
+    <amplify-chatbot
+      bot-name="Support"
+      bot-title="Our ChatBot"
+      welcome-message="Hello, how can I help you?"
+    />
   </div>
 </template>
 <script>
 export default {
   name: 'Profile',
-  components: {
-  },
+  components: {},
   data () {
     return {
       user: {},
@@ -17,7 +23,8 @@ export default {
     }
   },
   beforeCreate () {
-    this.$Auth.currentAuthenticatedUser()
+    this.$Auth
+      .currentAuthenticatedUser()
       .then(user => {
         this.user = user
         this.signedIn = true
@@ -26,5 +33,4 @@ export default {
   }
 }
 </script>
-<style>
-</style>
+<style></style>

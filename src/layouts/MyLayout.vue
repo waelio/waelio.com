@@ -34,15 +34,10 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
-      <amplify-chatbot
-        bot-name="Support"
-        bot-title="Our ChatBot"
-        welcome-message="Hello, how can I help you?"
-      />
+      <router-view class="q-mx-auto" />
     </q-page-container>
     <q-footer reveal elevated bordered>
-      <footer-navs style="max-height: 30vh;" class="scroll" />
+      <footer-navs style="max-height: 30vh; height: 20vh; " class="scroll" />
       <p class="text-white text-center text-h6">
         All rights reserved @Waelio2020
       </p>
