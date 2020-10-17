@@ -2,8 +2,9 @@ import { Notify } from 'quasar'
 export default {
   data () {
     return {
-      formState: 'SignUp',
-      formsStates: ['SignIn', 'SignUp', 'ConfirmSignUp', 'ForgotPassword', 'ConfirmCode'],
+      fState: 'SignIn',
+      formsStates: ['SignIn', 'SignUp', 'ForgotPassword', 'ChangePassword',
+        'VerifyEmail'],
       form: {
         authCode: null,
         username: null,
@@ -44,7 +45,7 @@ export default {
       this.formState = 'changePassword'
     },
     async confirmSignUp () {
-      const { username, authCode } = this
+      const { username, authCode } = this.form
       await this.$Auth.confirmSignUp(username, authCode).then(
         success => {
           this.toggle()
@@ -162,6 +163,14 @@ export default {
     }
   },
   computed: {
+    formState: {
+      get: function () {
+        return this.fState
+      },
+      set: function (state) {
+        this.fState = state
+      }
+    },
     SignInReady () {
       return !!(this.form.username && this.form.password)
     },

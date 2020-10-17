@@ -1,40 +1,53 @@
 <template>
   <div class="auth">
-    <q-select color="white-1" label-color="primary" square outlined v-model="formState" class="q-my-md" :options="formsStates" label="Navigate Sections" />
-    <keep-alive>
-      <q-slide-transition>
-      <component @setFormState="setFormState" :is="formState" ></component>
-      </q-slide-transition>
-    </keep-alive>
-    <div v-if="(formState === 'SignUp') || (formState === 'SignIn')">
-      <q-btn @click="toggle" type="button" class="authButton">
-        {{ formState === 'SignUp' ?
-        'Already signed up? Sign In' : 'Need an account? Sign Up'
-        }}
-      </q-btn>
-    </div>
+    <amplify-authenticator v-bind:authConfig="authConfig"></amplify-authenticator>
   </div>
 </template>
 <script>
-import AuthMixin from 'src/mixins/AuthMixin'
-import SignUp from 'pages/Auth/SignUp'
-import SignIn from 'pages/Auth/SignIn'
-import ForgotPassword from 'pages/Auth/ForgotPassword'
-import ChangePassword from 'pages/Auth/ChangePassword'
-import VerifyEmail from 'pages/Auth/VerifyEmail'
 export default {
   name: 'auth',
-  mixins: [AuthMixin],
-  components: {
-    SignUp,
-    SignIn,
-    ForgotPassword,
-    ChangePassword,
-    VerifyEmail
-  },
+  props: [],
   data () {
     return {
-      visible: ''
+      authConfig: {
+        signUpConfig: {
+          header: 'My Customized Sign Up',
+          hideAllDefaults: true,
+          defaultCountryCode: '1',
+          signUpFields: [
+            {
+              label: 'Email',
+              key: 'email',
+              required: true,
+              displayOrder: 1,
+              type: 'string',
+              signUpWith: true
+            },
+            {
+              label: 'Password',
+              key: 'password',
+              required: true,
+              displayOrder: 2,
+              type: 'password'
+            },
+            {
+              label: 'PhoneNumber',
+              key: 'phone_number',
+              required: true,
+              displayOrder: 3,
+              type: 'string'
+            },
+            {
+              label: 'Custom Attribute',
+              key: 'custom_attr',
+              required: false,
+              displayOrder: 4,
+              type: 'string',
+              custom: true
+            }
+          ]
+        }
+      }
     }
   }
 }
