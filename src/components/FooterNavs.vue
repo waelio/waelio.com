@@ -30,7 +30,7 @@
           flat
           size="md"
           stretch
-          to="/projects/picmymenu"
+          to="/projects/q2p"
           text-color="white"
           label="Q2P"
         />

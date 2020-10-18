@@ -1,15 +1,9 @@
 <template>
-  <q-page padding>
-    <iframe src="https://picmymenu.com" frameborder="0"></iframe>
-  </q-page>
+  <iframe src="https://picmymenu.com" class="fit" style="min-height: 40em" frameborder="0"></iframe>
 </template>
-
 <script>
 export default {
-
 }
 </script>
-
 <style>
-
 </style>

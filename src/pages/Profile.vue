@@ -5,11 +5,6 @@
     </div>
     <p>Your Email: {{ user.signInUserSession.idToken.payload.email }}</p>
     <p>Verified: {{ user.signInUserSession.idToken.payload.email_verified }}</p>
-    <amplify-chatbot
-      bot-name="Support"
-      bot-title="Our ChatBot"
-      welcome-message="Hello, how can I help you?"
-    />
   </div>
 </template>
 <script>

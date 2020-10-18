@@ -27,7 +27,36 @@ const routes = [
         path: 'terms',
         name: 'terms',
         component: () => import('pages/Terms')
+      },
+      {
+        path: 'projects',
+        name: 'projects',
+        component: () => import('pages/Projects/index'),
+        children: [
+          {
+            path: ':projectName',
+            name: 'oneproject',
+            component: () => import('pages/Projects/index')
+          }
+        ]
       }
+      //,
+      // {
+      //   path: 'terms',
+      //   name: 'terms',
+      //   component: () => import('pages/Terms')
+      // },
+      // {
+      //   path: 'terms',
+      //   name: 'terms',
+      //   component: () => import('pages/Terms')
+      // },
+      // {
+      //   path: 'terms',
+      //   name: 'terms',
+      //   component: () => import('pages/Terms')
+      // }
+
     ]
   },
   { // Protected Routes
