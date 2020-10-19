@@ -1,8 +1,15 @@
 <template>
-  <iframe src="https://picmymenu.com" class="fit" style="min-height: 40em" frameborder="0"></iframe>
+  <iframe :src="src" :key="src" class="fit" style="min-height: 40em" frameborder="0"></iframe>
 </template>
 <script>
 export default {
+
+  data () {
+    return {
+      src: 'https://picmymenu.com'
+    }
+  }
+
 }
 </script>
 <style>

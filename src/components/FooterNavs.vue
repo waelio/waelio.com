@@ -11,6 +11,7 @@
           to="/projects/picmymenu"
           text-color="white"
           label="Picmymenu"
+          :class="{'active':$route.params.projectName ==='picmymenu'}"
         />
       </div>
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4">
@@ -22,6 +23,7 @@
           to="/projects/sudoku"
           text-color="white"
           label="Sudoku"
+          :class="{'active':$route.params.projectName ==='sudoku'}"
         />
       </div>
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4">
@@ -33,6 +35,7 @@
           to="/projects/q2p"
           text-color="white"
           label="Q2P"
+          :class="{'active':$route.params.projectName ==='q2b'}"
         />
       </div>
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4">
@@ -44,6 +47,7 @@
           to="/projects/picmymenu"
           text-color="white"
           label="Picmymenu"
+          :class="{'active':$route.params.projectName ==='picmymenu'}"
         />
       </div>
     </div>
@@ -55,7 +59,7 @@
           flat
           size="md"
           stretch
-          to="/projects/picmymenu"
+          to="/privacy"
           text-color="white"
           label="Privacy"
         />
@@ -66,7 +70,7 @@
           flat
           size="md"
           stretch
-          to="/projects/sudoku"
+          to="/terms"
           text-color="white"
           label="Terms"
         />
@@ -77,7 +81,7 @@
           flat
           size="md"
           stretch
-          to="/projects/picmymenu"
+          to="/contact"
           text-color="white"
           label="Write me"
         />
