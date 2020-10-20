@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "waeliocom32d828d2_identitypool_32d828d2",
+    "identityPoolName": "waeliocomf92c70ad_identitypool_f92c70ad",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "waelio32d828d2",
-    "userPoolName": "waeliocom32d828d2_userpool_32d828d2",
+    "resourceNameTruncated": "waeliof92c70ad",
+    "userPoolName": "waeliocomf92c70ad_userpool_f92c70ad",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "waelio32d828d2_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "waeliof92c70ad_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "32d828d2",
-    "resourceName": "waeliocom32d828d2",
+    "sharedId": "f92c70ad",
+    "resourceName": "waeliocomf92c70ad",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -45,7 +45,18 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "defaultSocial",
+    "hostedUI": true,
+    "usernameAttributes": [
+        "email, phone_number"
+    ],
+    "hostedUIDomainName": "waeliocomf92c70ad-f92c70ad",
+    "authProvidersUserPool": [
+        "Facebook",
+        "Google"
+    ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://waelio.com/auth/\"],\"LogoutURLs\":[\"https://auth/signout/\"]}",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "dependsOn": []

@@ -1,6 +1,6 @@
 {
   "auth": {
-    "waeliocom32d828d2": {
+    "waeliocomf92c70ad": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

@@ -13,7 +13,9 @@
     },
     "categories": {
       "auth": {
-        "waeliocom32d828d2": {}
+        "waeliocomf92c70ad": {
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"427728041542916\",\"client_secret\":\"db5f8390fb88c139170a1af195ed60b4\"},{\"ProviderName\":\"Google\",\"client_id\":\"google-site-verification=TYWYHaQtd8fmR7lbRGozH3aDddzTYWGSfI60_1jeNTA\",\"client_secret\":\"KPof0kgR67pkiGjKTlX-G_si\"}]"
+        }
       }
     }
   }
