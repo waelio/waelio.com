@@ -29,7 +29,8 @@ export const updateTodo = /* GraphQL */ `
       owner
       date
       description
-      completed 
+      completed
+      createdAt
       updatedAt
     }
   }
