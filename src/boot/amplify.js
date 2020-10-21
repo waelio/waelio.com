@@ -1,15 +1,9 @@
 import Amplify, * as AmplifyModules from 'aws-amplify'
-import {
-  AmplifyPlugin,
-  AmplifyEventBus
-} from 'aws-amplify-vue'
+import { AmplifyPlugin, AmplifyEventBus } from 'aws-amplify-vue'
 import AwsExports from '../aws-exports'
 Amplify.configure(AwsExports)
 
-export default async ({
-  router,
-  Vue
-}) => {
+export default async ({ router, Vue }) => {
   Vue.use(AmplifyPlugin, AmplifyModules)
   Vue.prototype.$Amplify = Amplify
   Vue.prototype.$AmplifyEventBus = AmplifyEventBus
@@ -19,16 +13,20 @@ export default async ({
     if (to.matched.some(record => record.meta.requiresAuth)) {
       // eslint-disable-next-line no-unused-vars
       let user
-      Vue.prototype.$Amplify.Auth.currentAuthenticatedUser().then(data => {
-        if (data && data.signInUserSession) {
-          user = data
-        }
-        next()
-      }).catch((e) => {
-        next({
-          path: '/auth'
+      Vue.prototype.$Amplify.Auth.currentAuthenticatedUser()
+        .then(data => {
+          if (data && data.signInUserSession) {
+            user = data
+          }
+          next()
         })
-      })
+        .catch(e => {
+          if (from.name !== 'auth') {
+            next({
+              path: '/auth'
+            })
+          }
+        })
     }
     next()
   })

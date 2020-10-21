@@ -40,23 +40,6 @@ const routes = [
           }
         ]
       }
-      //,
-      // {
-      //   path: 'terms',
-      //   name: 'terms',
-      //   component: () => import('pages/Terms')
-      // },
-      // {
-      //   path: 'terms',
-      //   name: 'terms',
-      //   component: () => import('pages/Terms')
-      // },
-      // {
-      //   path: 'terms',
-      //   name: 'terms',
-      //   component: () => import('pages/Terms')
-      // }
-
     ]
   },
   { // Protected Routes
