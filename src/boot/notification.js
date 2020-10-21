@@ -1,51 +1,46 @@
+
 import { Notify } from 'quasar'
-
 export default async ({ app, router, Vue }) => {
+  Notify.setDefaults({
+    position: 'top',
+    type: 'info',
+    timeout: 5000
+
+  })
   const Notification = {
-    install: Vue => {
-      const DEFAULT_OPTIONS = {
-        icon: 'fa-info',
-        duration: 5000
-      }
-
-      function info (msg, options = {}) {
-        options.icon = 'fa-check'
-        options.type = 'info'
-        show(msg, options)
-      }
-      function success (msg, options = {}) {
-        options.icon = 'fa-check'
-        options.type = 'success'
-        show(msg, options)
-      }
-      function warning (msg, options = {}) {
-        options.icon = 'fa-exclamation'
-        options.type = 'warning'
-        show(msg, options)
-      }
-      function error (msg, options = {}) {
-        options.icon = 'fa-exclamation'
-        options.type = 'error'
-        show(msg, options)
-      }
-
-      function show (msg, options = {}) {
-        Notify.create({
-          message: msg,
-          ...Object.assign({}, DEFAULT_OPTIONS, options)
-        }
-        )
-      }
-
-      Vue.prototype.$notification = {
-        info: info,
-        success: success,
-        warning: warning,
-        error: error,
-        show: show
-      }
+    info (message) {
+      Notify.create({
+        type: 'info',
+        message
+      })
+      // show(message, { type: 'info' })
+    },
+    success (message) {
+      Notify.create({
+        type: 'positive',
+        message
+      })
+    },
+    warning (message) {
+      Notify.create({
+        type: 'warning',
+        message
+      })
+    },
+    error (message) {
+      Notify.create({
+        type: 'negative',
+        message
+      })
     }
   }
-  Vue.use(Notification)
-  Vue.prototype.$notify = Notification
+
+  Vue.prototype.$notification = {
+    info: Notification.info,
+    success: Notification.success,
+    warning: Notification.warning,
+    error: Notification.error,
+    create: Notify.create
+  }
+  Vue.prototype.$notify = Notify
 }
