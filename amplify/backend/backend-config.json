@@ -15,11 +15,28 @@
         "authConfig": {
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-
-            }
+            "userPoolConfig": {}
           },
           "additionalAuthenticationProviders": []
+        }
+      }
+    },
+    "AmplifyPhotoApi": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authwaeliocomf92c70ad"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ]
         }
       }
     }

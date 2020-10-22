@@ -1,3 +1,11 @@
+:root {
+  --button-background-color: #1976D2!important;
+  --link-color:  #31CCEC!important;
+  --amplify-primary-color:  #1976D2!important;
+  --amplify-primary-tint: #26A69A!important;
+  --amplify-primary-shade:#31CCEC!important;
+}
+
 #q-app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -18,4 +26,5 @@
     margin: 0 auto;
     width: 460px;
   }
+  
 }

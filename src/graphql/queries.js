@@ -1,34 +1,29 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
+export const getShoppingList = /* GraphQL */ `
+  query GetShoppingList($id: ID!) {
+    getShoppingList(id: $id) {
       id
       name
-      owner
-      date
-      description
-      completed
+      shoppingItems {
+        nextToken
+      }
       createdAt
       updatedAt
     }
   }
 `;
-export const listTodos = /* GraphQL */ `
-  query ListTodos(
-    $filter: ModelTodoFilterInput
+export const listShoppingLists = /* GraphQL */ `
+  query ListShoppingLists(
+    $filter: ModelShoppingListFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listShoppingLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
-        owner
-        date
-        description
-        completed
         createdAt
         updatedAt
       }
@@ -36,31 +31,77 @@ export const listTodos = /* GraphQL */ `
     }
   }
 `;
-export const searchTodos = /* GraphQL */ `
-  query SearchTodos(
-    $filter: SearchableTodoFilterInput
-    $sort: SearchableTodoSortInput
+export const getShoppingItem = /* GraphQL */ `
+  query GetShoppingItem($id: ID!) {
+    getShoppingItem(id: $id) {
+      id
+      title
+      shoppingListID
+      shoppingList {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      comments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listShoppingItems = /* GraphQL */ `
+  query ListShoppingItems(
+    $filter: ModelShoppingItemFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    searchTodos(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-    ) {
+    listShoppingItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
-        owner
-        date
-        description
-        completed
+        title
+        shoppingListID
         createdAt
         updatedAt
       }
       nextToken
-      total
+    }
+  }
+`;
+export const getComment = /* GraphQL */ `
+  query GetComment($id: ID!) {
+    getComment(id: $id) {
+      id
+      ShoppingItemID
+      shoppingItem {
+        id
+        title
+        shoppingListID
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        ShoppingItemID
+        content
+        createdAt
+        updatedAt
+      }
+      nextToken
     }
   }
 `;

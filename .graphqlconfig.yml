@@ -1,6 +1,6 @@
 projects:
-  waeliocom:
-    schemaPath: src/graphql/schema.json
+  AmplifyPhotoApi:
+    schemaPath: amplify/backend/api/AmplifyPhotoApi/build/schema.graphql
     includes:
       - src/graphql/**/*.js
     excludes:
@@ -10,6 +10,9 @@ projects:
         codeGenTarget: javascript
         generatedFileName: ''
         docsFilePath: src/graphql
+        region: us-east-1
+        apiId: null
+        maxDepth: 2
 extensions:
   amplify:
     version: 3
