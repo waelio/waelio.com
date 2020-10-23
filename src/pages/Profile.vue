@@ -1,10 +1,20 @@
 <template>
-  <div class="q-pa-sm q-mx-auto q-my-xs scroll">
+  <q-skeleton
+    class="q-pa-sm q-mx-auto q-my-xs scroll"
+    v-if="!currentUser"
+  ></q-skeleton>
+  <div class="q-pa-sm q-mx-auto q-my-xs scroll" v-else>
     <div class="text-h3">
-      Welcome,<span> {{ user.username }}</span>
+      <span>Welcome!</span>
     </div>
-    <p>Your Email: {{ user.signInUserSession.idToken.payload.email }}</p>
-    <p>Verified: {{ user.signInUserSession.idToken.payload.email_verified }}</p>
+    <p>
+      Your Email: {{ currentUser.email }}, verified:
+      {{ currentUser.email_verified }}
+    </p>
+    <p>
+      Your Phone: {{ currentUser.phone_number }}, verified:
+      {{ currentUser.phone_number_verified }}
+    </p>
   </div>
 </template>
 <script>
@@ -25,6 +35,11 @@ export default {
         this.signedIn = true
       })
       .catch(() => console.log('not signed in...'))
+  },
+  computed: {
+    currentUser () {
+      return this.user.attributes
+    }
   }
 }
 </script>
