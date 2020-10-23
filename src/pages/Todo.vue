@@ -19,32 +19,6 @@
           :rules="[ val => val && val.length > 0 || 'Missing name']"
           v-model="name"
         />
-        <q-input
-          type="text"
-          ref="description"
-          filled
-          color="teal"
-          dense
-          label="Description"
-          clearable
-          lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Missing description']"
-          v-model="description"
-        />
-
-        <q-input
-          type="date"
-          ref="date"
-          filled
-          dense
-          lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Missing date']"
-          v-model="date"
-        >
-          <template v-slot:append>
-            <q-icon name="event"></q-icon>
-          </template>
-        </q-input>
 
         <div class="row center">
           <q-btn type="submit" label="Create Todo" class="todoButton">
@@ -55,15 +29,9 @@
         </div>
 
         <ul>
-          <li class="todo" v-for="(todo, index) in todos" :key="index">
-            <p class="todoname">{{ todo.name }}</p>
-            <p class="text">{{ todo.description }}</p>
-            <p class="text">Due: {{ todo.date }}</p>
-            <p
-              @click="toggleComplete(todo)"
-              class="text button"
-            >{{ todo.completed ? 'completed' : 'not completed' }}</p>
-            <p @click="deleteTodo(todo)" class="text button delete">Delete todo item</p>
+          <li class="todo" v-for="(shoppingList, index) in shoppingLists" :key="index">
+            <p class="todoname">{{ shoppingList.name }}</p>
+            <p @click="deleteList(shoppingList)" class="text button delete">Delete Shopping List</p>
           </li>
         </ul>
       </div>
@@ -73,13 +41,13 @@
 
 <script>
 import gql from 'graphql-tag'
-import { listTodos } from '../graphql/queries'
-import { createTodo, deleteTodo, updateTodo } from '../graphql/mutations'
+import { listShoppingLists } from '../graphql/queries'
+import { createShoppingList, deleteShoppingList } from '../graphql/mutations'
 import uuidV4 from 'uuid/v4'
 import { date } from 'quasar'
 
 export default {
-  name: 'Todo',
+  name: 'ShoppingList',
   computed: {
     date () {
       const timeStamp = Date.now()
@@ -90,10 +58,8 @@ export default {
   data () {
     return {
       name: '',
-      description: '',
       owner: 'foo', // this is just a placeholder and will get updated by AppSync resolver
-      user: '',
-      todos: []
+      shoppingLists: []
     }
   },
   beforeCreate () {
@@ -107,10 +73,8 @@ export default {
   methods: {
     onCreate () {
       this.$refs.name.validate()
-      this.$refs.description.validate()
-      this.$refs.date.validate()
 
-      if (this.$refs.name.hasError || this.$refs.description.hasError || this.$refs.date.hasError) {
+      if (this.$refs.name.hasError) {
         this.formHasError = true
         this.$q.notify({
           color: 'negative',
@@ -122,88 +86,55 @@ export default {
           color: 'positive',
           message: 'Submitted'
         })
-        this.createTodo()
+        createShoppingList()
       }
     },
-    toggleComplete (todo) {
-      const updatedTodo = {
-        ...todo,
-        completed: !todo.completed
-      }
-      // graphql layers dont like __typename in our object
-      delete updatedTodo.__typename
-
+    deleteList (list) {
       this.$apollo.mutate({
-        mutation: gql(updateTodo),
-        variables: { input: updatedTodo },
-        update: (store, { data: { updateTodo } }) => {
-          const data = store.readQuery({ query: gql(listTodos) })
-          const index = data.listTodos.items.findIndex(item => item.id === updateTodo.id)
-          data.listTodos.items[index] = updateTodo
-          store.writeQuery({ query: gql(listTodos), data })
-        },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          updateTodo: {
-            __typename: 'Todo',
-            ...updatedTodo
-          }
-        }
-      })
-        .then(data => console.log(data))
-        .catch(error => console.error(error))
-    },
-    deleteTodo (todo) {
-      this.$apollo.mutate({
-        mutation: gql(deleteTodo),
+        mutation: gql(deleteShoppingList),
         variables: {
-          input: { id: todo.id }
+          input: { id: list.id }
         },
-        update: (store, { data: { deleteTodo } }) => {
-          const data = store.readQuery({ query: gql(listTodos) })
-          data.listTodos.items = data.listTodos.items.filter(todo => todo.id !== deleteTodo.id)
-          store.writeQuery({ query: gql(listTodos), data })
+        update: (store, { data: { deleteShoppingList } }) => {
+          const data = store.readQuery({ query: gql(listShoppingLists) })
+          console.log(data)
+          data.shoppingLists.items = data.listShoppingLists.items.filter(todo => todo.id !== deleteShoppingList.id)
+          store.writeQuery({ query: gql(listShoppingLists), data })
         },
         optimisticResponse: {
           __typename: 'Mutation',
-          deleteTodo: {
-            __typename: 'Todo',
-            ...todo
+          deleteShoppingList: {
+            __typename: 'ShoppingList',
+            ...listShoppingLists
           }
         }
       })
         .then(data => console.log(data))
         .catch(error => console.error(error))
     },
-    createTodo () {
+    createShoppingList () {
       const name = this.name
-      const date = this.date
-      const description = this.description
-      const owner = this.user.username
+      // const owner = this.user.username
 
       const id = uuidV4()
       const todo = {
-        name: name,
         id,
-        date,
-        owner,
-        description,
-        completed: false
+        name: name
       }
 
       this.$apollo.mutate({
-        mutation: gql(createTodo),
+        mutation: gql(createShoppingList),
         variables: { input: todo },
-        update: (store, { data: { createTodo } }) => {
-          const data = store.readQuery({ query: gql(listTodos) })
-          data.listTodos.items.push(createTodo)
-          store.writeQuery({ query: gql(listTodos), data })
+        update: (store, { data: { createShoppingList } }) => {
+          const data = store.readQuery({ query: gql(listShoppingLists) })
+          data.listTodos.items.push(createShoppingList)
+          store.writeQuery({ query: gql(listShoppingLists), data })
         },
         optimisticResponse: {
           __typename: 'Mutation',
-          createTodo: {
-            __typename: 'Todo',
-            ...todo
+          createShoppingList: {
+            __typename: 'ShoppingList',
+            ...this.shoppingLists
           }
         }
       })
@@ -212,9 +143,9 @@ export default {
     }
   },
   apollo: {
-    todos: {
-      query: gql(listTodos),
-      update: data => data.listTodos.items
+    lists: {
+      query: gql(listShoppingLists),
+      update: data => data.shoppingLists.items
     }
   }
 }

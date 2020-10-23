@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="scroll">
+  <q-page padding class="flex flex-center fit scroll">
     <h1>Privacy Policy for waelio.com</h1>
 
     <p>
