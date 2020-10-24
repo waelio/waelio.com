@@ -2,10 +2,15 @@
   <div class="todo">
     <div v-if="$apollo.loading">
       <div class="text-xs-center">
-        <q-circular-progress indeterminate size="50px" color="lime" class="q-ma-md"/>
+        <q-circular-progress
+          indeterminate
+          size="50px"
+          color="lime"
+          class="q-ma-md"
+        />
       </div>
     </div>
-    <form @submit.prevent.stop="onCreate" class="q-pa-md">
+    <q-form ref="form" @submit.prevent.stop="onCreate" class="q-pa-md">
       <div class="q-pa-md" style="max-width: 420px">
         <q-input
           type="text"
@@ -16,64 +21,107 @@
           label="Name"
           clearable
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Missing name']"
+          :rules="[val => (val && val.length > 0) || 'Missing name']"
           v-model="name"
         />
 
         <div class="row center">
-          <q-btn type="submit" label="Create Todo" class="todoButton">
-            <template v-slot:loading>
-              <q-spinner-facebook/>
-            </template>
+          <q-btn type="submit" :loading="creating" label="Create Shopping List" class="todoButton">
           </q-btn>
         </div>
 
-        <ul>
-          <li class="todo" v-for="(shoppingList, index) in shoppingLists" :key="index">
-            <p class="todoname">{{ shoppingList.name }}</p>
-            <p @click="deleteList(shoppingList)" class="text button delete">Delete Shopping List</p>
-          </li>
-        </ul>
+        <q-list
+          bordered
+          class="q-mt-md rounded-borderes"
+          style="max-width=600px"
+        >
+          <q-item-label header>My Lists</q-item-label>
+          <q-item v-for="shoppingL in shsHolder" :key="shoppingL.id">
+            <q-item-section top avatar>
+              <q-avatar color="primary" text-color="white" icon="reorder" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h6">{{ shoppingL.name }}</q-item-label>
+              <q-item-label caption lines="2">{{ shoppingL.id }}</q-item-label>
+            </q-item-section>
+            <q-item-section top side>
+              <div class="text-grey-8 q-gutter-xs">
+                <q-item-label caption>{{ shoppingL.updatedAt }}</q-item-label>
+                <q-btn
+                  class="gt-xs"
+                  size="12px"
+                  color="orange"
+                  flat
+                  dense
+                  round
+                  :loading="editing"
+                  icon="edit"
+                  @click="onEdit(shoppingL)"
+                />
+                <q-btn
+                  class="gt-xs"
+                  size="12px"
+                  color="red"
+                  flat
+                  dense
+                  round
+                  :loading="deleting"
+                  icon="delete"
+                  @click="deleteList(shoppingL.id)"
+                />
+              </div>
+            </q-item-section>
+          </q-item>
+        </q-list>
       </div>
-    </form>
+    </q-form>
   </div>
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
 import gql from 'graphql-tag'
-import { listShoppingLists } from '../graphql/queries'
-import { createShoppingList, deleteShoppingList } from '../graphql/mutations'
+import { API, graphqlOperation, Storage } from 'aws-amplify'
+import { listShoppingItems, listShoppingLists } from '../graphql/queries'
+import * as mutations from '../graphql/mutations'
+import {
+  createShoppingList,
+  deleteShoppingList,
+  updateShoppingList
+} from '../graphql/mutations'
 import uuidV4 from 'uuid/v4'
 import { date } from 'quasar'
 
 export default {
   name: 'ShoppingList',
-  computed: {
-    date () {
-      const timeStamp = Date.now()
-      const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD')
-      return formattedString
-    }
-  },
-  data () {
-    return {
-      name: '',
-      owner: 'foo', // this is just a placeholder and will get updated by AppSync resolver
-      shoppingLists: []
-    }
-  },
   beforeCreate () {
-    this.$Auth.currentAuthenticatedUser()
+    this.$Auth
+      .currentAuthenticatedUser()
       .then(user => {
         this.user = user
         this.signedIn = true
       })
       .catch(() => this.$router.push({ name: 'auth' }))
   },
+  async mounted () {
+    this.onListAllShoppingLists()
+  },
+  data () {
+    return {
+      shsHolder: [],
+      name: '',
+      user: {},
+      creating: false,
+      adding: false,
+      editing: false,
+      deleting: false,
+      owner: 'foo' // this is just a placeholder and will get updated by AppSync resolver
+    }
+  },
+
   methods: {
     onCreate () {
       this.$refs.name.validate()
-
       if (this.$refs.name.hasError) {
         this.formHasError = true
         this.$q.notify({
@@ -86,66 +134,66 @@ export default {
           color: 'positive',
           message: 'Submitted'
         })
-        createShoppingList()
+        this.createShoppingList()
       }
     },
-    deleteList (list) {
-      this.$apollo.mutate({
-        mutation: gql(deleteShoppingList),
-        variables: {
-          input: { id: list.id }
-        },
-        update: (store, { data: { deleteShoppingList } }) => {
-          const data = store.readQuery({ query: gql(listShoppingLists) })
-          console.log(data)
-          data.shoppingLists.items = data.listShoppingLists.items.filter(todo => todo.id !== deleteShoppingList.id)
-          store.writeQuery({ query: gql(listShoppingLists), data })
-        },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          deleteShoppingList: {
-            __typename: 'ShoppingList',
-            ...listShoppingLists
-          }
-        }
-      })
-        .then(data => console.log(data))
-        .catch(error => console.error(error))
+    async onListAllShoppingLists () {
+      this.shsHolder = await this.getAllShoppingLists()
+      return Promise.resolve(true)
     },
-    createShoppingList () {
+    async getAllShoppingLists () {
+      const aListData = await API.graphql(graphqlOperation(listShoppingLists))
+      return aListData.data.listShoppingLists.items
+    },
+    async deleteList (id) {
+      this.deleting = true
+      const dList = await API.graphql({
+        query: mutations.deleteShoppingList,
+        variables: { input: { id } }
+      })
+
+      // this.shsHolder = this.shsHolder.filter(one => one.id !== id)
+      this.deleting = false
+      if (dList) this.onListAllShoppingLists()
+      return Promise.resolve
+    },
+    async createShoppingList () {
+      const creating = true
       const name = this.name
       // const owner = this.user.username
 
       const id = uuidV4()
-      const todo = {
+      const nList = {
         id,
-        name: name
+        name
       }
 
-      this.$apollo.mutate({
-        mutation: gql(createShoppingList),
-        variables: { input: todo },
-        update: (store, { data: { createShoppingList } }) => {
-          const data = store.readQuery({ query: gql(listShoppingLists) })
-          data.listTodos.items.push(createShoppingList)
-          store.writeQuery({ query: gql(listShoppingLists), data })
-        },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          createShoppingList: {
-            __typename: 'ShoppingList',
-            ...this.shoppingLists
-          }
-        }
+      const nListResult = await API.graphql({
+        query: mutations.createShoppingList,
+        variables: { input: nList }
       })
-        .then(data => console.log(data))
-        .catch(error => console.error('error!!!: ', error))
+      this.creating = false
+      this.name = null
+      this.$refs.form.reset()
+      if (nListResult) {
+        this.onListAllShoppingLists()
+      }
+    },
+    onEdit (eList) {
+      this.editing = true
+    }
+  },
+  computed: {
+    date () {
+      const timeStamp = Date.now()
+      const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD')
+      return formattedString
     }
   },
   apollo: {
-    lists: {
+    ShoppingLists: {
       query: gql(listShoppingLists),
-      update: data => data.shoppingLists.items
+      update: data => data.listShoppingLists.items
     }
   }
 }
