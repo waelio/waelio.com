@@ -9,6 +9,18 @@ Parameters:
     Type: String
   
   
+  
+  
+  functionwaeliocomf92c70adPostConfirmationArn: 
+    Type: String
+    Default: functionwaeliocomf92c70adPostConfirmationArn
+  
+  functionwaeliocomf92c70adPostConfirmationName: 
+    Type: String
+    Default: functionwaeliocomf92c70adPostConfirmationName
+  
+  
+  
 
     
   identityPoolName:
@@ -100,20 +112,47 @@ Parameters:
       
   hostedUIProviderMeta:
     Type: String
-              
-  hostedUIProviderCreds:
-    Type: String
-              
-  oAuthMetadata:
-    Type: String
                       
   userPoolGroupList:
     Type: CommaDelimitedList
-                  
+      
   serviceName:
     Type: String
                       
   dependsOn:
+    Type: CommaDelimitedList
+      
+  hostedUIProviderCreds:
+    Type: String
+                
+  thirdPartyAuth:
+    Type: String
+                    
+  authProviders:
+    Type: CommaDelimitedList
+      
+  facebookAppId:
+    Type: String
+              
+  googleClientId:
+    Type: String
+                
+  userPoolGroups:
+    Type: String
+              
+  adminQueries:
+    Type: String
+            
+  triggers:
+    Type: String
+              
+  oAuthMetadata:
+    Type: String
+                                
+  parentStack:
+    Type: String
+                
+  permissions:
     Type: CommaDelimitedList
     
 Conditions:
@@ -169,6 +208,19 @@ Resources:
         
       
       
+      LambdaConfig:
+        
+        
+        
+        
+        
+          PostConfirmation: !Ref functionwaeliocomf92c70adPostConfirmationArn
+        
+        
+        
+        
+        
+      
       
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
       
@@ -191,7 +243,62 @@ Resources:
       SmsConfiguration: 
         SnsCallerArn: !GetAtt SNSRole.Arn
         ExternalId: waeliof92c70ad_role_external_id
+          
+    DependsOn: SNSRole
     
+  
+    
+    
+  
+    
+  
+  UserPoolPostConfirmationLambdaInvokePermission: 
+    Type: "AWS::Lambda::Permission"
+    DependsOn: UserPool
+    Properties: 
+      Action: "lambda:invokeFunction"
+      Principal: "cognito-idp.amazonaws.com"
+      FunctionName: !Ref functionwaeliocomf92c70adPostConfirmationName
+      SourceArn: !GetAtt UserPool.Arn
+    
+  
+  
+   
+    
+  # Updating lambda role with permissions to Cognito
+  
+  
+  waeliocomf92c70adPostConfirmationAddToGroupCognito:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: waeliocomf92c70adPostConfirmationAddToGroupCognito
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+            
+              - cognito-idp:AdminAddUserToGroup
+            
+              - cognito-idp:GetGroup
+            
+              - cognito-idp:CreateGroup
+            
+            
+            
+            Resource: !GetAtt
+            
+              - UserPool
+            
+              - Arn
+            
+            
+            
+
+      Roles:
+        - !Join ['',["waeliocomf92c70adPostConfirmation", '-', !Ref env]]
+  
+  
   
   UserPoolClientWeb:
   # Created provide application access to user pool
@@ -199,6 +306,9 @@ Resources:
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
       ClientName: waeliof92c70ad_app_clientWeb
+      
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -209,6 +319,9 @@ Resources:
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
       ClientName: waeliof92c70ad_app_client
+      
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
       
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
@@ -669,6 +782,132 @@ Resources:
   
 
   
+  # BEGIN MFA LAMBDA RESOURCES
+  MFALambdaRole:
+  # Created to execute Lambda which sets MFA config values
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !If [ShouldNotCreateEnvResources, 'waeliof92c70ad_totp_lambda_role', !Join ['',['waeliof92c70ad_totp_lambda_role', '-', !Ref env]]]
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+      - PolicyName: waeliof92c70ad_totp_pass_role_policy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Action:
+                - 'iam:PassRole'
+              Resource: !If [ShouldNotCreateEnvResources, 'arn:aws:iam:::role/waeliof92c70ad_totp_lambda_role', !Join ['',['arn:aws:iam:::role/waeliof92c70ad_totp_lambda_role', '-', !Ref env]]]
+  MFALambda:
+  # Lambda which sets MFA config values
+  # Depends on MFALambdaRole for role ARN
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        ZipFile: !Join 
+          - |+
+          - - 'const response = require(''cfn-response'');'
+            - 'const aws = require(''aws-sdk'');'
+            - 'const identity = new aws.CognitoIdentityServiceProvider();'
+            - 'exports.handler = (event, context, callback) => {'
+            - ' if (event.RequestType == ''Delete'') { '
+            - '   response.send(event, context, response.SUCCESS, {})'
+            - ' }'
+            - ' if (event.RequestType == ''Update'' || event.RequestType == ''Create'') {'
+            - '   let totpParams = {};'
+            - '   try {'
+            - '     totpParams = {'
+            - '       UserPoolId: event.ResourceProperties.userPoolId,'
+            - '       MfaConfiguration: event.ResourceProperties.mfaConfiguration,'
+            - '       SmsMfaConfiguration: {'
+            - '         SmsAuthenticationMessage: event.ResourceProperties.smsAuthenticationMessage,'
+            - '         SmsConfiguration: {'
+            - '           SnsCallerArn: event.ResourceProperties.smsConfigCaller,'
+            - '           ExternalId: event.ResourceProperties.smsConfigExternalId'
+            - '         }'
+            - '       },'
+            - '       SoftwareTokenMfaConfiguration: {Enabled: event.ResourceProperties.totpEnabled.toLowerCase() === ''true'' ? true : false}'
+            - '     };'
+            - '   } catch(e) {'
+            - '     response.send(event, context, response.FAILED, {e});'
+            - '   };'
+            - '   identity.setUserPoolMfaConfig(totpParams).promise()'
+            - '     .then((res) => {'
+            - '       response.send(event, context, response.SUCCESS, {res});'   
+            - '     })'
+            - '     .catch((err) => {'
+            - '       response.send(event, context, response.FAILED, {err});'
+            - '     });'
+            - ' }'
+            - '};'
+      Handler: index.handler
+      Runtime: nodejs10.x
+      Timeout: '300'
+      Role: !GetAtt 
+        - MFALambdaRole
+        - Arn
+    DependsOn: MFALambdaRole
+  MFALambdaPolicy:
+  # Sets policy for the role that executes the MFA Lambda
+  # Depends on Userpool for Arn
+  # Marked as depending on MFALambda for easier to understand CFN sequencing
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: waeliof92c70ad_totp_lambda_iam_policy
+      Roles: 
+        - !If [ShouldNotCreateEnvResources, 'waeliof92c70ad_totp_lambda_role', !Join ['',['waeliof92c70ad_totp_lambda_role', '-', !Ref env]]]
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'cognito-idp:SetUserPoolMfaConfig'
+            Resource: !GetAtt UserPool.Arn
+    DependsOn: MFALambda
+  MFALogPolicy:
+  # Sets log policy for the role that executes the MFA Lambda
+  # Marked as depending on MFALambdaPolicy for easier to understand CFN sequencing
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: waeliof92c70ad_totp_lambda_log_policy
+      Roles: 
+        - !If [ShouldNotCreateEnvResources, 'waeliof92c70ad_totp_lambda_role', !Join ['',['waeliof92c70ad_totp_lambda_role', '-', !Ref env]]]
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'logs:CreateLogGroup'
+              - 'logs:CreateLogStream'
+              - 'logs:PutLogEvents'
+            Resource: !Sub  
+              - arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*
+              - { region: !Ref "AWS::Region",  account: !Ref "AWS::AccountId", lambda: !Ref MFALambda}
+    DependsOn: MFALambdaPolicy  
+  MFALambdaInputs:
+  # Values passed to MFA Lambda
+  # Depends on UserPool for Arn
+  # Depends on MFALambda for Arn
+  # Marked as depending on MFALambdaPolicy for easier to understand CFN sequencing
+    Type: 'Custom::LambdaCallout'
+    Properties:
+      ServiceToken: !GetAtt MFALambda.Arn
+      userPoolId: !Ref UserPool
+      mfaConfiguration: !Ref mfaConfiguration
+      totpEnabled: false
+      smsConfigCaller: !GetAtt SNSRole.Arn
+      smsAuthenticationMessage: !Ref smsAuthenticationMessage
+      smsConfigExternalId: waeliof92c70ad_role_external_id
+    DependsOn: MFALogPolicy
+  
     
   # BEGIN IDENTITY POOL RESOURCES
   
@@ -689,6 +928,15 @@ Resources:
             - cognito-idp.${region}.amazonaws.com/${client}
             - { region: !Ref "AWS::Region",  client: !Ref UserPool}
             
+      SupportedLoginProviders: 
+        
+        graph.facebook.com: !Ref facebookAppId
+        
+        
+        accounts.google.com: !Ref googleClientId
+        
+        
+      
       AllowUnauthenticatedIdentities: !Ref allowUnauthenticatedIdentities
        
        
@@ -738,9 +986,19 @@ Outputs :
   AppClientSecret:
     Value: !GetAtt UserPoolClientInputs.appSecret
   
+  CreatedSNSRole: 
+    Value: !GetAtt SNSRole.Arn
+    Description: role arn
+  
+  
+  GoogleWebClient:
+    Value: !Ref googleClientId
    
    
   
+  
+  FacebookWebClient:
+    Value: !Ref facebookAppId
    
    
   

@@ -6,7 +6,7 @@
     "autoVerifiedAttributes": [
         "email"
     ],
-    "mfaConfiguration": "OFF",
+    "mfaConfiguration": "OPTIONAL",
     "mfaTypes": [
         "SMS Text Message"
     ],
@@ -23,13 +23,34 @@
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
+        "address",
+        "birthdate",
+        "family_name",
+        "middle_name",
+        "gender",
+        "locale",
+        "given_name",
+        "name",
+        "phone_number",
+        "preferred_username",
+        "profile",
         "email"
     ],
     "userpoolClientReadAttributes": [
-        "email"
+        "email",
+        "family_name",
+        "middle_name",
+        "locale",
+        "given_name",
+        "name",
+        "phone_number",
+        "profile",
+        "updated_at",
+        "email_verified",
+        "phone_number_verified"
     ],
     "userpoolClientLambdaRole": "waeliof92c70ad_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "sharedId": "f92c70ad",
     "resourceName": "waeliocomf92c70ad",
     "authSelections": "identityPoolAndUserPool",
@@ -45,19 +66,45 @@
             "Arn"
         ]
     },
-    "useDefault": "defaultSocial",
+    "useDefault": "manual",
     "hostedUI": true,
     "usernameAttributes": [
         "email, phone_number"
     ],
-    "hostedUIDomainName": "waeliocomf92c70ad-f92c70ad",
+    "hostedUIDomainName": "waelioauth",
     "authProvidersUserPool": [
         "Facebook",
         "Google"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://waelio.com/auth/\"],\"LogoutURLs\":[\"https://auth/signout/\"]}",
-    "userPoolGroupList": [],
+    "userPoolGroupList": [
+        "userpoolgroup"
+    ],
     "serviceName": "Cognito",
-    "dependsOn": []
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "waeliocomf92c70adPostConfirmation",
+            "triggerProvider": "Cognito",
+            "attributes": [
+                "Arn",
+                "Name"
+            ]
+        }
+    ],
+    "thirdPartyAuth": true,
+    "authProviders": [
+        "graph.facebook.com",
+        "accounts.google.com"
+    ],
+    "userPoolGroups": true,
+    "adminQueries": true,
+    "triggers": "{\n  \"PostConfirmation\": [\n    \"add-to-group\"\n  ]\n}",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://waelio.com/auth/\",\"https://waelio.com/auth/\",\"https://waelwahbeh.com/auth/\"],\"LogoutURLs\":[\"https://waelio.com/auth/signout/\",\"https://waelwahbeh.com/auth/signout/\"]}",
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": [
+        "{\n  \"policyName\": \"AddToGroupCognito\",\n  \"trigger\": \"PostConfirmation\",\n  \"effect\": \"Allow\",\n  \"actions\": [\n    \"cognito-idp:AdminAddUserToGroup\",\n    \"cognito-idp:GetGroup\",\n    \"cognito-idp:CreateGroup\"\n  ],\n  \"resource\": {\n    \"paramType\": \"!GetAtt\",\n    \"keys\": [\n      \"UserPool\",\n      \"Arn\"\n    ]\n  }\n}"
+    ]
 }

@@ -14,7 +14,14 @@
     "categories": {
       "auth": {
         "waeliocomf92c70ad": {
-          "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"427728041542916\",\"client_secret\":\"db5f8390fb88c139170a1af195ed60b4\"},{\"ProviderName\":\"Google\",\"client_id\":\"1044205332608-stuahlu5ekpgd1m7it27adtj3g1prkv4.apps.googleusercontent.com\",\"client_secret\":\"KPof0kgR67pkiGjKTlX-G_si\"}]"
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"427728041542916\",\"client_secret\":\"db5f8390fb88c139170a1af195ed60b4\"},{\"ProviderName\":\"Google\",\"client_id\":\"1044205332608-stuahlu5ekpgd1m7it27adtj3g1prkv4.apps.googleusercontent.com\",\"client_secret\":\"KPof0kgR67pkiGjKTlX-G_si\"}]",
+          "facebookAppId": "db5f8390fb88c139170a1af195ed60b4",
+          "googleClientId": "1044205332608-stuahlu5ekpgd1m7it27adtj3g1prkv4.apps.googleusercontent.com"
+        }
+      },
+      "function": {
+        "waeliocomf92c70adPostConfirmation": {
+          "GROUP": "users"
         }
       }
     }
