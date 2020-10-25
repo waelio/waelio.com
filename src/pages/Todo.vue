@@ -188,7 +188,7 @@ export default {
       }
     },
     onEdit (eList) {
-      this.$refs.newname.validate()
+      // this.$refs.newname.validate()
       if (this.$refs.newname.hasError) {
         this.formHasError = true
         this.$q.notify({
