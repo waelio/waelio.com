@@ -1,8 +1,5 @@
 {
-  "providers": [
-    "awscloudformation"
-  ],
-  "projectName": "waeliocom",
+  "projectName": "Portfolio",
   "version": "3.0",
   "frontend": "javascript",
   "javascript": {
@@ -10,8 +7,11 @@
     "config": {
       "SourceDir": "src",
       "DistributionDir": "dist",
-      "BuildCommand": "quasar build -m pwa",
-      "StartCommand": "quasar serve --history dist/pwa"
+      "BuildCommand": "npm run-script build",
+      "StartCommand": "npm run-script start"
     }
-  }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
 }
