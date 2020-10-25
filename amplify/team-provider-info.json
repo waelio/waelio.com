@@ -10,6 +10,13 @@
       "StackName": "amplify-portfolio-dev-210752",
       "StackId": "arn:aws:cloudformation:us-east-1:006970456832:stack/amplify-portfolio-dev-210752/641e0660-16f5-11eb-8c93-0eb57e33ee85",
       "AmplifyAppId": "d156epgzfotu30"
+    },
+    "categories": {
+      "auth": {
+        "portfolio357ad254": {
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"db5f8390fb88c139170a1af195ed60b4\",\"client_secret\":\"db5f8390fb88c139170a1af195ed60b4\"},{\"ProviderName\":\"Google\",\"client_id\":\"1044205332608-stuahlu5ekpgd1m7it27adtj3g1prkv4.apps.googleusercontent.com\",\"client_secret\":\"KPof0kgR67pkiGjKTlX-G_si\"}]"
+        }
+      }
     }
   }
 }

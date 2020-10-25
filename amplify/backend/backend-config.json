@@ -1,1 +1,10 @@
-{}
+{
+  "auth": {
+    "portfolio357ad254": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
