@@ -7,6 +7,13 @@ export const onCreateShoppingList = /* GraphQL */ `
       id
       name
       shoppingItems {
+        items {
+          id
+          title
+          shoppingListID
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -20,6 +27,13 @@ export const onUpdateShoppingList = /* GraphQL */ `
       id
       name
       shoppingItems {
+        items {
+          id
+          title
+          shoppingListID
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -33,6 +47,13 @@ export const onDeleteShoppingList = /* GraphQL */ `
       id
       name
       shoppingItems {
+        items {
+          id
+          title
+          shoppingListID
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -49,10 +70,20 @@ export const onCreateShoppingItem = /* GraphQL */ `
       shoppingList {
         id
         name
+        shoppingItems {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       comments {
+        items {
+          id
+          ShoppingItemID
+          content
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -69,10 +100,20 @@ export const onUpdateShoppingItem = /* GraphQL */ `
       shoppingList {
         id
         name
+        shoppingItems {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       comments {
+        items {
+          id
+          ShoppingItemID
+          content
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -89,10 +130,20 @@ export const onDeleteShoppingItem = /* GraphQL */ `
       shoppingList {
         id
         name
+        shoppingItems {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       comments {
+        items {
+          id
+          ShoppingItemID
+          content
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -109,6 +160,15 @@ export const onCreateComment = /* GraphQL */ `
         id
         title
         shoppingListID
+        shoppingList {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -127,6 +187,15 @@ export const onUpdateComment = /* GraphQL */ `
         id
         title
         shoppingListID
+        shoppingList {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -145,6 +214,15 @@ export const onDeleteComment = /* GraphQL */ `
         id
         title
         shoppingListID
+        shoppingList {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
       }

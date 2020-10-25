@@ -7,6 +7,13 @@ export const getShoppingList = /* GraphQL */ `
       id
       name
       shoppingItems {
+        items {
+          id
+          title
+          shoppingListID
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -24,6 +31,9 @@ export const listShoppingLists = /* GraphQL */ `
       items {
         id
         name
+        shoppingItems {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -40,10 +50,20 @@ export const getShoppingItem = /* GraphQL */ `
       shoppingList {
         id
         name
+        shoppingItems {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       comments {
+        items {
+          id
+          ShoppingItemID
+          content
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -62,6 +82,15 @@ export const listShoppingItems = /* GraphQL */ `
         id
         title
         shoppingListID
+        shoppingList {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -78,6 +107,15 @@ export const getComment = /* GraphQL */ `
         id
         title
         shoppingListID
+        shoppingList {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -97,6 +135,13 @@ export const listComments = /* GraphQL */ `
       items {
         id
         ShoppingItemID
+        shoppingItem {
+          id
+          title
+          shoppingListID
+          createdAt
+          updatedAt
+        }
         content
         createdAt
         updatedAt
