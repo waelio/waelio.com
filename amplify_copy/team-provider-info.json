@@ -1,0 +1,30 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-waeliocom-dev-101508-authRole",
+      "UnauthRoleArn": "arn:aws:iam::006970456832:role/amplify-waeliocom-dev-101508-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::006970456832:role/amplify-waeliocom-dev-101508-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-waeliocom-dev-101508-deployment",
+      "UnauthRoleName": "amplify-waeliocom-dev-101508-unauthRole",
+      "StackName": "amplify-waeliocom-dev-101508",
+      "StackId": "arn:aws:cloudformation:us-east-1:006970456832:stack/amplify-waeliocom-dev-101508/d7455ef0-086c-11eb-b306-12c5c4f78283",
+      "AmplifyAppId": "d2oa6rxwicwa5g"
+    },
+    "categories": {
+      "auth": {
+        "waeliocomf92c70ad": {
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"427728041542916\",\"client_secret\":\"db5f8390fb88c139170a1af195ed60b4\"},{\"ProviderName\":\"Google\",\"client_id\":\"1044205332608-stuahlu5ekpgd1m7it27adtj3g1prkv4.apps.googleusercontent.com\",\"client_secret\":\"KPof0kgR67pkiGjKTlX-G_si\"}]",
+          "facebookAppId": "db5f8390fb88c139170a1af195ed60b4",
+          "googleClientId": "1044205332608-stuahlu5ekpgd1m7it27adtj3g1prkv4.apps.googleusercontent.com"
+        },
+        "userPoolGroups": {}
+      },
+      "function": {
+        "waeliocomf92c70adPostConfirmation": {
+          "GROUP": "users"
+        }
+      }
+    }
+  }
+}
