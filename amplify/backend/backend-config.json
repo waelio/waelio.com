@@ -27,5 +27,11 @@
         }
       }
     }
+  },
+  "storage": {
+    "shippinglistimages": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }
