@@ -111,7 +111,7 @@ module.exports = function (ctx) {
         'QItemLabel'
       ],
       directives: [],
-      plugins: ['Notify', 'Loading']
+      plugins: ['Notify', 'Loading', 'Dialog']
     },
 
     animations: 'all', // --- includes all animations

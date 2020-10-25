@@ -1,17 +1,9 @@
 <template>
-  <div class="todo">
-    <div v-if="$apollo.loading">
-      <div class="text-xs-center">
-        <q-circular-progress
-          indeterminate
-          size="50px"
-          color="lime"
-          class="q-ma-md"
-        />
-      </div>
-    </div>
-    <q-form ref="form" @submit.prevent.stop="onCreate" class="q-pa-md">
-      <div class="q-pa-md" style="max-width: 420px">
+  <div class="todox q-mx-auto" style="max-width: 420px">
+    <h1 class="text-h4 text-center">Shopping Lists</h1>
+    <q-form ref="form" @submit.prevent.stop="onCreate" class="full-width q-mx-auto">
+      <div class="q-pa-sm q-mx-auto special-border" >
+        <h2 class="text-subtitle1 text-grey-6 text-center q-my-sx">New List</h2>
         <q-input
           type="text"
           ref="name"
@@ -26,55 +18,71 @@
         />
 
         <div class="row center">
-          <q-btn type="submit" :loading="creating" label="Create Shopping List" class="todoButton">
+          <q-btn
+            type="submit"
+            :loading="creating"
+            label="Create Shopping List"
+            class="width-100 q-mx-auto"
+            color="primary"
+          >
           </q-btn>
         </div>
+      </div>
+    </q-form>
+    <div class="q-mx-auto full-width">
+      <q-list bordered class="q-mt-md rounded-borders">
+        <q-item-label header class="text-center">My Lists</q-item-label>
 
-        <q-list
-          bordered
-          class="q-mt-md rounded-borderes"
-          style="max-width=600px"
+        <q-slide-item
+          v-for="shoppingL in shsHolder"
+          :key="shoppingL.id"
+          @left="opt => onLeft(opt, shoppingL)"
+          @right="opt => onRight(opt, shoppingL)"
+          left-color="red"
+          right-color="warning"
         >
-          <q-item-label header>My Lists</q-item-label>
-          <q-item v-for="shoppingL in shsHolder" :key="shoppingL.id">
+          <template v-slot:left>
+            Delete List <q-icon name="delete" />
+          </template>
+          <template v-slot:right>
+            Edit List <q-icon name="edit" />
+          </template>
+          <q-item>
             <q-item-section top avatar>
               <q-avatar color="primary" text-color="white" icon="reorder" />
             </q-item-section>
             <q-item-section>
               <q-item-label class="text-h6">{{ shoppingL.name }}</q-item-label>
-              <q-item-label caption lines="2">{{ shoppingL.id }}</q-item-label>
+              <q-item-label caption class="ellipsis" :alt="shoppingL.id" lines="2">{{ shoppingL.id }}</q-item-label>
             </q-item-section>
             <q-item-section top side>
               <div class="text-grey-8 q-gutter-xs">
-                <q-item-label caption>{{ shoppingL.updatedAt }}</q-item-label>
-                <q-btn
-                  class="gt-xs"
-                  size="12px"
-                  color="orange"
-                  flat
-                  dense
-                  round
-                  :loading="editing"
-                  icon="edit"
-                  @click="onEdit(shoppingL)"
-                />
-                <q-btn
-                  class="gt-xs"
-                  size="12px"
-                  color="red"
-                  flat
-                  dense
-                  round
-                  :loading="deleting"
-                  icon="delete"
-                  @click="deleteList(shoppingL.id)"
-                />
+                <q-item-label caption class="text-center">{{ getTimeAgo(shoppingL.createdAt).toFixed(2) }} <br>minutes ago</q-item-label>
               </div>
             </q-item-section>
           </q-item>
-        </q-list>
-      </div>
-    </q-form>
+          <q-item class="full-width" v-if="editing && selected === shoppingL.id">
+
+            <q-input filled ref="newname" class="width-50"  type="text" v-model="newname" label="New list Name *" lazy-rules
+            :rules="[ val => val !== null && val !== '' || 'Please type your List Name']"
+            />
+            <q-btn
+                  color="orange"
+                  text-color="white"
+                  style="max-height:55px; width: 75%"
+                  class="q-ml-sm q-px-xs"
+                  label="Save"
+                  glossy
+                  dense
+                  icon="edit"
+fh                :disabled="!newname"
+                  :loading="editing && activeId === shoppingL.id"
+                  @click.prevent="activeId = shoppingL.id, onEdit(shoppingL)"
+                />
+          </q-item>
+        </q-slide-item>
+      </q-list>
+    </div>
   </div>
 </template>
 
@@ -110,7 +118,10 @@ export default {
     return {
       shsHolder: [],
       name: '',
+      newname: '',
       user: {},
+      selected: null,
+      activeId: null,
       creating: false,
       adding: false,
       editing: false,
@@ -120,6 +131,45 @@ export default {
   },
 
   methods: {
+    getTimeAgo (targetDate) {
+      const unit = 'minutes'
+      return date.getDateDiff(targetDate, this.dateNow, unit) / 100
+    },
+    onRight ({ reset }, one) {
+      console.log('right')
+      this.editing = true
+      this.selected = one.id
+      reset()
+    },
+    onLeft ({ reset }, one) {
+      this.$q.dialog({
+        title: 'Confirms!',
+        message: 'Are you sure you want to delete this Shopping List?',
+        ok: {
+          push: true
+        },
+        cancel: {
+          push: true,
+          color: 'negative'
+        }
+      })
+        .onOk(() => {
+          console.log('Gonna Delete')
+          this.deleting = true
+          this.activeId = one.id
+          this.deleteList(one.id)
+          reset()
+        })
+        .onCancel(() => {
+          console.log('Gonna Cancel')
+          this.deleting = false
+          reset()
+        })
+        .onDismiss(() => {
+          console.log('Gonna Dismiss')
+          reset()
+        })
+    },
     onCreate () {
       this.$refs.name.validate()
       if (this.$refs.name.hasError) {
@@ -137,6 +187,23 @@ export default {
         this.createShoppingList()
       }
     },
+    onEdit (eList) {
+      this.$refs.newname.validate()
+      if (this.$refs.newname.hasError) {
+        this.formHasError = true
+        this.$q.notify({
+          color: 'negative',
+          message: 'Missing form fields'
+        })
+      } else {
+        this.$q.notify({
+          icon: 'done',
+          color: 'positive',
+          message: 'Submitted'
+        })
+        this.editShoppingList(eList)
+      }
+    },
     async onListAllShoppingLists () {
       this.shsHolder = await this.getAllShoppingLists()
       return Promise.resolve(true)
@@ -147,6 +214,7 @@ export default {
     },
     async deleteList (id) {
       this.deleting = true
+      this.activeId = id
       const dList = await API.graphql({
         query: mutations.deleteShoppingList,
         variables: { input: { id } }
@@ -154,11 +222,12 @@ export default {
 
       // this.shsHolder = this.shsHolder.filter(one => one.id !== id)
       this.deleting = false
+      this.activeId = null
       if (dList) this.onListAllShoppingLists()
-      return Promise.resolve
+      return Promise.resolve(true)
     },
     async createShoppingList () {
-      const creating = true
+      this.creating = true
       const name = this.name
       // const owner = this.user.username
 
@@ -179,21 +248,31 @@ export default {
         this.onListAllShoppingLists()
       }
     },
-    onEdit (eList) {
+    async editShoppingList (eList) {
+      this.activeId = eList.id
+      this.selected = null
       this.editing = true
+      const editedList = {
+        id: eList.id,
+        name: this.newname
+      }
+      const eListRes = await API.graphql({
+        query: mutations.updateShoppingList,
+        variables: { input: editedList }
+      })
+      this.activeId = null
+      this.editing = false
+      this.newname = null
+      if (eListRes) {
+        this.onListAllShoppingLists()
+      }
     }
   },
   computed: {
-    date () {
+    dateNow () {
       const timeStamp = Date.now()
       const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD')
       return formattedString
-    }
-  },
-  apollo: {
-    ShoppingLists: {
-      query: gql(listShoppingLists),
-      update: data => data.listShoppingLists.items
     }
   }
 }
@@ -204,46 +283,7 @@ export default {
 * {
   box-sizing: border-box;
 }
-.todoButton {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #2196f3;
-  border: none;
-  color: white;
-  outline: none;
-}
-.button {
-  cursor: pointer;
-}
-.button:hover {
-  opacity: 0.5;
-}
-.todoname {
-  margin-top: 4px;
-  margin-bottom: 0px;
-  font-weight: bold;
-}
-.text {
-  margin-top: 4px;
-  margin-bottom: 0px;
-}
-.delete {
-  color: #2196f3;
-}
-.todo {
-  display: block;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  text-align: center;
-  padding-top: 8px;
-  padding-bottom: 9px;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
+.special-border {
+  border: 1px solid var(--silver);
 }
 </style>

@@ -2,7 +2,7 @@
 import { Notify } from 'quasar'
 export default async ({ app, router, Vue }) => {
   Notify.setDefaults({
-    position: 'top',
+    position: 'bottom',
     type: 'info',
     timeout: 5000
 
