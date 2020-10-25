@@ -39,6 +39,11 @@ const routes = [
             component: () => import('pages/Projects/index')
           }
         ]
+      },
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('pages/Auth.vue')
       }
     ]
   },
