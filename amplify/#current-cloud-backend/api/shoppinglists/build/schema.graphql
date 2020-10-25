@@ -1,0 +1,270 @@
+type ShoppingList {
+  id: ID!
+  name: String!
+  shoppingItems(filter: ModelShoppingItemFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelShoppingItemConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type ShoppingItem {
+  id: ID!
+  title: String!
+  shoppingListID: ID!
+  shoppingList: ShoppingList
+  comments(content: ModelStringKeyConditionInput, filter: ModelCommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommentConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Comment {
+  id: ID!
+  ShoppingItemID: ID!
+  shoppingItem: ShoppingItem
+  content: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelShoppingListConnection {
+  items: [ShoppingList]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelShoppingListFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  and: [ModelShoppingListFilterInput]
+  or: [ModelShoppingListFilterInput]
+  not: ModelShoppingListFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getShoppingList(id: ID!): ShoppingList
+  listShoppingLists(filter: ModelShoppingListFilterInput, limit: Int, nextToken: String): ModelShoppingListConnection
+  getShoppingItem(id: ID!): ShoppingItem
+  listShoppingItems(filter: ModelShoppingItemFilterInput, limit: Int, nextToken: String): ModelShoppingItemConnection
+  getComment(id: ID!): Comment
+  listComments(filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection
+}
+
+input CreateShoppingListInput {
+  id: ID
+  name: String!
+}
+
+input UpdateShoppingListInput {
+  id: ID!
+  name: String
+}
+
+input DeleteShoppingListInput {
+  id: ID
+}
+
+type Mutation {
+  createShoppingList(input: CreateShoppingListInput!, condition: ModelShoppingListConditionInput): ShoppingList
+  updateShoppingList(input: UpdateShoppingListInput!, condition: ModelShoppingListConditionInput): ShoppingList
+  deleteShoppingList(input: DeleteShoppingListInput!, condition: ModelShoppingListConditionInput): ShoppingList
+  createShoppingItem(input: CreateShoppingItemInput!, condition: ModelShoppingItemConditionInput): ShoppingItem
+  updateShoppingItem(input: UpdateShoppingItemInput!, condition: ModelShoppingItemConditionInput): ShoppingItem
+  deleteShoppingItem(input: DeleteShoppingItemInput!, condition: ModelShoppingItemConditionInput): ShoppingItem
+  createComment(input: CreateCommentInput!, condition: ModelCommentConditionInput): Comment
+  updateComment(input: UpdateCommentInput!, condition: ModelCommentConditionInput): Comment
+  deleteComment(input: DeleteCommentInput!, condition: ModelCommentConditionInput): Comment
+}
+
+input ModelShoppingListConditionInput {
+  name: ModelStringInput
+  and: [ModelShoppingListConditionInput]
+  or: [ModelShoppingListConditionInput]
+  not: ModelShoppingListConditionInput
+}
+
+type Subscription {
+  onCreateShoppingList: ShoppingList @aws_subscribe(mutations: ["createShoppingList"])
+  onUpdateShoppingList: ShoppingList @aws_subscribe(mutations: ["updateShoppingList"])
+  onDeleteShoppingList: ShoppingList @aws_subscribe(mutations: ["deleteShoppingList"])
+  onCreateShoppingItem: ShoppingItem @aws_subscribe(mutations: ["createShoppingItem"])
+  onUpdateShoppingItem: ShoppingItem @aws_subscribe(mutations: ["updateShoppingItem"])
+  onDeleteShoppingItem: ShoppingItem @aws_subscribe(mutations: ["deleteShoppingItem"])
+  onCreateComment: Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment: Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment: Comment @aws_subscribe(mutations: ["deleteComment"])
+}
+
+type ModelShoppingItemConnection {
+  items: [ShoppingItem]
+  nextToken: String
+}
+
+input ModelShoppingItemFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  shoppingListID: ModelIDInput
+  and: [ModelShoppingItemFilterInput]
+  or: [ModelShoppingItemFilterInput]
+  not: ModelShoppingItemFilterInput
+}
+
+input CreateShoppingItemInput {
+  id: ID
+  title: String!
+  shoppingListID: ID!
+}
+
+input UpdateShoppingItemInput {
+  id: ID!
+  title: String
+  shoppingListID: ID
+}
+
+input DeleteShoppingItemInput {
+  id: ID
+}
+
+input ModelShoppingItemConditionInput {
+  title: ModelStringInput
+  shoppingListID: ModelIDInput
+  and: [ModelShoppingItemConditionInput]
+  or: [ModelShoppingItemConditionInput]
+  not: ModelShoppingItemConditionInput
+}
+
+type ModelCommentConnection {
+  items: [Comment]
+  nextToken: String
+}
+
+input ModelCommentFilterInput {
+  id: ModelIDInput
+  ShoppingItemID: ModelIDInput
+  content: ModelStringInput
+  and: [ModelCommentFilterInput]
+  or: [ModelCommentFilterInput]
+  not: ModelCommentFilterInput
+}
+
+input CreateCommentInput {
+  id: ID
+  ShoppingItemID: ID!
+  content: String!
+}
+
+input UpdateCommentInput {
+  id: ID!
+  ShoppingItemID: ID
+  content: String
+}
+
+input DeleteCommentInput {
+  id: ID
+}
+
+input ModelCommentConditionInput {
+  ShoppingItemID: ModelIDInput
+  content: ModelStringInput
+  and: [ModelCommentConditionInput]
+  or: [ModelCommentConditionInput]
+  not: ModelCommentConditionInput
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}

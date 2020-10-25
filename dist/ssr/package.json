@@ -1,0 +1,49 @@
+{
+  "name": "waelio.com",
+  "version": "0.0.7",
+  "description": "Personal Website with current projects and contact information",
+  "author": "Wael Wahbeh <wahbehw@gmail.com>",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "aws-amplify": "3.3.3",
+    "aws-amplify-vue": "2.1.2",
+    "aws-appsync": "4.0.1",
+    "axios": "0.18.1",
+    "core-js": "3.6.5",
+    "graphql": "15.3.0",
+    "graphql-tag": "2.11.0",
+    "quasar": "1.14.1",
+    "vue-apollo": "3.0.4",
+    "vue-i18n": "8.22.0",
+    "compression": "^1.0.0",
+    "express": "^4.0.0",
+    "lru-cache": "6.0.0",
+    "vue": "2.6.12",
+    "vue-server-renderer": "2.6.12",
+    "vue-router": "3.2.0",
+    "@quasar/babel-preset-app": "2.0.1",
+    "vuex": "3.5.1"
+  },
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "quasar": {
+    "ssr": true
+  }
+}

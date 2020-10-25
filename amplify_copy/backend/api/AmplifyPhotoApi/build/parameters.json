@@ -1,0 +1,14 @@
+{
+    "CreateAPIKey": 0,
+    "AppSyncApiName": "AmplifyPhotoApi",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authwaeliocomf92c70ad",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "S3DeploymentBucket": "amplify-waeliocom-dev-101508-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/730cf2c97b033abf78b7f66e3bdddb58eeddb723"
+}
