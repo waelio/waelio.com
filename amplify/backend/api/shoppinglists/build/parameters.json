@@ -1,4 +1,5 @@
 {
+    "CreateAPIKey": 0,
     "AppSyncApiName": "shoppinglists",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "DynamoDBEnableServerSideEncryption": false,
@@ -9,5 +10,5 @@
         ]
     },
     "S3DeploymentBucket": "amplify-portfolio-dev-210752-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/128b8c96e42e77ca709db60c3147720cadd7c77d"
+    "S3DeploymentRootKey": "amplify-appsync-files/8865af9a729fdaba9aa4faa35c3a6b346f0bef0d"
 }
