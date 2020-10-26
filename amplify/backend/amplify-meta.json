@@ -29,7 +29,7 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://waelio.com/auth/\"],\"LogoutURLs\":[\"https://waelio.com/auth/signout/\"]}",
         "UserPoolName": "portfolio357ad254_userpool_357ad254"
       },
-      "lastPushTimeStamp": "2020-10-26T01:24:10.168Z",
+      "lastPushTimeStamp": "2020-10-26T02:26:33.042Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-portfolio-dev-210752-deployment/amplify-cfn-templates/auth/portfolio357ad254-cloudformation-template.yml",
         "logicalId": "authportfolio357ad254"
@@ -57,12 +57,11 @@
         "GraphQLAPIIdOutput": "yepgwoq4mjaztkkvbn5jupdqnu",
         "GraphQLAPIEndpointOutput": "https://vmbn5qt2jbc4bhxh6skuy7sjde.appsync-api.us-east-1.amazonaws.com/graphql"
       },
-      "lastPushTimeStamp": "2020-10-26T01:24:16.737Z",
+      "lastPushTimeStamp": "2020-10-26T02:26:36.795Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-portfolio-dev-210752-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apishoppinglists"
-      },
-      "lastPushDirHash": "iK7/tyo/+R1sY9aQabuZZkWr/EQ="
+      }
     }
   },
   "storage": {
@@ -73,7 +72,7 @@
         "BucketName": "portfolio5ab9269805c84546bf01c43db321bf04210752-dev",
         "Region": "us-east-1"
       },
-      "lastPushTimeStamp": "2020-10-26T01:24:15.677Z",
+      "lastPushTimeStamp": "2020-10-26T02:26:37.570Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-portfolio-dev-210752-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
         "logicalId": "storageshippinglistimages"
