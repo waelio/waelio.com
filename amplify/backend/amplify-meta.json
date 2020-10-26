@@ -18,11 +18,6 @@
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-portfolio-dev-210752-deployment/amplify-cfn-templates/auth/portfolio357ad254-cloudformation-template.yml",
-        "logicalId": "authportfolio357ad254"
-      },
-      "lastPushTimeStamp": "2020-10-25T22:02:56.706Z",
       "output": {
         "AppClientSecret": "h8iqaondsepq567gufc7ga1a2pem8e6gs5ogm78bck69srpj95c",
         "UserPoolId": "us-east-1_k1NGnpj3K",
@@ -34,7 +29,11 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://waelio.com/auth/\"],\"LogoutURLs\":[\"https://waelio.com/auth/signout/\"]}",
         "UserPoolName": "portfolio357ad254_userpool_357ad254"
       },
-      "lastPushDirHash": "76g8ZglbmLi8AW7sR90uxOYGd28="
+      "lastPushTimeStamp": "2020-10-26T01:11:50.399Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-portfolio-dev-210752-deployment/amplify-cfn-templates/auth/portfolio357ad254-cloudformation-template.yml",
+        "logicalId": "authportfolio357ad254"
+      }
     }
   },
   "api": {
@@ -58,28 +57,26 @@
         "GraphQLAPIIdOutput": "yepgwoq4mjaztkkvbn5jupdqnu",
         "GraphQLAPIEndpointOutput": "https://vmbn5qt2jbc4bhxh6skuy7sjde.appsync-api.us-east-1.amazonaws.com/graphql"
       },
+      "lastPushTimeStamp": "2020-10-26T01:11:50.403Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-portfolio-dev-210752-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apishoppinglists"
-      },
-      "lastPushTimeStamp": "2020-10-25T22:02:56.984Z",
-      "lastPushDirHash": "IaDGMvM1k4KU/VeuFzYDqucxNoU="
+      }
     }
   },
   "storage": {
     "shippinglistimages": {
       "service": "S3",
       "providerPlugin": "awscloudformation",
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-portfolio-dev-210752-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
-        "logicalId": "storageshippinglistimages"
-      },
-      "lastPushTimeStamp": "2020-10-25T22:02:57.009Z",
       "output": {
         "BucketName": "portfolio5ab9269805c84546bf01c43db321bf04210752-dev",
         "Region": "us-east-1"
       },
-      "lastPushDirHash": "3hZ6JqZAoIVZjBdOppIdK1fPwlg="
+      "lastPushTimeStamp": "2020-10-26T01:11:50.406Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-portfolio-dev-210752-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+        "logicalId": "storageshippinglistimages"
+      }
     }
   }
 }
