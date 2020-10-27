@@ -51,7 +51,7 @@
         />
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4">
       <h4 class="q-my-sm text-center width-100 border-white">General</h4>
       <div class="col">
         <q-btn
@@ -62,6 +62,7 @@
           to="/privacy"
           text-color="white"
           label="Privacy"
+          :class="{'active': $route.name === 'privacy'}"
         />
       </div>
       <div class="col">
@@ -73,6 +74,7 @@
           to="/terms"
           text-color="white"
           label="Terms"
+          :class="{'active': $route.name === 'terms'}"
         />
       </div>
       <div class="col">
@@ -84,6 +86,7 @@
           to="/contact"
           text-color="white"
           label="Write me"
+          :class="{'active': $route.name === 'contact'}"
         />
       </div>
       <div class="col">
@@ -109,7 +112,7 @@
         </q-select>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4">
       <h4 class="q-my-sm text-center width-100 border-white">About Me</h4>
       <div class="col">
         <q-btn
@@ -117,34 +120,10 @@
           flat
           size="md"
           stretch
-          to="/contact"
+          to="/timeline"
           text-color="white"
           label="Portfolio"
-        />
-      </div>
-      <div class="col">
-        <q-btn
-          align="center"
-          flat
-          size="md"
-          stretch
-          to="/contact"
-          text-color="white"
-          label="Education"
-        />
-      </div>
-    </div>
-    <div class="col-4">
-      <h4 class="q-my-sm text-center width-100 border-white">Future</h4>
-      <div class="col">
-        <q-btn
-          align="center"
-          flat
-          size="md"
-          stretch
-          to="/contact"
-          text-color="white"
-          label="ContactUs"
+          :class="{'active': $route.name === 'timeline'}"
         />
       </div>
     </div>
@@ -169,5 +148,8 @@ export default {
 <style lang="scss" scoped>
 .pt-0 {
   padding-top: 0;
+}
+.active {
+  background-color: $secondary
 }
 </style>

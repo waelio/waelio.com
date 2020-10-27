@@ -34,7 +34,7 @@ export default {
         title: 'Wael Wahbeh Portfolio',
         description: 'Perfolio Website',
         url: 'https://waelio.com',
-        images: ''
+        images: 'https://waelio.com/img/profile_pic.jpg'
       },
       meta
     }
@@ -42,15 +42,6 @@ export default {
   async mounted () {
     await this.$apollo.provider.defaultClient.hydrated()
     this.hydrated = true
-  },
-  meta: {
-    meta: {
-      myKey: {
-        name: 'Waelio Website',
-        description: 'Portfolio Website',
-        content: 'Personal Website with current projects and contact information'
-      }
-    }
   }
 }
 </script>

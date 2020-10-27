@@ -7,6 +7,7 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
 const SitemapPlugin = require('sitemap-webpack-plugin').default
+const CopyPlugin = require('copy-webpack-plugin')
 const paths = [
   { path: '/' },
   { path: '/terms' },
@@ -85,7 +86,14 @@ module.exports = function (ctx) {
             lastmod: true,
             changefreq: 'weekly',
             priority: '0.8'
+          },
+          new CopyPlugin({
+            patterns: [
+              { from: 'source', to: 'dest' },
+              { from: 'other', to: 'public' }
+            ]
           })
+          )
         )
       }
     },

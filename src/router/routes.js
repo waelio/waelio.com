@@ -29,6 +29,11 @@ const routes = [
         component: () => import('pages/Terms')
       },
       {
+        path: 'timeline',
+        name: 'timeline',
+        component: () => import('pages/TimeLine')
+      },
+      {
         path: 'projects',
         name: 'projects',
         component: () => import('pages/Projects/index'),
