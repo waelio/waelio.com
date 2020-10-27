@@ -91,6 +91,7 @@ module.exports = function (ctx) {
           new CopyPlugin({
             patterns: [
               { from: 'sitemap.xml', to: 'dest/pwa' }
+              { from: 'sitemap.xml', to: 'dest/pwa/' }
             ]
           })
           )
