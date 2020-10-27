@@ -6,7 +6,12 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
-
+const SitemapPlugin = require('sitemap-webpack-plugin').default
+const paths = [
+  { path: '/' },
+  { path: '/terms' },
+  { path: '/privacy' }
+]
 module.exports = function (ctx) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
@@ -74,6 +79,14 @@ module.exports = function (ctx) {
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
+        cfg.plugins.push(
+          new SitemapPlugin('https://waelio.com', paths, {
+            filename: 'sitemap.xml',
+            lastmod: true,
+            changefreq: 'weekly',
+            priority: '0.8'
+          })
+        )
       }
     },
 
@@ -111,7 +124,7 @@ module.exports = function (ctx) {
         'QItemLabel'
       ],
       directives: [],
-      plugins: ['Notify', 'Loading', 'Dialog']
+      plugins: ['Notify', 'Loading', 'Dialog', 'Meta']
     },
 
     animations: 'all', // --- includes all animations

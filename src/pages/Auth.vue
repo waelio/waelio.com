@@ -8,7 +8,9 @@ export default {
   name: 'auth',
   props: [],
   data () {
-    return {}
+    return {
+      authURL: 'https://auth.waelio.com/login?client_id=2ok572ccqhse7j2ddn6vm1lr79&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/'
+    }
   }
 }
 </script>

@@ -5,12 +5,20 @@
 </template>
 
 <script>
+import meta from 'src/utils/meta'
 export default {
   name: 'App',
   data () {
     return {
       signedIn: false,
-      hydrated: false
+      hydrated: false,
+      metaTags: {
+        title: 'Wael Wahbeh Portfolio',
+        description: 'Perfolio Website',
+        url: 'https://waelio.com',
+        images: ''
+      },
+      meta
     }
   },
   async mounted () {
