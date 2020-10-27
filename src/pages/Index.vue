@@ -11,9 +11,9 @@
       renowned success.
     </p>
     <p class="text-justify q-px-xs text-weight-medium">
-      When I leader and a mentor to a company of professionals, We set the bar
-      to the highest level in the market. The success was not due to my
-      understanding of the product, but by my interpersonal skills, problem
+      When I lead and a mentored a company of professionals, We did set the bar
+      to the highest level in the market. The success was notonlu  due to my
+      understanding of the product, but rather my interpersonal skills, problem
       solving skills and my infinite capability to acquire knowledge.
     </p>
     <p class="text-justify q-px-xs text-weight-medium">
