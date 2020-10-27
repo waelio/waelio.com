@@ -11,7 +11,8 @@ const CopyPlugin = require('copy-webpack-plugin')
 const paths = [
   { path: '/' },
   { path: '/terms' },
-  { path: '/privacy' }
+  { path: '/privacy' },
+  { path: '/contact' }
 ]
 module.exports = function (ctx) {
   return {
@@ -89,8 +90,7 @@ module.exports = function (ctx) {
           },
           new CopyPlugin({
             patterns: [
-              { from: 'source', to: 'dest' },
-              { from: 'other', to: 'public' }
+              { from: 'sitemap.xml', to: 'dest/pwa' }
             ]
           })
           )
