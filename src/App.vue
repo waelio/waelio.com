@@ -8,23 +8,6 @@
 import meta from 'src/utils/meta'
 export default {
   name: 'App',
-  data () {
-    return {
-      signedIn: false,
-      hydrated: false,
-      metaTags: {
-        title: 'Wael Wahbeh Portfolio',
-        description: 'Perfolio Website',
-        url: 'https://waelio.com',
-        images: ''
-      },
-      meta
-    }
-  },
-  async mounted () {
-    await this.$apollo.provider.defaultClient.hydrated()
-    this.hydrated = true
-  },
   beforeCreate () {
     this.$AmplifyEventBus.$on('authState', info => {
       if (info === 'signedIn') {
@@ -42,6 +25,32 @@ export default {
       })
       // eslint-disable-next-line
       .catch(() => this.signedIn = false)
+  },
+  data () {
+    return {
+      signedIn: false,
+      hydrated: false,
+      metaTags: {
+        title: 'Wael Wahbeh Portfolio',
+        description: 'Perfolio Website',
+        url: 'https://waelio.com',
+        images: ''
+      },
+      meta
+    }
+  },
+  async mounted () {
+    await this.$apollo.provider.defaultClient.hydrated()
+    this.hydrated = true
+  },
+  meta: {
+    meta: {
+      myKey: {
+        name: 'Waelio Website',
+        description: 'Portfolio Website',
+        content: 'Personal Website with current projects and contact information'
+      }
+    }
   }
 }
 </script>

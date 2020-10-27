@@ -26,7 +26,7 @@
     <p>
       By using our website, you hereby consent to our Privacy Policy and agree
       to its terms. For our Terms and Conditions, please visit the
-      <router-link :to="{name: 'terms'}">Terms & Conditions</router-link>.
+      <router-link :to="{ name: 'terms' }">Terms & Conditions</router-link>.
     </p>
 
     <h2>Information we collect</h2>
@@ -92,14 +92,17 @@
 
     <p>
       If you have additional questions or require more information about our
-      Privacy Policy, do not hesitate to contact us <a href="mailto:wahbehw@gmail.com?subjuct=EMail%20from%20waelio.com">Here</a>.
+      Privacy Policy, do not hesitate to contact us
+      <a href="mailto:wahbehw@gmail.com?subjuct=EMail%20from%20waelio.com"
+        >Here</a
+      >.
     </p>
     <h2>Consent</h2>
 
     <p>
       By using our website, you hereby consent to our Privacy Policy and agree
       to its terms. For our Terms and Conditions, please visit the
-      <router-link :to="{name: 'terms'}">Terms & Conditions</router-link>
+      <router-link :to="{ name: 'terms' }">Terms & Conditions</router-link>
       .
     </p>
 
@@ -387,7 +390,17 @@
 </template>
 
 <script>
+import meta from 'src/utils/meta'
 export default {
-  name: 'Privacy'
+  name: 'Privacy',
+  data () {
+    return {
+      metaTags: {
+        title: 'Privacy',
+        description: 'All about your Privacy'
+      }
+    }
+  },
+  meta
 }
 </script>
