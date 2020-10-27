@@ -54,6 +54,9 @@ const routes = [
   },
   { // Protected Routes
     path: '/auth',
+    // beforeEnter: (to, from, next) => {
+    //   window.location = 'https://auth.waelio.com/login?client_id=2erlvso7q5ufgss3cl2c0acerv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/'
+    // }
     component: () => import('layouts/MyLayout.vue'),
     children: [{
       path: '',

@@ -3,7 +3,7 @@
     <div class="col-xs-3 col-sm-3 col-md-4 col-lg-3 col-xl-3">
       <q-list>
         <q-item-label
-          ><h4 class="q-my-sm text-center border-white">
+          ><h4 class="text-h5 q-my-sm text-center border-white">
             Projects
           </h4></q-item-label
         >
@@ -54,7 +54,7 @@
     <div class="col-xs-3 col-sm-3 col-md-4 col-lg-3 col-xl-3">
       <q-list>
         <q-item-label
-          ><h4 class="q-my-sm text-center border-white">
+          ><h4 class="text-h5 q-my-sm text-center border-white">
             General
           </h4></q-item-label
         >
@@ -95,7 +95,7 @@
               stretch
               to="/contact"
               text-color="white"
-              label="Write me"
+              label="Contact"
               :class="{ active: $route.name === 'contact' }"
             />
           </q-item-section>
@@ -105,7 +105,7 @@
     <div class="col-xs-3 col-sm-3 col-md-4 col-lg-3 col-xl-3">
       <q-list>
           <q-item-label
-            ><h4 class="q-my-sm text-center border-white">
+            ><h4 class="text-h5 q-my-sm text-center border-white">
               About Me
             </h4></q-item-label
           >
@@ -124,17 +124,15 @@
         </q-item>
         <q-item dense>
           <q-item-section>
-            <span class="text-center">Select Language:</span>
-            <span>
             <q-select
+              class="no-padding"
+              dense
               id="special-select"
-              class="align-center text-center"
-              align="center"
               borderless
               hide-dropdown-icon
               item-aligned
               label-color="white"
-              :label="$i18n.locale.name || 'English'"
+              :label="$i18n.locale.name || 'Englisg'"
               hide-selected
               v-model="$i18n.locale"
               :options-value="item => item.value"
@@ -148,11 +146,10 @@
             >
             <template v-slot:label>
               <div class="text-center">
-                {{$i18n.locale.name || 'English'}}
+                {{$i18n.locale.name|| 'English'}}
               </div>
             </template>
             </q-select>
-            </span>
           </q-item-section>
         </q-item>
       </q-list>

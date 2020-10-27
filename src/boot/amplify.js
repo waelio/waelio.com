@@ -24,9 +24,10 @@ export default async ({ router, Vue }) => {
           .catch(exp => {
             Vue.prototype.$notification.error(exp)
             if (from.name !== 'auth') {
-              next({
-                path: '/auth'
-              })
+              // next({
+              //   path: '/auth'
+              // })
+              window.location = 'https://auth.waelio.com/login?client_id=2erlvso7q5ufgss3cl2c0acerv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/'
             }
           })
       }
