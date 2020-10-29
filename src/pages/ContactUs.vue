@@ -41,7 +41,7 @@
             :options-value="item => item.value"
             :option-label="item => item.name"
             :options="[
-              { value: 'en-us', name: 'Moode' },
+              { value: 'favs-shuffler', name: 'FavsShuffler' },
               { value: 'ar-ps', name: 'Sudoku17' },
               { value: 'he-il', name: 'PicMymenu' },
               { value: 'he-il', name: 'Quran in Pixels' }
