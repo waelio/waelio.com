@@ -12,35 +12,54 @@
     </p>
     <p class="text-justify q-px-xs text-weight-medium">
       When I lead and a mentored a company of professionals, We did set the bar
-      to the highest level in the market. The success was notonlu  due to my
-      understanding of the product, but rather my interpersonal skills, problem
-      solving skills and my infinite capability to acquire knowledge.
+      to the highest level in the market. The secret behind our success extends
+      beyond my deep understanding of the products requirements, but rather my
+      interpersonal skills with my team, my problem solving skills and my
+      infinite ability to acquire knowledge.
     </p>
     <p class="text-justify q-px-xs text-weight-medium">
-      For a decade, I have assumed numerous executive positions. I am avid about
-      technological advancements and I love R&D. I have provided solutions such
-      as CRM, ERP, Inventory Manager and Accounting Managers –some of which are
-      being used today - for numerous prominent clients such Nike, PGA, NBA and
-      other well-established businesses.
+      For a over a decade, I have assumed numerous executive positions,
+      futhermore, I have afinity for IoT and I am avid tracker of technological
+      advancements. I have natural love for research and development and I have
+      successfully provided solutions and products such as CRMs, ERPs, Inventory
+      Managers and Accounting Managers –some of which are being used today - for
+      numerous prominent clients such Nike, PGA, NBA and other well-established
+      businesses.
     </p>
     <p class="text-justify q-px-xs text-weight-medium">
-      I am multilingual English, Arabic and Hebrew speaker, which are my native
-      languages, however, I can speak basic Russian as well
+      I am a multilingual English, Arabic and Hebrew speaker, which are my
+      native languages, however, I have learned to speak basic Russian as well.
     </p>
     <p class="text-justify q-px-xs text-weight-medium">
       Whenever possible, I am semi-professional aerial/sports photographer and
       video producer.
     </p>
-    <router-link to="timeline" class="text-bold">My Programming timeline</router-link>
+    <q-btn
+      align="left"
+      glossy
+      stretch
+      color="primary"
+      icon="assignment"
+      to="/timeline"
+      text-color="white"
+      label="My Programming timeline"
+      :class="{ active: $route.name === 'timeline' }"
+    />
   </q-page>
 </template>
 <script>
+import meta from 'src/utils/meta'
 export default {
   name: 'PageIndex',
   data () {
     return {
-      src: '~assets/profile_pic.jpg'
+      src: '~assets/profile_pic.jpg',
+      metaTags: {
+        title: 'Home Page',
+        description: 'My Welcome page. A little about my work experiences and about my look at work ethics.'
+      }
     }
-  }
+  },
+  meta
 }
 </script>

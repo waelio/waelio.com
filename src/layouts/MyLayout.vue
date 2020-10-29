@@ -37,7 +37,7 @@
       <router-view class="q-mx-auto" />
     </q-page-container>
     <q-footer reveal elevated bordered>
-      <footer-navs style="max-height: 30vh; height: 20vh; " class="scroll" />
+      <footer-navs style="max-height: 30vh; height: 10vh; min-width: 420px" class="q-mx-auto q-px-xs scroll" />
       <p class="text-white text-center text-h6">
         All rights reserved  &copy;Waelio 2020
       </p>

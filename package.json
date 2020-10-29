@@ -16,6 +16,7 @@
     "aws-appsync": "^4.0.1",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
+    "emailjs-com": "^2.6.3",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
     "quasar": "^1.14.2",

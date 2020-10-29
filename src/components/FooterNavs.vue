@@ -10,6 +10,7 @@
         <q-item dense>
           <q-item-section>
             <q-btn
+              class="q-pl-0"
               align="center"
               flat
               size="md"
@@ -24,6 +25,7 @@
         <q-item dense>
           <q-item-section>
             <q-btn
+              class="q-pl-0"
               align="center"
               flat
               size="md"
@@ -38,6 +40,7 @@
         <q-item dense>
           <q-item-section>
             <q-btn
+              class="q-pl-0"
               align="center"
               flat
               size="md"
@@ -61,6 +64,7 @@
         <q-item dense>
           <q-item-section>
             <q-btn
+              class="q-pl-0"
               align="center"
               flat
               size="md"
@@ -75,6 +79,7 @@
         <q-item dense>
           <q-item-section>
             <q-btn
+              class="q-pl-0"
               align="center"
               flat
               size="md"
@@ -89,6 +94,7 @@
         <q-item dense>
           <q-item-section>
             <q-btn
+              class="q-pl-0"
               align="center"
               flat
               size="md"
@@ -112,8 +118,10 @@
         <q-item dense>
           <q-item-section>
             <q-btn
+              class="q-pl-0"
               align="center"
               flat
+              size="md"
               stretch
               to="/timeline"
               text-color="white"
