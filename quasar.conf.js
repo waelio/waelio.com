@@ -12,7 +12,9 @@ const paths = [
   { path: '/' },
   { path: '/terms' },
   { path: '/privacy' },
-  { path: '/contact' }
+  { path: '/contact' },
+  { path: '/resume' },
+  { path: '/timeline' }
 ]
 module.exports = function (ctx) {
   return {
@@ -26,7 +28,6 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
-
       'notification',
       'i18n',
       'axios',
@@ -36,9 +37,7 @@ module.exports = function (ctx) {
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: [
-      'app.scss'
-    ],
+    css: ['app.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -57,7 +56,7 @@ module.exports = function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
-      maximumFileSizeToCacheInBytes: 2e+6,
+      maximumFileSizeToCacheInBytes: 2e6,
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
@@ -83,17 +82,21 @@ module.exports = function (ctx) {
           exclude: /node_modules/
         })
         cfg.plugins.push(
-          new SitemapPlugin('https://waelio.com', paths, {
-            filename: 'sitemap.xml',
-            lastmod: true,
-            changefreq: 'weekly',
-            priority: '0.8'
-          },
-          new CopyPlugin({
-            patterns: [
-              { from: 'sitemap.xml', to: 'dest/pwa/sitemap.xml' }
-            ]
-          })
+          new SitemapPlugin(
+            'https://waelio.com',
+            paths,
+            {
+              filename: 'sitemap.xml',
+              lastmod: true,
+              changefreq: 'weekly',
+              priority: '0.8'
+            },
+            new CopyPlugin({
+              patterns: [
+                { from: 'sitemap.xml', to: 'dest/pwa' },
+                { from: 'sitemap.xml', to: 'public' }
+              ]
+            })
           )
         )
       }
@@ -154,7 +157,8 @@ module.exports = function (ctx) {
       manifest: {
         name: 'Wael Wahbeh',
         short_name: 'Wael Wahbeh',
-        description: 'Personal Website with current projects and contact information',
+        description:
+          'Personal Website with current projects and contact information',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -206,13 +210,11 @@ module.exports = function (ctx) {
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-
         // OS X / Mac App Store
         // appBundleId: '',
         // appCategoryType: '',
         // osxSign: '',
         // protocol: 'myapp://path',
-
         // Windows only
         // win32metadata: { ... }
       },
@@ -220,7 +222,7 @@ module.exports = function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'waelio.com'
+        appId: 'com.waelio.app'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

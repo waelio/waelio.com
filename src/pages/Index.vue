@@ -34,17 +34,31 @@
       Whenever possible, I am semi-professional aerial/sports photographer and
       video producer.
     </p>
+    <q-splitter horizontal :value="spit" class="q-my-md" />
     <q-btn
       align="left"
       glossy
       stretch
       color="primary"
-      icon="assignment"
+      icon="timeline"
       to="/timeline"
       text-color="white"
       label="My Programming timeline"
       :class="{ active: $route.name === 'timeline' }"
     />
+    <q-splitter horizontal :value="spit" class="q-my-md" />
+    <q-btn
+      align="left"
+      glossy
+      stretch
+      color="orange"
+      icon="assignment"
+      to="/resume"
+      text-color="white"
+      label="My curriculum vitae"
+      :class="{ active: $route.name === 'resume' }"
+    />
+
   </q-page>
 </template>
 <script>
@@ -54,6 +68,8 @@ export default {
   data () {
     return {
       src: '~assets/profile_pic.jpg',
+      visible: true,
+      spit: 90,
       metaTags: {
         title: 'Home Page',
         description: 'My Welcome page. A little about my work experiences and about my look at work ethics.'

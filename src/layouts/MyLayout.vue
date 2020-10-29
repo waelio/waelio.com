@@ -24,7 +24,7 @@
             >
           </router-link>
 
-          <div class="fixed-right full-height">v{{ $q.version }}</div>
+          <div class="fixed-right q-pr-xs full-height">v{{ $q.version }}</div>
         </div>
       </q-toolbar>
     </q-header>
