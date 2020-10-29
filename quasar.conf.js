@@ -31,7 +31,8 @@ module.exports = function (ctx) {
       'i18n',
       'axios',
       'amplify',
-      'appsync'
+      'appsync',
+      ctx.mode.cordova ? 'google-analytics' : ''
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -90,8 +91,7 @@ module.exports = function (ctx) {
           },
           new CopyPlugin({
             patterns: [
-              { from: 'sitemap.xml', to: 'dest/pwa' },
-              { from: 'sitemap.xml', to: 'dest/pwa/' }
+              { from: 'sitemap.xml', to: 'dest/pwa/sitemap.xml' }
             ]
           })
           )
@@ -159,6 +159,7 @@ module.exports = function (ctx) {
         orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#027be3',
+        images: [],
         icons: [
           {
             src: 'icons/icon-128x128.png',
