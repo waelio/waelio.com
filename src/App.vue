@@ -42,6 +42,13 @@ export default {
   async mounted () {
     await this.$apollo.provider.defaultClient.hydrated()
     this.hydrated = true
+  },
+  watch: {
+    '$route.query' (newR) {
+      if (newR.app && newR.target) {
+        this.$router.push(`/apps/${newR.app}/${newR.target}`)
+      }
+    }
   }
 }
 </script>
