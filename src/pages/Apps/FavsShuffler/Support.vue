@@ -3,7 +3,7 @@
     <div class="support-page text-center">
       <h2 class="text-h3">Support Page</h2>
       <p class="text-medium">
-        The is pretty simple and straight forward. The purpose of this app is to
+        The App is pretty simple and straight forward. The purpose of this app is to
         shuffler 3 genres of music:
       </p>
       <div class="bg-grey-8 q-pa-xl">
