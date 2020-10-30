@@ -51,6 +51,25 @@ const routes = [
         ]
       },
       {
+        path: 'apps',
+        name: 'apps',
+        component: () => import('pages/Apps/index'),
+        children: [
+          {
+            path: 'favsshuffler',
+            name: 'favsshuffler',
+            component: () => import('pages/Apps/FavsShuffler/index.vue'),
+            children: [
+              {
+                path: 'support',
+                name: 'support',
+                component: () => import('pages/Apps/FavsShuffler/Support')
+              }
+            ]
+          }
+        ]
+      },
+      {
         path: 'login',
         name: 'login',
         component: () => import('pages/Auth.vue')

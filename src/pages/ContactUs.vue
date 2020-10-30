@@ -115,18 +115,6 @@ export default {
   meta,
   methods: {
     onSubmit () {
-      // const thisForm = document.getElementById('contactForm')
-      // console.log(thisForm)
-      // const formData = new FormData(thisForm)
-      // formData.append('service_id', 'service_o1hhxks')
-      // formData.append('template_id', 'template_040828n')
-      // formData.append('user_id', 'user_5tP22pGVFDXWM7b3Y6cGZ')
-      // formData.append('user_name', this.user_name)
-      // formData.append('user_email', this.user_email)
-      // formData.append('message', this.fullEmail)
-      // formData.append('reply_to', this.user_email)
-      // console.log(formData.values)
-
       emailjs.send(
         'service_o1hhxks',
         'template_040828n',
