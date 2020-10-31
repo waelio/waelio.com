@@ -1,13 +1,14 @@
 {
   "name": "waelio.com",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.",
   "productName": "Wael Wahbeh",
   "author": "Wael Wahbeh <wahbehw@gmail.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "start": "node ./dist/ssr/"
   },
   "dependencies": {
     "@quasar/extras": "^1.9.10",
