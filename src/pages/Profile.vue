@@ -1,21 +1,23 @@
 <template>
-  <q-skeleton
-    class="q-pa-sm q-mx-auto q-my-xs scroll"
-    v-if="!currentUser"
-  ></q-skeleton>
-  <div class="q-pa-sm q-mx-auto q-my-xs scroll" v-else>
-    <div class="text-h3">
-      <span>Welcome!</span>
+  <q-page padding>
+    <q-skeleton
+      class="q-pa-sm q-mx-auto q-my-xs scroll"
+      v-if="!currentUser"
+    ></q-skeleton>
+    <div class="q-pa-sm q-mx-auto q-my-xs scroll" v-else>
+      <div class="text-h3">
+        <span>Welcome!</span>
+      </div>
+      <p>
+        Your Email: {{ currentUser.email }}, verified:
+        {{ currentUser.email_verified }}
+      </p>
+      <p>
+        Your Phone: {{ currentUser.phone_number }}, verified:
+        {{ currentUser.phone_number_verified }}
+      </p>
     </div>
-    <p>
-      Your Email: {{ currentUser.email }}, verified:
-      {{ currentUser.email_verified }}
-    </p>
-    <p>
-      Your Phone: {{ currentUser.phone_number }}, verified:
-      {{ currentUser.phone_number_verified }}
-    </p>
-  </div>
+  </q-page>
 </template>
 <script>
 export default {
@@ -27,7 +29,7 @@ export default {
       signedIn: false
     }
   },
-  beforeCreate () {
+  beforeMount () {
     this.$Auth
       .currentAuthenticatedUser()
       .then(user => {
