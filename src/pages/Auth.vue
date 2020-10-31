@@ -1,20 +1,21 @@
 <template>
   <div class="auth">
-    <q-btn class="full-width" @Click="()=>Auth.federatedSignIn({ provider: 'Facebook' })" label="Open Facebook" />
-    <q-btn class="full-width" @Click="()=>Auth.federatedSignIn({ provider: 'Google' })" label="Open Google" />
-    <q-btn class="full-width" @Click="()=>Auth.federatedSignIn()" label="Open Hosted UI" />
-    <q-btn class="full-width" @Click="()=>Auth.signOut()" label="Sign Out {user.getUsername()}" />
     <amplify-authenticator class="q-mt-md" username-alias="email"></amplify-authenticator>
+    <q-btn @click="fbLogin">Open Facebook</q-btn>
   </div>
 </template>
 <script>
-
 import { Auth, Hub } from 'aws-amplify'
 export default {
   name: 'auth',
   props: [],
   mounted () {
+    const code = this.$route.query.code
+    if (code) {
+      // Auth.authenticate(code)
+    }
     Hub.listen('auth', ({ payload: { event, data } }) => {
+      console.log(event)
       switch (event) {
         case 'signIn':
           this.user = data
@@ -26,21 +27,42 @@ export default {
           this.customState = data
       }
     })
-
     Auth.currentAuthenticatedUser()
       .then(user => this.setState({ user }))
-      .catch(() => console.log('Not signed in'))
+      .catch((e) => {
+        this.$notification.error(e.message)
+        console.log('Not signed in', e)
+      })
   },
   data () {
     return {
       user: null,
-      customState: null,
-      authURL:
-        'https://auth.waelio.com/login?client_id=2ok572ccqhse7j2ddn6vm1lr79&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/'
+      customState: null
+    }
+  },
+  methods: {
+    async fbLogin () {
+      try {
+        await Auth.federatedSignIn({ provider: 'Facebook' })
+      } catch (error) {
+        this.$notification.error(error)
+        console.error(error)
+      }
     }
   }
 }
 </script>
+<style>
+.error {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  font-size: 1.4 rem;
+  text-align: center;
+  padding: 5px 2px;
+  margin-top: 5px;
+}
+</style>
 <style scoped>
 .auth {
   margin: 0 auto;
