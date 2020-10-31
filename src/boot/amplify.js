@@ -2,9 +2,9 @@ import Amplify, * as AmplifyModules from 'aws-amplify'
 import { API, withSSRContext } from 'aws-amplify'
 import { AmplifyPlugin, AmplifyEventBus } from 'aws-amplify-vue'
 import AwsExports from '../aws-exports'
-Amplify.configure(AwsExports, { ssr: true })
+Amplify.configure(AwsExports)
 
-export default async ({ router, Vue, ssrContext }) => {
+export default async ({ router, Vue }) => {
   console.log(withSSRContext)
   Vue.use(AmplifyPlugin, AmplifyModules)
   Vue.prototype.$Amplify = Amplify

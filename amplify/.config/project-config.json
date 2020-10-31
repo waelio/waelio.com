@@ -8,7 +8,7 @@
       "SourceDir": "src",
       "DistributionDir": "dist",
       "BuildCommand": "quasar build -m ssr",
-      "StartCommand": "node ./dist/ssr/index.js"
+      "StartCommand": "quasar serve --history dist/pwa"
     }
   },
   "providers": [

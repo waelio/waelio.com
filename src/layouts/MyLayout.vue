@@ -69,7 +69,7 @@ export default {
       this.signedIn = true
     })
   },
-  beforeMount () {
+  beforeCreate () {
     this.$Auth
       .currentAuthenticatedUser()
       .then(user => {

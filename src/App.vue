@@ -8,7 +8,7 @@
 import meta from 'src/utils/meta'
 export default {
   name: 'App',
-  beforeMount () {
+  beforeCreate () {
     this.$AmplifyEventBus.$on('authState', info => {
       if (info === 'signedIn') {
         this.signedIn = true
