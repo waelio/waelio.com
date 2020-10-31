@@ -7,8 +7,8 @@
     "config": {
       "SourceDir": "src",
       "DistributionDir": "dist",
-      "BuildCommand": "quasar build -m pwa",
-      "StartCommand": "quasar serve --history dist/pwa"
+      "BuildCommand": "quasar build -m ssr",
+      "StartCommand": "node ./dist/ssr/index.js"
     }
   },
   "providers": [
