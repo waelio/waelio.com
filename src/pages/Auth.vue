@@ -1,7 +1,11 @@
 <template>
   <div class="auth">
     <amplify-authenticator class="q-mt-md" username-alias="email"></amplify-authenticator>
-    <q-btn @click.prevent="fbLogin">Open Facebook</q-btn>
+    <div class="flex justify-between">
+      <q-btn color="primary" @click.prevent="fbLogin">Login with Facebook</q-btn>
+      <q-btn color="red" @click.prevent="glLogin">Login with Google</q-btn>
+    </div>
+
   </div>
 </template>
 <script>
@@ -44,6 +48,14 @@ export default {
     async fbLogin () {
       try {
         await Auth.federatedSignIn({ provider: 'Facebook' })
+      } catch (error) {
+        this.$notification.error(error)
+        console.error(error)
+      }
+    },
+    async glLogin () {
+      try {
+        await Auth.federatedSignIn({ provider: 'Google' })
       } catch (error) {
         this.$notification.error(error)
         console.error(error)
