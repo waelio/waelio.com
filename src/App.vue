@@ -8,7 +8,7 @@
 import meta from 'src/utils/meta'
 export default {
   name: 'App',
-  beforeCreate () {
+  beforeMount () {
     this.$AmplifyEventBus.$on('authState', info => {
       if (info === 'signedIn') {
         this.signedIn = true
@@ -32,7 +32,7 @@ export default {
       hydrated: false,
       metaTags: {
         title: 'Wael Wahbeh Portfolio',
-        description: 'Perfolio Website',
+        description: 'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
         url: 'https://waelio.com',
         images: 'https://waelio.com/img/profile_pic.jpg'
       },

@@ -1,6 +1,6 @@
 import { register } from 'register-service-worker'
 import { Notify } from 'quasar'
-import i18n from 'boot/i18n'
+// import i18n from 'boot/i18n'
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
@@ -18,24 +18,24 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
 
   registered (/* registration */) {
-    // console.log('Service worker has been registered.')
+    console.log('Service worker has been registered.')
   },
 
   cached (/* registration */) {
-    // console.log('Content has been cached for offline use.')
+    console.log('Content has been cached for offline use.')
   },
 
   updatefound (/* registration */) {
-    // console.log('New content is downloading.')
+    console.log('New content is downloading.')
   },
 
   updated (registration) {
     // registration -> a ServiceWorkerRegistration instance
     console.log('New content is available; please refresh.')
     Notify.create({
-      message: i18n.t('messages.update_available'),
+      message: 'messages.update_available',
       icon: 'cloud_download',
-      closeBtn: i18n.t('labels.update'),
+      closeBtn: 'labels.update',
       timeout: 10000,
       onDismiss () {
         location.reload(true)

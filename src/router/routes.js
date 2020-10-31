@@ -1,13 +1,29 @@
+import MyLayout from 'layouts/MyLayout'
+import IndexPage from 'pages/Index'
+import Todo from 'pages/Todo'
+import Privacy from 'pages/Privacy'
+import Terms from 'pages/Terms'
+import Contact from 'pages/ContactUs'
+import TimeLine from 'pages/TimeLine'
+import Projects from 'pages/Projects/index'
+import Resume from 'pages/Resume'
+import AppsIndex from 'pages/Apps/index'
+import FavsShuffler from 'pages/Apps/FavsShuffler/index'
+import FavsShufflerSupport from 'pages/Apps/FavsShuffler/Support'
+import AuthPage from 'pages/Auth'
+import Profile from 'pages/Profile'
+import Page404 from 'pages/Error404'
+
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MyLayout.vue'),
+    component: MyLayout,
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
+      { path: '', component: IndexPage },
       {
         path: '/todo',
         name: 'todo',
-        component: () => import('pages/Todo.vue'),
+        component: Todo,
         meta: {
           requiresAuth: true
         }
@@ -15,38 +31,38 @@ const routes = [
       {
         path: '/privacy',
         name: 'privacy',
-        component: () => import('pages/Privacy')
+        component: Privacy
       },
       {
         path: '/contact',
         name: 'contact',
-        component: () => import('pages/ContactUs')
+        component: Contact
       },
       {
         path: '/terms',
         name: 'terms',
-        component: () => import('pages/Terms')
+        component: Terms
       },
       {
         path: '/timeline',
         name: 'timeline',
-        component: () => import('pages/TimeLine')
+        component: TimeLine
       },
       {
         path: '/resume',
         name: 'resume',
-        component: () => import('pages/Resume')
+        component: Resume
       },
       // Projects
       {
         path: '/projects',
         name: 'projects',
-        component: () => import('pages/Projects/index'),
+        component: Projects,
         children: [
           {
             path: ':projectName',
             name: 'oneproject',
-            component: () => import('pages/Projects/index')
+            component: Projects
           }
         ]
       },
@@ -54,17 +70,17 @@ const routes = [
       {
         path: '/apps',
         name: 'apps',
-        component: () => import('pages/Apps/index'),
+        component: AppsIndex,
         children: [
           {
             path: 'favsshuffler',
             name: 'favsshuffler',
-            component: () => import('pages/Apps/FavsShuffler/index.vue'),
+            component: FavsShuffler,
             children: [
               {
                 path: 'support',
                 name: 'support',
-                component: () => import('pages/Apps/FavsShuffler/Support')
+                component: FavsShufflerSupport
               }
             ]
           }
@@ -73,25 +89,23 @@ const routes = [
       {
         // Protected Routes
         path: '/auth',
-        component: () => import('pages/Auth.vue'),
         name: 'auth',
+        component: AuthPage,
         meta: {
           requiresAuth: false
-        },
-        children: [
-          {
-            path: '/profile',
-            name: 'profile',
-            component: () => import('pages/Profile.vue'),
-            meta: {
-              requiresAuth: true
-            }
-          }
-        ]
+        }
+      },
+      {
+        path: 'auth/profile',
+        name: 'profile',
+        component: Profile,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: '*',
-        component: () => import('pages/Error404.vue')
+        component: Page404
       }
     ]
   }

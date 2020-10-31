@@ -22,17 +22,17 @@ module.exports = function (ctx) {
     supportTS: false,
 
     // https://quasar.dev/quasar-cli/prefetch-feature
-    // preFetch: true,
+    preFetch: true,
 
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
       'notification',
-      'i18n',
       'axios',
-      'amplify',
-      'appsync',
+      'i18n',
+      { path: 'amplify', server: false },
+      { path: 'appsync', server: false },
       ctx.mode.cordova ? 'google-analytics' : ''
     ],
 

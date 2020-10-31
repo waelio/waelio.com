@@ -1,7 +1,7 @@
 <template>
   <div class="auth">
     <amplify-authenticator class="q-mt-md" username-alias="email"></amplify-authenticator>
-    <q-btn @click="fbLogin">Open Facebook</q-btn>
+    <q-btn @click.prevent="fbLogin">Open Facebook</q-btn>
   </div>
 </template>
 <script>
