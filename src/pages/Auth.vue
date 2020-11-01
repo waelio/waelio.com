@@ -23,7 +23,12 @@ export default {
       } catch (error) {
         console.error(error)
       }
-      this.$axios.get(`https://auth.waelio.com/oauth/${code}`)
+      const newHeader = {
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
+      }
+      this.$axios.get(`auth.waelio.com/oauth/${code}`, newHeader)
         .then(resonse => {
           console.log(resonse)
         })
@@ -32,9 +37,9 @@ export default {
         })
     }
     Auth.currentAuthenticatedUser()
-      .then(user => this.setState({ user }))
+      .then(user => { this.user = user })
       .catch((e) => {
-        this.$notification.error(e.message)
+        this.$notification.error(e)
         console.log('Not signed in', e)
       })
   },

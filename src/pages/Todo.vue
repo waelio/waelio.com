@@ -47,7 +47,7 @@
           <template v-slot:right>
             Edit List <q-icon name="edit" />
           </template>
-          <q-item>
+          <q-item clickable @click="$router.push({name:'shoppinglist', params: {slId: shoppingL.id}})" >
             <q-item-section top avatar>
               <q-avatar color="primary" text-color="white" icon="reorder" />
             </q-item-section>
@@ -133,7 +133,7 @@ export default {
   methods: {
     getTimeAgo (targetDate) {
       const unit = 'minutes'
-      return date.getDateDiff(targetDate, this.dateNow, unit) / 100
+      return date.getDateDiff(targetDate, this.dateNow, unit)
     },
     onRight ({ reset }, one) {
       console.log('right')
