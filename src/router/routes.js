@@ -12,6 +12,7 @@ import FavsShuffler from 'pages/Apps/FavsShuffler/index'
 import FavsShufflerSupport from 'pages/Apps/FavsShuffler/Support'
 import AuthPage from 'pages/Auth'
 import Profile from 'pages/Profile'
+import ShoppingItem from 'pages/Apps/ShoppingList/ShoppingItem'
 import Page404 from 'pages/Error404'
 
 const routes = [
@@ -20,14 +21,6 @@ const routes = [
     component: MyLayout,
     children: [
       { path: '', component: IndexPage },
-      {
-        path: '/todo',
-        name: 'todo',
-        component: Todo,
-        meta: {
-          requiresAuth: true
-        }
-      },
       {
         path: '/privacy',
         name: 'privacy',
@@ -99,6 +92,22 @@ const routes = [
         path: 'auth/profile',
         name: 'profile',
         component: Profile,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/todo',
+        name: 'todo',
+        component: Todo,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/shoppinglist',
+        name: 'shoppinglist',
+        component: ShoppingItem,
         meta: {
           requiresAuth: true
         }
