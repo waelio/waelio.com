@@ -34,12 +34,12 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view class="q-mx-auto" />
+      <router-view class="q-mx-auto slitter" />
     </q-page-container>
     <q-footer reveal elevated bordered>
-      <footer-navs style="max-height: 30vh; height: 10vh; min-width: 420px" class="q-mx-auto q-px-xs scroll" />
+      <footer-navs class="q-mx-auto q-px-xs scroll" />
       <p class="text-white text-center text-h6">
-        All rights reserved  &copy;Waelio 2020
+        {{$t('All rights reserved')}} &copy;Waelio 2020
       </p>
     </q-footer>
   </q-layout>

@@ -1,5 +1,6 @@
 <template>
   <div class="auth">
+    <q-btn color="info" label="Open UI" @click.prevent="openUI"></q-btn>
     <amplify-authenticator class="q-mt-md" username-alias="email"></amplify-authenticator>
     <div class="flex justify-between">
       <q-btn color="primary" @click.prevent="fbLogin">Login with Facebook</q-btn>
@@ -9,28 +10,27 @@
   </div>
 </template>
 <script>
-import { Auth, Hub } from 'aws-amplify'
+import { Auth, OAuth } from 'aws-amplify'
+import { openURL } from 'quasar'
 export default {
   name: 'auth',
   props: [],
   mounted () {
     const code = this.$route.query.code
     if (code) {
-      // Auth.authenticate(code)
-    }
-    Hub.listen('auth', ({ payload: { event, data } }) => {
-      console.log(event)
-      switch (event) {
-        case 'signIn':
-          this.user = data
-          break
-        case 'signOut':
-          this.user = null
-          break
-        case 'customAuthState':
-          this.customState = data
+      try {
+        OAuth._handleCodeFlow(code)
+      } catch (error) {
+        console.error(error)
       }
-    })
+      this.$axios.post(`'https://auth.waelio.com/oauth/${code}'`)
+        .then(resonse => {
+          console.log(resonse)
+        })
+        .catch(exception => {
+          console.log(exception)
+        })
+    }
     Auth.currentAuthenticatedUser()
       .then(user => this.setState({ user }))
       .catch((e) => {
@@ -45,6 +45,18 @@ export default {
     }
   },
   methods: {
+    openUI () {
+      openURL(
+        'https://portfolio357ad254-357ad254-dev.auth.us-east-1.amazoncognito.com/login?client_id=2erlvso7q5ufgss3cl2c0acerv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/auth',
+        null,
+        {
+          noopener: true,
+          menubar: false,
+          toolbar: false,
+          noreferrer: true
+        }
+      )
+    },
     async fbLogin () {
       try {
         await Auth.federatedSignIn({ provider: 'Facebook' })
