@@ -23,7 +23,7 @@ export default {
       } catch (error) {
         console.error(error)
       }
-      this.$axios.post(`'https://auth.waelio.com/oauth/${code}'`)
+      this.$axios.get(`'https://auth.waelio.com/oauth/${code}'`)
         .then(resonse => {
           console.log(resonse)
         })
