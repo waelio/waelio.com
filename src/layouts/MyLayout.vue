@@ -12,17 +12,11 @@
           <q-icon name="menu" />
         </q-btn>
         <div class="row">
-          <router-link
-            :to="{ name: 'shoppinglists' }"
-            tag="span"
-            style="cursor: pointer"
-          >
             <q-toolbar-title>
               <router-link class="text-white text-sm" to="/">
                 Waelio.com</router-link
               ></q-toolbar-title
             >
-          </router-link>
 
           <div class="fixed-right q-pr-xs full-height">v{{ $q.version }}</div>
         </div>

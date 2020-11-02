@@ -3,12 +3,6 @@ const LSidebar = {
   state: {
     sidebar_public: [
       {
-        to: { name: 'shoppinglists' },
-        avatar: 'add_task',
-        label: 'Shopping List App',
-        caption: 'create your List'
-      },
-      {
         to: { name: 'contact' },
         avatar: 'contact_page',
         label: 'Contact Us',
@@ -16,7 +10,7 @@ const LSidebar = {
       },
       {
         to: { name: 'instagramfeed' },
-        avatar: 'contact_page',
+        avatar: 'dynamic_feed',
         label: 'Instagram Feed',
         caption: 'My Instagram Feed'
       },

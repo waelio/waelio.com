@@ -23,11 +23,20 @@
       </q-item>
       <q-item clickable to="/auth/profile">
         <q-item-section avatar>
-          <q-icon name="settings" />
+          <q-icon name="person_pin" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Profile</q-item-label>
           <q-item-label caption>view your profile</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item clickable to="/apps/shoppinglists/lists">
+        <q-item-section avatar>
+          <q-icon name="add_task" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Shopping List App</q-item-label>
+          <q-item-label caption>create your List</q-item-label>
         </q-item-section>
       </q-item>
     </div>

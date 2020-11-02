@@ -14,8 +14,9 @@ import FavsShufflerSupport from 'pages/Apps/FavsShuffler/Support'
 import AuthPage from 'pages/Auth/index'
 import Authentication from 'pages/Auth/Authentication'
 import Profile from 'pages/Auth/Profile'
-import ShoppingLists from 'pages/Apps/ShoppingList/ShoppingLists'
-import ShoppingItem from 'pages/Apps/ShoppingList/ShoppingItem'
+import ShoppingListsIndex from 'pages/Apps/ShoppingLists/index'
+import ShoppingLists from 'pages/Apps/ShoppingLists/ShoppingLists'
+import ShoppingItem from 'pages/Apps/ShoppingLists/ShoppingItem'
 import Page404 from 'pages/Error404'
 
 const routes = [
@@ -91,14 +92,22 @@ const routes = [
           {
             path: 'shoppinglists',
             name: 'shoppinglists',
-            component: ShoppingLists,
+            component: ShoppingListsIndex,
             meta: {
               requiresAuth: true
             },
             children: [
               {
-                path: 'shoppinglist/:id',
-                name: 'shoppinglist',
+                path: 'lists',
+                name: 'lists',
+                component: ShoppingLists,
+                meta: {
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'list/:id',
+                name: 'list',
                 component: ShoppingItem,
                 meta: {
                   requiresAuth: true

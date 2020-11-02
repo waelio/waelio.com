@@ -49,7 +49,7 @@
           <template v-slot:right>
             Edit List <q-icon name="edit" />
           </template>
-          <q-item clickable :to="'shoppinglists/shoppinglist/'+shoppingL.id" >
+          <q-item clickable @click="()=>$router.push('list/'+shoppingL.id)" >
             <q-item-section top avatar>
               <q-avatar color="primary" text-color="white" icon="reorder" />
             </q-item-section>
