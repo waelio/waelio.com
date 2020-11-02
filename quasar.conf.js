@@ -10,11 +10,18 @@ const SitemapPlugin = require('sitemap-webpack-plugin').default
 const CopyPlugin = require('copy-webpack-plugin')
 const paths = [
   { path: '/' },
-  { path: '/terms' },
   { path: '/privacy' },
   { path: '/contact' },
+  { path: '/terms' },
+  { path: '/timeline' },
   { path: '/resume' },
-  { path: '/timeline' }
+  { path: '/instagram' },
+  { path: '/credits' },
+  { path: '/projects' },
+  { path: '/apps' },
+  { path: '/auth' },
+  { path: '/auth/authenticate' },
+  { path: '/auth/profile' }
 ]
 module.exports = function (ctx) {
   return {

@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding class="q-mx-auto">
     <q-skeleton
       class="q-pa-sm q-mx-auto q-my-xs scroll"
       v-if="!currentUser"

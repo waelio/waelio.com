@@ -12,17 +12,11 @@
           <q-icon name="menu" />
         </q-btn>
         <div class="row">
-          <router-link
-            :to="{ name: 'todo' }"
-            tag="span"
-            style="cursor: pointer"
-          >
             <q-toolbar-title>
               <router-link class="text-white text-sm" to="/">
                 Waelio.com</router-link
               ></q-toolbar-title
             >
-          </router-link>
 
           <div class="fixed-right q-pr-xs full-height">v{{ $q.version }}</div>
         </div>
@@ -34,7 +28,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view class="q-mx-auto slitter" />
+      <router-view :isLoggedIn="isLoggedIn" class="q-mx-auto slitter" />
     </q-page-container>
     <q-footer reveal elevated bordered>
       <footer-navs class="q-mx-auto q-px-xs scroll" />
@@ -89,7 +83,7 @@ export default {
         .catch(err => console.log(err))
       this.signedIn = false
       parent.signedIn = false
-      this.$router.push({ name: 'auth' })
+      this.$router.push('/auth/authenticate')
     }
   }
 }
