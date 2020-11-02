@@ -1,7 +1,8 @@
 <template>
-  <div class="todox q-mx-auto" style="max-width: 420px">
+  <div class="todox q-mx-auto items-center relative-position" style="max-width: 420px">
     <h1 class="text-h4 text-center">Shopping Lists</h1>
-    <q-form ref="form" @submit.prevent.stop="onCreate" class="full-width q-mx-auto">
+    <q-btn id="addSListButton" ref="openButton" v-bind="props2" @click="morphy(!isAdding)" class="q-mb-md" />
+    <q-form id="addSListForm" ref="addForm" v-bind="props1" @submit.prevent="onCreate">
       <div class="q-pa-sm q-mx-auto special-border" >
         <h2 class="text-subtitle1 text-grey-6 text-center q-my-sx">New List</h2>
         <q-input
@@ -24,6 +25,7 @@
             label="Create Shopping List"
             class="width-100 q-mx-auto"
             color="primary"
+            :disable="!name"
           >
           </q-btn>
         </div>
@@ -47,7 +49,7 @@
           <template v-slot:right>
             Edit List <q-icon name="edit" />
           </template>
-          <q-item>
+          <q-item clickable :to="'shoppinglists/shoppinglist/'+shoppingL.id" >
             <q-item-section top avatar>
               <q-avatar color="primary" text-color="white" icon="reorder" />
             </q-item-section>
@@ -63,21 +65,32 @@
           </q-item>
           <q-item class="full-width" v-if="editing && selected === shoppingL.id">
 
-            <q-input filled ref="newname" class="width-50"  type="text" v-model="newname" label="New list Name *" lazy-rules
+            <q-input filled ref="newname" style="80%" class="width-50"  type="text" v-model="newname" label="New list Name *" lazy-rules
             :rules="[ val => val !== null && val !== '' || 'Please type your List Name']"
             />
             <q-btn
                   color="orange"
                   text-color="white"
-                  style="max-height:55px; width: 75%"
+                  style="max-height:55px; width: 25%"
                   class="q-ml-sm q-px-xs"
                   label="Save"
                   glossy
                   dense
                   icon="edit"
-fh                :disabled="!newname"
+                  :disabled="!newname"
                   :loading="editing && activeId === shoppingL.id"
                   @click.prevent="activeId = shoppingL.id, onEdit(shoppingL)"
+                />
+                <q-btn
+                  color="red"
+                  text-color="white"
+                  style="max-height:55px; width: 25%"
+                  class="q-ml-sm q-px-xs"
+                  label="Save"
+                  glossy
+                  dense
+                  icon="close"
+                  @click.prevent="activeId = null, selected = null, editing = false"
                 />
           </q-item>
         </q-slide-item>
@@ -85,20 +98,19 @@ fh                :disabled="!newname"
     </div>
   </div>
 </template>
-
 <script>
 /* eslint-disable no-unused-vars */
 import gql from 'graphql-tag'
 import { API, graphqlOperation, Storage } from 'aws-amplify'
-import { listShoppingItems, listShoppingLists } from '../graphql/queries'
-import * as mutations from '../graphql/mutations'
+import { listShoppingItems, listShoppingLists } from 'src/graphql/queries'
+import * as mutations from 'src/graphql/mutations'
+import { morph, date } from 'quasar'
 import {
   createShoppingList,
   deleteShoppingList,
   updateShoppingList
-} from '../graphql/mutations'
+} from 'src/graphql/mutations'
 import uuidV4 from 'uuid/v4'
-import { date } from 'quasar'
 
 export default {
   name: 'ShoppingList',
@@ -116,6 +128,9 @@ export default {
   },
   data () {
     return {
+      isAdding: false,
+      toggleForm: false,
+      cancelAdding: false,
       shsHolder: [],
       name: '',
       newname: '',
@@ -131,9 +146,24 @@ export default {
   },
 
   methods: {
+    morphy (newState) {
+      console.log('first morph', this.isAdding)
+      morph({
+        from: '#addSListForm',
+        onToggle: () => {
+          this.isAdding = newState
+          console.log('second morph', this.isAdding)
+        },
+        duration: 500,
+        tween: true,
+        onEnd: end => {
+          end === 'from' && this.onToggle()
+        }
+      })
+    },
     getTimeAgo (targetDate) {
       const unit = 'minutes'
-      return date.getDateDiff(targetDate, this.dateNow, unit) / 100
+      return date.getDateDiff(targetDate, this.dateNow, unit)
     },
     onRight ({ reset }, one) {
       console.log('right')
@@ -243,8 +273,9 @@ export default {
       })
       this.creating = false
       this.name = null
-      this.$refs.form.reset()
+      this.$refs.addForm.reset()
       if (nListResult) {
+        this.isAdding = false
         this.onListAllShoppingLists()
       }
     },
@@ -273,6 +304,30 @@ export default {
       const timeStamp = Date.now()
       const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD')
       return formattedString
+    },
+    props1 () {
+      return this.isAdding === true
+        ? {
+          class: 'full-width q-mx-auto'
+        }
+        : {
+          class: 'q-ml-xl bg-blue q-px-xl q-py-lg text-white',
+          style: 'display: none'
+        }
+    },
+    props2 () {
+      return this.isAdding === true
+        ? {
+          color: 'red',
+          icon: 'close',
+          label: 'Close',
+          class: 'q-px-md'
+        }
+        : {
+          color: 'green',
+          icon: 'playlist_add',
+          label: 'Add List'
+        }
     }
   }
 }

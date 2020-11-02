@@ -248,9 +248,9 @@ export default {
       metaTags: {
         title: 'My Knowledge Timeline',
         description: 'Timeline of my exposure to programming technologies'
-      },
-      meta
+      }
     }
-  }
+  },
+  meta
 }
 </script>

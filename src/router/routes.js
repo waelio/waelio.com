@@ -1,17 +1,20 @@
 import MyLayout from 'layouts/MyLayout'
 import IndexPage from 'pages/Index'
-import Todo from 'pages/Todo'
 import Privacy from 'pages/Privacy'
+import Credits from 'pages/Credits'
 import Terms from 'pages/Terms'
 import Contact from 'pages/ContactUs'
 import TimeLine from 'pages/TimeLine'
+import InstagramFeed from 'pages/InstagramFeed'
 import Projects from 'pages/Projects/index'
-import Resume from 'pages/Resume'
+import MyResume from 'pages/MyResume'
 import AppsIndex from 'pages/Apps/index'
 import FavsShuffler from 'pages/Apps/FavsShuffler/index'
 import FavsShufflerSupport from 'pages/Apps/FavsShuffler/Support'
-import AuthPage from 'pages/Auth'
-import Profile from 'pages/Profile'
+import AuthPage from 'pages/Auth/index'
+import Authentication from 'pages/Auth/Authentication'
+import Profile from 'pages/Auth/Profile'
+import ShoppingLists from 'pages/Apps/ShoppingList/ShoppingLists'
 import ShoppingItem from 'pages/Apps/ShoppingList/ShoppingItem'
 import Page404 from 'pages/Error404'
 
@@ -42,11 +45,20 @@ const routes = [
         component: TimeLine
       },
       {
+        path: '/instagram',
+        name: 'instagramfeed',
+        component: InstagramFeed
+      },
+      {
+        path: '/credits',
+        name: 'credits',
+        component: Credits
+      },
+      {
         path: '/resume',
         name: 'resume',
-        component: Resume
+        component: MyResume
       },
-      // Projects
       {
         path: '/projects',
         name: 'projects',
@@ -59,7 +71,6 @@ const routes = [
           }
         ]
       },
-      // Apps
       {
         path: '/apps',
         name: 'apps',
@@ -76,41 +87,52 @@ const routes = [
                 component: FavsShufflerSupport
               }
             ]
+          },
+          {
+            path: 'shoppinglists',
+            name: 'shoppinglists',
+            component: ShoppingLists,
+            meta: {
+              requiresAuth: true
+            },
+            children: [
+              {
+                path: 'shoppinglist/:id',
+                name: 'shoppinglist',
+                component: ShoppingItem,
+                meta: {
+                  requiresAuth: true
+                }
+              }
+            ]
           }
         ]
       },
       {
-        // Protected Routes
         path: '/auth',
         name: 'auth',
         component: AuthPage,
         meta: {
-          requiresAuth: false
-        }
-      },
-      {
-        path: 'auth/profile',
-        name: 'profile',
-        component: Profile,
-        meta: {
           requiresAuth: true
-        }
-      },
-      {
-        path: '/todo',
-        name: 'todo',
-        component: Todo,
-        meta: {
-          requiresAuth: true
-        }
-      },
-      {
-        path: '/shoppinglist',
-        name: 'shoppinglist',
-        component: ShoppingItem,
-        meta: {
-          requiresAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'authenticate',
+            name: 'authenticate',
+            component: Authentication,
+            meta: {
+              requiresAuth: false
+            }
+          },
+          {
+            path: 'profile',
+            name: 'profile',
+            component: Profile,
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       },
       {
         path: '*',

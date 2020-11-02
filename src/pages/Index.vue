@@ -1,9 +1,10 @@
 <template>
   <q-page padding>
     <q-img
-      src="~assets/profile_pic.jpg"
+      :src="src"
       spinner-color="white"
-      style="height: 140px; max-width: 150px"
+      :ratio="1"
+      style="height: 20vh; width: 20vh;"
     />
     <p class="text-bold">Wael Wahbeh</p>
     <p class="text-justify q-px-xs text-weight-medium">
@@ -67,8 +68,7 @@ export default {
   name: 'PageIndex',
   data () {
     return {
-      src: '~assets/profile_pic.jpg',
-      visible: true,
+      src: 'img/profile_pic.jpg',
       spit: 90,
       metaTags: {
         title: 'Home Page',

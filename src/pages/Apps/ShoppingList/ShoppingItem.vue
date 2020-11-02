@@ -1,7 +1,6 @@
 <template>
   <q-page padding>
     One Item
-    <pre>{{$route.params}}</pre>
     <pre>{{shoppingList}}</pre>
   </q-page>
 </template>
@@ -15,12 +14,12 @@ export default {
   name: 'OneItem',
   async beforeCreate () {
     const vm = this
-    if (this.$route.params.slId) {
+    if (this.$route.params.id) {
       try {
-        const slId = this.$route.params.slId
+        const id = this.$route.params.id
         const response = await API.graphql({
           query: getShoppingList,
-          variables: { id: slId }
+          variables: { id: id }
         })
         if (response) {
           vm.shoppingList = response.data.getShoppingList
