@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <q-img
-      :src="src"
+      src="~assets/profile_pic.jpg"
       spinner-color="white"
       :ratio="1"
       style="height: 20vh; width: 20vh;"
