@@ -1,6 +1,5 @@
 <template>
-<div class="q-mx-auto">
-  <h1 class="text-center text-h3">Auth Pages</h1>
+<div class="q-pa-md q-mx-auto">
     <router-view />
 </div>
 </template>
