@@ -1,28 +1,20 @@
-type ShoppingList {
-  id: ID!
-  name: String!
-  shoppingItems(filter: ModelShoppingItemFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelShoppingItemConnection
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-}
-
-type ShoppingItem {
+type Task {
   id: ID!
   title: String!
-  shoppingListID: ID!
-  shoppingList: ShoppingList
-  comments(content: ModelStringKeyConditionInput, filter: ModelCommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommentConnection
+  description: String
+  icon: String
+  completed: Boolean!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  owner: String
 }
 
-type Comment {
+type PrivateNote {
   id: ID!
-  ShoppingItemID: ID!
-  shoppingItem: ShoppingItem
   content: String!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  owner: String
 }
 
 enum ModelSortDirection {
@@ -30,8 +22,8 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelShoppingListConnection {
-  items: [ShoppingList]
+type ModelTaskConnection {
+  items: [Task]
   nextToken: String
 }
 
@@ -108,12 +100,15 @@ input ModelSizeInput {
   between: [Int]
 }
 
-input ModelShoppingListFilterInput {
+input ModelTaskFilterInput {
   id: ModelIDInput
-  name: ModelStringInput
-  and: [ModelShoppingListFilterInput]
-  or: [ModelShoppingListFilterInput]
-  not: ModelShoppingListFilterInput
+  title: ModelStringInput
+  description: ModelStringInput
+  icon: ModelStringInput
+  completed: ModelBooleanInput
+  and: [ModelTaskFilterInput]
+  or: [ModelTaskFilterInput]
+  not: ModelTaskFilterInput
 }
 
 enum ModelAttributeTypes {
@@ -130,141 +125,90 @@ enum ModelAttributeTypes {
 }
 
 type Query {
-  getShoppingList(id: ID!): ShoppingList
-  listShoppingLists(filter: ModelShoppingListFilterInput, limit: Int, nextToken: String): ModelShoppingListConnection
-  getShoppingItem(id: ID!): ShoppingItem
-  listShoppingItems(filter: ModelShoppingItemFilterInput, limit: Int, nextToken: String): ModelShoppingItemConnection
-  getComment(id: ID!): Comment
-  listComments(filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection
+  getTask(id: ID!): Task
+  listTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String): ModelTaskConnection
+  getPrivateNote(id: ID!): PrivateNote
+  listPrivateNotes(filter: ModelPrivateNoteFilterInput, limit: Int, nextToken: String): ModelPrivateNoteConnection
 }
 
-input CreateShoppingListInput {
+input CreateTaskInput {
   id: ID
-  name: String!
+  title: String!
+  description: String
+  icon: String
+  completed: Boolean!
 }
 
-input UpdateShoppingListInput {
+input UpdateTaskInput {
   id: ID!
-  name: String
+  title: String
+  description: String
+  icon: String
+  completed: Boolean
 }
 
-input DeleteShoppingListInput {
+input DeleteTaskInput {
   id: ID
 }
 
 type Mutation {
-  createShoppingList(input: CreateShoppingListInput!, condition: ModelShoppingListConditionInput): ShoppingList
-  updateShoppingList(input: UpdateShoppingListInput!, condition: ModelShoppingListConditionInput): ShoppingList
-  deleteShoppingList(input: DeleteShoppingListInput!, condition: ModelShoppingListConditionInput): ShoppingList
-  createShoppingItem(input: CreateShoppingItemInput!, condition: ModelShoppingItemConditionInput): ShoppingItem
-  updateShoppingItem(input: UpdateShoppingItemInput!, condition: ModelShoppingItemConditionInput): ShoppingItem
-  deleteShoppingItem(input: DeleteShoppingItemInput!, condition: ModelShoppingItemConditionInput): ShoppingItem
-  createComment(input: CreateCommentInput!, condition: ModelCommentConditionInput): Comment
-  updateComment(input: UpdateCommentInput!, condition: ModelCommentConditionInput): Comment
-  deleteComment(input: DeleteCommentInput!, condition: ModelCommentConditionInput): Comment
+  createTask(input: CreateTaskInput!, condition: ModelTaskConditionInput): Task
+  updateTask(input: UpdateTaskInput!, condition: ModelTaskConditionInput): Task
+  deleteTask(input: DeleteTaskInput!, condition: ModelTaskConditionInput): Task
+  createPrivateNote(input: CreatePrivateNoteInput!, condition: ModelPrivateNoteConditionInput): PrivateNote
+  updatePrivateNote(input: UpdatePrivateNoteInput!, condition: ModelPrivateNoteConditionInput): PrivateNote
+  deletePrivateNote(input: DeletePrivateNoteInput!, condition: ModelPrivateNoteConditionInput): PrivateNote
 }
 
-input ModelShoppingListConditionInput {
-  name: ModelStringInput
-  and: [ModelShoppingListConditionInput]
-  or: [ModelShoppingListConditionInput]
-  not: ModelShoppingListConditionInput
+input ModelTaskConditionInput {
+  title: ModelStringInput
+  description: ModelStringInput
+  icon: ModelStringInput
+  completed: ModelBooleanInput
+  and: [ModelTaskConditionInput]
+  or: [ModelTaskConditionInput]
+  not: ModelTaskConditionInput
 }
 
 type Subscription {
-  onCreateShoppingList: ShoppingList @aws_subscribe(mutations: ["createShoppingList"])
-  onUpdateShoppingList: ShoppingList @aws_subscribe(mutations: ["updateShoppingList"])
-  onDeleteShoppingList: ShoppingList @aws_subscribe(mutations: ["deleteShoppingList"])
-  onCreateShoppingItem: ShoppingItem @aws_subscribe(mutations: ["createShoppingItem"])
-  onUpdateShoppingItem: ShoppingItem @aws_subscribe(mutations: ["updateShoppingItem"])
-  onDeleteShoppingItem: ShoppingItem @aws_subscribe(mutations: ["deleteShoppingItem"])
-  onCreateComment: Comment @aws_subscribe(mutations: ["createComment"])
-  onUpdateComment: Comment @aws_subscribe(mutations: ["updateComment"])
-  onDeleteComment: Comment @aws_subscribe(mutations: ["deleteComment"])
+  onCreateTask(owner: String!): Task @aws_subscribe(mutations: ["createTask"])
+  onUpdateTask(owner: String!): Task @aws_subscribe(mutations: ["updateTask"])
+  onDeleteTask(owner: String!): Task @aws_subscribe(mutations: ["deleteTask"])
+  onCreatePrivateNote(owner: String!): PrivateNote @aws_subscribe(mutations: ["createPrivateNote"])
+  onUpdatePrivateNote(owner: String!): PrivateNote @aws_subscribe(mutations: ["updatePrivateNote"])
+  onDeletePrivateNote(owner: String!): PrivateNote @aws_subscribe(mutations: ["deletePrivateNote"])
 }
 
-type ModelShoppingItemConnection {
-  items: [ShoppingItem]
+type ModelPrivateNoteConnection {
+  items: [PrivateNote]
   nextToken: String
 }
 
-input ModelShoppingItemFilterInput {
+input ModelPrivateNoteFilterInput {
   id: ModelIDInput
-  title: ModelStringInput
-  shoppingListID: ModelIDInput
-  and: [ModelShoppingItemFilterInput]
-  or: [ModelShoppingItemFilterInput]
-  not: ModelShoppingItemFilterInput
-}
-
-input CreateShoppingItemInput {
-  id: ID
-  title: String!
-  shoppingListID: ID!
-}
-
-input UpdateShoppingItemInput {
-  id: ID!
-  title: String
-  shoppingListID: ID
-}
-
-input DeleteShoppingItemInput {
-  id: ID
-}
-
-input ModelShoppingItemConditionInput {
-  title: ModelStringInput
-  shoppingListID: ModelIDInput
-  and: [ModelShoppingItemConditionInput]
-  or: [ModelShoppingItemConditionInput]
-  not: ModelShoppingItemConditionInput
-}
-
-type ModelCommentConnection {
-  items: [Comment]
-  nextToken: String
-}
-
-input ModelCommentFilterInput {
-  id: ModelIDInput
-  ShoppingItemID: ModelIDInput
   content: ModelStringInput
-  and: [ModelCommentFilterInput]
-  or: [ModelCommentFilterInput]
-  not: ModelCommentFilterInput
+  and: [ModelPrivateNoteFilterInput]
+  or: [ModelPrivateNoteFilterInput]
+  not: ModelPrivateNoteFilterInput
 }
 
-input CreateCommentInput {
+input CreatePrivateNoteInput {
   id: ID
-  ShoppingItemID: ID!
   content: String!
 }
 
-input UpdateCommentInput {
+input UpdatePrivateNoteInput {
   id: ID!
-  ShoppingItemID: ID
   content: String
 }
 
-input DeleteCommentInput {
+input DeletePrivateNoteInput {
   id: ID
 }
 
-input ModelCommentConditionInput {
-  ShoppingItemID: ModelIDInput
+input ModelPrivateNoteConditionInput {
   content: ModelStringInput
-  and: [ModelCommentConditionInput]
-  or: [ModelCommentConditionInput]
-  not: ModelCommentConditionInput
-}
-
-input ModelStringKeyConditionInput {
-  eq: String
-  le: String
-  lt: String
-  ge: String
-  gt: String
-  between: [String]
-  beginsWith: String
+  and: [ModelPrivateNoteConditionInput]
+  or: [ModelPrivateNoteConditionInput]
+  not: ModelPrivateNoteConditionInput
 }

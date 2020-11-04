@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <div>
     <q-btn icon="arrow_back" @click="$router.go(-1)" label="Back" color="warning" />
     <h3 class="text-center">{{shoppingList && shoppingList.name}}</h3>
     <div v-if="shoppingList && shoppingList.shoppingItems.length">
@@ -11,12 +11,12 @@
     </div>
 
     <pre>{{shoppingList}}</pre>
-  </q-page>
+  </div>
 </template>
 
 <script>
 // import { graphqlOperation } from 'aws-amplify'
-import { getShoppingList } from 'src/graphql/queries'
+import { getTask } from 'src/graphql/queries'
 import { API } from 'aws-amplify'
 
 export default {
@@ -27,7 +27,7 @@ export default {
       try {
         const id = this.$route.params.id
         const response = await API.graphql({
-          query: getShoppingList,
+          query: getTask,
           variables: { id: id }
         })
         if (response) {
@@ -45,7 +45,5 @@ export default {
   }
 }
 </script>
-
 <style>
-
 </style>

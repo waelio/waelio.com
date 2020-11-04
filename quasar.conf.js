@@ -19,6 +19,7 @@ const paths = [
   { path: '/credits' },
   { path: '/projects' },
   { path: '/apps' },
+  { path: '/apps/favsshuffler/support' },
   { path: '/auth' },
   { path: '/auth/authenticate' },
   { path: '/auth/profile' }

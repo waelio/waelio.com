@@ -29,16 +29,73 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://waelio.com/auth/\"],\"LogoutURLs\":[\"https://waelio.com/auth/signout/\"]}",
         "UserPoolName": "portfolio357ad254_userpool_357ad254"
       },
-      "lastPushTimeStamp": "2020-10-31T11:50:11.334Z",
+      "lastPushTimeStamp": "2020-11-03T21:19:09.996Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/auth/portfolio357ad254-cloudformation-template.yml",
         "logicalId": "authportfolio357ad254"
       },
       "lastPushDirHash": "76g8ZglbmLi8AW7sR90uxOYGd28="
+    },
+    "userPoolGroups": {
+      "service": "Cognito-UserPool-Groups",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "portfolio357ad254",
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ]
+        }
+      ],
+      "lastPushTimeStamp": "2020-11-03T21:19:10.005Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/auth/template.json",
+        "logicalId": "authuserPoolGroups"
+      },
+      "output": {
+        "UsersGroupRole": "arn:aws:iam::006970456832:role/us-east-1_4PBQUu7bk-UsersGroupRole",
+        "AdminsGroupRole": "arn:aws:iam::006970456832:role/us-east-1_4PBQUu7bk-AdminsGroupRole"
+      },
+      "lastPushDirHash": "4OtJxGEt/HeUGuhwJESQj7j76wM="
     }
   },
   "api": {
-    "shoppinglists": {
+    "AdminQueries": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "portfolio357ad254",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesb0403254",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ],
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/api/admin-queries-cloudformation-template.json",
+        "logicalId": "apiAdminQueries"
+      },
+      "lastPushTimeStamp": "2020-11-03T21:19:10.012Z",
+      "output": {
+        "ApiName": "AdminQueries",
+        "RootUrl": "https://rssis050ui.execute-api.us-east-1.amazonaws.com/dev"
+      },
+      "lastPushDirHash": "qkDjrXiM2OUq+lwVe5aWUyjN0CM="
+    },
+    "ShoppingLists": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -55,31 +112,47 @@
             }
           ]
         },
-        "GraphQLAPIIdOutput": "26cizboiznfl3phzb2xjwgk6ze",
-        "GraphQLAPIEndpointOutput": "https://dctrmlhlyfcfpanm5e5qocrhuy.appsync-api.us-east-1.amazonaws.com/graphql"
+        "GraphQLAPIIdOutput": "xgfhwndhyrfg7bqcc63cnntat4",
+        "GraphQLAPIEndpointOutput": "https://24fa2usnrbhgpadv6i7mfhfl2i.appsync-api.us-east-1.amazonaws.com/graphql"
       },
-      "lastPushTimeStamp": "2020-10-31T11:50:11.338Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/api/cloudformation-template.json",
-        "logicalId": "apishoppinglists"
+        "logicalId": "apiShoppingLists"
       },
-      "lastPushDirHash": "rEOjw2YcZLo3s1w5ogDTUdE5Vkk="
+      "lastPushTimeStamp": "2020-11-03T21:19:12.263Z",
+      "lastPushDirHash": "FJsjcMfiF0dlM+987aMeV2OxNGU="
     }
   },
-  "storage": {
-    "shippinglistimages": {
-      "service": "S3",
+  "storage": {},
+  "function": {
+    "AdminQueriesb0403254": {
+      "service": "Lambda",
       "providerPlugin": "awscloudformation",
-      "output": {
-        "BucketName": "portfolio5ab9269805c84546bf01c43db321bf0455948-dev",
-        "Region": "us-east-1"
-      },
-      "lastPushTimeStamp": "2020-10-31T11:50:11.343Z",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "portfolio357ad254",
+          "attributes": [
+            "UserPoolId"
+          ]
+        }
+      ],
+      "lastBuildTimeStamp": "2020-11-03T20:58:56.565Z",
+      "lastPackageTimeStamp": "2020-11-03T20:59:07.274Z",
+      "distZipFilename": "AdminQueriesb0403254-5533427a2b752f574d69-build.zip",
       "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
-        "logicalId": "storageshippinglistimages"
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/function/AdminQueriesb0403254-cloudformation-template.json",
+        "logicalId": "functionAdminQueriesb0403254"
       },
-      "lastPushDirHash": "3hZ6JqZAoIVZjBdOppIdK1fPwlg="
+      "lastPushTimeStamp": "2020-11-03T21:19:10.023Z",
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:006970456832:function:AdminQueriesb0403254-dev",
+        "Name": "AdminQueriesb0403254-dev",
+        "LambdaExecutionRole": "AdminQueriesb0403254LambdaRole-dev"
+      },
+      "lastPushDirHash": "JJIxIRAvBTNFZx0ojOgoIayxtYk="
     }
   }
 }

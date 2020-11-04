@@ -1,261 +1,96 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createShoppingList = /* GraphQL */ `
-  mutation CreateShoppingList(
-    $input: CreateShoppingListInput!
-    $condition: ModelShoppingListConditionInput
+export const createTask = /* GraphQL */ `
+  mutation CreateTask(
+    $input: CreateTaskInput!
+    $condition: ModelTaskConditionInput
   ) {
-    createShoppingList(input: $input, condition: $condition) {
-      id
-      name
-      shoppingItems {
-        items {
-          id
-          title
-          shoppingListID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateShoppingList = /* GraphQL */ `
-  mutation UpdateShoppingList(
-    $input: UpdateShoppingListInput!
-    $condition: ModelShoppingListConditionInput
-  ) {
-    updateShoppingList(input: $input, condition: $condition) {
-      id
-      name
-      shoppingItems {
-        items {
-          id
-          title
-          shoppingListID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteShoppingList = /* GraphQL */ `
-  mutation DeleteShoppingList(
-    $input: DeleteShoppingListInput!
-    $condition: ModelShoppingListConditionInput
-  ) {
-    deleteShoppingList(input: $input, condition: $condition) {
-      id
-      name
-      shoppingItems {
-        items {
-          id
-          title
-          shoppingListID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createShoppingItem = /* GraphQL */ `
-  mutation CreateShoppingItem(
-    $input: CreateShoppingItemInput!
-    $condition: ModelShoppingItemConditionInput
-  ) {
-    createShoppingItem(input: $input, condition: $condition) {
+    createTask(input: $input, condition: $condition) {
       id
       title
-      shoppingListID
-      shoppingList {
-        id
-        name
-        shoppingItems {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          ShoppingItemID
-          content
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      description
+      icon
+      completed
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const updateShoppingItem = /* GraphQL */ `
-  mutation UpdateShoppingItem(
-    $input: UpdateShoppingItemInput!
-    $condition: ModelShoppingItemConditionInput
+export const updateTask = /* GraphQL */ `
+  mutation UpdateTask(
+    $input: UpdateTaskInput!
+    $condition: ModelTaskConditionInput
   ) {
-    updateShoppingItem(input: $input, condition: $condition) {
+    updateTask(input: $input, condition: $condition) {
       id
       title
-      shoppingListID
-      shoppingList {
-        id
-        name
-        shoppingItems {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          ShoppingItemID
-          content
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      description
+      icon
+      completed
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const deleteShoppingItem = /* GraphQL */ `
-  mutation DeleteShoppingItem(
-    $input: DeleteShoppingItemInput!
-    $condition: ModelShoppingItemConditionInput
+export const deleteTask = /* GraphQL */ `
+  mutation DeleteTask(
+    $input: DeleteTaskInput!
+    $condition: ModelTaskConditionInput
   ) {
-    deleteShoppingItem(input: $input, condition: $condition) {
+    deleteTask(input: $input, condition: $condition) {
       id
       title
-      shoppingListID
-      shoppingList {
-        id
-        name
-        shoppingItems {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          ShoppingItemID
-          content
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      description
+      icon
+      completed
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const createComment = /* GraphQL */ `
-  mutation CreateComment(
-    $input: CreateCommentInput!
-    $condition: ModelCommentConditionInput
+export const createPrivateNote = /* GraphQL */ `
+  mutation CreatePrivateNote(
+    $input: CreatePrivateNoteInput!
+    $condition: ModelPrivateNoteConditionInput
   ) {
-    createComment(input: $input, condition: $condition) {
+    createPrivateNote(input: $input, condition: $condition) {
       id
-      ShoppingItemID
-      shoppingItem {
-        id
-        title
-        shoppingListID
-        shoppingList {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       content
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const updateComment = /* GraphQL */ `
-  mutation UpdateComment(
-    $input: UpdateCommentInput!
-    $condition: ModelCommentConditionInput
+export const updatePrivateNote = /* GraphQL */ `
+  mutation UpdatePrivateNote(
+    $input: UpdatePrivateNoteInput!
+    $condition: ModelPrivateNoteConditionInput
   ) {
-    updateComment(input: $input, condition: $condition) {
+    updatePrivateNote(input: $input, condition: $condition) {
       id
-      ShoppingItemID
-      shoppingItem {
-        id
-        title
-        shoppingListID
-        shoppingList {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       content
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const deleteComment = /* GraphQL */ `
-  mutation DeleteComment(
-    $input: DeleteCommentInput!
-    $condition: ModelCommentConditionInput
+export const deletePrivateNote = /* GraphQL */ `
+  mutation DeletePrivateNote(
+    $input: DeletePrivateNoteInput!
+    $condition: ModelPrivateNoteConditionInput
   ) {
-    deleteComment(input: $input, condition: $condition) {
+    deletePrivateNote(input: $input, condition: $condition) {
       id
-      ShoppingItemID
-      shoppingItem {
-        id
-        title
-        shoppingListID
-        shoppingList {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       content
       createdAt
       updatedAt
+      owner
     }
   }
 `;

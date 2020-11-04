@@ -1,234 +1,78 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateShoppingList = /* GraphQL */ `
-  subscription OnCreateShoppingList {
-    onCreateShoppingList {
-      id
-      name
-      shoppingItems {
-        items {
-          id
-          title
-          shoppingListID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateShoppingList = /* GraphQL */ `
-  subscription OnUpdateShoppingList {
-    onUpdateShoppingList {
-      id
-      name
-      shoppingItems {
-        items {
-          id
-          title
-          shoppingListID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteShoppingList = /* GraphQL */ `
-  subscription OnDeleteShoppingList {
-    onDeleteShoppingList {
-      id
-      name
-      shoppingItems {
-        items {
-          id
-          title
-          shoppingListID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateShoppingItem = /* GraphQL */ `
-  subscription OnCreateShoppingItem {
-    onCreateShoppingItem {
+export const onCreateTask = /* GraphQL */ `
+  subscription OnCreateTask($owner: String!) {
+    onCreateTask(owner: $owner) {
       id
       title
-      shoppingListID
-      shoppingList {
-        id
-        name
-        shoppingItems {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          ShoppingItemID
-          content
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      description
+      icon
+      completed
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const onUpdateShoppingItem = /* GraphQL */ `
-  subscription OnUpdateShoppingItem {
-    onUpdateShoppingItem {
+export const onUpdateTask = /* GraphQL */ `
+  subscription OnUpdateTask($owner: String!) {
+    onUpdateTask(owner: $owner) {
       id
       title
-      shoppingListID
-      shoppingList {
-        id
-        name
-        shoppingItems {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          ShoppingItemID
-          content
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      description
+      icon
+      completed
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const onDeleteShoppingItem = /* GraphQL */ `
-  subscription OnDeleteShoppingItem {
-    onDeleteShoppingItem {
+export const onDeleteTask = /* GraphQL */ `
+  subscription OnDeleteTask($owner: String!) {
+    onDeleteTask(owner: $owner) {
       id
       title
-      shoppingListID
-      shoppingList {
-        id
-        name
-        shoppingItems {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          ShoppingItemID
-          content
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      description
+      icon
+      completed
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const onCreateComment = /* GraphQL */ `
-  subscription OnCreateComment {
-    onCreateComment {
+export const onCreatePrivateNote = /* GraphQL */ `
+  subscription OnCreatePrivateNote($owner: String!) {
+    onCreatePrivateNote(owner: $owner) {
       id
-      ShoppingItemID
-      shoppingItem {
-        id
-        title
-        shoppingListID
-        shoppingList {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       content
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const onUpdateComment = /* GraphQL */ `
-  subscription OnUpdateComment {
-    onUpdateComment {
+export const onUpdatePrivateNote = /* GraphQL */ `
+  subscription OnUpdatePrivateNote($owner: String!) {
+    onUpdatePrivateNote(owner: $owner) {
       id
-      ShoppingItemID
-      shoppingItem {
-        id
-        title
-        shoppingListID
-        shoppingList {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       content
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const onDeleteComment = /* GraphQL */ `
-  subscription OnDeleteComment {
-    onDeleteComment {
+export const onDeletePrivateNote = /* GraphQL */ `
+  subscription OnDeletePrivateNote($owner: String!) {
+    onDeletePrivateNote(owner: $owner) {
       id
-      ShoppingItemID
-      shoppingItem {
-        id
-        title
-        shoppingListID
-        shoppingList {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       content
       createdAt
       updatedAt
+      owner
     }
   }
 `;

@@ -2,15 +2,15 @@ type Task
   @model
   @auth(
     rules: [
-      { allow: owner }
+      { allow: groups, groups: ["Users"], queries: [get, list], mutations: [create, update, delete] }
       { allow: groups, groups: ["USERS"], queries: [get, list], mutations: null }
     ]
   ) {
   id: ID!
   title: String!
   description: String
-  icon: String
-  completed: Boolean!
+  status: String
+  completed: Boolean
 }
 type PrivateNote @model @auth(rules: [{ allow: owner }]) {
   id: ID!

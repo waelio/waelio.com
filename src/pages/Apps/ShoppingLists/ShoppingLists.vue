@@ -1,40 +1,38 @@
 <template>
-  <div class="todox q-mx-auto items-center relative-position" style="max-width: 420px">
+  <div
+    class="todox q-mx-auto items-center relative-position"
+    style="max-width: 420px"
+  >
     <h1 class="text-h4 text-center">Shopping Lists</h1>
-    <q-btn id="addSListButton" ref="openButton" v-bind="props2" @click="morphy(!isAdding)" class="q-mb-md" />
-    <q-form id="addSListForm" ref="addForm" v-bind="props1" @submit.prevent="onCreate">
-      <div class="q-pa-sm q-mx-auto special-border" >
-        <h2 class="text-subtitle1 text-grey-6 text-center q-my-sx">New List</h2>
-        <q-input
-          type="text"
-          ref="name"
-          filled
-          color="teal"
-          dense
-          label="Name"
-          clearable
-          lazy-rules
-          :rules="[val => (val && val.length > 0) || 'Missing name']"
-          v-model="name"
-        />
-
-        <div class="row center">
-          <q-btn
-            type="submit"
-            :loading="creating"
-            label="Create Shopping List"
-            class="width-100 q-mx-auto"
-            color="primary"
-            :disable="!name"
-          >
-          </q-btn>
-        </div>
-      </div>
-    </q-form>
+    <q-btn
+      id="addSListButton"
+      class="q-mb-md"
+      ref="openButton"
+      v-bind="props2"
+      @click="morphy(isCreating, { action: 'isCreating' })"
+    />
+    <!-- Add Task Form -->
+    <TaskEdit
+      v-bind="props1"
+      v-if="isCreating"
+      :Task="{}"
+      :CreateTaskInput="CreateTaskInput"
+      :props1="props1"
+      :isCreating="isCreating"
+      :isEditing="false"
+      class="full-width q-my-md"
+      ref="addForm"
+    />
+    <!-- List Tasks -->
     <div class="q-mx-auto full-width">
-      <q-list bordered class="q-mt-md rounded-borders">
-        <q-item-label header class="text-center">My Lists</q-item-label>
-
+      <q-list
+        bordered
+        separator
+        padding
+        class="rounded-borders border-green"
+        style="max-width: 420px;"
+      >
+        <q-item-label header class="text-center">Tasks</q-item-label>
         <q-slide-item
           v-for="shoppingL in shsHolder"
           :key="shoppingL.id"
@@ -46,53 +44,77 @@
           <template v-slot:left>
             Delete List <q-icon name="delete" />
           </template>
-          <template v-slot:right>
-            Edit List <q-icon name="edit" />
-          </template>
-          <q-item clickable @click="()=>$router.push('list/'+shoppingL.id)" >
-            <q-item-section top avatar>
-              <q-avatar color="primary" text-color="white" icon="reorder" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="text-h6">{{ shoppingL.name }}</q-item-label>
-              <q-item-label caption class="ellipsis" :alt="shoppingL.id" lines="2">{{ shoppingL.id }}</q-item-label>
-            </q-item-section>
-            <q-item-section top side>
-              <div class="text-grey-8 q-gutter-xs">
-                <q-item-label caption class="text-center">{{ getTimeAgo(shoppingL.createdAt).toFixed(2) }} <br>minutes ago</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-item class="full-width" v-if="editing && selected === shoppingL.id">
+          <template v-slot:right> Edit List <q-icon name="edit" /> </template>
 
-            <q-input filled ref="newname" style="80%" class="width-50"  type="text" v-model="newname" label="New list Name *" lazy-rules
-            :rules="[ val => val !== null && val !== '' || 'Please type your List Name']"
-            />
-            <q-btn
-                  color="orange"
-                  text-color="white"
-                  style="max-height:55px; width: 25%"
-                  class="q-ml-sm q-px-xs"
-                  label="Save"
-                  glossy
-                  dense
-                  icon="edit"
-                  :disabled="!newname"
-                  :loading="editing && activeId === shoppingL.id"
-                  @click.prevent="activeId = shoppingL.id, onEdit(shoppingL)"
-                />
-                <q-btn
-                  color="red"
-                  text-color="white"
-                  style="max-height:55px; width: 25%"
-                  class="q-ml-sm q-px-xs"
-                  label="Save"
-                  glossy
-                  dense
-                  icon="close"
-                  @click.prevent="activeId = null, selected = null, editing = false"
-                />
-          </q-item>
+          <q-list>
+            <Task
+              :Task="shoppingL"
+              clickable
+              @click="() => $router.push('list/' + shoppingL.id)"
+            ></Task>
+            <!-- Edit Form -->
+            <q-dialog
+              v-model="isEditing"
+              persistent
+              :maximized="maximizedToggle"
+              transition-show="slide-up"
+              transition-hide="slide-down"
+              @hide="isEditing=false"
+            >
+              <q-card class="bg-primary text-white">
+                <q-bar>
+                  <q-space />
+
+                  <q-btn
+                    dense
+                    flat
+                    icon="minimize"
+                    @click="maximizedToggle = false"
+                    :disable="!maximizedToggle"
+                  >
+                    <q-tooltip
+                      v-if="maximizedToggle"
+                      content-class="bg-white text-primary"
+                      >Minimize</q-tooltip
+                    >
+                  </q-btn>
+                  <q-btn
+                    dense
+                    flat
+                    icon="crop_square"
+                    @click="maximizedToggle = true"
+                    :disable="maximizedToggle"
+                  >
+                    <q-tooltip
+                      v-if="!maximizedToggle"
+                      content-class="bg-white text-primary"
+                      >Maximize</q-tooltip
+                    >
+                  </q-btn>
+                  <q-btn dense flat icon="close" v-close-popup>
+                    <q-tooltip content-class="bg-white text-primary"
+                      >Close</q-tooltip
+                    >
+                  </q-btn>
+                </q-bar>
+                <q-card-section class="q-pt-none">
+                  <TaskEdit
+                    @closeModal="maximizedToggle = false"
+                    @refreshData="onListAllShoppingLists()"
+                    style="max-width: 520px"
+                    class="bg-grey-2 q-mx-auto q-my-md q-pa-xl fit"
+                    :Task="shoppingL"
+                    :CreateTaskInput="shoppingL"
+                    :props1="{}"
+                    :isCreating="false"
+                    :isEditing="isEditing"
+                    ref="editForm"
+                  />
+                </q-card-section>
+              </q-card>
+            </q-dialog>
+            <!-- End Edit Form -->
+          </q-list>
         </q-slide-item>
       </q-list>
     </div>
@@ -102,18 +124,19 @@
 /* eslint-disable no-unused-vars */
 import gql from 'graphql-tag'
 import { API, graphqlOperation, Storage } from 'aws-amplify'
-import { listShoppingItems, listShoppingLists } from 'src/graphql/queries'
+import { listTasks, listPrivateNotes } from 'src/graphql/queries'
 import * as mutations from 'src/graphql/mutations'
-import { morph, date } from 'quasar'
-import {
-  createShoppingList,
-  deleteShoppingList,
-  updateShoppingList
-} from 'src/graphql/mutations'
+import { morph, date, Loading } from 'quasar'
 import uuidV4 from 'uuid/v4'
+import Task from 'components/Task'
+import TaskEdit from 'components/TaskEdit'
 
 export default {
   name: 'ShoppingList',
+  components: {
+    Task,
+    TaskEdit
+  },
   beforeCreate () {
     this.$Auth
       .currentAuthenticatedUser()
@@ -121,38 +144,42 @@ export default {
         this.user = user
         this.signedIn = true
       })
-      .catch(() => this.$router.push({ name: 'auth' }))
+      .catch(() => this.$router.push({ name: 'authenticate' }))
   },
-  async mounted () {
+  mounted () {
     this.onListAllShoppingLists()
   },
   data () {
     return {
-      isAdding: false,
+      maximizedToggle: true,
       toggleForm: false,
       cancelAdding: false,
       shsHolder: [],
       name: '',
       newname: '',
+      CreateTaskInput: {
+        id: null,
+        title: '',
+        description: '',
+        icon: 'pending_actions',
+        completed: false
+      },
       user: {},
       selected: null,
       activeId: null,
-      creating: false,
-      adding: false,
-      editing: false,
-      deleting: false,
+      isCreating: false,
+      isEditing: false,
+      isDeleting: false,
       owner: 'foo' // this is just a placeholder and will get updated by AppSync resolver
     }
   },
-
   methods: {
-    morphy (newState) {
-      console.log('first morph', this.isAdding)
+    morphy (newState, payload) {
+      this[payload.action] = newState !== true
       morph({
-        from: '#addSListForm',
+        from: `#${payload.action}ListForm`,
         onToggle: () => {
-          this.isAdding = newState
-          console.log('second morph', this.isAdding)
+          this[payload.action] = !newState
         },
         duration: 500,
         tween: true,
@@ -162,27 +189,27 @@ export default {
       })
     },
     getTimeAgo (targetDate) {
-      const unit = 'minutes'
+      const unit = 'days'
       return date.getDateDiff(targetDate, this.dateNow, unit)
     },
     onRight ({ reset }, one) {
-      console.log('right')
-      this.editing = true
+      this.isEditing = true
       this.selected = one.id
       reset()
     },
     onLeft ({ reset }, one) {
-      this.$q.dialog({
-        title: 'Confirms!',
-        message: 'Are you sure you want to delete this Shopping List?',
-        ok: {
-          push: true
-        },
-        cancel: {
-          push: true,
-          color: 'negative'
-        }
-      })
+      this.$q
+        .dialog({
+          title: 'Confirms!',
+          message: 'Are you sure you want to delete this Shopping List?',
+          ok: {
+            push: true
+          },
+          cancel: {
+            push: true,
+            color: 'negative'
+          }
+        })
         .onOk(() => {
           console.log('Gonna Delete')
           this.deleting = true
@@ -200,53 +227,23 @@ export default {
           reset()
         })
     },
-    onCreate () {
-      this.$refs.name.validate()
-      if (this.$refs.name.hasError) {
-        this.formHasError = true
-        this.$q.notify({
-          color: 'negative',
-          message: 'Missing form fields'
-        })
-      } else {
-        this.$q.notify({
-          icon: 'done',
-          color: 'positive',
-          message: 'Submitted'
-        })
-        this.createShoppingList()
-      }
-    },
-    onEdit (eList) {
-      // this.$refs.newname.validate()
-      if (this.$refs.newname.hasError) {
-        this.formHasError = true
-        this.$q.notify({
-          color: 'negative',
-          message: 'Missing form fields'
-        })
-      } else {
-        this.$q.notify({
-          icon: 'done',
-          color: 'positive',
-          message: 'Submitted'
-        })
-        this.editShoppingList(eList)
-      }
-    },
     async onListAllShoppingLists () {
+      console.log('onListAllShoppingLists')
       this.shsHolder = await this.getAllShoppingLists()
       return Promise.resolve(true)
     },
     async getAllShoppingLists () {
-      const aListData = await API.graphql(graphqlOperation(listShoppingLists))
-      return aListData.data.listShoppingLists.items
+      Loading.show({ message: 'Loading data' })
+      console.log('getAllShoppingLists')
+      const aListData = await API.graphql(graphqlOperation(listTasks))
+      Loading.hide()
+      return aListData.data.listTasks.items
     },
     async deleteList (id) {
       this.deleting = true
       this.activeId = id
       const dList = await API.graphql({
-        query: mutations.deleteShoppingList,
+        query: mutations.deleteTask,
         variables: { input: { id } }
       })
 
@@ -255,48 +252,6 @@ export default {
       this.activeId = null
       if (dList) this.onListAllShoppingLists()
       return Promise.resolve(true)
-    },
-    async createShoppingList () {
-      this.creating = true
-      const name = this.name
-      // const owner = this.user.username
-
-      const id = uuidV4()
-      const nList = {
-        id,
-        name
-      }
-
-      const nListResult = await API.graphql({
-        query: mutations.createShoppingList,
-        variables: { input: nList }
-      })
-      this.creating = false
-      this.name = null
-      this.$refs.addForm.reset()
-      if (nListResult) {
-        this.isAdding = false
-        this.onListAllShoppingLists()
-      }
-    },
-    async editShoppingList (eList) {
-      this.activeId = eList.id
-      this.selected = null
-      this.editing = true
-      const editedList = {
-        id: eList.id,
-        name: this.newname
-      }
-      const eListRes = await API.graphql({
-        query: mutations.updateShoppingList,
-        variables: { input: editedList }
-      })
-      this.activeId = null
-      this.editing = false
-      this.newname = null
-      if (eListRes) {
-        this.onListAllShoppingLists()
-      }
     }
   },
   computed: {
@@ -306,7 +261,7 @@ export default {
       return formattedString
     },
     props1 () {
-      return this.isAdding === true
+      return this.isCreating === true
         ? {
           class: 'full-width q-mx-auto'
         }
@@ -316,7 +271,7 @@ export default {
         }
     },
     props2 () {
-      return this.isAdding === true
+      return this.isCreating === true
         ? {
           color: 'red',
           icon: 'close',
@@ -332,8 +287,6 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 * {
   box-sizing: border-box;

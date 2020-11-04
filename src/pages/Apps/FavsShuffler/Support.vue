@@ -179,6 +179,7 @@
 
 <script>
 import emailjs from 'emailjs-com'
+import meta from 'src/utils/meta'
 export default {
   name: 'Support',
   data () {
@@ -187,9 +188,14 @@ export default {
       accept: false,
       user_email: '',
       user_name: '',
-      message: ''
+      message: '',
+      metaTags: {
+        title: 'FavsShuffler App',
+        description: 'Support Page for FavsShuffler App.'
+      }
     }
   },
+  meta,
   methods: {
     onSubmit () {
       emailjs
