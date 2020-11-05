@@ -36,7 +36,6 @@ amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/mock-data
-amplify/backend/amplify-meta.json
 amplify/backend/awscloudformation
 build/
 dist/
@@ -54,6 +53,7 @@ amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/mock-data
 amplify/backend/amplify-meta.json
+amplify/backend/team-provider-info.json
 amplify/backend/awscloudformation
 build/
 dist/
@@ -64,4 +64,3 @@ amplifyconfiguration.json
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
-amplify/backend/amplify-meta.json

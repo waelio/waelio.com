@@ -21,11 +21,16 @@ const awsmobile = {
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_POOLS",
-    "aws_appsync_graphqlEndpoint": "https://dctrmlhlyfcfpanm5e5qocrhuy.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_cloud_logic_custom": [
+        {
+            "name": "AdminQueries",
+            "endpoint": "https://rssis050ui.execute-api.us-east-1.amazonaws.com/dev",
+            "region": "us-east-1"
+        }
+    ],
+    "aws_appsync_graphqlEndpoint": "https://24fa2usnrbhgpadv6i7mfhfl2i.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
-    "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
-    "aws_user_files_s3_bucket": "portfolio5ab9269805c84546bf01c43db321bf0455948-dev",
-    "aws_user_files_s3_bucket_region": "us-east-1"
+    "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS"
 };
 
 

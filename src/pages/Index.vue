@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <div>
     <q-img
       src="~assets/profile_pic.jpg"
       spinner-color="white"
@@ -60,7 +60,7 @@
       :class="{ active: $route.name === 'resume' }"
     />
 
-  </q-page>
+  </div>
 </template>
 <script>
 import meta from 'src/utils/meta'

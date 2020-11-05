@@ -1,150 +1,124 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getShoppingList = /* GraphQL */ `
-  query GetShoppingList($id: ID!) {
-    getShoppingList(id: $id) {
+export const getList = /* GraphQL */ `
+  query GetList($id: ID!) {
+    getList(id: $id) {
       id
-      name
-      shoppingItems {
+      title
+      tasks {
         items {
           id
           title
-          shoppingListID
+          description
+          completed
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const listShoppingLists = /* GraphQL */ `
-  query ListShoppingLists(
-    $filter: ModelShoppingListFilterInput
+export const listLists = /* GraphQL */ `
+  query ListLists(
+    $filter: ModelListFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listShoppingLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
-        shoppingItems {
+        title
+        tasks {
           nextToken
         }
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
   }
 `;
-export const getShoppingItem = /* GraphQL */ `
-  query GetShoppingItem($id: ID!) {
-    getShoppingItem(id: $id) {
+export const getTask = /* GraphQL */ `
+  query GetTask($id: ID!) {
+    getTask(id: $id) {
       id
       title
-      shoppingListID
-      shoppingList {
+      description
+      completed
+      list {
         id
-        name
-        shoppingItems {
+        title
+        tasks {
           nextToken
         }
         createdAt
         updatedAt
-      }
-      comments {
-        items {
-          id
-          ShoppingItemID
-          content
-          createdAt
-          updatedAt
-        }
-        nextToken
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const listShoppingItems = /* GraphQL */ `
-  query ListShoppingItems(
-    $filter: ModelShoppingItemFilterInput
+export const listTasks = /* GraphQL */ `
+  query ListTasks(
+    $filter: ModelTaskFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listShoppingItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         title
-        shoppingListID
-        shoppingList {
+        description
+        completed
+        list {
           id
-          name
+          title
           createdAt
           updatedAt
-        }
-        comments {
-          nextToken
+          owner
         }
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
   }
 `;
-export const getComment = /* GraphQL */ `
-  query GetComment($id: ID!) {
-    getComment(id: $id) {
+export const getPrivateNote = /* GraphQL */ `
+  query GetPrivateNote($id: ID!) {
+    getPrivateNote(id: $id) {
       id
-      ShoppingItemID
-      shoppingItem {
-        id
-        title
-        shoppingListID
-        shoppingList {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       content
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-export const listComments = /* GraphQL */ `
-  query ListComments(
-    $filter: ModelCommentFilterInput
+export const listPrivateNotes = /* GraphQL */ `
+  query ListPrivateNotes(
+    $filter: ModelPrivateNoteFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listPrivateNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        ShoppingItemID
-        shoppingItem {
-          id
-          title
-          shoppingListID
-          createdAt
-          updatedAt
-        }
         content
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

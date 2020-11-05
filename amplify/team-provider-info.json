@@ -10,6 +10,14 @@
       "StackName": "amplify-waeliocom-dev-55948",
       "StackId": "arn:aws:cloudformation:us-east-1:006970456832:stack/amplify-waeliocom-dev-55948/de6184b0-1808-11eb-96d1-0a773b285c67",
       "AmplifyAppId": "d3lo7wqztlmwue"
+    },
+    "categories": {
+      "auth": {
+        "portfolio357ad254": {
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"427728041542916\",\"client_secret\":\"db5f8390fb88c139170a1af195ed60b4\"},{\"ProviderName\":\"Google\",\"client_id\":\"1044205332608-stuahlu5ekpgd1m7it27adtj3g1prkv4.apps.googleusercontent.com\",\"client_secret\":\"KPof0kgR67pkiGjKTlX-G_si\"}]"
+        },
+        "userPoolGroups": {}
+      }
     }
   }
 }

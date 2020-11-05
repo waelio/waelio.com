@@ -134,11 +134,24 @@
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1604279986
+                        1605167858
                     ]
                 }
             },
             "Condition": "ShouldCreateAPIKey"
+        },
+        "NoneDataSource": {
+            "Type": "AWS::AppSync::DataSource",
+            "Properties": {
+                "ApiId": {
+                    "Fn::GetAtt": [
+                        "GraphQLAPI",
+                        "ApiId"
+                    ]
+                },
+                "Name": "NONE",
+                "Type": "NONE"
+            }
         },
         "GraphQLSchema": {
             "Type": "AWS::AppSync::GraphQLSchema",
@@ -164,7 +177,7 @@
                 }
             }
         },
-        "ShoppingList": {
+        "List": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "Parameters": {
@@ -229,16 +242,17 @@
                                 "Ref": "S3DeploymentRootKey"
                             },
                             "stacks",
-                            "ShoppingList.json"
+                            "List.json"
                         ]
                     ]
                 }
             },
             "DependsOn": [
-                "GraphQLSchema"
+                "GraphQLSchema",
+                "NoneDataSource"
             ]
         },
-        "ShoppingItem": {
+        "Task": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "Parameters": {
@@ -303,16 +317,17 @@
                                 "Ref": "S3DeploymentRootKey"
                             },
                             "stacks",
-                            "ShoppingItem.json"
+                            "Task.json"
                         ]
                     ]
                 }
             },
             "DependsOn": [
-                "GraphQLSchema"
+                "GraphQLSchema",
+                "NoneDataSource"
             ]
         },
-        "Comment": {
+        "PrivateNote": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "Parameters": {
@@ -377,13 +392,14 @@
                                 "Ref": "S3DeploymentRootKey"
                             },
                             "stacks",
-                            "Comment.json"
+                            "PrivateNote.json"
                         ]
                     ]
                 }
             },
             "DependsOn": [
-                "GraphQLSchema"
+                "GraphQLSchema",
+                "NoneDataSource"
             ]
         },
         "ConnectionStack": {
@@ -458,9 +474,9 @@
             },
             "DependsOn": [
                 "GraphQLSchema",
-                "ShoppingItem",
-                "ShoppingList",
-                "Comment"
+                "NoneDataSource",
+                "Task",
+                "List"
             ]
         },
         "CustomResourcesjson": {
@@ -506,9 +522,9 @@
             "DependsOn": [
                 "GraphQLAPI",
                 "GraphQLSchema",
-                "ShoppingList",
-                "ShoppingItem",
-                "Comment",
+                "List",
+                "Task",
+                "PrivateNote",
                 "ConnectionStack"
             ]
         }

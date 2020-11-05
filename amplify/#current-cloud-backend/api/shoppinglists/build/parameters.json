@@ -1,6 +1,6 @@
 {
     "CreateAPIKey": 0,
-    "AppSyncApiName": "shoppinglists",
+    "AppSyncApiName": "ShoppingLists",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "DynamoDBEnableServerSideEncryption": false,
     "AuthCognitoUserPoolId": {
@@ -10,5 +10,5 @@
         ]
     },
     "S3DeploymentBucket": "amplify-waeliocom-dev-55948-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/8865af9a729fdaba9aa4faa35c3a6b346f0bef0d"
+    "S3DeploymentRootKey": "amplify-appsync-files/157cb465a03a7e08d1d55172476d8d4bf34b30cf"
 }
