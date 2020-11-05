@@ -181,7 +181,7 @@
       @dblclick="handleDblClick" v-touch-hold.mouse="" icon="drag_indicator" />
     </template>
     <template v-slot:after>
-      <p class="bg-white text-primary text-center text-thin text-h6">
+      <p class="bg-white text-primary text-center text-thin text-small">
         &copy;Waelio.com 2020 {{ $t("All rights reserved") }}
       </p>
     </template>
