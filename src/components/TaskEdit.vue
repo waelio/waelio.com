@@ -31,15 +31,13 @@
         clearable
         class="q-my-sm"
       />
-      <q-input
-        filled
-        clearable
-        v-model="TempHolder.icon"
-        type="text"
-        ref="icon"
-        :icon="TempHolder.icon"
-        label="Task Icon"
-        class="q-my-sm"
+
+      <q-checkbox
+        left-label
+        v-model="TempHolder.completed"
+        label="Complete Task"
+        ref="completed"
+        class="q-my-sm bg-grey-1 text-black"
       />
 
       <q-btn
@@ -105,8 +103,8 @@ export default {
         id: uuidV4(),
         title: this.TempHolder.title,
         description: this.TempHolder.description,
-        icon: this.TempHolder.icon,
-        completed: false
+        icon: this.TempHolder.completed ? 'check_box' : 'check_box_outline_blank',
+        completed: this.TempHolder.completed
       }
       console.log(newTask)
       API.graphql({
@@ -149,7 +147,7 @@ export default {
       const editedList = {
         id: eList.id,
         title: this.TempHolder.title,
-        icon: this.TempHolder.icon,
+        icon: this.TempHolder.completed ? 'check_box' : 'check_box_outline_blank',
         completed: this.TempHolder.completed
       }
       const eListRes = await API.graphql({

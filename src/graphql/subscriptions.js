@@ -1,14 +1,92 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateList = /* GraphQL */ `
+  subscription OnCreateList($owner: String!) {
+    onCreateList(owner: $owner) {
+      id
+      title
+      tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateList = /* GraphQL */ `
+  subscription OnUpdateList($owner: String!) {
+    onUpdateList(owner: $owner) {
+      id
+      title
+      tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteList = /* GraphQL */ `
+  subscription OnDeleteList($owner: String!) {
+    onDeleteList(owner: $owner) {
+      id
+      title
+      tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const onCreateTask = /* GraphQL */ `
   subscription OnCreateTask($owner: String!) {
     onCreateTask(owner: $owner) {
       id
       title
       description
-      icon
       completed
+      list {
+        id
+        title
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -21,8 +99,17 @@ export const onUpdateTask = /* GraphQL */ `
       id
       title
       description
-      icon
       completed
+      list {
+        id
+        title
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -35,8 +122,17 @@ export const onDeleteTask = /* GraphQL */ `
       id
       title
       description
-      icon
       completed
+      list {
+        id
+        title
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner

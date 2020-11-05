@@ -59,7 +59,7 @@
               :maximized="maximizedToggle"
               transition-show="slide-up"
               transition-hide="slide-down"
-              @hide="isEditing=false"
+              @hide="isEditing=false, maximizedToggle=false"
             >
               <q-card class="bg-primary text-white">
                 <q-bar>

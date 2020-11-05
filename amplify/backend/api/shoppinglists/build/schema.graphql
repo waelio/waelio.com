@@ -1,9 +1,18 @@
+type List {
+  id: ID!
+  title: String!
+  tasks(filter: ModelTaskFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaskConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
 type Task {
   id: ID!
   title: String!
   description: String
-  icon: String
   completed: Boolean!
+  list: List
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   owner: String
@@ -22,8 +31,8 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelTaskConnection {
-  items: [Task]
+type ModelListConnection {
+  items: [List]
   nextToken: String
 }
 
@@ -100,15 +109,12 @@ input ModelSizeInput {
   between: [Int]
 }
 
-input ModelTaskFilterInput {
+input ModelListFilterInput {
   id: ModelIDInput
   title: ModelStringInput
-  description: ModelStringInput
-  icon: ModelStringInput
-  completed: ModelBooleanInput
-  and: [ModelTaskFilterInput]
-  or: [ModelTaskFilterInput]
-  not: ModelTaskFilterInput
+  and: [ModelListFilterInput]
+  or: [ModelListFilterInput]
+  not: ModelListFilterInput
 }
 
 enum ModelAttributeTypes {
@@ -125,33 +131,32 @@ enum ModelAttributeTypes {
 }
 
 type Query {
+  getList(id: ID!): List
+  listLists(filter: ModelListFilterInput, limit: Int, nextToken: String): ModelListConnection
   getTask(id: ID!): Task
   listTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String): ModelTaskConnection
   getPrivateNote(id: ID!): PrivateNote
   listPrivateNotes(filter: ModelPrivateNoteFilterInput, limit: Int, nextToken: String): ModelPrivateNoteConnection
 }
 
-input CreateTaskInput {
+input CreateListInput {
   id: ID
   title: String!
-  description: String
-  icon: String
-  completed: Boolean!
 }
 
-input UpdateTaskInput {
+input UpdateListInput {
   id: ID!
   title: String
-  description: String
-  icon: String
-  completed: Boolean
 }
 
-input DeleteTaskInput {
+input DeleteListInput {
   id: ID
 }
 
 type Mutation {
+  createList(input: CreateListInput!, condition: ModelListConditionInput): List
+  updateList(input: UpdateListInput!, condition: ModelListConditionInput): List
+  deleteList(input: DeleteListInput!, condition: ModelListConditionInput): List
   createTask(input: CreateTaskInput!, condition: ModelTaskConditionInput): Task
   updateTask(input: UpdateTaskInput!, condition: ModelTaskConditionInput): Task
   deleteTask(input: DeleteTaskInput!, condition: ModelTaskConditionInput): Task
@@ -160,23 +165,67 @@ type Mutation {
   deletePrivateNote(input: DeletePrivateNoteInput!, condition: ModelPrivateNoteConditionInput): PrivateNote
 }
 
-input ModelTaskConditionInput {
+input ModelListConditionInput {
   title: ModelStringInput
-  description: ModelStringInput
-  icon: ModelStringInput
-  completed: ModelBooleanInput
-  and: [ModelTaskConditionInput]
-  or: [ModelTaskConditionInput]
-  not: ModelTaskConditionInput
+  and: [ModelListConditionInput]
+  or: [ModelListConditionInput]
+  not: ModelListConditionInput
 }
 
 type Subscription {
+  onCreateList(owner: String!): List @aws_subscribe(mutations: ["createList"])
+  onUpdateList(owner: String!): List @aws_subscribe(mutations: ["updateList"])
+  onDeleteList(owner: String!): List @aws_subscribe(mutations: ["deleteList"])
   onCreateTask(owner: String!): Task @aws_subscribe(mutations: ["createTask"])
   onUpdateTask(owner: String!): Task @aws_subscribe(mutations: ["updateTask"])
   onDeleteTask(owner: String!): Task @aws_subscribe(mutations: ["deleteTask"])
   onCreatePrivateNote(owner: String!): PrivateNote @aws_subscribe(mutations: ["createPrivateNote"])
   onUpdatePrivateNote(owner: String!): PrivateNote @aws_subscribe(mutations: ["updatePrivateNote"])
   onDeletePrivateNote(owner: String!): PrivateNote @aws_subscribe(mutations: ["deletePrivateNote"])
+}
+
+type ModelTaskConnection {
+  items: [Task]
+  nextToken: String
+}
+
+input ModelTaskFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  description: ModelStringInput
+  completed: ModelBooleanInput
+  and: [ModelTaskFilterInput]
+  or: [ModelTaskFilterInput]
+  not: ModelTaskFilterInput
+}
+
+input CreateTaskInput {
+  id: ID
+  title: String!
+  description: String
+  completed: Boolean!
+  taskListId: ID
+}
+
+input UpdateTaskInput {
+  id: ID!
+  title: String
+  description: String
+  completed: Boolean
+  taskListId: ID
+}
+
+input DeleteTaskInput {
+  id: ID
+}
+
+input ModelTaskConditionInput {
+  title: ModelStringInput
+  description: ModelStringInput
+  completed: ModelBooleanInput
+  and: [ModelTaskConditionInput]
+  or: [ModelTaskConditionInput]
+  not: ModelTaskConditionInput
 }
 
 type ModelPrivateNoteConnection {

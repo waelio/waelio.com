@@ -1,6 +1,84 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createList = /* GraphQL */ `
+  mutation CreateList(
+    $input: CreateListInput!
+    $condition: ModelListConditionInput
+  ) {
+    createList(input: $input, condition: $condition) {
+      id
+      title
+      tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateList = /* GraphQL */ `
+  mutation UpdateList(
+    $input: UpdateListInput!
+    $condition: ModelListConditionInput
+  ) {
+    updateList(input: $input, condition: $condition) {
+      id
+      title
+      tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteList = /* GraphQL */ `
+  mutation DeleteList(
+    $input: DeleteListInput!
+    $condition: ModelListConditionInput
+  ) {
+    deleteList(input: $input, condition: $condition) {
+      id
+      title
+      tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const createTask = /* GraphQL */ `
   mutation CreateTask(
     $input: CreateTaskInput!
@@ -10,8 +88,17 @@ export const createTask = /* GraphQL */ `
       id
       title
       description
-      icon
       completed
+      list {
+        id
+        title
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -27,8 +114,17 @@ export const updateTask = /* GraphQL */ `
       id
       title
       description
-      icon
       completed
+      list {
+        id
+        title
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -44,8 +140,17 @@ export const deleteTask = /* GraphQL */ `
       id
       title
       description
-      icon
       completed
+      list {
+        id
+        title
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner

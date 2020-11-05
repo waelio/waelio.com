@@ -6,7 +6,7 @@
     :style="{ borderColor  : Task.completed ? 'green' : 'orange' }"
   >
     <q-item-section avatar top>
-      <q-avatar :icon="Task.icon" class="bg-grey" text-color="white" />
+      <q-avatar :icon="Task.icon ? Task.icon : 'report'" class="bg-pink-2" text-color="white" />
     </q-item-section>
     <q-item-section>
       <q-item-label lines="1" :class="{ 'text-strikethrough': Task.completed }">{{ Task.title }}</q-item-label>

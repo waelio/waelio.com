@@ -29,7 +29,7 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://waelio.com/auth/\"],\"LogoutURLs\":[\"https://waelio.com/auth/signout/\"]}",
         "UserPoolName": "portfolio357ad254_userpool_357ad254"
       },
-      "lastPushTimeStamp": "2020-11-03T21:19:09.996Z",
+      "lastPushTimeStamp": "2020-11-05T08:01:32.480Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/auth/portfolio357ad254-cloudformation-template.yml",
         "logicalId": "authportfolio357ad254"
@@ -51,7 +51,7 @@
           ]
         }
       ],
-      "lastPushTimeStamp": "2020-11-03T21:19:10.005Z",
+      "lastPushTimeStamp": "2020-11-05T08:01:32.489Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/auth/template.json",
         "logicalId": "authuserPoolGroups"
@@ -88,7 +88,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/api/admin-queries-cloudformation-template.json",
         "logicalId": "apiAdminQueries"
       },
-      "lastPushTimeStamp": "2020-11-03T21:19:10.012Z",
+      "lastPushTimeStamp": "2020-11-05T08:01:32.493Z",
       "output": {
         "ApiName": "AdminQueries",
         "RootUrl": "https://rssis050ui.execute-api.us-east-1.amazonaws.com/dev"
@@ -119,8 +119,8 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiShoppingLists"
       },
-      "lastPushTimeStamp": "2020-11-03T21:19:12.263Z",
-      "lastPushDirHash": "FJsjcMfiF0dlM+987aMeV2OxNGU="
+      "lastPushTimeStamp": "2020-11-05T08:01:33.298Z",
+      "lastPushDirHash": "xVP0B2ecHOKIMtemnW3hWtu+bf4="
     }
   },
   "storage": {},
@@ -145,7 +145,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-dev-55948-deployment/amplify-cfn-templates/function/AdminQueriesb0403254-cloudformation-template.json",
         "logicalId": "functionAdminQueriesb0403254"
       },
-      "lastPushTimeStamp": "2020-11-03T21:19:10.023Z",
+      "lastPushTimeStamp": "2020-11-05T08:01:32.502Z",
       "output": {
         "Region": "us-east-1",
         "Arn": "arn:aws:lambda:us-east-1:006970456832:function:AdminQueriesb0403254-dev",
