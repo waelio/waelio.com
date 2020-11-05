@@ -53,7 +53,6 @@ amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/mock-data
 amplify/backend/amplify-meta.json
-amplify/backend/team-provider-info.json
 amplify/backend/awscloudformation
 build/
 dist/
