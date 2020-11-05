@@ -146,6 +146,7 @@
         "logicalId": "functionAdminQueriesb0403254"
       },
       "lastPushTimeStamp": "2020-11-05T14:43:15.494Z",
+
       "output": {
         "Region": "us-east-1",
         "Arn": "arn:aws:lambda:us-east-1:006970456832:function:AdminQueriesb0403254-dev",
