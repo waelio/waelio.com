@@ -1,32 +1,28 @@
 /* eslint-disable no-undef */
 import * as googleAnalytics from 'workbox-google-analytics'
 import { Notify } from 'quasar'
+import { notifyMe } from './notify'
 
-if (typeof importScripts === 'function') {
+if (importScripts && typeof importScripts === 'function') {
   importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js')
-}
 
-if (workbox) {
-  console.log('Yay! Workbox is loaded 🎉')
-  workbox.core.setCacheNameDetails({ prefix: 'waelio-datastore' })
-  workbox.core.skipWaiting()
-  workbox.core.clientsClaim()
-  const cacheFiles = [{
-    revision: 'e653ab4d124bf16b5232',
-    url: 'https://aws-amplify.github.io/img/amplify.svg'
-  }]
-  self.__precacheManifest = cacheFiles.concat(self.__precacheManifest || [])
-  workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
-} else {
-  console.log('Boo! Workbox didn\'t load 😬')
+  if (workbox && typeof workbox === 'object') {
+    console.log('Yay! Workbox is loaded 🎉')
+    workbox.core.setCacheNameDetails({ prefix: 'waelio-datastore' })
+    workbox.core.skipWaiting()
+    workbox.core.clientsClaim()
+    const cacheFiles = [{
+      revision: 'e653ab4d124bf16b5232',
+      url: 'https://aws-amplify.github.io/img/amplify.svg'
+    }]
+    self.__precacheManifest = cacheFiles.concat(self.__precacheManifest || [])
+    workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
+  } else {
+    console.log('Boo! Workbox didn\'t load 😬')
+  }
 }
-
-// events passes a ServiceWorkerRegistration instance in their arguments.
 
 register(process.env.SERVICE_WORKER_FILE, {
-  // The registrationOptions object will be passed as the second argument
-  // to ServiceWorkerContainer.register()
-  // https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register#Parameter
 
   // registrationOptions: { scope: './' },
 
@@ -36,6 +32,7 @@ register(process.env.SERVICE_WORKER_FILE, {
 
   registered (/* registration */) {
     console.log('Service worker has been registered.')
+    notifyMe(true)
   },
 
   cached (/* registration */) {
