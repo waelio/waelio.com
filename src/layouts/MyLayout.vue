@@ -9,6 +9,7 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
           aria-label="Menu"
         >
+          <q-icon name="menu" />
         </q-btn>
         <q-toolbar-title><router-link class="text-white text-sm" to="/">Waelio.com</router-link></q-toolbar-title>
         <q-btn text-color="white"  dense icon="ring_volume" @click.prevent="pingAll()" />
