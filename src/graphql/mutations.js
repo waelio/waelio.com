@@ -1,6 +1,204 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createShoppingList = /* GraphQL */ `
+  mutation CreateShoppingList(
+    $input: CreateShoppingListInput!
+    $condition: ModelShoppingListConditionInput
+  ) {
+    createShoppingList(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      shoppingItems {
+        items {
+          id
+          owner
+          title
+          shoppingListID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateShoppingList = /* GraphQL */ `
+  mutation UpdateShoppingList(
+    $input: UpdateShoppingListInput!
+    $condition: ModelShoppingListConditionInput
+  ) {
+    updateShoppingList(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      shoppingItems {
+        items {
+          id
+          owner
+          title
+          shoppingListID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteShoppingList = /* GraphQL */ `
+  mutation DeleteShoppingList(
+    $input: DeleteShoppingListInput!
+    $condition: ModelShoppingListConditionInput
+  ) {
+    deleteShoppingList(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      shoppingItems {
+        items {
+          id
+          owner
+          title
+          shoppingListID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createShoppingItem = /* GraphQL */ `
+  mutation CreateShoppingItem(
+    $input: CreateShoppingItemInput!
+    $condition: ModelShoppingItemConditionInput
+  ) {
+    createShoppingItem(input: $input, condition: $condition) {
+      id
+      owner
+      title
+      shoppingListID
+      completed
+      shoppingList {
+        id
+        name
+        owner
+        shoppingItems {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateShoppingItem = /* GraphQL */ `
+  mutation UpdateShoppingItem(
+    $input: UpdateShoppingItemInput!
+    $condition: ModelShoppingItemConditionInput
+  ) {
+    updateShoppingItem(input: $input, condition: $condition) {
+      id
+      owner
+      title
+      shoppingListID
+      completed
+      shoppingList {
+        id
+        name
+        owner
+        shoppingItems {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteShoppingItem = /* GraphQL */ `
+  mutation DeleteShoppingItem(
+    $input: DeleteShoppingItemInput!
+    $condition: ModelShoppingItemConditionInput
+  ) {
+    deleteShoppingItem(input: $input, condition: $condition) {
+      id
+      owner
+      title
+      shoppingListID
+      completed
+      shoppingList {
+        id
+        name
+        owner
+        shoppingItems {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createPrivateNote = /* GraphQL */ `
+  mutation CreatePrivateNote(
+    $input: CreatePrivateNoteInput!
+    $condition: ModelPrivateNoteConditionInput
+  ) {
+    createPrivateNote(input: $input, condition: $condition) {
+      id
+      content
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updatePrivateNote = /* GraphQL */ `
+  mutation UpdatePrivateNote(
+    $input: UpdatePrivateNoteInput!
+    $condition: ModelPrivateNoteConditionInput
+  ) {
+    updatePrivateNote(input: $input, condition: $condition) {
+      id
+      content
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deletePrivateNote = /* GraphQL */ `
+  mutation DeletePrivateNote(
+    $input: DeletePrivateNoteInput!
+    $condition: ModelPrivateNoteConditionInput
+  ) {
+    deletePrivateNote(input: $input, condition: $condition) {
+      id
+      content
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const createList = /* GraphQL */ `
   mutation CreateList(
     $input: CreateListInput!
@@ -10,15 +208,18 @@ export const createList = /* GraphQL */ `
       id
       title
       tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -31,15 +232,18 @@ export const updateList = /* GraphQL */ `
       id
       title
       tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -52,15 +256,18 @@ export const deleteList = /* GraphQL */ `
       id
       title
       tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -77,19 +284,14 @@ export const createTask = /* GraphQL */ `
       list {
         id
         title
-        _version
-        _deleted
-        _lastChangedAt
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
-        owner
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -106,19 +308,14 @@ export const updateTask = /* GraphQL */ `
       list {
         id
         title
-        _version
-        _deleted
-        _lastChangedAt
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
-        owner
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -135,70 +332,14 @@ export const deleteTask = /* GraphQL */ `
       list {
         id
         title
-        _version
-        _deleted
-        _lastChangedAt
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
-        owner
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
-    }
-  }
-`;
-export const createPrivateNote = /* GraphQL */ `
-  mutation CreatePrivateNote(
-    $input: CreatePrivateNoteInput!
-    $condition: ModelPrivateNoteConditionInput
-  ) {
-    createPrivateNote(input: $input, condition: $condition) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const updatePrivateNote = /* GraphQL */ `
-  mutation UpdatePrivateNote(
-    $input: UpdatePrivateNoteInput!
-    $condition: ModelPrivateNoteConditionInput
-  ) {
-    updatePrivateNote(input: $input, condition: $condition) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const deletePrivateNote = /* GraphQL */ `
-  mutation DeletePrivateNote(
-    $input: DeletePrivateNoteInput!
-    $condition: ModelPrivateNoteConditionInput
-  ) {
-    deletePrivateNote(input: $input, condition: $condition) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      owner
     }
   }
 `;

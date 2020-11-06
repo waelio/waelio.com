@@ -1,21 +1,195 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateShoppingList = /* GraphQL */ `
+  subscription OnCreateShoppingList($owner: String!) {
+    onCreateShoppingList(owner: $owner) {
+      id
+      name
+      owner
+      shoppingItems {
+        items {
+          id
+          owner
+          title
+          shoppingListID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateShoppingList = /* GraphQL */ `
+  subscription OnUpdateShoppingList($owner: String!) {
+    onUpdateShoppingList(owner: $owner) {
+      id
+      name
+      owner
+      shoppingItems {
+        items {
+          id
+          owner
+          title
+          shoppingListID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteShoppingList = /* GraphQL */ `
+  subscription OnDeleteShoppingList($owner: String!) {
+    onDeleteShoppingList(owner: $owner) {
+      id
+      name
+      owner
+      shoppingItems {
+        items {
+          id
+          owner
+          title
+          shoppingListID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateShoppingItem = /* GraphQL */ `
+  subscription OnCreateShoppingItem($owner: String!) {
+    onCreateShoppingItem(owner: $owner) {
+      id
+      owner
+      title
+      shoppingListID
+      completed
+      shoppingList {
+        id
+        name
+        owner
+        shoppingItems {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateShoppingItem = /* GraphQL */ `
+  subscription OnUpdateShoppingItem($owner: String!) {
+    onUpdateShoppingItem(owner: $owner) {
+      id
+      owner
+      title
+      shoppingListID
+      completed
+      shoppingList {
+        id
+        name
+        owner
+        shoppingItems {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteShoppingItem = /* GraphQL */ `
+  subscription OnDeleteShoppingItem($owner: String!) {
+    onDeleteShoppingItem(owner: $owner) {
+      id
+      owner
+      title
+      shoppingListID
+      completed
+      shoppingList {
+        id
+        name
+        owner
+        shoppingItems {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreatePrivateNote = /* GraphQL */ `
+  subscription OnCreatePrivateNote($owner: String!) {
+    onCreatePrivateNote(owner: $owner) {
+      id
+      content
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdatePrivateNote = /* GraphQL */ `
+  subscription OnUpdatePrivateNote($owner: String!) {
+    onUpdatePrivateNote(owner: $owner) {
+      id
+      content
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeletePrivateNote = /* GraphQL */ `
+  subscription OnDeletePrivateNote($owner: String!) {
+    onDeletePrivateNote(owner: $owner) {
+      id
+      content
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const onCreateList = /* GraphQL */ `
   subscription OnCreateList($owner: String!) {
     onCreateList(owner: $owner) {
       id
       title
       tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -25,15 +199,18 @@ export const onUpdateList = /* GraphQL */ `
       id
       title
       tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -43,15 +220,18 @@ export const onDeleteList = /* GraphQL */ `
       id
       title
       tasks {
+        items {
+          id
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -65,19 +245,14 @@ export const onCreateTask = /* GraphQL */ `
       list {
         id
         title
-        _version
-        _deleted
-        _lastChangedAt
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
-        owner
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -91,19 +266,14 @@ export const onUpdateTask = /* GraphQL */ `
       list {
         id
         title
-        _version
-        _deleted
-        _lastChangedAt
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
-        owner
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -117,61 +287,14 @@ export const onDeleteTask = /* GraphQL */ `
       list {
         id
         title
-        _version
-        _deleted
-        _lastChangedAt
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
-        owner
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
-      owner
-    }
-  }
-`;
-export const onCreatePrivateNote = /* GraphQL */ `
-  subscription OnCreatePrivateNote($owner: String!) {
-    onCreatePrivateNote(owner: $owner) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const onUpdatePrivateNote = /* GraphQL */ `
-  subscription OnUpdatePrivateNote($owner: String!) {
-    onUpdatePrivateNote(owner: $owner) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const onDeletePrivateNote = /* GraphQL */ `
-  subscription OnDeletePrivateNote($owner: String!) {
-    onDeletePrivateNote(owner: $owner) {
-      id
-      content
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      owner
     }
   }
 `;
