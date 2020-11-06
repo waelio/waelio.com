@@ -42,13 +42,15 @@ export default {
     return {
       user: null,
       isLoading: false,
-      customState: null
+      customState: null,
+      codeUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/auth/authenticate',
+      tokenUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/auth/authenticate'
     }
   },
   methods: {
     openUI () {
       openURL(
-        'https://auth.waelio.com/login?client_id=rplbjegj6c7ao6bhgj9q64t1t&response_type=token&scope=email+openid+phone+profile&redirect_uri=https://waelio.com/auth/idpresponse/',
+        this.codeUrl,
         null,
         {
           noopener: true,
