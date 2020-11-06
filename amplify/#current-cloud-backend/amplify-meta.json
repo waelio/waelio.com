@@ -1,69 +1,15 @@
 {
   "providers": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-waeliocom-prod-185326-authRole",
-      "UnauthRoleArn": "arn:aws:iam::006970456832:role/amplify-waeliocom-prod-185326-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::006970456832:role/amplify-waeliocom-prod-185326-authRole",
+      "AuthRoleName": "amplify-waeliocom-dev-102110-authRole",
+      "UnauthRoleArn": "arn:aws:iam::006970456832:role/amplify-waeliocom-dev-102110-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::006970456832:role/amplify-waeliocom-dev-102110-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-waeliocom-prod-185326-deployment",
-      "UnauthRoleName": "amplify-waeliocom-prod-185326-unauthRole",
-      "StackName": "amplify-waeliocom-prod-185326",
-      "StackId": "arn:aws:cloudformation:us-east-1:006970456832:stack/amplify-waeliocom-prod-185326/6fd1d280-1f87-11eb-8b54-0a48dc861a07",
-      "AmplifyAppId": "d2thj8ud2di70d"
-    }
-  },
-  "auth": {
-    "waeliocom547ea0e4": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false,
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-prod-185326-deployment/amplify-cfn-templates/auth/waeliocom547ea0e4-cloudformation-template.yml",
-        "logicalId": "authwaeliocom547ea0e4"
-      },
-      "lastPushTimeStamp": "2020-11-05T18:52:54.330Z",
-      "output": {
-        "AppClientSecret": "e8lv672mi9uj401ijig0eb1cged6e6ik4r00bukl9gk43k1q2pc",
-        "UserPoolId": "us-east-1_3K4wFuuN6",
-        "AppClientIDWeb": "5d8hh0o4a3l4bnok690meqbs4n",
-        "AppClientID": "44o86q679th384v52qmpo6bs33",
-        "HostedUIDomain": "auth-prod",
-        "IdentityPoolId": "us-east-1:a36f5a9b-0b14-4506-9152-ba08493b4160",
-        "IdentityPoolName": "waeliocom547ea0e4_identitypool_547ea0e4__prod",
-        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://waelio.com/\"],\"LogoutURLs\":[\"https://waelio.com/auth/signout/\"]}",
-        "UserPoolName": "waeliocom547ea0e4_userpool_547ea0e4"
-      },
-      "lastPushDirHash": "QXdvBXYEf3ps62vEb1OWq9gOdRE="
-    }
-  },
-  "api": {
-    "ShoppingLists": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authwaeliocom547ea0e4"
-            }
-          },
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "AWS_IAM"
-            }
-          ]
-        },
-        "GraphQLAPIIdOutput": "3pxb2ug7nfbwzpacznqdhookva",
-        "GraphQLAPIEndpointOutput": "https://ec33zu6el5e4xnyjtiqx2fbe2q.appsync-api.us-east-1.amazonaws.com/graphql"
-      },
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-prod-185326-deployment/amplify-cfn-templates/api/cloudformation-template.json",
-        "logicalId": "apiShoppingLists"
-      },
-      "lastPushTimeStamp": "2020-11-05T18:52:55.079Z",
-      "lastPushDirHash": "1Oo6BPYH5EdeuIHXyYreJeThVc8="
+      "DeploymentBucketName": "amplify-waeliocom-dev-102110-deployment",
+      "UnauthRoleName": "amplify-waeliocom-dev-102110-unauthRole",
+      "StackName": "amplify-waeliocom-dev-102110",
+      "StackId": "arn:aws:cloudformation:us-east-1:006970456832:stack/amplify-waeliocom-dev-102110/0965e7c0-2009-11eb-b223-1214c28caebf",
+      "AmplifyAppId": "diyqc6edpk1po"
     }
   }
 }

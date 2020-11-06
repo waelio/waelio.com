@@ -39,8 +39,8 @@ module.exports = function (ctx) {
       'notification',
       'axios',
       'i18n',
-      { path: 'amplify', server: false },
-      { path: 'appsync', server: false },
+      // { path: 'amplify', server: false },
+      // { path: 'appsync', server: false },
       ctx.mode.cordova ? 'google-analytics' : ''
     ],
 
