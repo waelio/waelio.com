@@ -12,9 +12,9 @@
           <q-icon name="menu" />
         </q-btn>
         <q-toolbar-title><router-link class="text-white text-sm" to="/">Waelio.com</router-link></q-toolbar-title>
-        <q-btn text-color="white"  dense icon="ring_volume" @click.prevent="pingAll()" />
+        <q-btn text-color="white"  v-if="signedIn"  dense icon="ring_volume" @click.prevent="pingAll()" />
         <q-space />
-        <q-btn-dropdown stretch flat label="Notifications">
+        <q-btn-dropdown v-if="signedIn" stretch flat label="Notifications">
           <q-list>
             <q-item-label header>{{$t('Messages')}}</q-item-label>
             <q-item v-for="message in messages" :key="message.id" clickable v-close-popup tabindex="0">
@@ -25,7 +25,7 @@
                 <q-item-label>{{message.message}}</q-item-label>
               </q-item-section>
               <q-item-section side>
-                <q-icon name="delete" @click.passive="deleteNotification(message)" />
+                <q-icon name="delete" @click.prevent="deleteNotification(message)" />
               </q-item-section>
             </q-item>
           </q-list>
