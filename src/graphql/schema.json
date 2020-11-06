@@ -15,6 +15,53 @@
         "name" : "Query",
         "description" : null,
         "fields" : [ {
+          "name" : "syncShoppingLists",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelShoppingListFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "lastSync",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelShoppingListConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "getShoppingList",
           "description" : null,
           "args" : [ {
@@ -72,6 +119,53 @@
           "type" : {
             "kind" : "OBJECT",
             "name" : "ModelShoppingListConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "syncShoppingItems",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelShoppingItemFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "lastSync",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelShoppingItemConnection",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -139,6 +233,53 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "syncPrivateNotes",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelPrivateNoteFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "lastSync",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelPrivateNoteConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "getPrivateNote",
           "description" : null,
           "args" : [ {
@@ -196,6 +337,53 @@
           "type" : {
             "kind" : "OBJECT",
             "name" : "ModelPrivateNoteConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "syncLists",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelListFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "lastSync",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelListConnection",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -263,6 +451,53 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "syncTasks",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelTaskFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "lastSync",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelTaskConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "getTask",
           "description" : null,
           "args" : [ {
@@ -320,6 +555,161 @@
           "type" : {
             "kind" : "OBJECT",
             "name" : "ModelTaskConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "syncChatties",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelChattyFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "lastSync",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelChattyConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "getChatty",
+          "description" : null,
+          "args" : [ {
+            "name" : "id",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "ID",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Chatty",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "listChattys",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelChattyFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelChattyConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "ModelShoppingListConnection",
+        "description" : null,
+        "fields" : [ {
+          "name" : "items",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "ShoppingList",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "nextToken",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "startedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSTimestamp",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -422,6 +812,47 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "_version",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_deleted",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_lastChangedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "createdAt",
           "description" : null,
           "args" : [ ],
@@ -500,6 +931,17 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "startedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSTimestamp",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -592,6 +1034,47 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "_version",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_deleted",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_lastChangedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "createdAt",
           "description" : null,
           "args" : [ ],
@@ -630,6 +1113,24 @@
         "kind" : "SCALAR",
         "name" : "Boolean",
         "description" : "Built-in Boolean",
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "SCALAR",
+        "name" : "Int",
+        "description" : "Built-in Int",
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "SCALAR",
+        "name" : "AWSTimestamp",
+        "description" : "The `AWSTimestamp` scalar type provided by AWS AppSync, represents the number of seconds that have elapsed since `1970-01-01T00:00Z`. Negative values are also accepted and these represent the number of seconds till `1970-01-01T00:00Z`.  Timestamps are serialized and deserialized as integers. The minimum supported timestamp value is **`-31557014167219200`** which corresponds to `-1000000000-01-01T00:00Z`. The maximum supported timestamp value is **`31556889864403199`** which corresponds to `1000000000-12-31T23:59:59.999999999Z`.",
         "fields" : null,
         "inputFields" : null,
         "interfaces" : null,
@@ -999,15 +1500,6 @@
         "enumValues" : null,
         "possibleTypes" : null
       }, {
-        "kind" : "SCALAR",
-        "name" : "Int",
-        "description" : "Built-in Int",
-        "fields" : null,
-        "inputFields" : null,
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
         "kind" : "INPUT_OBJECT",
         "name" : "ModelStringInput",
         "description" : null,
@@ -1202,41 +1694,6 @@
         } ],
         "possibleTypes" : null
       }, {
-        "kind" : "OBJECT",
-        "name" : "ModelShoppingListConnection",
-        "description" : null,
-        "fields" : [ {
-          "name" : "items",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "OBJECT",
-              "name" : "ShoppingList",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "nextToken",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        } ],
-        "inputFields" : null,
-        "interfaces" : [ ],
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
         "kind" : "INPUT_OBJECT",
         "name" : "ModelShoppingListFilterInput",
         "description" : null,
@@ -1309,6 +1766,52 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
+        "name" : "ModelPrivateNoteConnection",
+        "description" : null,
+        "fields" : [ {
+          "name" : "items",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "PrivateNote",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "nextToken",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "startedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSTimestamp",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
         "name" : "PrivateNote",
         "description" : null,
         "fields" : [ {
@@ -1336,6 +1839,47 @@
             "ofType" : {
               "kind" : "SCALAR",
               "name" : "String",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_deleted",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_lastChangedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
               "ofType" : null
             }
           },
@@ -1373,41 +1917,6 @@
           "deprecationReason" : null
         }, {
           "name" : "owner",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        } ],
-        "inputFields" : null,
-        "interfaces" : [ ],
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "OBJECT",
-        "name" : "ModelPrivateNoteConnection",
-        "description" : null,
-        "fields" : [ {
-          "name" : "items",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "OBJECT",
-              "name" : "PrivateNote",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "nextToken",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1482,6 +1991,52 @@
           "defaultValue" : null
         } ],
         "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "ModelListConnection",
+        "description" : null,
+        "fields" : [ {
+          "name" : "items",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "List",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "nextToken",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "startedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSTimestamp",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
         "enumValues" : null,
         "possibleTypes" : null
       }, {
@@ -1566,6 +2121,47 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "_version",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_deleted",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_lastChangedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "createdAt",
           "description" : null,
           "args" : [ ],
@@ -1626,6 +2222,17 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "startedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSTimestamp",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -1703,6 +2310,47 @@
             "kind" : "OBJECT",
             "name" : "List",
             "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_deleted",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_lastChangedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            }
           },
           "isDeprecated" : false,
           "deprecationReason" : null
@@ -1822,41 +2470,6 @@
         "enumValues" : null,
         "possibleTypes" : null
       }, {
-        "kind" : "OBJECT",
-        "name" : "ModelListConnection",
-        "description" : null,
-        "fields" : [ {
-          "name" : "items",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "OBJECT",
-              "name" : "List",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "nextToken",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        } ],
-        "inputFields" : null,
-        "interfaces" : [ ],
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
         "kind" : "INPUT_OBJECT",
         "name" : "ModelListFilterInput",
         "description" : null,
@@ -1911,6 +2524,253 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelListFilterInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "ModelChattyConnection",
+        "description" : null,
+        "fields" : [ {
+          "name" : "items",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "Chatty",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "nextToken",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "startedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSTimestamp",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Chatty",
+        "description" : null,
+        "fields" : [ {
+          "name" : "id",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "ID",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "user",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "message",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "createdAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSDateTime",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_deleted",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "_lastChangedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "AWSTimestamp",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "updatedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "AWSDateTime",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelChattyFilterInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "id",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIDInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "user",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "message",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "createdAt",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "and",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelChattyFilterInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "or",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelChattyFilterInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "not",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelChattyFilterInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -2417,6 +3277,105 @@
           },
           "isDeprecated" : false,
           "deprecationReason" : null
+        }, {
+          "name" : "createChatty",
+          "description" : null,
+          "args" : [ {
+            "name" : "input",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "INPUT_OBJECT",
+                "name" : "CreateChattyInput",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "condition",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelChattyConditionInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Chatty",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "updateChatty",
+          "description" : null,
+          "args" : [ {
+            "name" : "input",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "INPUT_OBJECT",
+                "name" : "UpdateChattyInput",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "condition",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelChattyConditionInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Chatty",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "deleteChatty",
+          "description" : null,
+          "args" : [ {
+            "name" : "input",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "INPUT_OBJECT",
+                "name" : "DeleteChattyInput",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "condition",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelChattyConditionInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Chatty",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
         } ],
         "inputFields" : null,
         "interfaces" : [ ],
@@ -2455,6 +3414,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
             "ofType" : null
           },
           "defaultValue" : null
@@ -2551,6 +3519,15 @@
             "ofType" : null
           },
           "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
         } ],
         "interfaces" : null,
         "enumValues" : null,
@@ -2566,6 +3543,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
             "ofType" : null
           },
           "defaultValue" : null
@@ -2628,6 +3614,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
             "ofType" : null
           },
           "defaultValue" : null
@@ -2760,6 +3755,15 @@
             "ofType" : null
           },
           "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
         } ],
         "interfaces" : null,
         "enumValues" : null,
@@ -2775,6 +3779,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
             "ofType" : null
           },
           "defaultValue" : null
@@ -2807,6 +3820,15 @@
               "name" : "String",
               "ofType" : null
             }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
           },
           "defaultValue" : null
         } ],
@@ -2893,6 +3915,15 @@
             "ofType" : null
           },
           "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
         } ],
         "interfaces" : null,
         "enumValues" : null,
@@ -2908,6 +3939,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
             "ofType" : null
           },
           "defaultValue" : null
@@ -2940,6 +3980,15 @@
               "name" : "String",
               "ofType" : null
             }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
           },
           "defaultValue" : null
         } ],
@@ -3026,6 +4075,15 @@
             "ofType" : null
           },
           "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
         } ],
         "interfaces" : null,
         "enumValues" : null,
@@ -3041,6 +4099,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
             "ofType" : null
           },
           "defaultValue" : null
@@ -3095,6 +4162,15 @@
               "name" : "Boolean",
               "ofType" : null
             }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
           },
           "defaultValue" : null
         }, {
@@ -3227,6 +4303,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "taskListId",
           "description" : null,
           "type" : {
@@ -3250,6 +4335,233 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "CreateChattyInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "id",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "user",
+          "description" : null,
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "message",
+          "description" : null,
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "createdAt",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSDateTime",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelChattyConditionInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "user",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "message",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "createdAt",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "and",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelChattyConditionInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "or",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelChattyConditionInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "not",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelChattyConditionInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "UpdateChattyInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "id",
+          "description" : null,
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "ID",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "user",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "message",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "createdAt",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSDateTime",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "DeleteChattyInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "id",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "_version",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
             "ofType" : null
           },
           "defaultValue" : null
@@ -3621,9 +4933,136 @@
           },
           "isDeprecated" : false,
           "deprecationReason" : null
+        }, {
+          "name" : "onCreateChatty",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Chatty",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "onUpdateChatty",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Chatty",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "onDeleteChatty",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Chatty",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
         } ],
         "inputFields" : null,
         "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelIntInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "ne",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "eq",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "le",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "lt",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "ge",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "gt",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "between",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "attributeExists",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "attributeType",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "ModelAttributeTypes",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
         "enumValues" : null,
         "possibleTypes" : null
       }, {
@@ -3726,100 +5165,6 @@
         "description" : "Built-in Float",
         "fields" : null,
         "inputFields" : null,
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
-        "name" : "ModelIntInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "ne",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "eq",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "le",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "lt",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "ge",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "gt",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "between",
-          "description" : null,
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "Int",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "attributeExists",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Boolean",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "attributeType",
-          "description" : null,
-          "type" : {
-            "kind" : "ENUM",
-            "name" : "ModelAttributeTypes",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        } ],
         "interfaces" : null,
         "enumValues" : null,
         "possibleTypes" : null

@@ -14,11 +14,18 @@ export const onCreateShoppingList = /* GraphQL */ `
           title
           shoppingListID
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -37,11 +44,18 @@ export const onUpdateShoppingList = /* GraphQL */ `
           title
           shoppingListID
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -60,11 +74,18 @@ export const onDeleteShoppingList = /* GraphQL */ `
           title
           shoppingListID
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -84,10 +105,17 @@ export const onCreateShoppingItem = /* GraphQL */ `
         owner
         shoppingItems {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -107,10 +135,17 @@ export const onUpdateShoppingItem = /* GraphQL */ `
         owner
         shoppingItems {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -130,10 +165,17 @@ export const onDeleteShoppingItem = /* GraphQL */ `
         owner
         shoppingItems {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -144,6 +186,9 @@ export const onCreatePrivateNote = /* GraphQL */ `
     onCreatePrivateNote(owner: $owner) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -155,6 +200,9 @@ export const onUpdatePrivateNote = /* GraphQL */ `
     onUpdatePrivateNote(owner: $owner) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -166,6 +214,9 @@ export const onDeletePrivateNote = /* GraphQL */ `
     onDeletePrivateNote(owner: $owner) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -183,11 +234,18 @@ export const onCreateList = /* GraphQL */ `
           title
           description
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -204,11 +262,18 @@ export const onUpdateList = /* GraphQL */ `
           title
           description
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -225,11 +290,18 @@ export const onDeleteList = /* GraphQL */ `
           title
           description
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -247,10 +319,17 @@ export const onCreateTask = /* GraphQL */ `
         title
         tasks {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -268,10 +347,17 @@ export const onUpdateTask = /* GraphQL */ `
         title
         tasks {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -289,11 +375,60 @@ export const onDeleteTask = /* GraphQL */ `
         title
         tasks {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateChatty = /* GraphQL */ `
+  subscription OnCreateChatty {
+    onCreateChatty {
+      id
+      user
+      message
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateChatty = /* GraphQL */ `
+  subscription OnUpdateChatty {
+    onUpdateChatty {
+      id
+      user
+      message
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteChatty = /* GraphQL */ `
+  subscription OnDeleteChatty {
+    onDeleteChatty {
+      id
+      user
+      message
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
       updatedAt
     }
   }

@@ -1,10 +1,18 @@
-import { register } from 'register-service-worker'
+/* eslint-disable no-undef */
+import * as googleAnalytics from 'workbox-google-analytics'
 import { Notify } from 'quasar'
-// import i18n from 'boot/i18n'
 
-// The ready(), registered(), cached(), updatefound() and updated()
+workbox.core.setCacheNameDetails({ prefix: 'waelio-datastore' })
+workbox.core.skipWaiting()
+workbox.core.clientsClaim()
+const cacheFiles = [{
+  revision: 'e653ab4d124bf16b5232',
+  url: 'https://aws-amplify.github.io/img/amplify.svg'
+}]
+self.__precacheManifest = cacheFiles.concat(self.__precacheManifest || [])
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
+
 // events passes a ServiceWorkerRegistration instance in their arguments.
-// ServiceWorkerRegistration: https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration
 
 register(process.env.SERVICE_WORKER_FILE, {
   // The registrationOptions object will be passed as the second argument
@@ -38,12 +46,13 @@ register(process.env.SERVICE_WORKER_FILE, {
       closeBtn: 'labels.update',
       timeout: 10000,
       onDismiss () {
-        location.reload(true)
+        location.reload()
       }
     })
   },
 
   offline () {
+    googleAnalytics.initialize()
     // console.log('No internet connection found. App is running in offline mode.')
   },
 

@@ -160,7 +160,8 @@ module.exports = function (ctx) {
     pwa: {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {
-        skipWaiting: true
+        skipWaiting: true,
+        clientsClaim: true
       }, // only for GenerateSW
       manifest: {
         name: 'Wael Wahbeh',

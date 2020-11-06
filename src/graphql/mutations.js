@@ -17,11 +17,18 @@ export const createShoppingList = /* GraphQL */ `
           title
           shoppingListID
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -43,11 +50,18 @@ export const updateShoppingList = /* GraphQL */ `
           title
           shoppingListID
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -69,11 +83,18 @@ export const deleteShoppingList = /* GraphQL */ `
           title
           shoppingListID
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -96,10 +117,17 @@ export const createShoppingItem = /* GraphQL */ `
         owner
         shoppingItems {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -122,10 +150,17 @@ export const updateShoppingItem = /* GraphQL */ `
         owner
         shoppingItems {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -148,10 +183,17 @@ export const deleteShoppingItem = /* GraphQL */ `
         owner
         shoppingItems {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -165,6 +207,9 @@ export const createPrivateNote = /* GraphQL */ `
     createPrivateNote(input: $input, condition: $condition) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -179,6 +224,9 @@ export const updatePrivateNote = /* GraphQL */ `
     updatePrivateNote(input: $input, condition: $condition) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -193,6 +241,9 @@ export const deletePrivateNote = /* GraphQL */ `
     deletePrivateNote(input: $input, condition: $condition) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -213,11 +264,18 @@ export const createList = /* GraphQL */ `
           title
           description
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -237,11 +295,18 @@ export const updateList = /* GraphQL */ `
           title
           description
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -261,11 +326,18 @@ export const deleteList = /* GraphQL */ `
           title
           description
           completed
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -286,10 +358,17 @@ export const createTask = /* GraphQL */ `
         title
         tasks {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -310,10 +389,17 @@ export const updateTask = /* GraphQL */ `
         title
         tasks {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -334,11 +420,69 @@ export const deleteTask = /* GraphQL */ `
         title
         tasks {
           nextToken
+          startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
+      updatedAt
+    }
+  }
+`;
+export const createChatty = /* GraphQL */ `
+  mutation CreateChatty(
+    $input: CreateChattyInput!
+    $condition: ModelChattyConditionInput
+  ) {
+    createChatty(input: $input, condition: $condition) {
+      id
+      user
+      message
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+    }
+  }
+`;
+export const updateChatty = /* GraphQL */ `
+  mutation UpdateChatty(
+    $input: UpdateChattyInput!
+    $condition: ModelChattyConditionInput
+  ) {
+    updateChatty(input: $input, condition: $condition) {
+      id
+      user
+      message
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+    }
+  }
+`;
+export const deleteChatty = /* GraphQL */ `
+  mutation DeleteChatty(
+    $input: DeleteChattyInput!
+    $condition: ModelChattyConditionInput
+  ) {
+    deleteChatty(input: $input, condition: $condition) {
+      id
+      user
+      message
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
       updatedAt
     }
   }

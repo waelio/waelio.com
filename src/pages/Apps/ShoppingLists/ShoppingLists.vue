@@ -254,6 +254,8 @@ import List from 'components/List'
 import Task from 'components/Task'
 import TaskEdit from 'components/TaskEdit'
 import ListEdit from 'components/ListEdit'
+import { DataStore, Predicates } from '@aws-amplify/datastore'
+import { ShoppingList } from 'src/models'
 
 export default {
   name: 'ShoppingList',
@@ -272,7 +274,9 @@ export default {
       })
       .catch(() => this.$router.push({ name: 'authenticate' }))
   },
-  mounted () {
+  async mounted () {
+    this.xllTasks = await DataStore.query(ShoppingList, Predicates.ALL)
+
     this.onLisLists()
   },
   data () {
@@ -281,6 +285,7 @@ export default {
       cancelAdding: false,
       allLists: [],
       allTasks: [],
+      xllTasks: [],
       selected: null,
       activeId: null,
       isCreatingTask: false,

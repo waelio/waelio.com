@@ -9,17 +9,28 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
           aria-label="Menu"
         >
-          <q-icon name="menu" />
         </q-btn>
-        <div class="row">
-          <q-toolbar-title>
-            <router-link class="text-white text-sm" to="/">
-              Waelio.com</router-link
-            ></q-toolbar-title
-          >
-
-          <div class="fixed-right q-pr-xs full-height">v{{ $q.version }}</div>
-        </div>
+        <q-toolbar-title><router-link class="text-white text-sm" to="/">Waelio.com</router-link></q-toolbar-title>
+        <q-btn text-color="white"  dense icon="ring_volume" @click.prevent="pingAll()" />
+        <q-space />
+        <q-btn-dropdown stretch flat label="Notifications">
+          <q-list>
+            <q-item-label header>Folders</q-item-label>
+            <q-item v-for="message in messages" :key="message.id" clickable v-close-popup tabindex="0">
+              <q-item-section avatar>
+                <q-avatar size="md" icon="notification_important" color="secondary" text-color="white" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{message.message}}</q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-icon name="delete" @click.passive="deleteNotification(message)" />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+        <q-separator dark vertical />
+        <q-btn stretch flat :label="$q.version" />
       </q-toolbar>
     </q-header>
 
@@ -55,9 +66,29 @@ import { openURL } from 'quasar'
 import LeftSidebar from './LeftSidebar'
 import FooterNavs from 'src/components/FooterNavs'
 import meta from 'src/utils/meta'
+import { DataStore } from '@aws-amplify/datastore'
+import { Chatty } from 'src/models'
+
 export default {
   name: 'MyLayout',
   components: { LeftSidebar, FooterNavs },
+  props: ['messages'],
+  beforeCreate () {
+    this.$Auth
+      .currentAuthenticatedUser()
+      .then(user => {
+        this.user = user
+        this.signedIn = true
+      })
+      .catch(() => {
+        this.signedIn = false
+      })
+  },
+  async mounted () {
+    this.$AmplifyEventBus.$on('authState', info => {
+      this.signedIn = true
+    })
+  },
   data () {
     return {
       metaTags: {
@@ -72,28 +103,18 @@ export default {
     }
   },
   meta,
-  computed: {
-    isLoggedIn () {
-      return this.signedIn
-    }
-  },
-  mounted () {
-    this.$AmplifyEventBus.$on('authState', info => {
-      this.signedIn = true
-    })
-  },
-  beforeCreate () {
-    this.$Auth
-      .currentAuthenticatedUser()
-      .then(user => {
-        this.user = user
-        this.signedIn = true
-      })
-      .catch(() => {
-        this.signedIn = false
-      })
-  },
   methods: {
+    async deleteNotification (message) {
+      // const message = await DataStore.query(Post, "1234567");
+      await DataStore.delete(message)
+    },
+    async pingAll () {
+      await DataStore.save(new Chatty({
+        user: 'amplify-user',
+        message: 'Hi everyone!',
+        createdAt: new Date().toISOString()
+      }))
+    },
     openURL,
     setFooterHeight () {
       const footerElement = this.$refs.footer
@@ -107,6 +128,11 @@ export default {
       this.signedIn = false
       parent.signedIn = false
       this.$router.push('/auth/authenticate')
+    }
+  },
+  computed: {
+    isLoggedIn () {
+      return this.signedIn
     }
   }
 }

@@ -18,6 +18,8 @@
     "test:unit:ui": "majestic"
   },
   "dependencies": {
+    "@aws-amplify/core": "^3.8.2",
+    "@aws-amplify/datastore": "^2.7.2",
     "@quasar/extras": "^1.9.10",
     "aws-amplify": "^3.3.4",
     "aws-amplify-vue": "^2.1.2",
@@ -48,8 +50,8 @@
     "eslint-plugin-vue": "^6.1.2",
     "majestic": "^1.2.24",
     "sitemap-webpack-plugin": "^0.8.1",
-    "workbox-webpack-plugin": "^5.1.4",
-    "wallaby-vue-compiler": "^1.0.3"
+    "wallaby-vue-compiler": "^1.0.3",
+    "workbox-webpack-plugin": "^5.1.4"
   },
   "browserslist": [
     "last 10 Chrome versions",

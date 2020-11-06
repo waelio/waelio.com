@@ -1,23 +1,28 @@
 import MyLayout from 'layouts/MyLayout'
 import IndexPage from 'pages/Index'
-import Privacy from 'pages/Privacy'
-import Credits from 'pages/Credits'
-import Terms from 'pages/Terms'
-import Contact from 'pages/ContactUs'
-import TimeLine from 'pages/TimeLine'
-import InstagramFeed from 'pages/InstagramFeed'
+import Page404 from 'pages/Error404'
+
+import Privacy from 'pages/General/Privacy'
+import Credits from 'pages/General/Credits'
+import Terms from 'pages/General/Terms'
+import Contact from 'pages/General/ContactUs'
+import TimeLine from 'pages/General/TimeLine'
+import InstagramFeed from 'pages/General/InstagramFeed'
+import MyResume from 'pages/General/MyResume'
+
 import Projects from 'pages/Projects/index'
-import MyResume from 'pages/MyResume'
-import AppsIndex from 'pages/Apps/index'
+
 import FavsShuffler from 'pages/Apps/FavsShuffler/index'
 import FavsShufflerSupport from 'pages/Apps/FavsShuffler/Support'
+
 import AuthPage from 'pages/Auth/index'
 import Authentication from 'pages/Auth/Authentication'
 import Profile from 'pages/Auth/Profile'
+
+import AppsIndex from 'pages/Apps/index'
 import ShoppingListsIndex from 'pages/Apps/ShoppingLists/index'
 import ShoppingLists from 'pages/Apps/ShoppingLists/ShoppingLists'
 import ShoppingItem from 'pages/Apps/ShoppingLists/ShoppingItem'
-import Page404 from 'pages/Error404'
 
 const routes = [
   {
