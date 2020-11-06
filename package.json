@@ -51,6 +51,7 @@
     "majestic": "^1.2.24",
     "sitemap-webpack-plugin": "^0.8.1",
     "wallaby-vue-compiler": "^1.0.3",
+    "workbox-precaching": "^5.1.4",
     "workbox-webpack-plugin": "^5.1.4"
   },
   "browserslist": [

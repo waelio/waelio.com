@@ -2,19 +2,24 @@
 import * as googleAnalytics from 'workbox-google-analytics'
 import { Notify } from 'quasar'
 import { notifyMe } from './notify'
+import { precacheAndRoute } from 'workbox-precaching'
+import { setCacheNameDetails, skipWaiting, clientsClaim } from 'workbox-core'
 
-if (!!workbox && typeof workbox === 'object') {
-  console.log('Yay! Workbox is loaded 🎉')
-  workbox.core.setCacheNameDetails({ prefix: 'waelio-datastore' })
-  const cacheFiles = [{
-    revision: 'e653ab4d124bf16b5232',
-    url: 'https://aws-amplify.github.io/img/amplify.svg'
-  }]
-  self.__precacheManifest = cacheFiles.concat(self.__precacheManifest || [])
-  workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
-} else {
-  console.log('Boo! Workbox didn\'t load 😬')
-}
+skipWaiting()
+clientsClaim()
+setCacheNameDetails({
+  prefix: 'my-app',
+  suffix: 'v1',
+  precache: 'install-time',
+  runtime: 'run-time',
+  waelioDatastore: 'ww'
+})
+const cacheFiles = [{
+  revision: 'e653ab4d124bf16b5232',
+  url: 'https://aws-amplify.github.io/img/amplify.svg'
+}]
+self.__precacheManifest = cacheFiles.concat(self.__precacheManifest || [])
+precacheAndRoute(self.__precacheManifest, {})
 
 register(process.env.SERVICE_WORKER_FILE, {
 

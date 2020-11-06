@@ -15,7 +15,7 @@
         <q-space />
         <q-btn-dropdown stretch flat label="Notifications">
           <q-list>
-            <q-item-label header>{{$t(Messages)}}</q-item-label>
+            <q-item-label header>{{$t('Messages')}}</q-item-label>
             <q-item v-for="message in messages" :key="message.id" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar size="md" icon="notification_important" color="secondary" text-color="white" />
