@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-px-md">
     <q-img
       src="~assets/profile_pic.jpg"
       spinner-color="white"
@@ -59,7 +59,6 @@
       label="My curriculum vitae"
       :class="{ active: $route.name === 'resume' }"
     />
-
   </div>
 </template>
 <script>
@@ -72,7 +71,8 @@ export default {
       spit: 90,
       metaTags: {
         title: 'Home Page',
-        description: 'My Welcome page. A little about my work experiences and about my look at work ethics.'
+        description:
+          'My Welcome page. A little about my work experiences and about my look at work ethics.'
       }
     }
   },
