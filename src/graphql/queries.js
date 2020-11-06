@@ -1,23 +1,46 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const syncLists = /* GraphQL */ `
+  query SyncLists(
+    $filter: ModelListFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncLists(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        title
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getList = /* GraphQL */ `
   query GetList($id: ID!) {
     getList(id: $id) {
       id
       title
       tasks {
-        items {
-          id
-          title
-          description
-          completed
-          createdAt
-          updatedAt
-          owner
-        }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -34,14 +57,45 @@ export const listLists = /* GraphQL */ `
       items {
         id
         title
-        tasks {
-          nextToken
-        }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
         owner
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncTasks = /* GraphQL */ `
+  query SyncTasks(
+    $filter: ModelTaskFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTasks(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        title
+        description
+        completed
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -55,13 +109,16 @@ export const getTask = /* GraphQL */ `
       list {
         id
         title
-        tasks {
-          nextToken
-        }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
         owner
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -80,18 +137,43 @@ export const listTasks = /* GraphQL */ `
         title
         description
         completed
-        list {
-          id
-          title
-          createdAt
-          updatedAt
-          owner
-        }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
         owner
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPrivateNotes = /* GraphQL */ `
+  query SyncPrivateNotes(
+    $filter: ModelPrivateNoteFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPrivateNotes(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        content
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -100,6 +182,9 @@ export const getPrivateNote = /* GraphQL */ `
     getPrivateNote(id: $id) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -116,11 +201,15 @@ export const listPrivateNotes = /* GraphQL */ `
       items {
         id
         content
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
         owner
       }
       nextToken
+      startedAt
     }
   }
 `;

@@ -10,17 +10,12 @@ export const createList = /* GraphQL */ `
       id
       title
       tasks {
-        items {
-          id
-          title
-          description
-          completed
-          createdAt
-          updatedAt
-          owner
-        }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -36,17 +31,12 @@ export const updateList = /* GraphQL */ `
       id
       title
       tasks {
-        items {
-          id
-          title
-          description
-          completed
-          createdAt
-          updatedAt
-          owner
-        }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -62,17 +52,12 @@ export const deleteList = /* GraphQL */ `
       id
       title
       tasks {
-        items {
-          id
-          title
-          description
-          completed
-          createdAt
-          updatedAt
-          owner
-        }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -92,13 +77,16 @@ export const createTask = /* GraphQL */ `
       list {
         id
         title
-        tasks {
-          nextToken
-        }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
         owner
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -118,13 +106,16 @@ export const updateTask = /* GraphQL */ `
       list {
         id
         title
-        tasks {
-          nextToken
-        }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
         owner
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -144,13 +135,16 @@ export const deleteTask = /* GraphQL */ `
       list {
         id
         title
-        tasks {
-          nextToken
-        }
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
         owner
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -165,6 +159,9 @@ export const createPrivateNote = /* GraphQL */ `
     createPrivateNote(input: $input, condition: $condition) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -179,6 +176,9 @@ export const updatePrivateNote = /* GraphQL */ `
     updatePrivateNote(input: $input, condition: $condition) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner
@@ -193,6 +193,9 @@ export const deletePrivateNote = /* GraphQL */ `
     deletePrivateNote(input: $input, condition: $condition) {
       id
       content
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
       owner

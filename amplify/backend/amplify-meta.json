@@ -22,7 +22,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-prod-185326-deployment/amplify-cfn-templates/auth/waeliocom547ea0e4-cloudformation-template.yml",
         "logicalId": "authwaeliocom547ea0e4"
       },
-      "lastPushTimeStamp": "2020-11-06T07:56:13.648Z",
+      "lastPushTimeStamp": "2020-11-06T08:07:50.436Z",
       "output": {
         "AppClientSecret": "e8lv672mi9uj401ijig0eb1cged6e6ik4r00bukl9gk43k1q2pc",
         "UserPoolId": "us-east-1_3K4wFuuN6",
@@ -62,7 +62,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-waeliocom-prod-185326-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiShoppingLists"
       },
-      "lastPushTimeStamp": "2020-11-06T07:58:45.224Z",
+      "lastPushTimeStamp": "2020-11-06T08:08:05.658Z",
       "lastPushDirHash": "1Oo6BPYH5EdeuIHXyYreJeThVc8="
     }
   }
