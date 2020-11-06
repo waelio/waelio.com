@@ -2,6 +2,7 @@ export function notifyMe (notification) {
   // Let's check if the browser supports notifications
   if (!('Notification' in window)) {
     console.log('This browser does not support desktop notification')
+  // eslint-disable-next-line brace-style
   }
   // Let's check whether notification permissions have already been granted
   else if (Notification.permission === 'granted') {
