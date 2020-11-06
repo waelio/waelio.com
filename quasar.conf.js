@@ -112,7 +112,7 @@ module.exports = function (ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      https: false,
+      https: true,
       port: 8080,
       open: false // opens browser window automatically
     },
@@ -160,7 +160,8 @@ module.exports = function (ctx) {
     pwa: {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {
-        skipWaiting: true
+        skipWaiting: true,
+        clientsClaim: true
       }, // only for GenerateSW
       manifest: {
         name: 'Wael Wahbeh',
@@ -171,6 +172,12 @@ module.exports = function (ctx) {
         orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#027be3',
+        files: [
+          {
+            src: 'pdf/Waels_Resume_Fresh.pdf',
+            type: 'application/pdf'
+          }
+        ],
         images: [],
         icons: [
           {

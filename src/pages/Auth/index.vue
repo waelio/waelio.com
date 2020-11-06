@@ -5,16 +5,7 @@
 </template>
 <script>
 export default {
-  name: 'auth',
-  props: ['isLoggedIn', 'signOut'],
-  beforeMount () {
-    // const vm = this
-    // vm.$router.push(vm.$props.isLoggedIn ? '/auth/profile' : '/auth/authenticate')
-  }
-  // beforeRouteEnter (to, from) {
-  //   console.log('from', from)
-  //   console.log('to', to)
-  // }
+  name: 'authRouter'
 }
 </script>
 <style>
