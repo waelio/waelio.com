@@ -29,17 +29,21 @@ export default {
       .catch(() => this.signedIn = false)
   },
   async mounted () {
-    this.messages = await DataStore.query(Chatty, Predicates.ALL)
+    if (this.signedIn) {
+      this.messages = await DataStore.query(Chatty, Predicates.ALL)
+    }
     await this.$apollo.provider.defaultClient.hydrated()
     this.hydrated = true
   },
   created () {
-    this.listener = Hub.listen('datastore', async (capsule) => {
-      const { payload: { event, data } } = capsule
-      if (event === 'networkStatus') {
-        this.offline = !data.active
-      }
-    })
+    if (this.signedIn) {
+      this.listener = Hub.listen('datastore', async (capsule) => {
+        const { payload: { event, data } } = capsule
+        if (event === 'networkStatus') {
+          this.offline = !data.active
+        }
+      })
+    }
   },
   data () {
     return {
