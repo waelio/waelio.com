@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js')
 import * as googleAnalytics from 'workbox-google-analytics'
 import { Notify } from 'quasar'
 
