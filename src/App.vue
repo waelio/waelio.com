@@ -1,6 +1,6 @@
 <template>
   <div id="q-app" >
-    <router-view :messages="messages" />
+    <router-view v-if="hydrated" />
   </div>
 </template>
 <script>
@@ -17,7 +17,7 @@ export default {
         this.$router.push('/')
       }
       if (info === 'signedOut') {
-        this.$router.push('/auth')
+        this.$router.push('/auth/authenticate')
         this.signedIn = false
       }
     })
@@ -29,21 +29,19 @@ export default {
       .catch(() => this.signedIn = false)
   },
   async mounted () {
-    if (this.signedIn) {
-      this.messages = await DataStore.query(Chatty, Predicates.ALL)
-    }
+    // if (this.signedIn !== false) {
+    this.messages = await DataStore.query(Chatty, Predicates.ALL)
+    // }
     await this.$apollo.provider.defaultClient.hydrated()
     this.hydrated = true
   },
   created () {
-    if (this.signedIn) {
-      this.listener = Hub.listen('datastore', async (capsule) => {
-        const { payload: { event, data } } = capsule
-        if (event === 'networkStatus') {
-          this.offline = !data.active
-        }
-      })
-    }
+    this.listener = Hub.listen('datastore', async (capsule) => {
+      const { payload: { event, data } } = capsule
+      if (event === 'networkStatus') {
+        this.offline = !data.active
+      }
+    })
   },
   data () {
     return {

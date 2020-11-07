@@ -12,9 +12,13 @@
           <q-icon name="menu" />
         </q-btn>
         <q-toolbar-title><router-link class="text-white text-sm" to="/">Waelio.com</router-link></q-toolbar-title>
-        <q-btn text-color="white"  v-if="signedIn"  dense icon="ring_volume" @click.prevent="pingAll()" />
+        <q-btn text-color="white"  v-if="signedIn"  dense icon="ring_volume" @click.prevent="pingAll" />
         <q-space />
-        <q-btn-dropdown v-if="signedIn" stretch flat label="Notifications">
+        <q-btn-dropdown persistent v-if="messages.length"  v-model="dropDown" stretch flat >
+          <template v-slot:label>
+            <q-badge color="orange">{{messages.length}}</q-badge>
+            <span class="q-mx-xs">Notifications</span>
+          </template>
           <q-list>
             <q-item-label header>{{$t('Messages')}}</q-item-label>
             <q-item v-for="message in messages" :key="message.id" clickable v-close-popup tabindex="0">
@@ -23,25 +27,50 @@
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{message.message}}</q-item-label>
+                <q-item-label><div>{{ message.user}} - {{ formatDate (message) }})</div></q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="delete" @click.prevent="deleteNotification(message)" />
               </q-item-section>
             </q-item>
+                          <q-select
+                  class="no-padding"
+                  dense
+                  id="special-select"
+                  borderless
+                  hide-dropdown-icon
+                  item-aligned
+                  label-color="white"
+                  :label="$i18n.locale.name || 'Englisg'"
+                  hide-selected
+                  v-model="$i18n.locale"
+                  :options-value="item => item.value"
+                  :option-label="item => item.name"
+                  standout
+                  :options="[
+                    { value: 'en-us', name: 'English' },
+                    { value: 'ar-ps', name: 'Arabic' },
+                    { value: 'he-il', name: 'Hebrew' }
+                  ]"
+                >
+                  <template v-slot:label>
+                    <div class="text-center">
+                      {{ $i18n.locale.name || "English" }}
+                    </div>
+                  </template>
+                </q-select>
           </q-list>
         </q-btn-dropdown>
         <q-separator dark vertical />
         <q-btn stretch flat :label="$q.version" />
       </q-toolbar>
     </q-header>
-
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
       <left-sidebar :isLoggedIn="isLoggedIn" @signOut="signOut" />
     </q-drawer>
-
-    <q-page-container>
+    <q-page-container class="no-padding">
       <q-page>
-        <router-view :isLoggedIn="isLoggedIn" class="q-mx-auto slitter" />
+        <router-view :isLoggedIn="isLoggedIn" class="q-mx-auto" />
         <q-page-scroller
           expand
           position="top"
@@ -56,24 +85,25 @@
         </q-page-scroller>
       </q-page>
     </q-page-container>
-
     <q-footer ref="footer" reveal elevated revel-offset="500">
       <footer-navs class="full-width scroll" />
     </q-footer>
   </q-layout>
 </template>
 <script>
+
+import moment from 'moment'
 import { openURL } from 'quasar'
 import LeftSidebar from './LeftSidebar'
-import FooterNavs from 'src/components/FooterNavs'
+import FooterNavs from './FooterNavs'
 import meta from 'src/utils/meta'
-import { DataStore } from '@aws-amplify/datastore'
 import { Chatty } from 'src/models'
+import { DataStore, Predicates } from '@aws-amplify/datastore'
+import { notifyMe } from 'src/utils/notify'
 
 export default {
   name: 'MyLayout',
   components: { LeftSidebar, FooterNavs },
-  props: ['messages'],
   beforeCreate () {
     this.$Auth
       .currentAuthenticatedUser()
@@ -84,6 +114,12 @@ export default {
       .catch(() => {
         this.signedIn = false
       })
+  },
+  created () {
+    this.subscription = DataStore.observe(Chatty).subscribe(msg => {
+      notifyMe(msg.message)
+      this.loadMessages()
+    })
   },
   async mounted () {
     this.$AmplifyEventBus.$on('authState', info => {
@@ -97,21 +133,36 @@ export default {
         description:
           'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.'
       },
+      subscription: undefined,
       user: '',
+      messages: [],
       footer_height: 100,
-      signedIn: 'false',
+      signedIn: false,
+      dropDown: false,
       leftDrawerOpen: this.$q.platform.is.desktop
     }
   },
   meta,
   methods: {
+    moment: () => moment(),
+    loadMessages () {
+      DataStore.query(Chatty, Predicates.ALL).then(messages => {
+        this.messages = messages
+      })
+    },
+    formatDate (message) {
+      return moment(message.createdAt).format('DD/MM/YY HH:mm:ss')
+    },
     async deleteNotification (message) {
-      // const message = await DataStore.query(Post, "1234567");
-      await DataStore.delete(message)
+      this.dropDown = true
+      DataStore.delete(message).then(async () => {
+        this.messages = await DataStore.query(Chatty, Predicates.ALL)
+        this.dropDown = false
+      })
     },
     async pingAll () {
       await DataStore.save(new Chatty({
-        user: 'amplify-user',
+        user: 'Wael Wahbeh',
         message: 'Hi everyone!',
         createdAt: new Date().toISOString()
       }))
@@ -135,6 +186,10 @@ export default {
     isLoggedIn () {
       return this.signedIn
     }
+  },
+  destroyed () {
+    if (!this.subscription) return
+    this.subscription.unsubscribe()
   }
 }
 </script>

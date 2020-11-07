@@ -10,5 +10,6 @@
       "wallabyjs",
       "majestic"
     ]
-  }
+  },
+  "@quasar/qmediaplayer": {}
 }

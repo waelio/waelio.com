@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'Task',
+  name: 'TaskComponent',
   props: ['Task'],
   methods: {
     say (value) {

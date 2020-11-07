@@ -71,7 +71,7 @@
             v-if="isCreatingList"
             @closeModal="dialogListAdd=false,isCreatingList=false"
             @refreshData="()=>onLisLists()"
-            :List="{}"
+            :ListObject="{}"
             :CreateListInput="CreateListInput"
             :props1="styListCreate"
             :isCreatingList="isCreatingList"
@@ -133,7 +133,7 @@
             v-bind="props1"
             v-if="isCreatingTask"
             @closeModal="()=>{isCreatingTask=false, dialogTaskAdd=false}"
-            :Task="{}"
+            :TaskObject="{}"
             :CreateTaskInput="CreateTaskInput"
             :props1="styTaskCreate"
             :isCreatingTask="isCreatingTask"
@@ -168,11 +168,11 @@
           <template v-slot:right> Edit List <q-icon name="edit" /> </template>
 
           <q-list>
-            <List
-              :List="OneList"
+            <ListComponent
+              :ListObject="OneList"
               clickable
               @click="() => $router.push('list/' + OneList.id)"
-            ></List>
+            ></ListComponent>
             <!-- Edit Form -->
             <q-dialog
               v-model="isEditingTask"
@@ -224,7 +224,7 @@
                     @refreshData="onListListsLists()"
                     style="max-width: 520px"
                     class="bg-grey-2 q-mx-auto q-my-md q-pa-xl fit"
-                    :Task="OneList"
+                    :TaskObject="OneList"
                     :CreateTaskInput="OneList"
                     :props1="{}"
                     :isCreatingTask="false"
@@ -250,18 +250,18 @@ import { listTasks, listPrivateNotes, listLists } from 'src/graphql/queries'
 import * as mutations from 'src/graphql/mutations'
 import { morph, date, Loading } from 'quasar'
 import uuidV4 from 'uuid/v4'
-import List from 'components/List'
-import Task from 'components/Task'
+import ListComponent from 'components/List'
+import TaskComponent from 'components/Task'
 import TaskEdit from 'components/TaskEdit'
 import ListEdit from 'components/ListEdit'
 import { DataStore, Predicates } from '@aws-amplify/datastore'
-import { ShoppingList } from 'src/models'
+import { ShoppingList, List, Task } from 'src/models'
 
 export default {
   name: 'ShoppingList',
   components: {
-    List,
-    Task,
+    ListComponent,
+    TaskComponent,
     ListEdit,
     TaskEdit
   },
@@ -275,6 +275,8 @@ export default {
       .catch(() => this.$router.push({ name: 'authenticate' }))
   },
   async mounted () {
+    this.allLists = await DataStore.query(List, Predicates.ALL)
+    this.allTasks = await DataStore.query(Task, Predicates.ALL)
     this.xllTasks = await DataStore.query(ShoppingList, Predicates.ALL)
 
     this.onLisLists()

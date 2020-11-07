@@ -9,6 +9,7 @@ import Contact from 'pages/General/ContactUs'
 import TimeLine from 'pages/General/TimeLine'
 import InstagramFeed from 'pages/General/InstagramFeed'
 import MyResume from 'pages/General/MyResume'
+import Wael from 'pages/General/Wael'
 
 import Projects from 'pages/Projects/index'
 
@@ -41,14 +42,19 @@ const routes = [
         component: Contact
       },
       {
-        path: '/terms',
-        name: 'terms',
-        component: Terms
+        path: '/wael',
+        name: 'wael',
+        component: Wael
       },
       {
         path: '/timeline',
         name: 'timeline',
         component: TimeLine
+      },
+      {
+        path: '/terms',
+        name: 'terms',
+        component: Terms
       },
       {
         path: '/instagram',

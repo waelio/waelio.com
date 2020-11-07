@@ -23,13 +23,6 @@ export declare class ShoppingItem {
   static copyOf(source: ShoppingItem, mutator: (draft: MutableModel<ShoppingItem>) => MutableModel<ShoppingItem> | void): ShoppingItem;
 }
 
-export declare class PrivateNote {
-  readonly id: string;
-  readonly content: string;
-  constructor(init: ModelInit<PrivateNote>);
-  static copyOf(source: PrivateNote, mutator: (draft: MutableModel<PrivateNote>) => MutableModel<PrivateNote> | void): PrivateNote;
-}
-
 export declare class List {
   readonly id: string;
   readonly title: string;
