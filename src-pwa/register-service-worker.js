@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import * as googleAnalytics from 'workbox-google-analytics'
 import { Notify } from 'quasar'
-import { notifyMe } from './src/utils/notify'
+import { notifyMe } from '../src/utils/notify'
 import { precacheAndRoute } from 'workbox-precaching'
 import { setCacheNameDetails, skipWaiting, clientsClaim } from 'workbox-core'
 import { register } from 'register-service-worker'
