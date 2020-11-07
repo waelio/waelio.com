@@ -9,6 +9,24 @@ const LSidebar = {
         caption: 'Contact us for Questions, Suggestions or anything else.'
       },
       {
+        to: { name: 'wael' },
+        avatar: 'settings_input_antenna',
+        label: 'Wael',
+        caption: 'About myself'
+      },
+      {
+        to: { name: 'resume' },
+        avatar: 'assignment',
+        label: 'Download CV',
+        caption: 'My curriculum vita'
+      },
+      {
+        to: { name: 'timeline' },
+        avatar: 'timeline',
+        label: 'Knowledge acquisition',
+        caption: 'My Programming timeline'
+      },
+      {
         to: { name: 'instagramfeed' },
         avatar: 'dynamic_feed',
         label: 'Instagram Feed',

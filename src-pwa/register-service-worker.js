@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import * as googleAnalytics from 'workbox-google-analytics'
 import { Notify } from 'quasar'
-import { notifyMe } from './notify'
+import { notifyMe } from '../src/utils/notify'
 import { precacheAndRoute } from 'workbox-precaching'
 import { setCacheNameDetails, skipWaiting, clientsClaim } from 'workbox-core'
 import { register } from 'register-service-worker'
@@ -24,28 +24,29 @@ precacheAndRoute(self.__precacheManifest, {})
 
 register(process.env.SERVICE_WORKER_FILE, {
 
-  // registrationOptions: { scope: './' },
+  registrationOptions: { scope: './' },
 
   ready (/* registration */) {
     // console.log('Service worker is active.')
   },
 
   registered (/* registration */) {
-    console.log('Service worker has been registered.')
+    // console.log('Service worker has been registered.')
     notifyMe(true)
   },
 
   cached (/* registration */) {
-    console.log('Content has been cached for offline use.')
+    // console.log('Content has been cached for offline use.')
   },
 
   updatefound (/* registration */) {
-    console.log('New content is downloading.')
+    // console.log('New content is downloading.')
   },
 
   updated (registration) {
     // registration -> a ServiceWorkerRegistration instance
-    console.log('New content is available; please refresh.')
+    // console.log('New content is available; please refresh.')
+    notifyMe('New content is available; please refresh.')
     Notify.create({
       message: 'messages.update_available',
       icon: 'cloud_download',
@@ -60,6 +61,7 @@ register(process.env.SERVICE_WORKER_FILE, {
   offline () {
     googleAnalytics.initialize()
     // console.log('No internet connection found. App is running in offline mode.')
+    notifyMe('No internet connection found. App is running in offline mode.')
   },
 
   error (/* err */) {

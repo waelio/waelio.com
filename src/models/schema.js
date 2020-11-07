@@ -149,52 +149,6 @@ export const schema = {
         }
       ]
     },
-    PrivateNote: {
-      name: 'PrivateNote',
-      fields: {
-        id: {
-          name: 'id',
-          isArray: false,
-          type: 'ID',
-          isRequired: true,
-          attributes: []
-        },
-        content: {
-          name: 'content',
-          isArray: false,
-          type: 'String',
-          isRequired: true,
-          attributes: []
-        }
-      },
-      syncable: true,
-      pluralName: 'PrivateNotes',
-      attributes: [
-        {
-          type: 'model',
-          properties: {}
-        },
-        {
-          type: 'auth',
-          properties: {
-            rules: [
-              {
-                provider: 'userPools',
-                ownerField: 'owner',
-                allow: 'owner',
-                identityClaim: 'cognito:username',
-                operations: [
-                  'create',
-                  'update',
-                  'delete',
-                  'read'
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
     List: {
       name: 'List',
       fields: {
@@ -242,20 +196,20 @@ export const schema = {
                 provider: 'userPools',
                 ownerField: 'owner',
                 allow: 'owner',
-                identityClaim: 'cognito:username',
                 operations: [
                   'create',
                   'update',
                   'delete',
                   'read'
-                ]
+                ],
+                identityClaim: 'cognito:username'
               },
               {
                 groupClaim: 'cognito:groups',
                 provider: 'userPools',
                 allow: 'groups',
                 groups: [
-                  'USERS'
+                  'Users'
                 ],
                 queries: [
                   'get',
@@ -333,20 +287,20 @@ export const schema = {
                 provider: 'userPools',
                 ownerField: 'owner',
                 allow: 'owner',
-                identityClaim: 'cognito:username',
                 operations: [
                   'create',
                   'update',
                   'delete',
                   'read'
-                ]
+                ],
+                identityClaim: 'cognito:username'
               },
               {
                 groupClaim: 'cognito:groups',
                 provider: 'userPools',
                 allow: 'groups',
                 groups: [
-                  'USERS'
+                  'Users'
                 ],
                 queries: [
                   'get',
@@ -410,5 +364,5 @@ export const schema = {
   },
   enums: {},
   nonModels: {},
-  version: '1ea7395efc369d5f7f3b9abc168d18b7'
+  version: '98b7fa475220bd796b2a61bd0c06e8f3'
 }

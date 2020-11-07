@@ -7,7 +7,7 @@
       @submit.prevent="locIsCreatingList ? onCreate() : onEdit(TempHolder)"
     >
       <h2 class="text-subtitle1 text-black text-center q-my-sx">
-        {{ locIsCreatingList ? "Add" : "Edit" }} List
+        {{ locIsCreatingList ? "Add" : "Edit" }} ListObject
       </h2>
       <q-input
         v-model="TempHolder.title"
@@ -39,7 +39,7 @@ import * as mutations from 'src/graphql/mutations'
 import uuidV4 from 'uuid/v4'
 export default {
   name: 'ListEdit',
-  props: ['List', 'CreateListInput', 'props1', 'isCreatingList', 'isEditingList'],
+  props: ['ListObject', 'CreateListInput', 'props1', 'isCreatingList', 'isEditingList'],
   beforeMount () {
     this.locIsCreatingList = this.isCreatingList
     this.locIsEditingList = this.isEditing

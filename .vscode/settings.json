@@ -16,5 +16,10 @@
     "typescript",
     "vue"
   ],
-  "vetur.experimental.templateInterpolationService": true
+  "vetur.experimental.templateInterpolationService": true,
+  "apollographql.trace.server": "messages",
+  "cSpell.words": [
+    "Wael",
+    "Waelio"
+  ]
 }

@@ -3,9 +3,10 @@
     <q-btn color="info" label="Open UI" @click.prevent="openUI"></q-btn>
     <amplify-authenticator class="q-mt-md" username-alias="email"></amplify-authenticator>
     <div class="flex justify-between">
-      <q-btn color="primary" @Click="() => Auth.federatedSignIn({provider: 'Facebook'})">Login with Facebook</q-btn>
-      <q-btn color="red" @click.prevent="glLogin">Login with Google</q-btn>
+      <q-btn color="primary" @Click.prevent="()=>$Auth.federatedSignIn({provider: 'Facebook'})">Login with Facebook</q-btn>
+      <q-btn color="red"     @Click.prevent="()=>$Auth.federatedSignIn({provider: 'Google'})">Login with Google</q-btn>
     </div>
+    <pre>{{user}}</pre>
   </div>
 </template>
 <script>
@@ -19,6 +20,14 @@ export default {
   name: 'auth',
   props: ['isLoggedIn', 'signOut'],
   mounted () {
+    const { code, token } = this.$route.query
+    if (token) {
+      console.log('token', token)
+      this.handleResponse(token)
+    }
+    if (code) {
+      console.log('code', code)
+    }
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
@@ -32,25 +41,26 @@ export default {
       }
     })
 
-    Auth.currentAuthenticatedUser()
-      .then(user => { this.user = user })
-      .catch((e) => {
-        console.log('Not signed in', e)
+    this.$Auth.currentAuthenticatedUser()
+      .then(user => {
+        this.signedIn = true
       })
+      // eslint-disable-next-line
+      .catch(() => this.signedIn = false)
   },
   data () {
     return {
       user: null,
       isLoading: false,
       customState: null,
-      codeUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/auth/authenticate',
-      tokenUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/auth/authenticate'
+      codeUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://staging.waelio.com/auth/authenticate',
+      tokenUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://staging.waelio.com/auth/authenticate'
     }
   },
   methods: {
     openUI () {
       openURL(
-        this.codeUrl,
+        this.tokenUrl,
         null,
         {
           noopener: true,
@@ -62,14 +72,14 @@ export default {
     },
     async fbLogin () {
       try {
-        await Auth.federatedSignIn({ provider: 'Facebook' })
+        await this.$Auth.federatedSignIn({ provider: 'Facebook' })
       } catch (error) {
         console.error(error)
       }
     },
     async glLogin () {
       try {
-        await Auth.federatedSignIn({ provider: 'Google' })
+        await this.$Auth.federatedSignIn({ provider: 'Google' })
       } catch (error) {
         console.error(error)
       }
