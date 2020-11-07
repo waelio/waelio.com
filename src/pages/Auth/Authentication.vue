@@ -6,6 +6,7 @@
       <q-btn color="primary" @Click="() => Auth.federatedSignIn({provider: 'Facebook'})">Login with Facebook</q-btn>
       <q-btn color="red" @click.prevent="glLogin">Login with Google</q-btn>
     </div>
+    <pre>{{user}}</pre>
   </div>
 </template>
 <script>
@@ -19,6 +20,14 @@ export default {
   name: 'auth',
   props: ['isLoggedIn', 'signOut'],
   mounted () {
+    const { code, token } = this.$route.query
+    if (token) {
+      console.log('token', token)
+      this.handleResponse(token)
+    }
+    if (code) {
+      console.log('code', code)
+    }
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
@@ -32,11 +41,12 @@ export default {
       }
     })
 
-    Auth.currentAuthenticatedUser()
-      .then(user => { this.user = user })
-      .catch((e) => {
-        console.log('Not signed in', e)
+    this.$Auth.currentAuthenticatedUser()
+      .then(user => {
+        this.signedIn = true
       })
+      // eslint-disable-next-line
+      .catch(() => this.signedIn = false)
   },
   data () {
     return {
@@ -50,7 +60,7 @@ export default {
   methods: {
     openUI () {
       openURL(
-        this.codeUrl,
+        this.tokenUrl,
         null,
         {
           noopener: true,
@@ -62,14 +72,14 @@ export default {
     },
     async fbLogin () {
       try {
-        await Auth.federatedSignIn({ provider: 'Facebook' })
+        await this.$Auth.federatedSignIn({ provider: 'Facebook' })
       } catch (error) {
         console.error(error)
       }
     },
     async glLogin () {
       try {
-        await Auth.federatedSignIn({ provider: 'Google' })
+        await this.$Auth.federatedSignIn({ provider: 'Google' })
       } catch (error) {
         console.error(error)
       }
