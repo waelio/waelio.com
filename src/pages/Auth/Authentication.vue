@@ -3,8 +3,8 @@
     <q-btn color="info" label="Open UI" @click.prevent="openUI"></q-btn>
     <amplify-authenticator class="q-mt-md" username-alias="email"></amplify-authenticator>
     <div class="flex justify-between">
-      <q-btn color="primary" @Click="() => Auth.federatedSignIn({provider: 'Facebook'})">Login with Facebook</q-btn>
-      <q-btn color="red" @click.prevent="glLogin">Login with Google</q-btn>
+      <q-btn color="primary" @Click.prevent="()=>$Auth.federatedSignIn({provider: 'Facebook'})">Login with Facebook</q-btn>
+      <q-btn color="red"     @Click.prevent="()=>$Auth.federatedSignIn({provider: 'Google'})">Login with Google</q-btn>
     </div>
     <pre>{{user}}</pre>
   </div>
@@ -53,8 +53,8 @@ export default {
       user: null,
       isLoading: false,
       customState: null,
-      codeUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/auth/authenticate',
-      tokenUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/auth/authenticate'
+      codeUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://staging.waelio.com/auth/authenticate',
+      tokenUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://staging.waelio.com/auth/authenticate'
     }
   },
   methods: {
