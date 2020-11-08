@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-0" :style="{'margin-top':'-34px'}">
-    <q-timeline layout="loose" class="q-pa-xs">
+  <div class="q-pa-md">
+    <q-timeline layout="loose" class="q-px-xs q-py-lg">
       <q-timeline-entry heading>Programming timeline</q-timeline-entry>
       <q-timeline-entry
         v-for="item in history"
@@ -8,7 +8,7 @@
         :color="item.color"
         :title="item.name"
         :subtitle="item.year"
-        :side="item.i % 2 ? 'right' : 'left'"
+        :side="item.i !== history.length-1 ? item.i % 2 ? 'right' : 'left' : 'center'"
       >
         <template v-slot:title>
           <q-btn flat>
@@ -254,3 +254,18 @@ export default {
   meta
 }
 </script>
+<style lang="scss">
+.q-timeline__entry:last-child {
+  padding-bottom: 0px !important;
+    width: 100vw;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    margin-bottom: 0rem;
+}
+.q-timeline__entry:last-child * {
+    padding-bottom: 0 !important;
+    width: 100vw;
+    margin: auto!important;
+}
+
+</style>

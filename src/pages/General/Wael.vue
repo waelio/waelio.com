@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-mt-lg">
+  <div class="q-pa-md bg-blue-4">
     <q-img
       src="~assets/profile_pic.jpg"
       spinner-color="white"
@@ -41,23 +41,23 @@
         align="left"
         glossy
         stretch
-        color="primary"
-        icon="timeline"
-        to="/timeline"
+        color="orange"
+        icon="assignment"
+        to="/resume"
         text-color="white"
-        label="My Programming timeline"
-        :class="{ active: $route.name === 'timeline' }"
+        label="Resume"
+        :class="{ active: $route.name === 'resume' }"
       />
       <q-btn
         align="left"
         glossy
         stretch
-        color="orange"
-        icon="assignment"
-        to="/resume"
+        color="primary"
+        icon="timeline"
+        to="/timeline"
         text-color="white"
-        label="My curriculum vitae"
-        :class="{ active: $route.name === 'resume' }"
+        label="Timeline"
+        :class="{ active: $route.name === 'timeline' }"
       />
     </div>
   </div>

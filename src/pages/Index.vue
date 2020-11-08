@@ -1,46 +1,61 @@
 <template>
-  <div class="fit no-padding">
-    <div class="row justify-between">
-      <q-parallax style="height: 100vh;">
+  <div class="fit no-padding no-scroll stick-it">
+    <div class="row justify-between stick-it">
+      <q-parallax class="stick-it" style="min-height: 1500px">
         <template v-slot:media>
           <q-media-player
-            style="top: 10px;"
             type="video"
-            background-color="black"
             muted
-            autoplay
             loop
+            :autoplay="true"
             :sources="sources"
             track-language="English"
-            :content-height="800"
+            :content-height="1200"
+            content-class="fixed"
             :bottom-controls="false"
-            />
+            background-color="black"
+          />
         </template>
         <template v-slot:content="scope">
           <div
-            class="absolute column items-center"
+            class="absolute column items-center scroll"
             :style="{
               opacity: 0.45 + (1 - scope.percentScrolled) * 0.55,
-              top: scope.percentScrolled * 35 + '%',
+              top: scope.percentScrolled * 30  + '%',
               left: 0,
-              right: 0
+              right: 0,
+              height: scope.percentScrolled*.1 + 100 + '%'
             }"
           >
-            <img
+            <q-img
               src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg"
-              style="width: 150px; height: 150px"
+              style="width: 75px; height: 75px"
+              :ratio="1"
             />
-            <div class="text-h3 text-white text-center">Waelio.com</div>
-            <p class="text-justify text-white text-body1 q-px-md" style="max-width:420px">
-              That creature over there making a phone call-is it an electrically
-              charged dynamo? Is it a flaming torch? is it a bird, an
-              explosion-or is it Superman? Well, practically. It’s an Aries
-              male, which is pretty close. Let’s hope you know what you’re
-              looking for. Should it be excitement, an Aries man will provide it
-              by the bushel, with seldom a dull moment to blur the sparkle. But
-              if you’re looking for the security and contentment of a soothing
-              love, you’re in the wrong telephone booth.
-            </p>
+            <div class="text-h3 text-white text-center q-my-md text-italic">Aries Man</div>
+            <section  class="text-justify text-white text-body1 q-px-md" style="max-width:420px">
+              <p class="bg-grey-9 q-pa-sm rounded-borders">
+                <q-icon name="format_quote" class="rotate-45 flip-horizontal" />Aries men are fairly bursting with ideas and creative energy.
+                Keeping up with him may be tiring, but keep up you’d better. At
+                least mentally. Aries has a way of leaving the snails behind and
+                not glancing back. He’ll probably look and act younger than
+                springtime, which is all very delightful, but his youthful aura
+                may carry over into his mental and emotional attitudes until he’s
+                matured, which won’t be early in life.<q-icon name="format_quote" /></p>
+              </section>
+              <section  class="text-justify text-white text-body1 q-px-md" style="max-width:420px">
+              <p class="bg-grey-9 q-pa-sm rounded-borders">
+                <q-icon name="format_quote" class="rotate-45 flip-horizontal" />The Aries man is impatient
+                with slow pokes, bold and confident, always ahead of others, and
+                sometimes ahead of himself as well. He can be the soul of
+                generosity, giving his time, money, sympathy and possessions by
+                the carload cheerfully to strangers. But he can also be
+                exasperatingly intolerant, thoughtless, selfish and demanding,
+                when his desires are delayed, or he’s forced to be around negative
+                people.<q-icon name="format_quote" />
+              </p>
+            </section>
+            <p class="text-white text-h5 bg-grey-10 text-italic">~ Linda Goodman ~</p>
           </div>
         </template>
       </q-parallax>
@@ -57,9 +72,19 @@ export default {
       spit: 90,
       sources: [
         {
-          src: 'video.mov',
+          src: 'https://picmymenu.s3.eu-west-3.amazonaws.com/2017_06_21_13_53_15_orig.mp4',
           type: 'video/mp4'
         }
+      ],
+      rotation: null,
+      rotations: [
+        'rotate-45',
+        'rotate-90',
+        'rotate-135',
+        'rotate-180',
+        'rotate-225',
+        'rotate-270',
+        'rotate-315'
       ],
       metaTags: {
         title: 'Home Page',
@@ -71,3 +96,8 @@ export default {
   meta
 }
 </script>
+<style lang="scss">
+.stick-it{
+  position: sticky;
+}
+</style>

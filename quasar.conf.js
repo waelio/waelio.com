@@ -11,17 +11,18 @@ const CopyPlugin = require('copy-webpack-plugin')
 const paths = [
   { path: '/' },
   { path: '/privacy' },
-  { path: '/contact' },
   { path: '/terms' },
-  { path: '/timeline' },
+  { path: '/contact' },
+  { path: '/wael' },
   { path: '/resume' },
+  { path: '/timeline' },
   { path: '/instagram' },
   { path: '/credits' },
   { path: '/projects' },
   { path: '/apps' },
   { path: '/apps/favsshuffler/support' },
   { path: '/auth' },
-  { path: '/auth/authenticate' },
+  { path: '/auth/process' },
   { path: '/auth/profile' }
 ]
 module.exports = function (ctx) {

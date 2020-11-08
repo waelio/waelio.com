@@ -132,25 +132,16 @@ const routes = [
         path: '/auth',
         name: 'auth',
         component: AuthPage,
-        meta: {
-          requiresAuth: true
-        },
         children: [
           {
-            path: 'authenticate',
-            name: 'authenticate',
-            component: Authentication,
-            meta: {
-              requiresAuth: false
-            }
+            path: 'process',
+            name: 'process',
+            component: Authentication
           },
           {
             path: 'profile',
             name: 'profile',
-            component: Profile,
-            meta: {
-              requiresAuth: true
-            }
+            component: Profile
           }
         ]
       },
