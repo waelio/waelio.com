@@ -32,7 +32,7 @@
               style="width: 75px; height: 75px"
               :ratio="1"
             />
-            <div class="text-h3 text-white text-center q-my-md text-italic">Aries Man</div>
+            <router-link class="my-name text-h3 text-white text-center q-my-md text-italic" tag="div" to="/wael">Aries Men</router-link>
             <section  class="text-justify text-white text-body1 q-px-md" style="max-width:420px">
               <p class="bg-grey-9 q-pa-sm rounded-borders">
                 <q-icon name="format_quote" class="rotate-45 flip-horizontal" />Aries men are fairly bursting with ideas and creative energy.
@@ -97,7 +97,21 @@ export default {
 }
 </script>
 <style lang="scss">
+.my-name {
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
 .stick-it{
   position: sticky;
 }
+ @keyframes spin {
+      from {
+          transform:rotateY(0deg);
+      }
+      to {
+          transform:rotateY(360deg);
+      }
+  }
 </style>
