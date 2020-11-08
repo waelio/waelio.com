@@ -17,7 +17,7 @@ export default {
         this.$router.push('/')
       }
       if (info === 'signedOut') {
-        this.$router.push('/auth/authenticate')
+        this.$router.push('/auth/process')
         this.signedIn = false
       }
     })
