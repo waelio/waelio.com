@@ -27,8 +27,7 @@ const client = new AWSAppSyncClient(config, options)
 const appsyncProvider = new VueApollo({
   defaultClient: client
 })
-export default async ({ app, router, Vue }) => {
-  // something to do
+export default async ({ app, Vue }) => {
   Vue.use(VueApollo)
   app.apolloProvider = appsyncProvider
 }

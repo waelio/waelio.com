@@ -46,14 +46,16 @@ export default {
   },
   created () {
     try {
-      this.listener = Hub.listen('datastore', async capsule => {
-        const {
-          payload: { event, data }
-        } = capsule
-        if (event === 'networkStatus') {
-          this.offline = !data.active
-        }
-      })
+      if (this.signedIn !== false) {
+        this.listener = Hub.listen('datastore', async capsule => {
+          const {
+            payload: { event, data }
+          } = capsule
+          if (event === 'networkStatus') {
+            this.offline = !data.active
+          }
+        })
+      }
     } catch (error) {
       Notify.create({
         message: 'messages.update_available',
