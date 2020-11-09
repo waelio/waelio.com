@@ -166,9 +166,8 @@ module.exports = function (ctx) {
       }, // only for GenerateSW
       manifest: {
         name: 'Wael Wahbeh',
-        short_name: 'Wael Wahbeh',
-        description:
-          'Personal Website with current projects and contact information',
+        short_name: 'Waelio',
+        description: 'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

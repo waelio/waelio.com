@@ -1,5 +1,5 @@
 <template>
-  <div id="q-app" >
+  <div id="q-app">
     <router-view v-if="hydrated" />
   </div>
 </template>
@@ -8,40 +8,63 @@ import meta from 'src/utils/meta'
 import { DataStore, Predicates } from '@aws-amplify/datastore'
 import { Hub } from 'aws-amplify'
 import { Chatty } from './models'
+import { Notify } from 'quasar'
+import 'src/utils/pwa_updates'
 export default {
   name: 'App',
   beforeCreate () {
-    this.$AmplifyEventBus.$on('authState', info => {
-      if (info === 'signedIn') {
+    window.isUpdateAvailable.then(isAvailable => {
+      if (isAvailable) {
+        Notify.create({
+          message: 'messages.update_available',
+          icon: 'cloud_download',
+          closeBtn: 'labels.update',
+          timeout: 10000,
+          onDismiss () {
+            window.location.reload()
+          }
+        })
+      }
+    })
+    this.$AmplifyEventBus.$on('authState', State => {
+      if (State === 'signedIn') {
         this.signedIn = true
         this.$router.push('/')
       }
-      if (info === 'signedOut') {
+      if (State === 'signedOut') {
         this.$router.push('/auth/process')
         this.signedIn = false
       }
     })
-    this.$Auth.currentAuthenticatedUser()
-      .then(user => {
-        this.signedIn = true
-      })
-      // eslint-disable-next-line
-      .catch(() => this.signedIn = false)
   },
   async mounted () {
-    // if (this.signedIn !== false) {
-    this.messages = await DataStore.query(Chatty, Predicates.ALL)
-    // }
+    if (this.signedIn !== false) {
+      this.messages = await DataStore.query(Chatty, Predicates.ALL)
+    }
     await this.$apollo.provider.defaultClient.hydrated()
     this.hydrated = true
   },
   created () {
-    this.listener = Hub.listen('datastore', async (capsule) => {
-      const { payload: { event, data } } = capsule
-      if (event === 'networkStatus') {
-        this.offline = !data.active
-      }
-    })
+    try {
+      this.listener = Hub.listen('datastore', async capsule => {
+        const {
+          payload: { event, data }
+        } = capsule
+        if (event === 'networkStatus') {
+          this.offline = !data.active
+        }
+      })
+    } catch (error) {
+      Notify.create({
+        message: 'messages.update_available',
+        icon: 'error',
+        closeBtn: 'labels.update',
+        timeout: 10000,
+        onDismiss () {
+          window.location.reload()
+        }
+      })
+    }
   },
   data () {
     return {
@@ -52,7 +75,8 @@ export default {
       messages: [],
       metaTags: {
         title: 'Wael Wahbeh Portfolio',
-        description: 'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
+        description:
+          'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
         url: 'https://waelio.com',
         images: 'https://waelio.com/img/profile_pic.jpg'
       },
@@ -68,5 +92,4 @@ export default {
   }
 }
 </script>
-<style>
-</style>
+<style></style>
