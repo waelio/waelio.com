@@ -163,11 +163,12 @@ module.exports = function (ctx) {
       workboxOptions: {
         skipWaiting: true,
         clientsClaim: true
-      },
+      }, // only for GenerateSW
       manifest: {
         name: 'Wael Wahbeh',
-        short_name: 'Waelio',
-        description: 'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
+        short_name: 'Wael Wahbeh',
+        description:
+          'Personal Website with current projects and contact information',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

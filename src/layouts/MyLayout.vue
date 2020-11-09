@@ -74,7 +74,7 @@
         </q-page-scroller>
       </q-page>
     </q-page-container>
-    <q-footer class="mobile-hide" ref="footer" reveal elevated revel-offset="500">
+    <q-footer ref="footer" reveal elevated revel-offset="500">
       <footer-navs class="full-width scroll" />
     </q-footer>
   </q-layout>
