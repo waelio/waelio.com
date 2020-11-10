@@ -12,7 +12,7 @@
     <div class="full-width row no-wrap justify-evenly items-center content-around">
       <q-btn color="primary" @Click.prevent="()=>$Auth.federatedSignIn({provider: 'Facebook'})">Facebook</q-btn>
       <q-btn color="red"     @Click.prevent="()=>$Auth.federatedSignIn({provider: 'Google'})">Google</q-btn>
-      <q-btn color="info" label="AuthO" @click.prevent="oopenURL(buildUrl)"></q-btn>
+      <q-btn color="info" label="AuthO" @click.prevent="openUI"></q-btn>
     </div>
     <pre>{{user}}</pre>
     <pre>{{tempData}}</pre>
@@ -86,7 +86,7 @@ export default {
       user: null,
       isLoading: false,
       customState: null,
-      codeUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://localhost:8080.com/auth/process',
+      codeUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://waelio.com/auth/process',
       tokenUrl: 'https://auth.waelio.com/login?client_id=1ad0455rde18h4dorn5q96njvh&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=http://localhost:8080/auth/process'
     }
   },
@@ -153,9 +153,6 @@ export default {
         console.log('error', e)
       }
     },
-    buildUrl () {
-      return `https://auth.waelio.com/login?response_type=code&client_id=${awsconfig.aws_user_pools_web_client_id}&redirect_uri=${this.callBackURL}auth/process`
-    },
     getTokenbyCode: async (code) => {
       const details = {
         grant_type: 'authorization_code',
@@ -203,6 +200,9 @@ export default {
     }
   },
   computed: {
+    buildUrl () {
+      return `https://auth.waelio.com/login?response_type=code&client_id=${awsconfig.aws_user_pools_web_client_id}&redirect_uri=${this.callBackURL}auth/process`
+    },
     callBackURL () {
       return this.isLocalhost ? 'http://localhost:8080/' : 'https://waelio.com/'
     }
