@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import LSidebar from 'src/store/LSidebar'
+import Messages from 'src/store/Messages'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      LSidebar
+      LSidebar,
+      Messages
     },
 
     // enable strict mode (adds overhead!)
