@@ -12,11 +12,12 @@
           <q-icon name="menu" />
         </q-btn>
         <q-toolbar-title><router-link class="text-white text-sm" to="/"><q-icon name="home" /> </router-link></q-toolbar-title>
-        <q-btn text-color="white"  v-if="signedIn"  dense icon="ring_volume" @click.prevent="pingAll" />
+        <q-input rounded dense outlined v-if="signedIn" @keydown.enter="sendMessage({ message, user }), message = null" v-model="message" bg-color="white" class="text-primary" label="Send a message" />
+        <q-btn flat round dense v-if="signedIn" icon="send" @click.prevent="sendMessage({ message, user }), message = null" />
         <q-space />
-        <q-btn-dropdown persistent v-if="messages.length"  v-model="dropDown" stretch flat >
+        <q-btn-dropdown persistent v-if="Messages.length"  v-model="dropDown" stretch flat >
             <template v-slot:label>
-              <q-badge color="orange">{{messages.length}}</q-badge>
+              <q-badge color="orange">{{Messages.length}}</q-badge>
               <span class="q-mx-xs">Notifications</span>
             </template>
             <transition
@@ -26,7 +27,7 @@
             >
             <q-list>
               <q-item-label header>{{$t('Messages')}}</q-item-label>
-              <q-item v-for="message in messages" :key="message.id" clickable v-close-popup tabindex="0">
+              <q-item v-for="message in Messages" :key="message.id" clickable v-close-popup tabindex="0">
                 <q-item-section avatar>
                   <q-avatar size="md" icon="notification_important" color="secondary" text-color="white" />
                 </q-item-section>
@@ -35,7 +36,7 @@
                   <q-item-label><div>{{ message.user}} - {{ formatDate (message) }})</div></q-item-label>
                 </q-item-section>
                 <q-item-section side>
-                  <q-icon name="delete" @click.prevent="deleteNotification(message)" />
+                  <q-icon name="delete" @click.prevent="deleteMessage(message)" />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -80,40 +81,32 @@
   </q-layout>
 </template>
 <script>
-
 import moment from 'moment'
 import { openURL } from 'quasar'
 import LeftSidebar from './LeftSidebar'
 import FooterNavs from './FooterNavs'
 import meta from 'src/utils/meta'
-import { Chatty } from 'src/models'
-import { DataStore, Predicates } from '@aws-amplify/datastore'
-import { notifyMe } from 'src/utils/notify'
-
+import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
   name: 'MyLayout',
   components: { LeftSidebar, FooterNavs },
   beforeCreate () {
+    const vm = this
     this.$Auth
       .currentAuthenticatedUser()
       .then(user => {
-        this.user = user
-        this.signedIn = true
+        vm.user = user
+        vm.signedIn = true
       })
       .catch(() => {
-        this.signedIn = false
+        vm.signedIn = false
       })
   },
-  created () {
-    this.subscription = DataStore.observe(Chatty).subscribe(msg => {
-      notifyMe(msg.message)
-      this.loadMessages()
-    })
-  },
   async mounted () {
-    this.$AmplifyEventBus.$on('authState', info => {
-      this.signedIn = true
-    })
+    if (this.isLoggedIn) {
+      this.loadMessages()
+      this.watchMessages()
+    }
   },
   data () {
     return {
@@ -124,7 +117,7 @@ export default {
       },
       subscription: undefined,
       user: '',
-      messages: [],
+      message: null,
       footer_height: 100,
       signedIn: false,
       dropDown: false,
@@ -139,37 +132,20 @@ export default {
   },
   meta,
   methods: {
+    ...mapActions({
+      watchMessages: 'Messages/observeMessages',
+      loadMessages: 'Messages/getDatastoreMessages',
+      sendMessage: 'Messages/sendMessage',
+      deleteMessage: 'Messages/deleteMessage'
+    }),
     refresh () {
       location.reload()
     },
     moment: () => moment(),
-    loadMessages () {
-      DataStore.query(Chatty, Predicates.ALL).then(messages => {
-        this.messages = messages
-      })
-    },
     formatDate (message) {
       return moment(message.createdAt).format('DD/MM/YY HH:mm:ss')
     },
-    async deleteNotification (message) {
-      this.dropDown = true
-      DataStore.delete(message).then(async () => {
-        this.messages = await DataStore.query(Chatty, Predicates.ALL)
-        this.dropDown = false
-      })
-    },
-    async pingAll () {
-      await DataStore.save(new Chatty({
-        user: 'Wael Wahbeh',
-        message: 'Hi everyone!',
-        createdAt: new Date().toISOString()
-      }))
-    },
     openURL,
-    setFooterHeight () {
-      const footerElement = this.$refs.footer
-      console.log(footerElement)
-    },
     async signOut () {
       await this.$Auth
         .signOut()
@@ -181,15 +157,11 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('Messages', ['Messages']),
+    ...mapState('Messages', ['Message']),
     isLoggedIn () {
       return this.signedIn
     }
-  },
-  destroyed () {
-    if (!this.subscription) return
-    this.subscription.unsubscribe()
   }
 }
 </script>
-
-<style></style>

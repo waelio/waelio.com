@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-grey-2">
+  <div class="q-pa-md bg-grey-2 full-vh">
     <q-img
       src="~assets/profile_pic.jpg"
       spinner-color="white"

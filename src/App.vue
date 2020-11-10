@@ -5,11 +5,10 @@
 </template>
 <script>
 import meta from 'src/utils/meta'
-import { DataStore, Predicates } from '@aws-amplify/datastore'
 import { Hub } from 'aws-amplify'
-import { Chatty } from './models'
 import { Notify } from 'quasar'
 import 'src/utils/pwa_updates'
+
 export default {
   name: 'App',
   beforeCreate () {
@@ -38,9 +37,6 @@ export default {
     })
   },
   async mounted () {
-    if (this.signedIn !== false) {
-      this.messages = await DataStore.query(Chatty, Predicates.ALL)
-    }
     await this.$apollo.provider.defaultClient.hydrated()
     this.hydrated = true
   },

@@ -122,7 +122,11 @@ module.exports = function (ctx) {
     framework: {
       iconSet: 'material-icons', // Quasar icon set
       lang: 'en-us',
-      config: {},
+      config: {
+        screen: {
+          bodyClasses: true
+        }
+      },
       importStrategy: 'auto',
       components: [
         'QLayout',
