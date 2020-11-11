@@ -20,11 +20,6 @@ setCacheNameDetails({
   runtime: 'run-time',
   waelioDatastore: 'waelio.com'
 })
-const cacheFiles = [{
-  revision: 'e653ab4d124bf16b5232',
-  url: 'https://aws-amplify.github.io/img/amplify.svg'
-}]
-self.__precacheManifest = cacheFiles.concat(self.__precacheManifest || [])
 precacheAndRoute(self.__precacheManifest, {})
 
 register(process.env.SERVICE_WORKER_FILE, {
