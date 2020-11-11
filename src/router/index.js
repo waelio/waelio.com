@@ -28,7 +28,7 @@ export default async function ({ store, ssrContext, Vue }) {
   Router.beforeResolve(async (to, from, next) => {
     await store.dispatch('LocalUser/verifyState').then(payload => {
       const User = store.state.LocalUser.User
-      console.log('2- beforeResolve: User', User)
+      // console.log('2- beforeResolve: User', User)
       if (to.matched.some(record => record.meta.requiresAuth)) {
         if (User) {
           next()
