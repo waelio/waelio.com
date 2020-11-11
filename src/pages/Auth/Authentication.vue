@@ -227,8 +227,8 @@ export default {
     },
     callBackURL () {
       return this.isLocalhost
-        ? 'http://localhost:8080/'
-        : 'https://waelio.com/'
+        ? 'http://localhost:8080'
+        : 'https://waelio.com'
     }
   }
 }
