@@ -8,7 +8,7 @@
         :color="item.color"
         :title="item.name"
         :subtitle="item.year"
-        :side="item.i !== history.length-1 ? item.i % 2 ? 'right' : 'left' : 'center'"
+        :side="item.i !== history.length-1 ? item.i % 2 ? 'right' : 'left' : null"
       >
         <template v-slot:title>
           <q-btn flat>

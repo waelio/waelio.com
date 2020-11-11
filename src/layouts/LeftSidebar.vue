@@ -1,7 +1,7 @@
 <template>
   <q-list>
     <q-item-label header>Wael Wahbeh</q-item-label>
-    <div v-if="!isLoggedIn">
+    <div v-if="!signedIn">
       <q-item clickable to='/auth/process'>
         <q-item-section avatar>
           <q-icon name="group" />
@@ -55,14 +55,13 @@
     </div>
   </q-list>
 </template>
-
 <script>
 import { mapGetters } from 'vuex'
 export default {
   name: 'LeftSidebar',
-  props: ['isLoggedIn', 'signOut'],
   computed: {
-    ...mapGetters('LSidebar', ['sidebar_authenticated', 'sidebar_public'])
+    ...mapGetters('LSidebar', ['sidebar_authenticated', 'sidebar_public']),
+    ...mapGetters('LocalUser', ['User', 'signedIn'])
   }
 }
 </script>
