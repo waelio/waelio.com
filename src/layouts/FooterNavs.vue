@@ -6,12 +6,12 @@
     @input="setHeight"
     :value="splitterMode"
     separator-class="absolute-top"
-    class="full-width"
+    class="full-width cursor-pointer"
     style="max-height:174px"
     horizontal
   >
     <template v-slot:before>
-      <div class="row justify-around align-center scroll fit" id="footer-navs">
+      <div class="row justify-around align-center scroll fit hide-scrollbar" id="footer-navs">
         <div class="col-xs-3 col-sm-3 col-md-4 col-lg-3 col-xl-3">
           <q-list>
             <q-item-label

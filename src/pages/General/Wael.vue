@@ -8,8 +8,8 @@
     />
     <p class="text-bold">Wael Wahbeh</p>
     <p class="text-justify q-px-xs text-weight-medium">
-      I am a diverse/eclecic professional in the IT world, with over 22 years of
-      renowned success.
+      I am a diverse/eclectic professional in the IT world, with over 22 years
+      of renowned success.
     </p>
     <p class="text-justify q-px-xs text-weight-medium">
       When I lead and a mentored a company of professionals, We did set the bar
@@ -20,12 +20,12 @@
     </p>
     <p class="text-justify q-px-xs text-weight-medium">
       For a over a decade, I have assumed numerous executive positions,
-      futhermore, I have afinity for IoT and I am avid tracker of technological
-      advancements. I have natural love for research and development and I have
-      successfully provided solutions and products such as CRMs, ERPs, Inventory
-      Managers and Accounting Managers –some of which are being used today - for
-      numerous prominent clients such Nike, PGA, NBA and other well-established
-      businesses.
+      furthermore, I have affinity for IoT and I am avid tracker of
+      technological advancements. I have natural love for research and
+      development and I have successfully provided solutions and products such
+      as CRMs, ERPs, Inventory Managers and Accounting Managers –some of which
+      are being used today - for numerous prominent clients such Nike, PGA, NBA
+      and other well-established businesses.
     </p>
     <p class="text-justify q-px-xs text-weight-medium">
       I am a multilingual English, Arabic and Hebrew speaker, which are my

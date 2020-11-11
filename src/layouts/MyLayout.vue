@@ -58,12 +58,12 @@
       </q-toolbar>
     </q-header>
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
-      <left-sidebar :isLoggedIn="isLoggedIn" @signOut="signOut" />
+      <left-sidebar @signOut="OnsignOut" />
     </q-drawer>
     <q-page-container style="padding-top: 25px;">
       <q-page>
         <q-pull-to-refresh @refresh="refresh">
-          <router-view :isLoggedIn="isLoggedIn" class="q-mx-auto"></router-view>
+          <router-view :isLoggedIn="signedIn" class="q-mx-auto"></router-view>
         </q-pull-to-refresh>
         <q-page-scroller
           expand
@@ -103,7 +103,7 @@ export default {
       })
   },
   async mounted () {
-    if (this.isLoggedIn) {
+    if (this.signedIn) {
       this.loadMessages()
       this.watchMessages()
     }
@@ -136,8 +136,12 @@ export default {
       watchMessages: 'Messages/observeMessages',
       loadMessages: 'Messages/getDatastoreMessages',
       sendMessage: 'Messages/sendMessage',
-      deleteMessage: 'Messages/deleteMessage'
+      deleteMessage: 'Messages/deleteMessage',
+      signOut: 'LocalUser/signOut'
     }),
+    OnsignOut () {
+      this.signOut()
+    },
     refresh () {
       location.reload()
     },
@@ -145,23 +149,14 @@ export default {
     formatDate (message) {
       return moment(message.createdAt).format('DD/MM/YY HH:mm:ss')
     },
-    openURL,
-    async signOut () {
-      await this.$Auth
-        .signOut()
-        .then(data => console.log(data))
-        .catch(err => console.log(err))
-      this.signedIn = false
-      parent.signedIn = false
-      this.$router.push('/auth/process')
-    }
+    openURL
   },
   computed: {
-    ...mapGetters('Messages', ['Messages']),
-    ...mapState('Messages', ['Message']),
-    isLoggedIn () {
-      return this.signedIn
-    }
+    ...mapGetters(
+      'Messages', ['Messages'],
+      'User', ['User', 'signedIn']
+    ),
+    ...mapState('Messages', ['Message'])
   }
 }
 </script>

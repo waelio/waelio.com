@@ -59,8 +59,6 @@ const LSidebar = {
       }
     ]
   },
-  mutations: {},
-  actions: {},
   getters: {
     sidebar_public (state) {
       return state.sidebar_public
