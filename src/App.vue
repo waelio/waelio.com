@@ -8,9 +8,11 @@ import meta from 'src/utils/meta'
 import { Hub } from 'aws-amplify'
 import { Notify } from 'quasar'
 import 'src/utils/pwa_updates'
+import oAuthMixin from 'src/mixins/oAuthMixin'
 
 export default {
   name: 'App',
+  mixins: [oAuthMixin],
   beforeCreate () {
     window.isUpdateAvailable.then(isAvailable => {
       if (isAvailable) {
@@ -36,10 +38,6 @@ export default {
       }
     })
   },
-  async mounted () {
-    await this.$apollo.provider.defaultClient.hydrated()
-    this.hydrated = true
-  },
   created () {
     try {
       if (this.signedIn !== false) {
@@ -64,13 +62,15 @@ export default {
       })
     }
   },
+  async mounted () {
+    await this.$apollo.provider.defaultClient.hydrated()
+    this.hydrated = true
+  },
   data () {
     return {
-      signedIn: false,
       hydrated: false,
       listener: null,
       offline: undefined,
-      messages: [],
       metaTags: {
         title: 'Wael Wahbeh Portfolio',
         description:
