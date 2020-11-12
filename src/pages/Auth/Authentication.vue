@@ -52,10 +52,13 @@
 <script>
 import Amplify from 'aws-amplify'
 import awsconfig from 'src/aws-exports'
+import oAuthMixin from 'src/mixins/oAuthMixin'
+
 Amplify.configure(awsconfig)
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'auth',
+  mixins: [oAuthMixin],
   mounted () {
 
   },
