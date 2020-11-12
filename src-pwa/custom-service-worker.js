@@ -4,6 +4,7 @@
  * quasar.conf > pwa > workboxPluginMode is set to "InjectManifest"
  */
 /* eslint-disable no-undef */
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 import * as googleAnalytics from 'workbox-google-analytics'
 import { Notify } from 'quasar'
 import { notifyMe } from '../src/utils/notify'
@@ -20,7 +21,7 @@ setCacheNameDetails({
   runtime: 'run-time',
   waelioDatastore: 'waelio.com'
 })
-precacheAndRoute(self.__precacheManifest, {})
+precacheAndRoute()
 
 register(process.env.SERVICE_WORKER_FILE, {
 
