@@ -20,12 +20,13 @@ export default {
     return {
       reWrite: '</^((?!.(xml|map|css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|json|mov|pdf|xml)$).)*$/>',
       /* authUrlSimple: 'https://auth.waelio.com', */
-      authUrlSimple: '^/verify',
+      authUrlSimple: 'https://auth.waelio.com',
       authUrlClean: 'https://auth.waelio.com/oauth2/',
       authUrlAuthorize: 'https://auth.waelio.com/oauth2/authorize',
       headers: {
-        'Access-Control-Allow-Origin': 'htp://localhost:8080/',
-        'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        'Access-Control-Allow-Origin': ['http://localhost:8080'],
+        'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        allow_credentials: true
       }
     }
   },
@@ -98,7 +99,7 @@ export default {
         noopener: true,
         menubar: false,
         toolbar: false,
-        noreferrer: true
+        noreferrer: false
       })
     },
     async fbLogin () {
@@ -144,20 +145,21 @@ export default {
         console.log('error', e)
       }
     },
-    buildUrl () {
-      return `${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=${this.callBackURL}`
-    },
+
     // return `https://auth.waelio.com/login?response_type=code&client_id=${awsconfig.aws_user_pools_web_client_id}&redirect_uri=${this.callBackURL}`
-    callBackURL () {
-      return this.isLocalhost
-        ? 'http://localhost:8080'
-        : this.hostName
-    },
     hostName () {
       return window && window.location.host
     }
   },
   computed: {
-    ...mapGetters('LocalUser', ['User', 'signedIn'])
+    ...mapGetters('LocalUser', ['User', 'signedIn']),
+    buildUrl () {
+      return `${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=${this.callBackURL}`
+    },
+    callBackURL () {
+      return this.isLocalhost
+        ? 'http://localhost:8080'
+        : this.hostName
+    }
   }
 }
