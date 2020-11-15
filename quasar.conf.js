@@ -129,7 +129,7 @@ module.exports = function (ctx) {
           logLevel: 'debug'
         }
       },
-      https: false,
+      https: true,
       port: 8080,
       open: false // opens browser window automatically
       // allowedHosts: ['waelio.com', 'auth.waelio.com', 'waelwahbeh.com', 'auth.waelwahbeh.com', 'localhost', 'localhost:8080']
@@ -180,12 +180,8 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
-      workboxPluginMode: 'InjectManifest', // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {
-      //   skipWaiting: true,
-      //   clientsClaim: true
-        swSrc: 'src-pwa/custom-service-worker.js'
-      }, // only for GenerateSW
+      workboxPluginMode: 'InjectManifest',
+      workboxOptions: {}, // only for GenerateSW
       manifest: {
         name: 'Wael Wahbeh',
         short_name: 'Waelio',
