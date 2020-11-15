@@ -129,7 +129,7 @@ module.exports = function (ctx) {
           logLevel: 'debug'
         }
       },
-      https: true,
+      https: false,
       port: 8080,
       open: false // opens browser window automatically
       // allowedHosts: ['waelio.com', 'auth.waelio.com', 'waelwahbeh.com', 'auth.waelwahbeh.com', 'localhost', 'localhost:8080']
@@ -190,6 +190,7 @@ module.exports = function (ctx) {
         orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#027be3',
+        start_url: '/',
         files: [
           {
             src: 'pdf/Waels_Resume_Fresh.pdf',
