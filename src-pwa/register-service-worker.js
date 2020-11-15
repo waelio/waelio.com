@@ -24,7 +24,7 @@ precacheAndRoute(self.__precacheManifest, {})
 
 register(process.env.SERVICE_WORKER_FILE, {
 
-  registrationOptions: { scope: './' },
+  // registrationOptions: { scope: './' },
 
   ready (/* registration */) {
     // console.log('Service worker is active.')

@@ -1,5 +1,5 @@
 <template>
-  <div class="fit no-padding no-scroll stick-it">
+  <div class="fit no-padding no-scroll stick-it q-px-xl q-mx-auto">
     <div class="row justify-between stick-it">
       <q-parallax class="stick-it" style="min-height: 1500px">
         <template v-slot:media>
@@ -14,11 +14,12 @@
             content-class="fixed"
             :bottom-controls="false"
             background-color="black"
+            style="max-width:960px;"
           />
         </template>
         <template v-slot:content="scope">
           <div
-            class="absolute column items-center scroll"
+            class="absolute column items-center scroll set-width"
             :style="{
               opacity: 0.45 + (1 - scope.percentScrolled) * 0.55,
               top: scope.percentScrolled * 30  + '%',

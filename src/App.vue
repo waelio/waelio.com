@@ -1,6 +1,9 @@
 <template>
   <div id="q-app">
-    <router-view v-if="hydrated" />
+    <div v-if="!online">You are offline.</div>
+    <div v-bind:class="{ offline: offline }">
+      <router-view v-if="hydrated" />
+    </div>
   </div>
 </template>
 <script>
@@ -8,9 +11,11 @@ import meta from 'src/utils/meta'
 import { Hub } from 'aws-amplify'
 import { Notify } from 'quasar'
 import 'src/utils/pwa_updates'
+import oAuthMixin from 'src/mixins/oAuthMixin'
 
 export default {
   name: 'App',
+  mixins: [oAuthMixin],
   beforeCreate () {
     window.isUpdateAvailable.then(isAvailable => {
       if (isAvailable) {
@@ -36,22 +41,18 @@ export default {
       }
     })
   },
-  async mounted () {
-    await this.$apollo.provider.defaultClient.hydrated()
-    this.hydrated = true
-  },
   created () {
     try {
-      if (this.signedIn !== false) {
-        this.listener = Hub.listen('datastore', async capsule => {
-          const {
-            payload: { event, data }
-          } = capsule
-          if (event === 'networkStatus') {
-            this.offline = !data.active
-          }
-        })
-      }
+      // if (this.signedIn !== false) {
+      this.listener = Hub.listen('datastore', async capsule => {
+        const {
+          payload: { event, data }
+        } = capsule
+        if (event === 'networkStatus') {
+          this.offline = !data.active
+        }
+      })
+      // }
     } catch (error) {
       Notify.create({
         message: 'messages.update_available',
@@ -64,13 +65,15 @@ export default {
       })
     }
   },
+  async mounted () {
+    await this.$apollo.provider.defaultClient.hydrated()
+    this.hydrated = true
+  },
   data () {
     return {
-      signedIn: false,
       hydrated: false,
       listener: null,
-      offline: undefined,
-      messages: [],
+      offline: window && !window.navigator.onLine,
       metaTags: {
         title: 'Wael Wahbeh Portfolio',
         description:
@@ -79,6 +82,11 @@ export default {
         images: 'https://waelio.com/img/profile_pic.jpg'
       },
       meta
+    }
+  },
+  computed: {
+    online () {
+      return window && window.navigator.onLine
     }
   },
   watch: {

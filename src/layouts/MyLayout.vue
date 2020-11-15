@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="shadow-2 rounded-borderes">
+  <q-layout view="lHh Lpr lFf" >
     <q-header ereveal elevated class="glossy">
       <q-toolbar>
         <q-btn
@@ -60,7 +60,7 @@
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
       <left-sidebar @signOut="OnsignOut" />
     </q-drawer>
-    <q-page-container style="padding-top: 25px;">
+    <q-page-container class="no-shadow" style="padding-top: 25px;">
       <q-page>
         <q-pull-to-refresh @refresh="refresh">
           <router-view :isLoggedIn="signedIn" class="q-mx-auto"></router-view>
@@ -71,7 +71,7 @@
           :scroll-offset="100"
           :offset="[0, 0]"
         >
-          <div class="col cursor-pointer q-pa-sm bg-warning text-white text-center">Scroll back up...</div>
+          <div class="col cursor-pointer q-pa-sm bg-info text-white text-center">Scroll back up...</div>
         </q-page-scroller>
       </q-page>
     </q-page-container>

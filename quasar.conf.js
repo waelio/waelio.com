@@ -66,7 +66,11 @@ module.exports = function (ctx) {
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
       vueRouterBase: '/',
-      maximumFileSizeToCacheInBytes: 2e6,
+      maximumFileSizeToCacheInBytes: 4000000,
+      uglifyOptions: {
+        minimize: true,
+        compress: { drop_console: true }
+      },
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
@@ -75,9 +79,9 @@ module.exports = function (ctx) {
       // transpileDependencies: [],
 
       // rtl: false, // https://quasar.dev/options/rtl-support
-      // preloadChunks: true,
+      preloadChunks: true,
       // showProgress: false,
-      // gzip: true,
+      gzip: true,
       // analyze: true,
 
       // Options below are automatically set depending on the env, set them if you want to override
@@ -104,7 +108,8 @@ module.exports = function (ctx) {
             new CopyPlugin({
               patterns: [
                 { from: 'sitemap.xml', to: 'dest/pwa' },
-                { from: 'sitemap.xml', to: 'public' }
+                { from: 'sitemap.xml', to: 'public' },
+                { from: 'robots.text', to: 'public' }
               ]
             })
           )
@@ -114,9 +119,20 @@ module.exports = function (ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
+      proxy: {
+        '^/verify': {
+          target: 'https://auth.waelio.com',
+          secure: false,
+          changeOrigin: true,
+          ws: true,
+          pathRewrite: { '^/verify': '/verify' },
+          logLevel: 'debug'
+        }
+      },
       https: false,
       port: 8080,
       open: false // opens browser window automatically
+      // allowedHosts: ['waelio.com', 'auth.waelio.com', 'waelwahbeh.com', 'auth.waelwahbeh.com', 'localhost', 'localhost:8080']
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -164,11 +180,8 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
-      workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {
-        skipWaiting: true,
-        clientsClaim: true
-      }, // only for GenerateSW
+      workboxPluginMode: 'InjectManifest',
+      workboxOptions: {}, // only for GenerateSW
       manifest: {
         name: 'Wael Wahbeh',
         short_name: 'Waelio',
@@ -177,6 +190,7 @@ module.exports = function (ctx) {
         orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#027be3',
+        start_url: '/',
         files: [
           {
             src: 'pdf/Waels_Resume_Fresh.pdf',
