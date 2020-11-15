@@ -18,7 +18,7 @@ const LocalUser = {
         .currentAuthenticatedUser()
         .then(async user => {
           commit('updateUser', user)
-          console.log('verifyState', user)
+          // console.log('verifyState', user)
           return user
         })
         .catch(() => {
