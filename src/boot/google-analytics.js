@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import ga from 'src/utils/analytics.js'
 
 export default ({ router }) => {

@@ -1,6 +1,9 @@
 <template>
   <div id="q-app">
-    <router-view v-if="hydrated" />
+    <div v-if="!online">You are offline.</div>
+    <div v-bind:class="{ offline: offline }">
+      <router-view v-if="hydrated" />
+    </div>
   </div>
 </template>
 <script>
@@ -40,16 +43,16 @@ export default {
   },
   created () {
     try {
-      if (this.signedIn !== false) {
-        this.listener = Hub.listen('datastore', async capsule => {
-          const {
-            payload: { event, data }
-          } = capsule
-          if (event === 'networkStatus') {
-            this.offline = !data.active
-          }
-        })
-      }
+      // if (this.signedIn !== false) {
+      this.listener = Hub.listen('datastore', async capsule => {
+        const {
+          payload: { event, data }
+        } = capsule
+        if (event === 'networkStatus') {
+          this.offline = !data.active
+        }
+      })
+      // }
     } catch (error) {
       Notify.create({
         message: 'messages.update_available',
@@ -70,7 +73,7 @@ export default {
     return {
       hydrated: false,
       listener: null,
-      offline: undefined,
+      offline: window && !window.navigator.onLine,
       metaTags: {
         title: 'Wael Wahbeh Portfolio',
         description:
@@ -79,6 +82,11 @@ export default {
         images: 'https://waelio.com/img/profile_pic.jpg'
       },
       meta
+    }
+  },
+  computed: {
+    online () {
+      return window && window.navigator.onLine
     }
   },
   watch: {

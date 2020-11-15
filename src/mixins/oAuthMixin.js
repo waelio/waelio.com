@@ -3,28 +3,30 @@ import { mapGetters } from 'vuex'
 import awsconfig from 'src/aws-exports'
 import { Auth } from 'aws-amplify'
 import { openURL } from 'quasar'
-
-import {
-  CognitoIdToken,
-  CognitoAccessToken,
-  CognitoRefreshToken,
-  CognitoUserSession
-} from 'amazon-cognito-identity-js'
+import { CognitoIdToken, CognitoAccessToken, CognitoRefreshToken, CognitoUserSession } from 'amazon-cognito-identity-js'
 export default {
-  data () {
-    return {
-      authUrlClean: 'https://auth.waelio.com/oauth2/authorize',
-      authUrlAuthorize: 'https://auth.waelio.com/oauth2/authorize',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      }
-    }
-  },
   mounted () {
+    console.log('mounted', this.$route.query)
+  },
+  updated () {
+    console.log('updated', this.$route.query)
     const { code } = this.$route.query
     if (code) {
       console.log('code', code)
       this.getTokenByCode(code)
+    }
+  },
+  data () {
+    return {
+      reWrite: '</^((?!.(xml|map|css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|json|mov|pdf|xml)$).)*$/>',
+      /* authUrlSimple: 'https://auth.waelio.com', */
+      authUrlSimple: '^/verify',
+      authUrlClean: 'https://auth.waelio.com/oauth2/',
+      authUrlAuthorize: 'https://auth.waelio.com/oauth2/authorize',
+      headers: {
+        'Access-Control-Allow-Origin': 'htp://localhost:8080/',
+        'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      }
     }
   },
   methods: {
@@ -141,21 +143,21 @@ export default {
         this.isLoading = false
         console.log('error', e)
       }
-    }
-  },
-  computed: {
-    ...mapGetters('LocalUser', ['User', 'signedIn']),
-    buildUrl () {
-      return `https://auth.waelio.com/login?response_type=code&client_id=${awsconfig.aws_user_pools_web_client_id}&redirect_uri=${this.callBackURL}`
     },
+    buildUrl () {
+      return `${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=${this.callBackURL}`
+    },
+    // return `https://auth.waelio.com/login?response_type=code&client_id=${awsconfig.aws_user_pools_web_client_id}&redirect_uri=${this.callBackURL}`
     callBackURL () {
       return this.isLocalhost
         ? 'http://localhost:8080'
         : this.hostName
     },
     hostName () {
-      return window.location.host
+      return window && window.location.host
     }
+  },
+  computed: {
+    ...mapGetters('LocalUser', ['User', 'signedIn'])
   }
-
 }
