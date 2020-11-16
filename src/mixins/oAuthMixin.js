@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable no-unused-vars */
 import { mapGetters } from 'vuex'
 import awsconfig from 'src/aws-exports'
@@ -22,17 +23,13 @@ export default {
       /* authUrlSimple: 'https://auth.waelio.com', */
       authUrlSimple: 'https://auth.waelio.com',
       authUrlClean: 'https://auth.waelio.com/oauth2/',
-      authUrlAuthorize: 'https://auth.waelio.com/oauth2/authorize',
-      headers: {
-        'Access-Control-Allow-Origin': ['http://localhost:8080'],
-        'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        allow_credentials: true
-      }
+      authUrlAuthorize: 'https://auth.waelio.com/oauth2/authorize'
     }
   },
   methods: {
     async getTokenByCode (code) {
       // grant_type: 'authorization_code',
+      this.$axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
       const details = {
         grant_type: 'authorization_code',
         code,
@@ -45,13 +42,11 @@ export default {
             `${encodeURIComponent(key)}=${encodeURIComponent(details[key])}`
         )
         .join('&')
-
+      console.log(formBody)
       try {
-        const res = await this.$axios({
-          method: 'post',
+        const res = await this.$axios.post({
           url: this.authUrlAuthorize,
-          data: formBody,
-          headers: this.headers
+          data: formBody
         })
         const tokenRequestJson = await res.json()
         const IdToken = new CognitoIdToken({
@@ -144,22 +139,22 @@ export default {
         this.isLoading = false
         console.log('error', e)
       }
-    },
+    }
 
     // return `https://auth.waelio.com/login?response_type=code&client_id=${awsconfig.aws_user_pools_web_client_id}&redirect_uri=${this.callBackURL}`
-    hostName () {
-      return window && window.location.host
-    }
   },
   computed: {
     ...mapGetters('LocalUser', ['User', 'signedIn']),
     buildUrl () {
-      return `${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=${this.callBackURL}`
+      return encodeURIComponent(`${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=${this.callBackURL}`)
     },
     callBackURL () {
-      return this.isLocalhost
+      return encodeURIComponent(this.isLocalhost
         ? 'http://localhost:8080'
-        : this.hostName
+        : this.hostName)
+    },
+    hostName () {
+      return encodeURIComponent(window && window.location.host)
     }
   }
 }
