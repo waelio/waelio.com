@@ -29,19 +29,19 @@ export default {
   methods: {
     async getTokenByCode (code) {
       // grant_type: 'authorization_code',
-      const details = JSON.parse(JSON.stringify({
+      const details = {
         grant_type: 'authorization_code',
         code,
         client_id: awsconfig.aws_user_pools_web_client_id,
         redirect_uri: this.authUrlClean
-      }))
-      const formBody = Object.keys(details)
-        .map(
-          key =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(details[key])}`
-        )
-        .join('&')
-      console.log(decodeURIComponent(details))
+      }
+      // const formBody = Object.keys(details)
+      //   .map(
+      //     key =>
+      //       `${encodeURIComponent(key)}=${encodeURIComponent(details[key])}`
+      //   )
+      //   .join('&')
+      console.log(details)
       const { proxy } = this.proxy
       const config = {
         headers: {
@@ -50,12 +50,12 @@ export default {
         }
       }
       try {
-        const res = await this.$axios({
-          method: 'post',
-          url: 'https://auth.waelio.com/oauth2/authorize',
-          data: formBody,
-          config,
-          proxy
+        const link = `${this.authUrlClean}?grant_type=authorization_code&code=${code}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=abdc123&redirect_uri=${this.callBackURL}`
+        const res = await openURL(link, null, {
+          noopener: true,
+          menubar: false,
+          toolbar: false,
+          noreferrer: false
         })
 
         const tokenRequestJson = await res.json()
@@ -157,7 +157,7 @@ export default {
   computed: {
     ...mapGetters('LocalUser', ['User', 'signedIn']),
     buildUrl () {
-      return decodeURIComponent(encodeURIComponent(`${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=${this.callBackURL}`))
+      return decodeURIComponent(encodeURIComponent(`${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&token=aws.cognito.signin.user.admin+email+openid+phone+profile&state=abdc123&redirect_uri=${this.callBackURL}`))
     },
     callBackURL () {
       return decodeURIComponent(encodeURIComponent(this.isLocalhost
