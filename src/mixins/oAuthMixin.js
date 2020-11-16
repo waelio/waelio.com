@@ -28,8 +28,8 @@ export default {
   },
   methods: {
     async getTokenByCode (code) {
+      const HTTP = this.$axios
       // grant_type: 'authorization_code',
-      this.$axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
       const details = {
         grant_type: 'authorization_code',
         code,
@@ -42,12 +42,34 @@ export default {
             `${encodeURIComponent(key)}=${encodeURIComponent(details[key])}`
         )
         .join('&')
-      console.log(formBody)
+      console.log(decodeURIComponent(formBody))
+      // const { proxy } = this.proxy
       try {
-        const res = await this.$axios.post({
-          url: this.authUrlAuthorize,
-          data: formBody
+        // const payload = {
+        //   url: 'https://auth.waelio.com/oauth2/authorize',
+        //   method: 'post',
+        //   data: decodeURIComponent(formBody),
+        //   headers: {
+        //     referrerpolicy: 'no-referrer-when-downgrade',
+        //     'Access-Control-Allow-Origin': '*',
+        //     // eslint-disable-next-line no-dupe-keys
+        //     'Access-Control-Allow-Origin': this.hostName,
+        //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        //     'Allow-Credentials': true
+        //   },
+        //   proxy
+        // }
+        // console.log(payload)
+        const res = await fetch('https://auth.waelio.com/oauth2/authorize', {
+          method: 'post',
+          body: formBody,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            'Allow-Credentials': true
+          }
         })
+
         const tokenRequestJson = await res.json()
         const IdToken = new CognitoIdToken({
           IdToken: tokenRequestJson.id_token
@@ -74,6 +96,7 @@ export default {
           const authCurrentUser = Auth.currentAuthenticatedUser()
         } catch (userError) {
           // HANDLE USERERROR
+          console.error(userError)
         }
       } catch (fetchError) {
         console.error(fetchError)
@@ -146,15 +169,24 @@ export default {
   computed: {
     ...mapGetters('LocalUser', ['User', 'signedIn']),
     buildUrl () {
-      return encodeURIComponent(`${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=${this.callBackURL}`)
+      return decodeURIComponent(encodeURIComponent(`${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=${this.callBackURL}`))
     },
     callBackURL () {
-      return encodeURIComponent(this.isLocalhost
+      return decodeURIComponent(encodeURIComponent(this.isLocalhost
         ? 'http://localhost:8080'
-        : this.hostName)
+        : this.hostName))
     },
     hostName () {
-      return encodeURIComponent(window && window.location.host)
+      return decodeURIComponent(encodeURIComponent(window && window.location.origin))
+    },
+    proxy () {
+      return {
+        proxy: {
+          protocol: window && window.location.protocol,
+          host: window && window.location.host,
+          port: window && window.location.port
+        }
+      }
     }
   }
 }
