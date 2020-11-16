@@ -28,46 +28,34 @@ export default {
   },
   methods: {
     async getTokenByCode (code) {
-      const HTTP = this.$axios
       // grant_type: 'authorization_code',
-      const details = {
+      const details = JSON.parse(JSON.stringify({
         grant_type: 'authorization_code',
         code,
         client_id: awsconfig.aws_user_pools_web_client_id,
         redirect_uri: this.authUrlClean
-      }
+      }))
       const formBody = Object.keys(details)
         .map(
           key =>
             `${encodeURIComponent(key)}=${encodeURIComponent(details[key])}`
         )
         .join('&')
-      console.log(decodeURIComponent(formBody))
-      // const { proxy } = this.proxy
+      console.log(decodeURIComponent(details))
+      const { proxy } = this.proxy
+      const config = {
+        headers: {
+          'Access-Control-Allow-Origin': 'http://localhost:8080',
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        }
+      }
       try {
-        // const payload = {
-        //   url: 'https://auth.waelio.com/oauth2/authorize',
-        //   method: 'post',
-        //   data: decodeURIComponent(formBody),
-        //   headers: {
-        //     referrerpolicy: 'no-referrer-when-downgrade',
-        //     'Access-Control-Allow-Origin': '*',
-        //     // eslint-disable-next-line no-dupe-keys
-        //     'Access-Control-Allow-Origin': this.hostName,
-        //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        //     'Allow-Credentials': true
-        //   },
-        //   proxy
-        // }
-        // console.log(payload)
-        const res = await fetch('https://auth.waelio.com/oauth2/authorize', {
+        const res = await this.$axios({
           method: 'post',
-          body: formBody,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-            'Allow-Credentials': true
-          }
+          url: 'https://auth.waelio.com/oauth2/authorize',
+          data: formBody,
+          config,
+          proxy
         })
 
         const tokenRequestJson = await res.json()
