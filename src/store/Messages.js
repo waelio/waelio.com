@@ -1,6 +1,6 @@
 import { DataStore, Predicates } from '@aws-amplify/datastore'
 import { Chatty } from 'src/models'
-import { notifyMe } from 'src/utils/notify'
+import { notifyMe } from 'src/utils/notifyMe'
 
 const Messages = {
   namespaced: true,

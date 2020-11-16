@@ -8,7 +8,7 @@
 import { precacheAndRoute } from 'workbox-precaching'
 import * as googleAnalytics from 'workbox-google-analytics'
 import { Notify } from 'quasar'
-import { notifyMe } from '../src/utils/notify'
+import { notifyMe } from 'src/utils/notifyMe'
 import { setCacheNameDetails, skipWaiting, clientsClaim } from 'workbox-core'
 import { register } from 'register-service-worker'
 
@@ -92,9 +92,10 @@ register(process.env.SERVICE_WORKER_FILE, {
     // console.log('New content is available; please refresh.')
     notifyMe('New content is available; please refresh.')
     Notify.create({
-      message: 'messages.update_available',
+      message: 'New Update available',
+      color: 'warning',
       icon: 'cloud_download',
-      closeBtn: 'labels.update',
+      closeBtn: 'Update',
       timeout: 10000,
       onDismiss () {
         location.reload()
