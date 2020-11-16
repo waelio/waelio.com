@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable quotes */
 /* eslint-disable no-unused-vars */
 import { mapGetters } from 'vuex'
@@ -12,9 +13,14 @@ export default {
   updated () {
     console.log('updated', this.$route.query)
     const { code } = this.$route.query
+    let token = window.location.hash.replace(/^#/, '') || false
+    if (token) {
+      token = this.QueryStringToJSON(token)
+      this.handleResponse(token)
+    }
     if (code) {
       console.log('code', code)
-      this.getTokenByCode(code)
+      this.handleResponse(code)
     }
   },
   data () {
@@ -23,41 +29,49 @@ export default {
       /* authUrlSimple: 'https://auth.waelio.com', */
       authUrlSimple: 'https://auth.waelio.com',
       authUrlClean: 'https://auth.waelio.com/oauth2/',
-      authUrlAuthorize: 'https://auth.waelio.com/oauth2/authorize'
+      authUrlToken: 'https://auth.waelio.com/oauth2/token',
+      authUrlAuthorize: 'https://auth.waelio.com/oauth2/authorize',
+      XCsrfToken: 'i8XNjC4b8KVok4uw5RftR38Wgp2BFwql'
     }
   },
   methods: {
+    buildAuthURL (code) {
+      return {
+        grant_type: 'authorization_code',
+        client_id: awsconfig.aws_user_pools_web_client_id,
+        redirect_uri: this.callBackURL,
+        code: code
+        // state: this.XCsrfToken
+      }
+    },
     async getTokenByCode (code) {
       // grant_type: 'authorization_code',
-      const details = {
-        grant_type: 'authorization_code',
-        code,
-        client_id: awsconfig.aws_user_pools_web_client_id,
-        redirect_uri: this.authUrlClean
-      }
+
       // const formBody = Object.keys(details)
       //   .map(
       //     key =>
       //       `${encodeURIComponent(key)}=${encodeURIComponent(details[key])}`
       //   )
       //   .join('&')
-      console.log(details)
-      const { proxy } = this.proxy
-      const config = {
-        headers: {
-          'Access-Control-Allow-Origin': 'http://localhost:8080',
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-        }
-      }
+      // console.log(details)
+      // const { proxy } = this.proxy
+      // const config = {
+      //   headers: {
+      //     'Access-Control-Allow-Origin': 'http://localhost:8080',
+      //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      //   }
+      // }
       try {
-        const link = `${this.authUrlClean}?grant_type=authorization_code&code=${code}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=abdc123&redirect_uri=${this.callBackURL}`
-        const res = await openURL(link, null, {
+        // const link = this.authUrl(code)
+        openURL(`${this.authUrlAuthorize}?grant_type:authorization_code&code=${code}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`, null, {
           noopener: true,
-          menubar: false,
-          toolbar: false,
+          menubar: true,
+          toolbar: true,
           noreferrer: false
         })
-
+        return
+        // eslint-disable-next-line no-unreachable
+        const res = {}
         const tokenRequestJson = await res.json()
         const IdToken = new CognitoIdToken({
           IdToken: tokenRequestJson.id_token
@@ -102,7 +116,7 @@ export default {
     },
     openUI () {
       openURL(this.buildUrl, null, {
-        noopener: true,
+        noopener: false,
         menubar: false,
         toolbar: false,
         noreferrer: false
@@ -131,33 +145,45 @@ export default {
       })
       return JSON.parse(JSON.stringify(result))
     },
-    async handleResponse (data) {
-      this.tempData = data
-      // eslint-disable-next-line camelcase
-      const { access_token: token, expires_in: expiresIn } = data
-      const expiresAt = expiresIn * 1000 + new Date().getTime()
+    async handleResponse (code) {
       this.isLoading = true
-
-      try {
-        const response = await Auth.federatedSignIn(
-          'facebook',
-          { token, expiresAt },
-          { user: 'wahbehw@gmail.com' }
+      const payload = this.buildAuthURL(code)
+      console.log(payload)
+      const formBody = Object.keys(payload)
+        .map(
+          key =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(payload[key])}`
         )
-        this.isLoading = false
-        this.props.onLogin(response)
-      } catch (e) {
-        this.isLoading = false
-        console.log('error', e)
-      }
-    }
+        .join('&')
+      console.log(formBody)
+      const cb = this.callBackURL
+      const response = this.$axios({
+        url: this.authUrlToken,
+        method: 'POST',
+        data: formBody,
+        headers: {
+          'Access-Control-Allow-Origin': cb,
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: 'Basic aSdxd892iujendek328uedj'
+        }
+      })
 
-    // return `https://auth.waelio.com/login?response_type=code&client_id=${awsconfig.aws_user_pools_web_client_id}&redirect_uri=${this.callBackURL}`
+      this.isLoading = false
+    },
+    authUrl (code) {
+      return `${this.authUrlAuthorize}?grant_type:authorization_code&code=${code}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`
+    },
+    authTokenUrl (token) {
+      return `${this.authUrlAuthorize}?grant_type:authorization_code&token=${token}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`
+    },
+    authCodeUrl (code) {
+      return `${this.authUrlAuthorize}?grant_type:authorization_code&code=${code}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`
+    }
   },
   computed: {
     ...mapGetters('LocalUser', ['User', 'signedIn']),
     buildUrl () {
-      return decodeURIComponent(encodeURIComponent(`${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&token=aws.cognito.signin.user.admin+email+openid+phone+profile&state=abdc123&redirect_uri=${this.callBackURL}`))
+      return decodeURIComponent(encodeURIComponent(`${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`))
     },
     callBackURL () {
       return decodeURIComponent(encodeURIComponent(this.isLocalhost
