@@ -37,11 +37,12 @@ export default {
   methods: {
     buildAuthURL (code) {
       return {
-        grant_type: 'authorization_code',
+        grant_type: 'client_credentials',
         client_id: awsconfig.aws_user_pools_web_client_id,
         redirect_uri: this.callBackURL,
-        code: code
-        // state: this.XCsrfToken
+        code: code,
+        state: this.XCsrfToken,
+        scope: 'aws.cognito.signin.user.admin+email+openid+phone+profile'
       }
     },
     async getTokenByCode (code) {
@@ -157,7 +158,7 @@ export default {
         .join('&')
       console.log(formBody)
       const cb = this.callBackURL
-      const response = this.$axios({
+      const response = await this.$axios({
         url: this.authUrlToken,
         method: 'POST',
         data: formBody,
@@ -167,6 +168,12 @@ export default {
           Authorization: 'Basic aSdxd892iujendek328uedj'
         }
       })
+        .then(good => {
+          console.log(good)
+        })
+        .catch(exp => {
+          console.error(exp)
+        })
 
       this.isLoading = false
     },
