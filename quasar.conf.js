@@ -119,17 +119,10 @@ module.exports = function (ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      // proxy: {
-      //   '/oauth2': {
-      //     target: 'https://auth.waelio.com',
-      //     changeOrigin: true,
-      //     pathRewrite: { '^/oauth2': '/oauth2' }
-      //   }
-      // },
       https: false,
       port: 8080,
       open: false, // opens browser window automatically
-      allowedHosts: ['waelio.com', 'auth.waelio.com', 'waelwahbeh.com', 'auth.waelwahbeh.com', 'localhost', 'localhost:8080']
+      allowedHosts: ['waelio.com', 'auth.waelio.com', 'localhost', 'localhost:8080']
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -163,7 +156,7 @@ module.exports = function (ctx) {
         'QItemLabel'
       ],
       directives: [],
-      plugins: ['Notify', 'Loading', 'Dialog', 'Meta']
+      plugins: ['Notify', 'Loading', 'Dialog', 'Meta', 'Cookies', 'LocalStorage', 'SessionStorage']
     },
 
     animations: 'all', // --- includes all animations

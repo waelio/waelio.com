@@ -32,7 +32,7 @@ register(process.env.SERVICE_WORKER_FILE, {
 
   registered (/* registration */) {
     // console.log('Service worker has been registered.')
-    notifyMe(true)
+    notifyMe('Registered Successfully U+1F973')
   },
 
   cached (/* registration */) {

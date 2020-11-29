@@ -1,122 +1,152 @@
 /* eslint-disable camelcase */
-/* eslint-disable quotes */
-/* eslint-disable no-unused-vars */
 import { mapGetters } from 'vuex'
 import awsconfig from 'src/aws-exports'
 import { Auth } from 'aws-amplify'
-import { openURL } from 'quasar'
+import { openURL, uid } from 'quasar'
+import { sha256 } from 'js-sha256'
+const Buffer = require('buffer/').Buffer
+import {
+  JSONToQueryString, QueryStringToJSON, snakeToCamel,
+  decodePayload, Base64, calculateClockDrift
+} from 'src/utils/tools'
 import { CognitoIdToken, CognitoAccessToken, CognitoRefreshToken, CognitoUserSession } from 'amazon-cognito-identity-js'
 export default {
   mounted () {
     console.log('mounted', this.$route.query)
   },
   updated () {
-    console.log('updated', this.$route.query)
     const { code } = this.$route.query
-    let token = window.location.hash.replace(/^#/, '') || false
-    if (token) {
-      token = this.QueryStringToJSON(token)
-      this.handleResponse(token)
-    }
+
     if (code) {
       console.log('code', code)
-      this.handleResponse(code)
+      return this.getTokenByCode(code)
+    }
+    let token = window.location.hash.replace(/^#/, '') || false
+    if (token) {
+      token = QueryStringToJSON(token)
+      return this.handleResponse(token)
     }
   },
   data () {
     return {
       reWrite: '</^((?!.(xml|map|css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|json|mov|pdf|xml)$).)*$/>',
-      /* authUrlSimple: 'https://auth.waelio.com', */
       authUrlSimple: 'https://auth.waelio.com',
       authUrlClean: 'https://auth.waelio.com/oauth2/',
       authUrlToken: 'https://auth.waelio.com/oauth2/token',
       authUrlAuthorize: 'https://auth.waelio.com/oauth2/authorize',
-      XCsrfToken: 'i8XNjC4b8KVok4uw5RftR38Wgp2BFwql'
+      scope: 'aws.cognito.signin.user.admin+email+openid+phone+profile'
     }
   },
   methods: {
-    buildAuthURL (code) {
-      return {
-        grant_type: 'client_credentials',
-        client_id: awsconfig.aws_user_pools_web_client_id,
-        redirect_uri: this.callBackURL,
-        code: code,
-        state: this.XCsrfToken,
-        scope: 'aws.cognito.signin.user.admin+email+openid+phone+profile'
-      }
-    },
     async getTokenByCode (code) {
-      // grant_type: 'authorization_code',
-
-      // const formBody = Object.keys(details)
-      //   .map(
-      //     key =>
-      //       `${encodeURIComponent(key)}=${encodeURIComponent(details[key])}`
-      //   )
-      //   .join('&')
-      // console.log(details)
-      // const { proxy } = this.proxy
-      // const config = {
-      //   headers: {
-      //     'Access-Control-Allow-Origin': 'http://localhost:8080',
-      //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      //   }
-      // }
       try {
-        // const link = this.authUrl(code)
-        openURL(`${this.authUrlAuthorize}?grant_type:authorization_code&code=${code}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`, null, {
-          noopener: true,
-          menubar: true,
-          toolbar: true,
-          noreferrer: false
-        })
-        return
-        // eslint-disable-next-line no-unreachable
-        const res = {}
-        const tokenRequestJson = await res.json()
-        const IdToken = new CognitoIdToken({
-          IdToken: tokenRequestJson.id_token
-        })
-        const AccessToken = new CognitoAccessToken({
-          AccessToken: tokenRequestJson.access_token
-        })
-        const RefreshToken = new CognitoRefreshToken({
-          RefreshToken: tokenRequestJson.refresh_token
-        })
-        try {
-          const userSession = new CognitoUserSession({
-            IdToken,
-            AccessToken,
-            RefreshToken
-          })
+        this.isLoading = true
+        this.$router.replace('/')
+        let data = this.buildAuthBody(code)
+        data = JSONToQueryString(data)
+        const encodedId = Buffer.from(awsconfig.aws_user_pools_web_client_id, 'base64')
 
-          const userData = {
-            Username: IdToken.payload['cognito:username'],
-            Pool: awsconfig.aws_user_pools_id
+        const options = {
+          headers: {
+            Accept: 'Content-Type:application/json',
+            'Access-Control-Allow-Origin': this.callBackURL,
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${encodedId}`
           }
-          const authUser = Auth.createCognitoUser(userData.Username) // THIS NOW WORKS
-          const authSession = await Auth.userSession(authUser)
-          const authCurrentUser = Auth.currentAuthenticatedUser()
-        } catch (userError) {
-          // HANDLE USERERROR
-          console.error(userError)
         }
-      } catch (fetchError) {
-        console.error(fetchError)
-      }
-    },
-    oopenURL: async url => {
-      try {
-        const result = await Auth.AuthSession.startAsync({
-          authUrl: this.buildUrl
+        await this.$axios({
+          url: this.authUrlToken,
+          method: 'POST',
+          data,
+          options
         })
-        this.getTokenbyCode(result.params.code)
-      } catch (openURLError) {
-        console.log(`openURLError: ${openURLError}`)
+          .then(res => JSON.stringify(res))
+          .then(res => JSON.parse(res))
+          .then(async data => {
+            console.log('data', data)
+            if (data && data.data.refresh_token && data.data.id_token && data.data.access_token) {
+              const tokenRequestJson = data.data
+              console.log('tokenRequestJson', tokenRequestJson)
+
+              const idTokenData = await decodePayload(await tokenRequestJson.id_token)
+              console.log('idTokenData', await idTokenData)
+
+              const accessTokenData = await decodePayload(await tokenRequestJson.access_token)
+              console.log('accessTokenData', await accessTokenData)
+
+              const refreshTokenData = await tokenRequestJson.refresh_token
+              // refreshTokenData = await decodePayload(await tokenRequestJson.refresh_token, true)
+              console.log('refreshTokenData', await refreshTokenData)
+
+              // value.replace(/(.*?)(?=\|)/, "")
+
+              for (const [key, value] of Object.entries(tokenRequestJson)) {
+                window.localStorage.setItem(snakeToCamel(key + 'Key'), await JSON.stringify(decodePayload(value)))
+              }
+              this.$q.localStorage.set(`CognitoIdentityServiceProvider.${awsconfig.aws_user_pools_web_client_id}.LastAuthUser`, idTokenData['cognito:username'])
+              this.$q.localStorage.set(`CognitoIdentityServiceProvider.${awsconfig.aws_user_pools_web_client_id}.${idTokenData['cognito:username']}.idToken`, idTokenData)
+              this.$q.localStorage.set(`CognitoIdentityServiceProvider.${awsconfig.aws_user_pools_web_client_id}.${idTokenData['cognito:username']}.accessToken`, accessTokenData)
+              this.$q.localStorage.set(`CognitoIdentityServiceProvider.${awsconfig.aws_user_pools_web_client_id}.${idTokenData['cognito:username']}.refreshToken`, tokenRequestJson.refresh_token)
+              this.$q.localStorage.set(`CognitoIdentityServiceProvider.${awsconfig.aws_user_pools_web_client_id}.${idTokenData['cognito:username']}.clockDrift`, calculateClockDrift(accessTokenData.iat, idTokenData.iat))
+              Auth.currentAuthenticatedUser({
+                bypassCache: true
+              })
+
+              const IdToken = new CognitoIdToken({
+                IdToken: idTokenData
+              })
+              const AccessToken = new CognitoAccessToken({
+                AccessToken: accessTokenData
+              })
+              const RefreshToken = new CognitoRefreshToken({
+                RefreshToken: refreshTokenData
+              })
+              try {
+                const userSession = new CognitoUserSession({
+                  IdToken,
+                  AccessToken,
+                  RefreshToken
+                })
+                const cognitoUsername = idTokenData['cognito:username']
+                const userData = {
+                  Username: cognitoUsername,
+                  Pool: awsconfig.aws_user_pools_web_client_id
+                }
+
+                console.log('userSession', userSession)
+                console.log('userData', userData)
+                const authUser = Promise.resolve(Auth.createCognitoUser(userData.Username)) // THIS NOW WORKS
+                console.log('authUser', await authUser)
+                const authSession = Promise.resolve(Auth.userSession(authUser))
+                console.log('authSession', await authSession)
+                const authCurrentUser = Promise.resolve(Auth.currentAuthenticatedUser())
+                console.log('authCurrentUser', await authCurrentUser)
+              } catch (userError) {
+                console.error(userError)
+              }
+              Auth.currentUserInfo()
+                .then(res => {
+                  console.log('res', JSON.stringify(res))
+                  console.log('User signed in - Check the logs')
+                })
+                .catch((err) => {
+                  console.error('err', err)
+                })
+            }
+          }, fetchError => {
+            console.error(fetchError)
+          })
+          .catch(exp => {
+            console.error(exp)
+          })
+      } catch (err) {
+        console.log(err)
       }
     },
     openUI () {
-      openURL(this.buildUrl, null, {
+      const temp = uid()
+      this.CSRF_TOKEN = temp
+      openURL(this.loginUrlBuilder('code'), {
         noopener: false,
         menubar: false,
         toolbar: false,
@@ -137,68 +167,92 @@ export default {
         console.error(error)
       }
     },
-    QueryStringToJSON (query) {
-      var pairs = query.slice(1).split('&')
-      var result = {}
-      pairs.forEach(pair => {
-        pair = pair.split('=')
-        result[pair[0]] = decodeURIComponent(pair[1] || '')
-      })
-      return JSON.parse(JSON.stringify(result))
+    buildAuthBody (code) {
+      return {
+        grant_type: 'authorization_code',
+        client_id: awsconfig.aws_user_pools_web_client_id,
+        code,
+        code_verifier: sha256(code),
+        scope: this.scope,
+        state: this.CSRF_TOKEN,
+        redirect_uri: this.callBackURL
+      }
     },
-    async handleResponse (code) {
+    XhandleResponse (code) {
       this.isLoading = true
-      const payload = this.buildAuthURL(code)
-      console.log(payload)
-      const formBody = Object.keys(payload)
-        .map(
-          key =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(payload[key])}`
-        )
-        .join('&')
-      console.log(formBody)
-      const cb = this.callBackURL
-      const response = await this.$axios({
+      this.$router.replace('/')
+      let data = this.buildAuthBody(code)
+      data = JSONToQueryString(data)
+      const encodedId = Base64(awsconfig.aws_user_pools_web_client_id)
+
+      const options = {
+        headers: {
+          'Access-Control-Allow-Origin': this.callBackURL,
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Basic ${encodedId}`
+        }
+      }
+      this.$axios({
         url: this.authUrlToken,
         method: 'POST',
-        data: formBody,
-        headers: {
-          'Access-Control-Allow-Origin': cb,
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: 'Basic aSdxd892iujendek328uedj'
-        }
+        data,
+        options
       })
         .then(good => {
-          console.log(good)
+          // value.replace(/(.*?)(?=\|)/, "")
+          for (const [key, value] of Object.entries(good.data)) {
+            this.$q.localStorage.set(snakeToCamel(key), value)
+          }
+          this.$q.localStorage.set('CognitoIdentityServiceProvider.1ad0455rde18h4dorn5q96njvh.LastAuthUser', 'waelio')
+          this.$q.localStorage.set('CognitoIdentityServiceProvider.1ad0455rde18h4dorn5q96njvh.waelio.idToken', good.data.['id-token'])
+          this.$q.localStorage.set('CognitoIdentityServiceProvider.1ad0455rde18h4dorn5q96njvh.waelio.accessToken', good.data.['access-token'])
+          this.$q.localStorage.set('CognitoIdentityServiceProvider.1ad0455rde18h4dorn5q96njvh.waelio.refreshToken', good.data.['refresh-token'])
+          Auth.currentAuthenticatedUser({
+            bypassCache: true // If set to true, this call will send a request to Cognito to get the latest user data
+          })
+          this.isLoading = false
         })
-        .catch(exp => {
-          console.error(exp)
+        .catch(exception => {
+          console.error(exception)
         })
-
-      this.isLoading = false
     },
-    authUrl (code) {
-      return `${this.authUrlAuthorize}?grant_type:authorization_code&code=${code}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`
-    },
-    authTokenUrl (token) {
-      return `${this.authUrlAuthorize}?grant_type:authorization_code&token=${token}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`
-    },
-    authCodeUrl (code) {
-      return `${this.authUrlAuthorize}?grant_type:authorization_code&code=${code}&client_id=${awsconfig.aws_user_pools_web_client_id}&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`
+    loginUrlBuilder (type = 'code', payload) {
+      const url = `${this.authUrlSimple}/login`,
+        client_id = awsconfig.aws_user_pools_web_client_id,
+        response_type = type,
+        scope = this.scope,
+        state = this.state,
+        redirect_uri = this.callBackURL
+      return `${url}?client_id=${client_id}&response_type=${response_type}&state=${state}&scope=${scope}&redirect_uri=${redirect_uri}`
     }
   },
   computed: {
     ...mapGetters('LocalUser', ['User', 'signedIn']),
-    buildUrl () {
-      return decodeURIComponent(encodeURIComponent(`${this.authUrlSimple}/login?client_id=${awsconfig.aws_user_pools_web_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&state=${this.XCsrfToken}&redirect_uri=${this.callBackURL}`))
-    },
     callBackURL () {
-      return decodeURIComponent(encodeURIComponent(this.isLocalhost
+      return this.isLocalhost
         ? 'http://localhost:8080'
-        : this.hostName))
+        : this.hostName
+    },
+    CSRF_TOKEN: {
+      get: function () { return this.$q.cookies.get('CSRF_TOKEN') },
+      set: function (value) {
+        if (this.$q.cookies.has('CSRF_TOKEN')) {
+          this.$q.cookies.remove('CSRF_TOKEN')
+        }
+        this.$q.cookies.set('CSRF_TOKEN', value, {
+          secure: window && window.location.protocol[4] === 's',
+          expires: '60m 0s',
+          domain: window && window.location.hostname,
+          path: '/',
+          hostOnly: true,
+          httpOnly: false,
+          sameSite: 'Strict'
+        })
+        return this.$q.cookies.get('CSRF_TOKEN')
+      }
     },
     hostName () {
-      return decodeURIComponent(encodeURIComponent(window && window.location.origin))
+      return window && window.location.origin
     },
     proxy () {
       return {
