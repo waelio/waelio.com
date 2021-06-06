@@ -1,12 +1,3 @@
-<script setup lang="ts">
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import { useI18n } from 'vue-i18n';
-  const router = useRouter();
-  const name = ref('');
-  const { t } = useI18n();
-</script>
-
 <template>
   <div>
     <p class="text-4xl mb-2">
@@ -24,6 +15,11 @@
     <Links2 />
   </div>
 </template>
+<script setup lang="ts">
+  import { useI18n } from 'vue-i18n';
+
+  const { t } = useI18n();
+</script>
 
 <route lang="yaml">
 meta:
