@@ -13,6 +13,7 @@ specifiers:
   '@vueuse/head': ^0.5.1
   cross-env: ^7.0.3
   eslint: ^7.28.0
+  fs.promises: ^0.1.2
   https-localhost: ^4.6.5
   markdown-it-prism: ^2.1.6
   nprogress: ^0.2.0
