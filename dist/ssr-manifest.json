@@ -1,0 +1,155 @@
+{
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/locales/en.yml": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/locales/ru.yml": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/modules/i18n.ts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/modules/nprogress.ts": [],
+  "vite/preload-helper": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/modules/pwa.ts": [],
+  "@vite-icons/carbon/campsite": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Links1.md": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Links2.md": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/index.vue?vue&type=script&setup=true&lang.ts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/index.vue?vue&type=route&index=0&lang.yaml": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/index.vue": [],
+  "/@vite-plugin-pages/generated-pages": [],
+  "@vite-icons/carbon/moon": [],
+  "@vite-icons/carbon/sun": [],
+  "@vite-icons/carbon/language": [],
+  "@vite-icons/carbon/dicom-overlay": [],
+  "@vite-icons/carbon/logo-github": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/logic/dark.ts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Footer.vue?vue&type=script&setup=true&lang.ts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/layouts/default.vue": [],
+  "/@vite-plugin-vue-layouts/generated-layouts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/App.vue?vue&type=script&setup=true&lang.ts": [],
+  "/@windicss/windi.css": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/styles/main.css": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/main.ts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/index.html": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+shared@9.1.6/node_modules/@intlify/shared/dist/shared.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+message-resolver@9.1.6/node_modules/@intlify/message-resolver/dist/message-resolver.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+runtime@9.1.6/node_modules/@intlify/runtime/dist/runtime.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+message-compiler@9.1.6/node_modules/@intlify/message-compiler/dist/message-compiler.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+devtools-if@9.1.6/node_modules/@intlify/devtools-if/dist/devtools-if.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+core-base@9.1.6/node_modules/@intlify/core-base/dist/core-base.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+shared@3.0.11/node_modules/@vue/shared/dist/shared.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+reactivity@3.0.11/node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+runtime-core@3.0.11/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+runtime-dom@3.0.11/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vue@3.0.11/node_modules/vue/dist/vue.runtime.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/env.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/const.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/api/api.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/api/app.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/api/component.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/api/context.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/api/hooks.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/api/util.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/api/index.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.12/node_modules/@vue/devtools-api/lib/esm/index.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+vue-devtools@9.1.6/node_modules/@intlify/vue-devtools/dist/vue-devtools.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vue-i18n@9.1.6_vue@3.0.11/node_modules/vue-i18n/dist/vue-i18n.runtime.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "\u0000commonjsHelpers.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "\u0000C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/nprogress@0.2.0/node_modules/nprogress/nprogress.js?commonjs-module": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/nprogress@0.2.0/node_modules/nprogress/nprogress.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vite-ssg@0.11.2_2e647931a757da8f26a1122ff7a33da6/node_modules/vite-ssg/dist/chunk-6HTX7RH6.mjs": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vite-ssg@0.11.2_2e647931a757da8f26a1122ff7a33da6/node_modules/vite-ssg/dist/chunk-KHXGTJBV.mjs": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vue-router@4.0.8_vue@3.0.11/node_modules/vue-router/dist/vue-router.esm-bundler.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vueuse+head@0.5.1_vue@3.0.11/node_modules/@vueuse/head/dist/index.mjs": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vite-ssg@0.11.2_2e647931a757da8f26a1122ff7a33da6/node_modules/vite-ssg/dist/index.mjs": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vue-demi@0.9.1_vue@3.0.11/node_modules/vue-demi/lib/index.esm.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vueuse+shared@4.11.2_vue@3.0.11/node_modules/@vueuse/shared/dist/index.esm.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vueuse+core@4.11.2_vue@3.0.11/node_modules/@vueuse/core/dist/index.esm.js": [
+    "/assets/vendor.d197fd03.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/workbox-window@6.1.5/node_modules/workbox-window/build/workbox-window.prod.es5.mjs": [
+    "/assets/virtual_pwa-register.3d629c73.js"
+  ],
+  "/@vite-plugin-pwa/virtual:pwa-register": [
+    "/assets/virtual_pwa-register.3d629c73.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/README.md": [
+    "/assets/README.9ea3d203.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/about.md": [
+    "/assets/about.d410783b.js"
+  ],
+  "@vite-icons/carbon/warning": [
+    "/assets/404.f1af3f8f.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/layouts/404.vue?vue&type=script&setup=true&lang.ts": [
+    "/assets/404.f1af3f8f.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/layouts/404.vue": [
+    "/assets/404.f1af3f8f.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/layouts/home.vue": [
+    "/assets/home.c4fcacad.js"
+  ]
+}

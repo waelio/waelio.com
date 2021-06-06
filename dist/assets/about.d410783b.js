@@ -1,0 +1,1 @@
+import{u as t,o as e,a as o,b as s}from"./vendor.d197fd03.js";const a={class:"prose prose-sm m-auto text-left"},l=s("div",{class:"text-lg text-center"}," My name Waelio ",-1),r={expose:[],setup:s=>(t({title:"Waelio | About",meta:[{property:"og:title",content:"Waelio | About"}]}),(t,s)=>(e(),o("div",a,[l])))};export default r;
