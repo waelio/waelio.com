@@ -6,7 +6,7 @@ button:
   toggle_dark: Включить темный режим
   toggle_langs: Сменить язык
 intro:
-  desc: Самостоятельный начальный шаблон Vite
+  desc: Энтузиаст JavaScript, член команды Pack, Ducks Lover, все о возможности повторного использования и улучшениях.
   dynamic-route: Демо динамического маршрута
   hi: Привет, {name}!
   whats-your-name: Как тебя зовут?
