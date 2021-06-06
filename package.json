@@ -14,6 +14,7 @@
   "dependencies": {
     "@vueuse/core": "^4.11.2",
     "@vueuse/head": "^0.5.1",
+    "fs.promises": "^0.1.2",
     "nprogress": "^0.2.0",
     "prism-theme-vars": "^0.2.2",
     "vue": "^3.0.11",
