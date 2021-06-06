@@ -1,8 +1,3 @@
-/dist
-/src-bex/www
-/src-capacitor
-/src-cordova
-/.quasar
-/node_modules
-
-src\models
+dist
+node_modules
+public
