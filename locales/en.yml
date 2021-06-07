@@ -5,6 +5,10 @@ button:
   home: Home
   toggle_dark: Toggle dark mode
   toggle_langs: Change languages
+  Privacy: Our Privacy
+  Terms: Our Terms & Conditions
+  Contact: Contact us
+  TimeLine: Knowledge Acquisition
 intro:
   desc: JavaScript enthusiast, Pack team member, Ducks Lover, all about reusability and improvements.
   dynamic-route: Demo of dynamic route

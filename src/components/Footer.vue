@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-import { isDark, toggleDark } from '~/logic'
+  import { useI18n } from 'vue-i18n';
+  import { isDark, toggleDark } from '~/logic';
 
-const { t, availableLocales, locale } = useI18n()
+  const { t, availableLocales, locale } = useI18n();
 
-const toggleLocales = () => {
-  // change to some real logic
-  const locales = availableLocales
-  locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
-}
+  const toggleLocales = () => {
+    const locales = availableLocales;
+    locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length];
+  };
 </script>
 
 <template>
@@ -27,10 +26,26 @@ const toggleLocales = () => {
     </a>
 
     <router-link class="icon-btn mx-2" to="/about" :title="t('button.about')">
-      <carbon-dicom-overlay />
+      <carbon-face-cool />
     </router-link>
-    <a class="icon-btn mx-2" rel="noreferrer" href="https://github.com/waelio" target="_blank" title="GitHub">
+    <a class="icon-btn mx-2" rel="noreferrer" href="https://github.com/waelio" target="_blank" title="Waelio - GitHub">
       <carbon-logo-github />
     </a>
+
+    <router-link class="icon-btn mx-2" to="/contact" :title="t('button.Contact')">
+      <carbon-email />
+    </router-link>
+
+    <router-link class="icon-btn mx-2" to="/privacy" :title="t('button.Privacy')">
+      <carbon-virtual-private-cloud />
+    </router-link>
+
+    <router-link class="icon-btn mx-2" to="/terms" :title="t('button.Terms')">
+      <carbon-deploy-rules />
+    </router-link>
+
+    <router-link class="icon-btn mx-2" to="/about" :title="t('button.TimeLine')">
+      <carbon-ai-status-in-progress />
+    </router-link>
   </nav>
 </template>
