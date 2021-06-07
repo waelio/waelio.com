@@ -5,14 +5,16 @@
     </p>
     <p>
       <a rel="noreferrer" href="https://github.com/waelio" target="_blank">
-        Waelio
+        <h3 class="text-lg">Waelio</h3>
       </a>
     </p>
     <p>
       <em class="text-sm opacity-75">{{ t('intro.desc') }}</em>
     </p>
-    <Links1 />
-    <Links2 />
+    <div class="mt-2 flex flex-none justify-around">
+      <Links1 />
+      <Links2 />
+    </div>
   </div>
 </template>
 <script setup lang="ts">
