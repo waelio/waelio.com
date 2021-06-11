@@ -11,17 +11,31 @@
     <p>
       <em class="text-sm opacity-75">{{ t('intro.desc') }}</em>
     </p>
-    <div class="mt-2 flex flex-none justify-around">
+    <div
+      class="mt-6 mx-auto mb-3 links-list lg:flex"
+    >
       <Links1 />
       <Links2 />
+      <Links3 />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n';
-
-  const { t } = useI18n();
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 </script>
+<style>
+  .links-list{
+    align-items: stretch;
+    justify-content: space-around;
+    align-content: stretch;
+    flex-wrap: nowrap;
+    flex-direction: row;
+  }
+  .link-template{
+    text-align: -webkit-center;
+  }
+</style>
 
 <route lang="yaml">
 meta:

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n';
-  import { isDark, toggleDark } from '~/logic';
+import { useI18n } from 'vue-i18n'
+import { isDark, toggleDark } from '~/logic'
 
-  const { t, availableLocales, locale } = useI18n();
+const { t, availableLocales, locale } = useI18n()
 
-  const toggleLocales = () => {
-    const locales = availableLocales;
-    locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length];
-  };
+const toggleLocales = () => {
+  const locales = availableLocales
+  locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
+}
 </script>
 
 <template>
@@ -44,7 +44,7 @@
       <carbon-deploy-rules />
     </router-link>
 
-    <router-link class="icon-btn mx-2" to="/about" :title="t('button.TimeLine')">
+    <router-link class="icon-btn mx-2" to="/timeline" :title="t('button.TimeLine')">
       <carbon-ai-status-in-progress />
     </router-link>
   </nav>

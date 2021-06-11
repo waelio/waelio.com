@@ -4,8 +4,10 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Footer: typeof import('./src/components/Footer.vue')['default']
+    Header: typeof import('./src/components/Header.vue')['default']
     Links1: typeof import('./src/components/Links1.md')['default']
     Links2: typeof import('./src/components/Links2.md')['default']
+    Links3: typeof import('./src/components/Links3.md')['default']
     README: typeof import('./src/components/README.md')['default']
   }
 }
