@@ -64,15 +64,8 @@
             />
           </div>
           <!-- Accept Terms -->
-          <div class="form-group lg:w-96 w-72 h-11 p-1 my-2 mx-auto rounded">
-            <label :style="accept?'color:green':'color:red'" class="block font-semibold cursor-pointer pt-1 text-size-xs" for="user_confirm">{{ t('contact.terms_accepted') }}</label>
-            <input
-              id="user_confirm"
-              v-model="accept"
-              type="checkbox"
-              name="accept"
-              class="opacity-5"
-            />
+          <div class="form-group lg:w-96 w-72 h-11 p-1 my-2 mx-auto rounded" @click.prevent="accept = !accept" :style="accept? 'background-color:green':'background-color:transparent'">
+            <label :style="accept?'color:white':'color:red'" class="block font-semibold cursor-pointer pt-1 text-size-xs" for="user_confirm">{{ t('contact.terms_accepted') }}</label>
           </div>
           <!-- Navigate to Terms -->
           <p>
