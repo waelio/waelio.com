@@ -64,8 +64,16 @@
             />
           </div>
           <!-- Accept Terms -->
-          <div class="form-group lg:w-96 w-72 h-11 p-1 my-2 mx-auto rounded" @click.prevent="accept = !accept" :style="accept? 'background-color:green':'background-color:transparent'">
-            <label :style="accept?'color:white':'color:red'" class="block font-semibold cursor-pointer pt-1 text-size-xs" for="user_confirm">{{ t('contact.terms_accepted') }}</label>
+          <div class="form-group lg:w-96 w-72 h-11 p-1 my-2 mx-auto rounded" :style="accept? 'background-color:green':'background-color:transparent'">
+            <button
+              type="button"
+              :style="accept?'background-color:green;color:white':'background-color:transparent;color:red'"
+              style="outline:none!important"
+              class="border-none outline-none block font-semibold cursor-pointer pt-1 text-size-xs"
+              @click.prevent="accept = !accept"
+            >
+              {{ t('contact.terms_accepted') }}
+            </button>
           </div>
           <!-- Navigate to Terms -->
           <p>
