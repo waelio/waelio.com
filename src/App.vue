@@ -10,5 +10,5 @@ useHead({
 </script>
 
 <template>
-  <router-view class="container mx-auto" />
+  <router-view class="h-1 mx-auto" />
 </template>

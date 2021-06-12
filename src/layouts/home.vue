@@ -3,7 +3,7 @@
     <Header />
     <router-view />
     <Footer />
-    <div class="mt-5 mx-auto text-center opacity-25 text-sm">
+    <div class="mt-2 mx-auto text-center opacity-25 text-sm">
       <router-link class="icon-btn mx-2" to="/" title="Waelio.com">
         Waelio.com
       </router-link>

@@ -12,7 +12,7 @@
       <em class="text-sm opacity-75">{{ t('intro.desc') }}</em>
     </p>
     <div
-      class="mt-6 mx-auto mb-3 links-list lg:flex"
+      class="mx-auto mb-3 links-list lg:flex"
     >
       <Links1 />
       <Links2 />
