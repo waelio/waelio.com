@@ -65,7 +65,7 @@
           </div>
           <!-- Accept Terms -->
           <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-11 p-1 my-2 mx-auto rounded">
-            <label :style="accept?'color:green':'color:red'" class="font-semibold cursor-pointer text-size-xs" for="user_confirm">{{ t('contact.terms_accepted') }}</label>
+            <label :style="accept?'color:green':'color:red'" class="block font-semibold cursor-pointer pt-1 text-size-xs" for="user_confirm">{{ t('contact.terms_accepted') }}</label>
             <input
               id="user_confirm"
               v-model="accept"
@@ -232,15 +232,13 @@ export default {
   mounted() {
     this.onMounted()
   },
-
 }
-
 </script>
 <style scoped>
   .form-group{
     display: flex;
     flex-direction: column;
-    border: .1rem solid rgb(59, 58, 58);
+    border: .1rem solid rgba(180, 180, 180, 0.671);
   }
   .form-group textarea,
   .form-group select,
