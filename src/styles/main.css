@@ -35,3 +35,15 @@ button {
     hover:bg-teal-700
     disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50;
 }
+
+/* home page*/
+  .links-list{
+    align-items: stretch;
+    justify-content: space-around;
+    align-content: stretch;
+    flex-wrap: nowrap;
+    flex-direction: row;
+  }
+  .link-template{
+    text-align: -webkit-center;
+  }

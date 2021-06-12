@@ -11,7 +11,7 @@ const toggleLocales = () => {
 </script>
 
 <template>
-  <nav class="text-xl mt-6">
+  <nav class="prose prose-sm mt-3 mx-auto text-center">
     <a class="icon-btn mx-2" :title="t('button.toggle_dark')" @click="toggleDark">
       <carbon-moon v-if="isDark" />
       <carbon-sun v-else />

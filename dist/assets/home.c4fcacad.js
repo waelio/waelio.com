@@ -1,1 +1,0 @@
-import{_ as t}from"./app.ac76cc53.js";import{k as a,o as e,a as r,b as o}from"./vendor.d197fd03.js";const s={},c={class:"px-4 py-10 text-center text-gray-700 dark:text-gray-200"},n=o("div",{class:"mt-5 mx-auto text-center opacity-25 text-sm"}," Waelio.com ",-1);s.render=function(s,m){const i=a("router-view"),p=t;return e(),r("main",c,[o(i),o(p),n])};export default s;
