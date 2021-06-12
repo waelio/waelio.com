@@ -8,6 +8,7 @@ declare module 'vue' {
     Links1: typeof import('./src/components/Links1.md')['default']
     Links2: typeof import('./src/components/Links2.md')['default']
     Links3: typeof import('./src/components/Links3.md')['default']
+    LinkTemplate: typeof import('./src/components/LinkTemplate.vue')['default']
     README: typeof import('./src/components/README.md')['default']
   }
 }

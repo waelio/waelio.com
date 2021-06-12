@@ -10,6 +10,7 @@ import WindiCSS from 'vite-plugin-windicss'
 import { VitePWA } from 'vite-plugin-pwa'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Prism from 'markdown-it-prism'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 export default defineConfig({
   resolve: {
@@ -18,13 +19,15 @@ export default defineConfig({
     },
   },
   plugins: [
+    vueJsx({}),
     Vue({
       include: [/\.vue$/, /\.md$/],
+      ssr: true,
     }),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
-      extensions: ['vue', 'md'],
+      extensions: ['vue', 'md', 'ts', 'jsx'],
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts

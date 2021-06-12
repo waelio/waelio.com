@@ -1,0 +1,283 @@
+<template>
+  <div class="container mx-auto">
+    <h1 class="text-h2">
+      Contact Page
+    </h1>
+    <div class="mx-auto">
+      <div class="py-lg">
+        <div class="text-h4 text-center">
+          {{ t('We are here') }}
+        </div>
+        <div class="text-h6 text-center">
+          {{ t('Please let us know how we can help!') }}
+        </div>
+      </div>
+      <div class="form-container xs:w-10 lg:w-prose mx-auto p-4">
+        <form id="contactForm" ref="contactForm" class="mx-auto form flex flex-col">
+          <!-- User Name -->
+          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-22 p-1 my-2 mx-auto rounded">
+            <label for="user_name">User Name</label>
+            <input
+              id="user_name"
+              v-model="user_name"
+              name="full_name"
+              :label="t('Your name *')"
+              :placeholder="t('Name and surname')"
+            />
+          </div>
+          <!-- User Email -->
+          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-22 p-1 my-2 mx-auto rounded">
+            <label for="user_email">User Email</label>
+            <input
+              id="user_email"
+              v-model="user_email"
+              filled
+              name="email"
+              type="email"
+              :label="t('Your email address')"
+              :placeholder="t('In order to get back to you.')"
+            />
+          </div>
+          <!-- Project Selector -->
+          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-22 p-1 my-2 mx-auto rounded">
+            <label for="project_name">Project name</label>
+            <select
+              id="project_name"
+              v-model="project_name"
+              class="q-px-0"
+              name="project_name"
+              filled
+              :label="t('Select a project')"
+              :hint="t('What project are you referencing?')"
+            >
+              <option v-for="item in filtered_Project" :key="item.key" :value="item.key" :selected="item.selected">
+                {{ item.value }}
+              </option>
+            </select>
+          </div>
+          <!-- Message Body -->
+          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-30 p-1 my-2 mx-auto rounded">
+            <label for="user_message">Message</label>
+            <textarea
+              id="user_message"
+              v-model="message"
+              filled
+              type="textarea"
+              name="message"
+              min-height="5rem"
+              max-height="10rem"
+              :label="t('Your message *')"
+              :hint="t('Tell us how we can help')"
+            />
+          </div>
+          <!-- Accept Terms -->
+          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-11 p-1 my-2 mx-auto rounded">
+            <label :style="accept?'color:green':'color:red'" class="font-semibold cursor-pointer text-size-xs" for="user_confirm">{{ t('I accept the terms and conditions') }}</label>
+            <input
+              id="user_confirm"
+              v-model="accept"
+              type="checkbox"
+              name="accept"
+              class="opacity-5"
+            />
+          </div>
+          <!-- Navigate to Terms -->
+          <p>
+            <router-link to="terms" class="block full-width h-10 text-bold">
+              {{ t('View our terms and conditions.') }}
+            </router-link>
+          </p>
+          <!-- Actions Container -->
+          <div class="w-full px-lg flex justify-around content-between">
+            <button
+              class="block h-10 rounded w-30 bg-gray-500 text-white"
+              name="send"
+              :alt="t('Submit')"
+              :disabled="!isReadyForm"
+              :style="isReadyForm? 'background-color: green': 'background-color:red'"
+              :disable="!isReadyForm"
+              @click.prevent="onSubmit()"
+            >
+              {{ t('Submit') }}
+            </button>
+            <button
+              class="Button p block h-10 rounded w-30 bg-gray-500 text-white"
+              :alt="t('Reset')"
+              type="reset"
+            >
+              {{ t('Reset') }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+<script lang="ts">
+import { useRouter } from 'vue-router'
+import { reactive, ref, computed, unref } from 'vue'
+import { send, init } from 'emailjs-com'
+import { useI18n } from 'vue-i18n'
+const projects = [
+  { key: 'FavsShuffler', value: 'FavsShuffler', selected: false },
+  { key: 'Sudoku17', value: 'Sudoku17', selected: false },
+  { key: 'PicMyMenu.com', value: 'PicMyMenu.com', selected: false },
+  { key: 'Api.PicMyMenu.com', value: 'PicMyMenu.com API', selected: false },
+  { key: 'QuranInPixels', value: 'Quran in Pixels', selected: false },
+  { key: 'TulipGlowShop', value: 'Tulip Glow Shop', selected: false },
+]
+export default {
+  setup() {
+    const router = useRouter()
+    const { t } = useI18n()
+    const myProjects = reactive(projects)
+    const accept = ref(false)
+    const user_email = ref('')
+    const message = ref('')
+    const form_valid = ref(false)
+    const personal_name = ref('')
+    const project_name = ref('')
+    const user_name = ref('')
+    const to_name = ref('')
+    const reply_to = ref('')
+    const emailjs_service = ref(import.meta.env.VITE_EMAIL_SERVICE as string)!
+    const emailjs_template = ref(import.meta.env.VITE_EMAIL_TEMPLATE as string)!
+    const emailjs_user = ref(import.meta.env.VITE_EMAIL_USER as string)
+    function onReset(): boolean {
+      form_valid.value = false
+      accept.value = false
+      message.value = ''
+      user_email.value = ''
+      personal_name.value = ''
+      project_name.value = ''
+      user_name.value = ''
+      to_name.value = ''
+      reply_to.value = ''
+      return true
+    }
+
+    const isReadyForm = computed(() => {
+      return !!(
+        user_name.value
+        && user_email.value
+        && project_name.value
+        && accept.value
+        && message.value
+      )
+    })
+    const filtered_Project = computed((thisRoute) => {
+      const { target } = unref(router.currentRoute).query
+      if (target)
+        return myProjects.filter(item => item.key === target)
+
+      return myProjects
+    })
+    const isEmptyForm = computed(() => {
+      return (
+        !user_name.value
+        && !user_email.value
+        && !project_name.value
+        && !accept.value
+        && !message.value
+      )
+    })
+    const emailBody = computed(() => {
+      return {
+        user_name: user_name.value,
+        user_email: user_email.value,
+        project_name: project_name.value,
+        message: message.value,
+        reply_to: user_email.value,
+      }
+    })
+    const onSubmit = () => {
+      send(
+        emailjs_service.value,
+        emailjs_template.value,
+        emailBody.value,
+        emailjs_user.value,
+      )
+        .then(() => {
+          // eslint-disable-next-line no-alert
+          alert('Message Was set successfully.')
+          onReset()
+          return true
+        })
+        .catch((exception: object) => {
+          // eslint-disable-next-line no-console
+          console.error(exception)
+          return exception
+        })
+      return true
+    }
+    const onMounted = (): void => {
+      init(emailjs_user.value)
+    }
+    return {
+      myProjects,
+      t,
+      accept,
+      emailjs_user,
+      user_email,
+      user_name,
+      project_name,
+      message,
+      form_valid,
+      onSubmit,
+      onReset,
+      isReadyForm,
+      isEmptyForm,
+      emailBody,
+      onMounted,
+      filtered_Project,
+    }
+  },
+  mounted() {
+    this.onMounted()
+  },
+
+}
+
+</script>
+<style scoped>
+  .form-group{
+    display: flex;
+    flex-direction: column;
+    border: .1rem solid rgb(59, 58, 58);
+  }
+  .form-group textarea,
+  .form-group select,
+  .form-group select option,
+  .form-group input{
+    --tw-shadow-color: 107, 114, 128;
+    --tw-shadow: 0 1px 2px 0 rgba(var(--tw-shadow-color), 0.05);
+    -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    border: .1rem solid lightgray;
+    height: 3em;
+    text-indent: .5em;
+    background-color: transparent;
+  }
+  option{
+    background-color: transparent;
+    color: black;
+  }
+  .form {
+    display: flex;
+    margin-top: 1rem;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-center;
+    align-items: center;
+}
+.form-select {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .form-control:focus,
+   .form-control:not(:placeholder-shown),
+   .form-select label {
+      opacity: 1;
+    }
+</style>

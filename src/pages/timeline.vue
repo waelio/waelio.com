@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto xl:px-4 min-w-xs">
     <transition-group name="flip-list" tag="div">
       <div v-for="proj in data" :key="proj.key" class="">
         <em :style="`color:${proj.color}`">{{ proj.year }}</em>
