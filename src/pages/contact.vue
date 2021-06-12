@@ -1,54 +1,49 @@
 <template>
   <div class="container mx-auto">
     <h1 class="text-h2">
-      Contact Page
+      {{ t('button.Contact') }}
     </h1>
     <div class="mx-auto">
       <div class="py-lg">
         <div class="text-h4 text-center">
-          {{ t('We are here') }}
+          {{ t('contact.help') }}
         </div>
         <div class="text-h6 text-center">
-          {{ t('Please let us know how we can help!') }}
+          {{ t('contact.offer_help') }}
         </div>
       </div>
       <div class="form-container xs:w-10 lg:w-prose mx-auto p-4">
         <form id="contactForm" ref="contactForm" class="mx-auto form flex flex-col">
           <!-- User Name -->
           <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-22 p-1 my-2 mx-auto rounded">
-            <label for="user_name">User Name</label>
+            <label for="user_name">{{ t('contact.name.label') }}</label>
             <input
               id="user_name"
               v-model="user_name"
               name="full_name"
-              :label="t('Your name *')"
-              :placeholder="t('Name and surname')"
+              :placeholder="t('contact.name.placeholder')"
             />
           </div>
           <!-- User Email -->
           <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-22 p-1 my-2 mx-auto rounded">
-            <label for="user_email">User Email</label>
+            <label for="user_email">{{ t('contact.email.label') }}</label>
             <input
               id="user_email"
               v-model="user_email"
               filled
               name="email"
               type="email"
-              :label="t('Your email address')"
-              :placeholder="t('In order to get back to you.')"
+              :placeholder="t('contact.email.placeholder')"
             />
           </div>
           <!-- Project Selector -->
           <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-22 p-1 my-2 mx-auto rounded">
-            <label for="project_name">Project name</label>
+            <label for="project_name">{{ t('contact.projects.label') }}</label>
             <select
               id="project_name"
               v-model="project_name"
-              class="q-px-0"
               name="project_name"
-              filled
-              :label="t('Select a project')"
-              :hint="t('What project are you referencing?')"
+              :placeholder="t('contact.projects.placeholder')"
             >
               <option v-for="item in filtered_Project" :key="item.key" :value="item.key" :selected="item.selected">
                 {{ item.value }}
@@ -57,22 +52,20 @@
           </div>
           <!-- Message Body -->
           <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-30 p-1 my-2 mx-auto rounded">
-            <label for="user_message">Message</label>
+            <label for="user_message">{{ t('contact.message.label') }}</label>
             <textarea
               id="user_message"
               v-model="message"
-              filled
               type="textarea"
               name="message"
               min-height="5rem"
               max-height="10rem"
-              :label="t('Your message *')"
-              :hint="t('Tell us how we can help')"
+              :placeholder="t('contact.message.placeholder')"
             />
           </div>
           <!-- Accept Terms -->
           <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-11 p-1 my-2 mx-auto rounded">
-            <label :style="accept?'color:green':'color:red'" class="font-semibold cursor-pointer text-size-xs" for="user_confirm">{{ t('I accept the terms and conditions') }}</label>
+            <label :style="accept?'color:green':'color:red'" class="font-semibold cursor-pointer text-size-xs" for="user_confirm">{{ t('contact.terms_accepted') }}</label>
             <input
               id="user_confirm"
               v-model="accept"
@@ -84,7 +77,7 @@
           <!-- Navigate to Terms -->
           <p>
             <router-link to="terms" class="block full-width h-10 text-bold">
-              {{ t('View our terms and conditions.') }}
+              {{ t('contact.accept_terms') }}
             </router-link>
           </p>
           <!-- Actions Container -->
@@ -92,20 +85,20 @@
             <button
               class="block h-10 rounded w-30 bg-gray-500 text-white"
               name="send"
-              :alt="t('Submit')"
+              :alt="t('button.Submit')"
               :disabled="!isReadyForm"
               :style="isReadyForm? 'background-color: green': 'background-color:red'"
               :disable="!isReadyForm"
               @click.prevent="onSubmit()"
             >
-              {{ t('Submit') }}
+              {{ t('button.Submit') }}
             </button>
             <button
               class="Button p block h-10 rounded w-30 bg-gray-500 text-white"
-              :alt="t('Reset')"
+              :alt="t('button.Reset')"
               type="reset"
             >
-              {{ t('Reset') }}
+              {{ t('button.Reset') }}
             </button>
           </div>
         </form>
@@ -125,6 +118,7 @@ const projects = [
   { key: 'Api.PicMyMenu.com', value: 'PicMyMenu.com API', selected: false },
   { key: 'QuranInPixels', value: 'Quran in Pixels', selected: false },
   { key: 'TulipGlowShop', value: 'Tulip Glow Shop', selected: false },
+  { key: 'Waelio.com', value: 'Waelio.com Site', selected: false },
 ]
 export default {
   setup() {
@@ -136,7 +130,7 @@ export default {
     const message = ref('')
     const form_valid = ref(false)
     const personal_name = ref('')
-    const project_name = ref('')
+    const project_name = ref('Waelio.com')
     const user_name = ref('')
     const to_name = ref('')
     const reply_to = ref('')
@@ -167,8 +161,11 @@ export default {
     })
     const filtered_Project = computed((thisRoute) => {
       const { target } = unref(router.currentRoute).query
-      if (target)
+      if (target) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        project_name.value = target.toString()
         return myProjects.filter(item => item.key === target)
+      }
 
       return myProjects
     })

@@ -5,9 +5,36 @@ button:
   home: Главная
   toggle_dark: Включить темный режим
   toggle_langs: Сменить язык
+  Privacy: Наша Конфиденциальность Наша
+  Privacy_Short: Конфиденциальность
+  Terms: Условия и положения
+  Terms_Short: Условия
+  Contact: Свяжитесь с нами
+  TimeLine: График
+  Submit: послать
+  Reset: Сброс настроек
 intro:
   desc: Энтузиаст JavaScript, член команды Pack, Ducks Lover, все о возможности повторного использования и улучшениях.
   dynamic-route: Демо динамического маршрута
   hi: Привет, {name}!
-  whats-your-name: Как тебя зовут?
 not-found: Не найден
+contact:
+  help: Мы здесь
+  offer_help: Пожалуйста, дайте нам знать, как мы можем помочь!
+  accept_terms: Ознакомьтесь с нашими условиями.
+  terms_accepted: Я принимаю правила и условия.
+  name: 
+    label: Ваше имя *
+    hint: Имя и фамилия
+    placeholder: Как вас зовут?
+  email: 
+    label: Ваша электронная почта *
+    hint: Ваш адрес электронной почты
+    placeholder: Чтобы вернуться к вам.
+  message: 
+    label: Твое сообщение *
+    hint: Введите ваше сообщение
+    placeholder: Расскажите, чем мы можем помочь.
+  projects:
+    label: Название проекта *
+    placeholder: На какой проект вы ссылаетесь?
