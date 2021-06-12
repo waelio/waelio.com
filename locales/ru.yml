@@ -14,8 +14,7 @@ button:
   Submit: послать
   Reset: Сброс настроек
 intro:
-  desc: Энтузиаст JavaScript, член команды Pack, Ducks Lover, все о возможности повторного использования и улучшениях.
-  dynamic-route: Демо динамического маршрута
+  desc: Энтузиаст JavaScript, брат Wolf Pack, любитель Ducks, все о возможности повторного использования и улучшений.
   hi: Привет, {name}!
 not-found: Не найден
 contact:

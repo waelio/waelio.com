@@ -12,10 +12,10 @@
           {{ t('contact.offer_help') }}
         </div>
       </div>
-      <div class="form-container xs:w-10 lg:w-prose mx-auto p-4">
+      <div class="form-container mx-auto p-4">
         <form id="contactForm" ref="contactForm" class="mx-auto form flex flex-col">
           <!-- User Name -->
-          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-22 p-1 my-2 mx-auto rounded">
+          <div class="form-group lg:w-96 w-72 h-22 p-1 my-2 mx-auto rounded">
             <label for="user_name">{{ t('contact.name.label') }}</label>
             <input
               id="user_name"
@@ -25,7 +25,7 @@
             />
           </div>
           <!-- User Email -->
-          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-22 p-1 my-2 mx-auto rounded">
+          <div class="form-group lg:w-96 w-72 h-22 p-1 my-2 mx-auto rounded">
             <label for="user_email">{{ t('contact.email.label') }}</label>
             <input
               id="user_email"
@@ -37,7 +37,7 @@
             />
           </div>
           <!-- Project Selector -->
-          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-22 p-1 my-2 mx-auto rounded">
+          <div class="form-group lg:w-96 w-72 h-22 p-1 my-2 mx-auto rounded">
             <label for="project_name">{{ t('contact.projects.label') }}</label>
             <select
               id="project_name"
@@ -51,7 +51,7 @@
             </select>
           </div>
           <!-- Message Body -->
-          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-30 p-1 my-2 mx-auto rounded">
+          <div class="form-group lg:w-96 w-72 h-30 p-1 my-2 mx-auto rounded">
             <label for="user_message">{{ t('contact.message.label') }}</label>
             <textarea
               id="user_message"
@@ -64,7 +64,7 @@
             />
           </div>
           <!-- Accept Terms -->
-          <div class="form-group lg:w-100 md:w-65 sm:w-50 xs:w-50 h-11 p-1 my-2 mx-auto rounded">
+          <div class="form-group lg:w-96 w-72 h-11 p-1 my-2 mx-auto rounded">
             <label :style="accept?'color:green':'color:red'" class="block font-semibold cursor-pointer pt-1 text-size-xs" for="user_confirm">{{ t('contact.terms_accepted') }}</label>
             <input
               id="user_confirm"

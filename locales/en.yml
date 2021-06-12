@@ -14,8 +14,7 @@ button:
   Submit: Submit
   Reset: Reset
 intro:
-  desc: JavaScript enthusiast, Pack team member, Ducks Lover, all about reusability and improvements.
-  dynamic-route: Demo of dynamic route
+  desc: JavaScript enthusiast, Wolf Pack brother, Ducks lover, all about reusability and improvements.
   hi: Hi, {name}! 
 not-found: Not found
 contact:
