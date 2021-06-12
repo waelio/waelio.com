@@ -22,7 +22,7 @@ export default defineConfig({
     vueJsx({}),
     Vue({
       include: [/\.vue$/, /\.md$/],
-      ssr: true,
+      ssr: false,
     }),
 
     // https://github.com/hannoeru/vite-plugin-pages
