@@ -32,6 +32,14 @@ title: Waelio | Home
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
+// const onSubscribe = async () => {
+//   try {
+//     const subscription = await subscribe()
+//     console.log('subscription', subscription);
+//   } catch (e) {
+//     console.error(e)
+//   }
+// },
 </script>
 
 <route lang="yaml">
