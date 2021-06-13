@@ -66,10 +66,10 @@ export const history = [
   {
     key: 9,
     color: 'teal',
-    name: 'ASP',
+    name: 'ASP/VB',
     link: 'https://en.wikipedia.org/wiki/Active_Server_Pages',
     year: '2005-2012',
-    text: 'CRM backend @ SS&K ',
+    text: 'CRM Fullstack @ SS&K',
   },
   {
     key: 10,
@@ -92,7 +92,7 @@ export const history = [
     color: 'chocolate',
     name: 'PHP',
     link: 'https://en.wikipedia.org/wiki/PHP"',
-    year: '2012',
+    year: '2013',
     text: 'PHP Developer @ Tracy PMI',
   },
   {
