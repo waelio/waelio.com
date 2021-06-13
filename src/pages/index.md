@@ -15,7 +15,7 @@ title: Waelio | Home
   >
     <Links1 />
     <Links2 />
-    <Links3 />
+    <Links3 @click="subscription" />
   </div>
 </div>
 
