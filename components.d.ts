@@ -10,6 +10,7 @@ declare module 'vue' {
     Links3: typeof import('./src/components/Links3.md')['default']
     LinkTemplate: typeof import('./src/components/LinkTemplate.vue')['default']
     README: typeof import('./src/components/README.md')['default']
+    ReloadPrompt: typeof import('./src/components/ReloadPrompt.vue')['default']
   }
 }
 

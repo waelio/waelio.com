@@ -1,3 +1,129 @@
+<script lang="ts">
+import { useRouter } from 'vue-router'
+import { reactive, ref, computed, unref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import emailjs from 'emailjs-com'
+
+const projects = [
+  { key: 'FavsShuffler', value: 'FavsShuffler', selected: false },
+  { key: 'Sudoku17', value: 'Sudoku17', selected: false },
+  { key: 'PicMyMenu.com', value: 'PicMyMenu.com', selected: false },
+  { key: 'Api.PicMyMenu.com', value: 'PicMyMenu.com API', selected: false },
+  { key: 'QuranInPixels', value: 'Quran in Pixels', selected: false },
+  { key: 'TulipGlowShop', value: 'Tulip Glow Shop', selected: false },
+  { key: 'Waelio.com', value: 'Waelio.com Site', selected: false },
+]
+export default {
+  setup() {
+    const router = useRouter()
+    const { t } = useI18n()
+    const myProjects = reactive(projects)
+    const accept = ref(false)
+    const user_email = ref('')
+    const message = ref('')
+    const form_valid = ref(false)
+    const personal_name = ref('')
+    const project_name = ref('Waelio.com')
+    const user_name = ref('')
+    const to_name = ref('')
+    const reply_to = ref('')
+    const emailjs_service = ref(import.meta.env.VITE_EMAIL_SERVICE as string)!
+    const emailjs_template = ref(import.meta.env.VITE_EMAIL_TEMPLATE as string)!
+    const emailjs_user = ref(import.meta.env.VITE_EMAIL_USER as string)
+    function onReset(): boolean {
+      form_valid.value = false
+      accept.value = false
+      message.value = ''
+      user_email.value = ''
+      personal_name.value = ''
+      project_name.value = ''
+      user_name.value = ''
+      to_name.value = ''
+      reply_to.value = ''
+      return true
+    }
+
+    const isReadyForm = computed(() => {
+      return !!(
+        user_name.value
+        && user_email.value
+        && project_name.value
+        && accept.value
+        && message.value
+      )
+    })
+    const filtered_Project = computed((thisRoute) => {
+      const { target } = unref(router.currentRoute).query
+      if (target) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        project_name.value = target.toString()
+        return myProjects.filter(item => item.key === target)
+      }
+
+      return myProjects
+    })
+    const isEmptyForm = computed(() => {
+      return (
+        !user_name.value
+        && !user_email.value
+        && !project_name.value
+        && !accept.value
+        && !message.value
+      )
+    })
+    const emailBody = computed(() => {
+      return {
+        user_name: user_name.value,
+        user_email: user_email.value,
+        project_name: project_name.value,
+        message: message.value,
+        reply_to: user_email.value,
+      }
+    })
+    const onSubmit = () => {
+      emailjs.send(
+        emailjs_service.value,
+        emailjs_template.value,
+        emailBody.value,
+        emailjs_user.value,
+      )
+        .then(() => {
+          // eslint-disable-next-line no-alert
+          alert('Message Was set successfully.')
+          onReset()
+          return true
+        })
+        .catch((exception: object) => {
+          // eslint-disable-next-line no-console
+          console.error(exception)
+          return exception
+        })
+      return true
+    }
+    return {
+      myProjects,
+      t,
+      accept,
+      emailjs_user,
+      user_email,
+      user_name,
+      project_name,
+      message,
+      form_valid,
+      onSubmit,
+      onReset,
+      isReadyForm,
+      isEmptyForm,
+      emailBody,
+      filtered_Project,
+    }
+  },
+  mounted() {
+    // eslint-disable-next-line import/no-named-as-default-member
+    emailjs.init(this.emailjs_user.value as string) as void
+  },
+}
+</script>
 <template>
   <div class="container mx-auto">
     <h1 class="text-h2">
@@ -111,134 +237,6 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { useRouter } from 'vue-router'
-import { reactive, ref, computed, unref } from 'vue'
-import { send, init } from 'emailjs-com'
-import { useI18n } from 'vue-i18n'
-const projects = [
-  { key: 'FavsShuffler', value: 'FavsShuffler', selected: false },
-  { key: 'Sudoku17', value: 'Sudoku17', selected: false },
-  { key: 'PicMyMenu.com', value: 'PicMyMenu.com', selected: false },
-  { key: 'Api.PicMyMenu.com', value: 'PicMyMenu.com API', selected: false },
-  { key: 'QuranInPixels', value: 'Quran in Pixels', selected: false },
-  { key: 'TulipGlowShop', value: 'Tulip Glow Shop', selected: false },
-  { key: 'Waelio.com', value: 'Waelio.com Site', selected: false },
-]
-export default {
-  setup() {
-    const router = useRouter()
-    const { t } = useI18n()
-    const myProjects = reactive(projects)
-    const accept = ref(false)
-    const user_email = ref('')
-    const message = ref('')
-    const form_valid = ref(false)
-    const personal_name = ref('')
-    const project_name = ref('Waelio.com')
-    const user_name = ref('')
-    const to_name = ref('')
-    const reply_to = ref('')
-    const emailjs_service = ref(import.meta.env.VITE_EMAIL_SERVICE as string)!
-    const emailjs_template = ref(import.meta.env.VITE_EMAIL_TEMPLATE as string)!
-    const emailjs_user = ref(import.meta.env.VITE_EMAIL_USER as string)
-    function onReset(): boolean {
-      form_valid.value = false
-      accept.value = false
-      message.value = ''
-      user_email.value = ''
-      personal_name.value = ''
-      project_name.value = ''
-      user_name.value = ''
-      to_name.value = ''
-      reply_to.value = ''
-      return true
-    }
-
-    const isReadyForm = computed(() => {
-      return !!(
-        user_name.value
-        && user_email.value
-        && project_name.value
-        && accept.value
-        && message.value
-      )
-    })
-    const filtered_Project = computed((thisRoute) => {
-      const { target } = unref(router.currentRoute).query
-      if (target) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        project_name.value = target.toString()
-        return myProjects.filter(item => item.key === target)
-      }
-
-      return myProjects
-    })
-    const isEmptyForm = computed(() => {
-      return (
-        !user_name.value
-        && !user_email.value
-        && !project_name.value
-        && !accept.value
-        && !message.value
-      )
-    })
-    const emailBody = computed(() => {
-      return {
-        user_name: user_name.value,
-        user_email: user_email.value,
-        project_name: project_name.value,
-        message: message.value,
-        reply_to: user_email.value,
-      }
-    })
-    const onSubmit = () => {
-      send(
-        emailjs_service.value,
-        emailjs_template.value,
-        emailBody.value,
-        emailjs_user.value,
-      )
-        .then(() => {
-          // eslint-disable-next-line no-alert
-          alert('Message Was set successfully.')
-          onReset()
-          return true
-        })
-        .catch((exception: object) => {
-          // eslint-disable-next-line no-console
-          console.error(exception)
-          return exception
-        })
-      return true
-    }
-    const onMounted = (): void => {
-      init(emailjs_user.value)
-    }
-    return {
-      myProjects,
-      t,
-      accept,
-      emailjs_user,
-      user_email,
-      user_name,
-      project_name,
-      message,
-      form_valid,
-      onSubmit,
-      onReset,
-      isReadyForm,
-      isEmptyForm,
-      emailBody,
-      onMounted,
-      filtered_Project,
-    }
-  },
-  mounted() {
-    this.onMounted()
-  },
-}
-</script>
 <style scoped>
   .form-group{
     display: flex;

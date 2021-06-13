@@ -10,7 +10,7 @@ import WindiCSS from 'vite-plugin-windicss'
 import { VitePWA } from 'vite-plugin-pwa'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Prism from 'markdown-it-prism'
-import replace from '@rollup/plugin-replace'
+// import replace from '@rollup/plugin-replace'
 
 export default defineConfig({
   resolve: {
@@ -26,7 +26,7 @@ export default defineConfig({
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
-      extensions: ['vue', 'md', 'ts'],
+      extensions: ['vue', 'md'],
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
@@ -72,6 +72,7 @@ export default defineConfig({
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
+      mode: 'development',
       base: '/',
       registerType: 'autoUpdate',
       manifest: {
@@ -101,9 +102,9 @@ export default defineConfig({
         // workbox options for generateSW
       },
     }),
-    replace({
-      __DATE__: new Date().toISOString(),
-    }),
+    // replace({
+    //   __DATE__: new Date().toISOString(),
+    // }),
 
     // https://github.com/intlify/vite-plugin-vue-i18n
     VueI18n({
