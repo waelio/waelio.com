@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 // console.log('Service Worker Loaded...')
-if (typeof (window) === 'undefined') {
+if (typeof window !== 'undefined') {
   self.addEventListener('push', (e) => {
     const data = e.data.json()
     console.log('Push Received...')

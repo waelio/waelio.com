@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
-if (typeof (window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 // Check for service worker
   if ('serviceWorker' in navigator)
     send().catch(err => console.error(err))

@@ -9,17 +9,6 @@ import 'virtual:windi-devtools'
 import './styles/main.css'
 
 const routes = setupLayouts(generatedRoutes)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const updateSW = registerSW({
-  onNeedRefresh() {
-    // eslint-disable-next-line no-alert
-  },
-  onOfflineReady() {
-    // show a ready to work offline to user
-  },
-})
-
-// eslint-disable-next-line curly
 if (typeof window !== 'undefined') {
   import('./pwa')
 }
