@@ -17,7 +17,7 @@ title: Waelio | Home
     <Links2 />
     <Links3 />
   </div>
-  <button  @click="subscription" >.</button>
+  <button  @click="onSubscribe" >.</button>
 </div>
 
 <style>
