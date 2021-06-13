@@ -17,7 +17,7 @@ export const history = [
   },
   {
     key: 3,
-    color: 'yellow',
+    color: 'magenta',
     name: 'Visual Basic',
     link: 'https://en.wikipedia.org/wiki/Visual_Basic',
     year: '1998',
@@ -73,7 +73,7 @@ export const history = [
   },
   {
     key: 10,
-    color: 'cyan',
+    color: 'gray',
     name: 'HTML',
     link: 'https://en.wikipedia.org/wiki/HTML',
     year: '2005-2012',
@@ -81,7 +81,7 @@ export const history = [
   },
   {
     key: 11,
-    color: 'lime',
+    color: 'darkgreen',
     name: 'MsSQL',
     link: 'https://en.wikipedia.org/wiki/Microsoft_SQL_Server',
     year: '2005-2012',
@@ -89,7 +89,7 @@ export const history = [
   },
   {
     key: 12,
-    color: 'pink',
+    color: 'chocolate',
     name: 'PHP',
     link: 'https://en.wikipedia.org/wiki/PHP"',
     year: '2012',
@@ -121,7 +121,7 @@ export const history = [
   },
   {
     key: 16,
-    color: 'yellow',
+    color: 'blueviolet',
     name: 'React',
     link: 'https://en.wikipedia.org/wiki/React_(JavaScript_library)',
     year: '2015',
@@ -181,7 +181,7 @@ export const history = [
   },
   {
     key: 23,
-    color: 'pink',
+    color: 'palevioletred',
     name: 'Self Learning',
     link: 'https://waelio.com',
     year: 'Today...',
