@@ -4,7 +4,7 @@ export const history = [
     color: 'red',
     name: 'Logo',
     link: 'https://en.wikipedia.org/wiki/Logo_(programming_language)',
-    year: '1984',
+    year: '1986',
     text: 'Summer class in Cairo-Egypt',
   },
   {
