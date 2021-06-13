@@ -21,13 +21,13 @@ export default defineConfig({
   plugins: [
     vueJsx({}),
     Vue({
-      include: [/\.vue$/, /\.md$/, /\.ts$/],
+      include: [/\.vue$/, /\.md$/],
       ssr: false,
     }),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
-      extensions: ['vue', 'md', 'ts', 'jsx'],
+      extensions: ['vue', 'md', 'ts'],
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
