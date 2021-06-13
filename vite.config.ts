@@ -107,7 +107,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['images/*.png'],
+        // globPatterns: ['images/*.png'],
       },
     }),
     // replace({
