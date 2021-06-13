@@ -31,15 +31,17 @@ title: Waelio | Home
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { Send } from '../pwa'
+
 const { t } = useI18n()
-// const onSubscribe = async () => {
-//   try {
-//     const subscription = await subscribe()
-//     console.log('subscription', subscription);
-//   } catch (e) {
-//     console.error(e)
-//   }
-// },
+const onSubscribe = async () => {
+  try {
+    const subscription = await Send()
+    console.log('subscription', subscription);
+  } catch (e) {
+    console.error(e)
+  }
+}
 </script>
 
 <route lang="yaml">

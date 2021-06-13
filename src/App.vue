@@ -15,7 +15,7 @@ const timeAgo = useTimeAgo(date)
 <template>
   <router-view class="mx-auto" />
   <ReloadPrompt />
-  <div class="text-center">
+  <div class="text-center text-white">
     Built at: {{ date }} ({{ timeAgo }})
   </div>
 </template>

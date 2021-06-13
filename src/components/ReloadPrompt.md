@@ -21,7 +21,7 @@ const close = async() => {
       <span v-if="offlineReady">
         App ready to work offline
       </span>
-      <span v-else>
+      <span v-if="needRefresh">
         New content available, click on reload button to update.
       </span>
     </div>

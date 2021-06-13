@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
 // eslint-disable-next-line import/no-mutable-exports
-let send
-if (typeof window !== 'undefined') {
-  if ('serviceWorker' in navigator) {
-    send = async function() {
+
+const Send = async function() {
+  if (typeof window !== 'undefined') {
+    if ('serviceWorker' in navigator) {
       const register = await navigator.serviceWorker.register('worker.js', {
         scope: '/',
       })
@@ -20,12 +20,15 @@ if (typeof window !== 'undefined') {
         headers: {
           'content-type': 'application/json',
         },
-      }).catch((error) => {
-        console.log(error)
       })
+        .then(() => 'true')
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
+export { Send }
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4)
   const base64 = (base64String + padding)
@@ -40,5 +43,3 @@ function urlBase64ToUint8Array(base64String) {
 
   return outputArray
 }
-
-export { send }
