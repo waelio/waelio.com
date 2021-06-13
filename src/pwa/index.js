@@ -24,7 +24,7 @@ async function send() {
 
   // Send Push Notification
   // console.log('Sending Push...')
-  await fetch('https://api.waelio.com/subscribe', {
+  await fetch(`${import.meta.env.VITE_API_URL}/subscribe`, {
     method: 'POST',
     body: JSON.stringify(subscription),
     headers: {
