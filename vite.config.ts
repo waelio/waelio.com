@@ -21,7 +21,7 @@ export default defineConfig({
   plugins: [
     vueJsx({}),
     Vue({
-      include: [/\.vue$/, /\.md$/],
+      include: [/\.vue$/, /\.md$/, /\.ts$/],
       ssr: false,
     }),
 

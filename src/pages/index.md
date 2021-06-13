@@ -1,7 +1,7 @@
 ---
 title: Waelio | Home
 ---
-<div id="home_page" class="mx-auto overflow-y-scroll">
+<div id="home_page" class="mx-auto">
   <div class="text-2xl mx-auto">    
     <a rel="noreferrer" href="https://github.com/waelio" target="_blank" class="block my-2">
       <h3 class="text-center">Waelio</h3>
