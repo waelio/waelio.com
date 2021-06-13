@@ -19,14 +19,31 @@
     </transition-group>
   </div>
 </template>
-
 <script lang="ts">
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
+import { useHead } from '@vueuse/head'
+
 import { history } from '../statics'
 import { isDark } from '~/logic'
 export default {
   setup() {
     const data = reactive(history)
+    const siteData = reactive({
+      title: 'Waelio | Timeline',
+      description: 'Down memory lane, logo, basic, cb, php, mysql, python, javascript, mssql and more',
+      keywords: 'logo, basic, cb, php, mysql, python, javascript, mssql',
+    })
+    useHead({
+      // Can be static or computed
+      title: computed(() => siteData.title),
+      meta: [
+        {
+          name: 'description',
+          content: computed(() => siteData.description),
+          keywords: computed(() => siteData.keywords),
+        },
+      ],
+    })
     return {
       data,
       isDark,

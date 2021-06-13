@@ -182,10 +182,10 @@ export const history = [
   {
     key: 23,
     color: 'palevioletred',
-    name: 'Self Learning',
+    name: 'Secret Project!',
     link: 'https://waelio.com',
     year: 'Today...',
     text:
-            'Pretty much daily, I perform at least one of following: reading an article, attending an online seminar, watching a YouTube lesson or simply refactoring one of my projects.',
+            'Migrating some Javascript libraries to TypeScript, VITE, React, Vue ..., preparing for my new secret product ;)',
   },
 ]
