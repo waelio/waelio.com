@@ -9,9 +9,6 @@ import 'virtual:windi-devtools'
 import './styles/main.css'
 
 const routes = setupLayouts(generatedRoutes)
-if (typeof window !== 'undefined') {
-  import('./pwa')
-}
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(

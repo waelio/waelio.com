@@ -1,28 +1,29 @@
 /* eslint-disable no-console */
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
+// eslint-disable-next-line import/no-mutable-exports
+let send
 if (typeof window !== 'undefined') {
-  if ('serviceWorker' in navigator)
-    send().catch(err => console.error(err))
+  if ('serviceWorker' in navigator) {
+    send = async function() {
+      const register = await navigator.serviceWorker.register('worker.js', {
+        scope: '/',
+      })
 
-  async function send() {
-    const register = await navigator.serviceWorker.register('worker.js', {
-      scope: '/',
-    })
+      const subscription = await register.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+      })
 
-    const subscription = await register.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
-    })
-
-    await fetch(`${import.meta.env.VITE_API_URL}/subscribe`, {
-      method: 'POST',
-      body: JSON.stringify(subscription),
-      headers: {
-        'content-type': 'application/json',
-      },
-    }).catch((error) => {
-      console.log(error)
-    })
+      await fetch(`${import.meta.env.VITE_API_URL}/subscribe`, {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: {
+          'content-type': 'application/json',
+        },
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
   }
 }
 function urlBase64ToUint8Array(base64String) {
@@ -39,3 +40,5 @@ function urlBase64ToUint8Array(base64String) {
 
   return outputArray
 }
+
+export { send }
