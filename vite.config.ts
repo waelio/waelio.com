@@ -72,7 +72,6 @@ export default defineConfig({
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
-      mode: 'development',
       base: '/',
       registerType: 'autoUpdate',
       manifest: {

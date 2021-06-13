@@ -1,41 +1,41 @@
 /* eslint-disable no-console */
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
-
+if (typeof (window) !== 'undefined') {
 // Check for service worker
-if ('serviceWorker' in navigator)
-  send().catch(err => console.error(err))
+  if ('serviceWorker' in navigator)
+    send().catch(err => console.error(err))
 
-// Register SW, Register Push, Send Push
-async function send() {
+  // Register SW, Register Push, Send Push
+  async function send() {
   // Register Service Worker
   // console.log('Registering service worker...')
-  const register = await navigator.serviceWorker.register('./worker.js', {
-    scope: '/',
-  })
-  // console.log('Service Worker Registered...')
+    const register = await navigator.serviceWorker.register('./worker.js', {
+      scope: '/',
+    })
+    // console.log('Service Worker Registered...')
 
-  // Register Push
-  // console.log('Registering Push...')
-  const subscription = await register.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
-  })
-  // console.log('Push Registered...')
+    // Register Push
+    // console.log('Registering Push...')
+    const subscription = await register.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+    })
+    // console.log('Push Registered...')
 
-  // Send Push Notification
-  // console.log('Sending Push...')
-  await fetch(`${import.meta.env.VITE_API_URL}/subscribe`, {
-    method: 'POST',
-    body: JSON.stringify(subscription),
-    headers: {
-      'content-type': 'application/json',
-    },
-  }).catch((error) => {
-    console.log(error)
-  })
+    // Send Push Notification
+    // console.log('Sending Push...')
+    await fetch(`${import.meta.env.VITE_API_URL}/subscribe`, {
+      method: 'POST',
+      body: JSON.stringify(subscription),
+      headers: {
+        'content-type': 'application/json',
+      },
+    }).catch((error) => {
+      console.log(error)
+    })
   // console.log('Push Sent...')
+  }
 }
-
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4)
   const base64 = (base64String + padding)

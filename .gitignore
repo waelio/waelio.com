@@ -4,5 +4,6 @@
 *.local
 node_modules
 /node_modules
+dist
 # intellij stuff
 .idea/

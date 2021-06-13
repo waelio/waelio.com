@@ -13,7 +13,6 @@ const routes = setupLayouts(generatedRoutes)
 const updateSW = registerSW({
   onNeedRefresh() {
     // eslint-disable-next-line no-alert
-    alert('New Updates')
   },
   onOfflineReady() {
     // show a ready to work offline to user
