@@ -1,7 +1,6 @@
 import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
-import { registerSW } from 'virtual:pwa-register'
 
 import App from './App.vue'
 import 'virtual:windi.css'

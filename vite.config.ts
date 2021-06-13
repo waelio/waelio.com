@@ -72,9 +72,14 @@ export default defineConfig({
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
-      mode: 'development',
       base: '/',
+      start_url: '/?source=pwa',
+      short_name: 'Waelio',
+      name: 'Waelio.com',
       registerType: 'autoUpdate',
+      display_override: ['window-control-overlay', 'minimal-ui'],
+      display: 'standalone',
+      description: 'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
       manifest: {
         name: 'Waelio.com',
         short_name: 'Waelio',
@@ -97,9 +102,12 @@ export default defineConfig({
             purpose: 'any maskable',
           },
         ],
+        files: [
+
+        ],
       },
       workbox: {
-        // workbox options for generateSW
+        globPatterns: ['fonts/*.ttf', 'images/*.png'],
       },
     }),
     // replace({
