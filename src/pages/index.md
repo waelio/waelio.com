@@ -17,7 +17,7 @@ title: Waelio | Home
     <Links2 />
     <Links3 />
   </div>
-  <button  @click="onSubscribe" >.</button>
+  <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" >Get Notified</button>
 </div>
 
 <style>
@@ -38,7 +38,6 @@ const { t } = useI18n()
 const onSubscribe = async () => {
   try {
     const subscription = await Send()
-    console.log('subscription', subscription);
   } catch (e) {
     console.error(e)
   }

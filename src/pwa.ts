@@ -1,7 +1,18 @@
 /* eslint-disable no-console */
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
 // eslint-disable-next-line import/no-mutable-exports
-
+if (typeof window !== 'undefined') {
+  if ('serviceWorker' in navigator) {
+    self.addEventListener('push', (e) => {
+      const data = e.data.json()
+      console.log('Push Received...')
+      self.registration.showNotification(data.title, {
+        body: 'Notified by Waelio.com!',
+        icon: 'https://picmymenu.s3.eu-west-3.amazonaws.com/waelio_logo.png',
+      })
+    })
+  }
+}
 const Send = async function() {
   if (typeof window !== 'undefined') {
     if ('serviceWorker' in navigator) {
