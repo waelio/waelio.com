@@ -13,6 +13,45 @@ if (typeof window !== 'undefined') {
     })
   }
 }
+const unSubscribe = () => {
+  if (typeof window !== 'undefined') {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then((reg) => {
+        reg.pushManager.getSubscription().then((subscription) => {
+          if (!subscription) {
+            console.log('no subscription')
+            // eslint-disable-next-line no-alert
+            alert('You are not subscribed')
+            return false
+          }
+          subscription.unsubscribe().then(async(successful) => {
+            // You've successfully unsubscribed
+            console.log('unsubscribe success', successful)
+            await fetch(`${import.meta.env.VITE_API_URL}/subscribe?unsubscribe=true`, {
+              method: 'POST',
+              body: JSON.stringify(subscription),
+              headers: {
+                'content-type': 'application/json',
+              },
+            })
+              .then(() => {
+                // eslint-disable-next-line no-alert
+                alert('You unsubscribed successfully!')
+                return true
+              })
+              .catch((error) => {
+                console.log(error)
+                return false
+              })
+          }).catch((e) => {
+            console.error(e)
+            return false
+          })
+        })
+      })
+    }
+  }
+}
 const Send = async function() {
   if (typeof window !== 'undefined') {
     if ('serviceWorker' in navigator) {
@@ -39,7 +78,7 @@ const Send = async function() {
     }
   }
 }
-export { Send }
+export { Send, unSubscribe }
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4)
   const base64 = (base64String + padding)

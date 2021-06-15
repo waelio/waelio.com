@@ -17,7 +17,8 @@ title: Waelio | Home
     <Links2 />
     <Links3 />
   </div>
-  <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" >Get Notified</button>
+  <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" >Subscribe</button>
+  <button style="background-color:gray" class="block mx-auto" @click="onUnsubscribe" >Unsubscribe</button>
 </div>
 
 <style>
@@ -32,12 +33,19 @@ title: Waelio | Home
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { Send } from '../pwa'
+import { Send, unSubscribe } from '../pwa'
 
 const { t } = useI18n()
 const onSubscribe = async () => {
   try {
     const subscription = await Send()
+  } catch (e) {
+    console.error(e)
+  }
+}
+const onUnsubscribe = async () => {
+  try {
+    const subscription = await unSubscribe()
   } catch (e) {
     console.error(e)
   }
