@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
+import { api } from '~/boot/feathers'
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
-// eslint-disable-next-line import/no-mutable-exports
+
 if (typeof window !== 'undefined') {
   if ('serviceWorker' in navigator) {
     self.addEventListener('push', (e) => {
@@ -27,23 +28,19 @@ const unSubscribe = () => {
           subscription.unsubscribe().then(async(successful) => {
             // You've successfully unsubscribed
             console.log('unsubscribe success', successful)
-            await fetch(`${import.meta.env.VITE_API_URL}/subscribe?unsubscribe=true`, {
-              method: 'POST',
-              body: JSON.stringify(subscription),
-              headers: {
-                'content-type': 'application/json',
-              },
-            })
-              .then(() => {
-                // eslint-disable-next-line no-alert
-                alert('You unsubscribed successfully!')
-                return true
-              })
-              .catch((error) => {
-                console.log(error)
-                return false
-              })
+            try {
+              await api.service('subscribe').remove(subscription)
+              // eslint-disable-next-line no-alert
+              alert('You unsubscribed successfully!')
+              return true
+            }
+            catch (error) {
+              // Could not Delete Subscription from Database
+              console.log(error)
+              return false
+            }
           }).catch((e) => {
+            // Cannot Unsubscribe
             console.error(e)
             return false
           })
@@ -59,26 +56,22 @@ const Send = async function() {
         scope: '/',
       })
 
-      const subscription = await register.pushManager.subscribe({
+      const data = await register.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
       })
-
-      await fetch(`${import.meta.env.VITE_API_URL}/subscribe`, {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: {
-          'content-type': 'application/json',
-        },
-      })
-        .then(() => 'true')
+      return await api.service('subscribe').create(data)
+        .then((response) => {
+          console.log('🚀 ~ file: pwa.ts ~ line 70 ~ .then ~ response', response)
+          return response
+        })
         .catch((error) => {
           console.log(error)
         })
     }
   }
 }
-export { Send, unSubscribe }
+
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4)
   const base64 = (base64String + padding)
@@ -93,3 +86,26 @@ function urlBase64ToUint8Array(base64String) {
 
   return outputArray
 }
+
+const isSubscribed = () => {
+  if (typeof window !== 'undefined') {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then((reg) => {
+        reg.pushManager.getSubscription().then((sub) => {
+          console.log('🚀 ~ file: pwa.ts ~ line 105 ~ reg.pushManager.getSubscription ~ sub', sub)
+          if (sub) {
+            // No subscription
+            console.log('Existing user')
+          }
+          else {
+            // Update the database subscription
+            console.log('// No subscription')
+            console.log('New user')
+          }
+        })
+      })
+    }
+  }
+}
+
+export { Send, unSubscribe, isSubscribed }

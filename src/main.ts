@@ -1,9 +1,11 @@
 import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { registerSW } from 'virtual:pwa-register'
-
 import App from './App.vue'
+// import { pinia } from '~/store/store.pinia' // import from the file you just created.
+
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
 import './styles/main.css'
