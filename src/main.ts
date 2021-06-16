@@ -1,10 +1,7 @@
 import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
-import 'vite/dynamic-import-polyfill'
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { registerSW } from 'virtual:pwa-register'
+import { registerSW } from 'virtual:pwa-register'
 import App from './App.vue'
 // import { pinia } from '~/store/store.pinia' // import from the file you just created.
 
@@ -18,14 +15,15 @@ if (typeof window !== 'undefined') {
   if ('serviceWorker' in navigator)
     import('./pwa')
 }
-// const updateSW = registerSW({
-//   onNeedRefresh() {
-//     // show a prompt to user
-//   },
-//   onOfflineReady() {
-//     // show a ready to work offline to user
-//   },
-// })
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const updateSW = registerSW({
+  onNeedRefresh() {
+    // show a prompt to user
+  },
+  onOfflineReady() {
+    // show a ready to work offline to user
+  },
+})
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(
   App,
