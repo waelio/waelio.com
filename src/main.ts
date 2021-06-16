@@ -15,15 +15,19 @@ if (typeof window !== 'undefined') {
   if ('serviceWorker' in navigator)
     import('./pwa')
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const updateSW = registerSW({
-  onNeedRefresh() {
-    // show a prompt to user
-  },
-  onOfflineReady() {
-    // show a ready to work offline to user
-  },
-})
+if (typeof window !== 'undefined') {
+  if ('serviceWorker' in navigator) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const updateSW = registerSW({
+      onNeedRefresh() {
+      // show a prompt to user
+      },
+      onOfflineReady() {
+      // show a ready to work offline to user
+      },
+    })
+  }
+}
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(
   App,
