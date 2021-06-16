@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { api } from '~/boot/feathers'
+import { api } from '~/modules/feathers'
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
 
 if (typeof window !== 'undefined') {
