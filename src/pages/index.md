@@ -17,8 +17,12 @@ title: Waelio | Home
     <Links2 />
     <Links3 />
   </div>
-  <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" >Subscribe</button>
-  <button style="background-color:gray" class="block mx-auto" @click="onUnsubscribe" >Unsubscribe</button>
+    <div
+    class="mx-auto links-list flex"
+  >
+  <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" ><carbon:notification-filled />Subscribe</button>
+  <button style="background-color:gray" class="block mx-auto" @click="onUnsubscribe"><carbon:notification-off-filled/>Unsubscribe</button>
+  </div>
 </div>
 
 <style>
