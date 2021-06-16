@@ -19,12 +19,14 @@ export default defineConfig({
       'src/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
+  build: {
+    manifest: true,
+  },
   plugins: [
     Vue({
       include: [/\.vue$/, /\.md$/],
       ssr: false,
-    }),
-
+    }),    
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ['vue', 'md'],

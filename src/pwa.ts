@@ -62,7 +62,7 @@ const Send = async function() {
       })
       return await api.service('subscribe').create(data)
         .then((response) => {
-          console.log('🚀 ~ file: pwa.ts ~ line 70 ~ .then ~ response', response)
+          console.log('🚀 ~ file: pwa.ts ~ line 70 ~ .then ~ response', !!response)
           return response
         })
         .catch((error) => {
@@ -91,11 +91,17 @@ const isSubscribed = () => {
   if (typeof window !== 'undefined') {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.ready.then((reg) => {
-        reg.pushManager.getSubscription().then((sub) => {
-          console.log('🚀 ~ file: pwa.ts ~ line 105 ~ reg.pushManager.getSubscription ~ sub', sub)
+        reg.pushManager.getSubscription().then(async(sub) => {
+          console.log('🚀 ~ file: pwa.ts ~ line 105 ~ reg.pushManager.getSubscription ~ sub', !!sub)
           if (sub) {
             // No subscription
             console.log('Existing user')
+            const { _id } = await api.service('subscribe').get(sub)
+            if (_id) {
+              console.log('Updating existing user')
+              const success = await api.service('subscribe').update(_id, sub)
+              console.log('Updating existing user:success', !!success)
+            }
           }
           else {
             // Update the database subscription

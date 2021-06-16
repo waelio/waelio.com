@@ -1,8 +1,7 @@
 <script lang="ts">
 import { useRouter } from 'vue-router'
-import { reactive, ref, computed, unref } from 'vue'
+import { reactive, ref, computed, unref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import emailjs from 'emailjs-com'
 
 const projects = [
   { key: 'FavsShuffler', value: 'FavsShuffler', selected: false },
@@ -100,6 +99,9 @@ export default {
         })
       return true
     }
+    onMounted(() => {
+      emailjs.init(emailjs_user.value as string) as void
+    })
     return {
       myProjects,
       t,
@@ -118,10 +120,7 @@ export default {
       filtered_Project,
     }
   },
-  mounted() {
-    // eslint-disable-next-line import/no-named-as-default-member
-    emailjs.init(this.emailjs_user.value as string) as void
-  },
+
 }
 </script>
 <template>

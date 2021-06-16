@@ -17,8 +17,6 @@ specifiers:
   '@vueuse/head': ^0.5.1
   '@windicss/plugin-animations': ^1.0.9
   cross-env: ^7.0.3
-  emailjs: ^3.4.0
-  emailjs-com: ^3.0.2
   eslint: ^7.28.0
   feathers-hooks-common: ^5.0.6
   feathers-pinia: ^0.12.9
@@ -54,8 +52,6 @@ dependencies:
   '@vitejs/plugin-vue-jsx': 1.1.5
   '@vueuse/core': 4.11.2_vue@3.0.11
   '@vueuse/head': 0.5.1_vue@3.0.11
-  emailjs: 3.4.0
-  emailjs-com: 3.0.2
   feathers-hooks-common: 5.0.6
   feathers-pinia: 0.12.9_pinia@2.0.0-beta.2+vue@3.0.11
   fs.promises: 0.1.2
@@ -3391,14 +3387,6 @@ packages:
 
   /electron-to-chromium/1.3.752:
     resolution: {integrity: sha512-2Tg+7jSl3oPxgsBsWKh5H83QazTkmWG/cnNwJplmyZc7KcN61+I10oUgaXSVk/NwfvN3BdkKDR4FYuRBQQ2v0A==}
-
-  /emailjs-com/3.0.2:
-    resolution: {integrity: sha512-nbVFnvCQfemx5kh1W+MNmRCayHhruRbg5mJX27bV8NrpzPfa0T/tOxTJQWk8asHJ9Lx0L2SVndEiMIxJp+fGAw==}
-    dev: false
-
-  /emailjs/3.4.0:
-    resolution: {integrity: sha512-GYzxHth2mOtfjGvQQYoS7747lrGj/7qohZiY1zQe4CtzVhDuRJ/WNKlhII1tZ0YAUC6190eA7paMuB7AJj4d3w==}
-    dev: false
 
   /emmet/2.3.4:
     resolution: {integrity: sha512-3IqSwmO+N2ZGeuhDyhV/TIOJFUbkChi53bcasSNRE7Yd+4eorbbYz4e53TpMECt38NtYkZNupQCZRlwdAYA42A==}

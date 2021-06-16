@@ -18,8 +18,6 @@
     "@vitejs/plugin-vue-jsx": "^1.1.5",
     "@vueuse/core": "^4.11.2",
     "@vueuse/head": "^0.5.1",
-    "emailjs": "^3.4.0",
-    "emailjs-com": "^3.0.2",
     "feathers-hooks-common": "^5.0.6",
     "feathers-pinia": "^0.12.9",
     "fs.promises": "^0.1.2",
