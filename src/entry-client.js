@@ -1,5 +1,5 @@
 
-if (window && typeof window !== 'undefined') {
+if (!import.meta.env.SSR) {
   self.addEventListener('push', (e) => {
     const data = e.data.json()
     // eslint-disable-next-line no-console
@@ -10,5 +10,5 @@ if (window && typeof window !== 'undefined') {
     })
   })
   import('./feathers.ts')
-  import('./store/store.pinia.ts')
+  // import('./store/store.pinia.ts')
 }

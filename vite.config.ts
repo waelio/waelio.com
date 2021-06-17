@@ -133,6 +133,7 @@ export default defineConfig({
     exclude: [
       'vue-demi',
       '@feathers',
+      'feathers-pinia',
     ],
   },
 })

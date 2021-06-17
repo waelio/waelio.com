@@ -36,14 +36,13 @@ title: Waelio | Home
 </style>
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { pinia } from 'src/store/store.pinia.ts'
-import { useNotifications } from 'src/store/notifications.pinia.ts'
+// import { pinia } from 'src/modules/store.pinia.ts'
+// import { useNotifications } from 'src/store/notifications.pinia.ts'
 import { onMounted, ref } from 'vue'
 import { Subscribe, unSubscribe, isSubscribed } from '~/pwa.ts'
 
 const { t } = useI18n()
-const  p  = useNotifications(pinia)
-const products = ref([])
+// const  p  = useNotifications(pinia)
 const onSubscribe = async () => {
   try {
     const subscription = await Subscribe()
