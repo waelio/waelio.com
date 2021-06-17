@@ -34,13 +34,16 @@ title: Waelio | Home
     margin: unset!important
   }
 </style>
-
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { onMounted } from 'vue'
+import { pinia } from 'src/store/store.pinia.ts'
+import { useNotifications } from 'src/store/notifications.pinia.ts'
+import { onMounted, ref } from 'vue'
 import { Subscribe, unSubscribe, isSubscribed } from '~/pwa.ts'
 
 const { t } = useI18n()
+const  p  = useNotifications(pinia)
+const products = ref([])
 const onSubscribe = async () => {
   try {
     const subscription = await Subscribe()
@@ -49,8 +52,10 @@ const onSubscribe = async () => {
     console.error(e)
   }
 }
-onMounted(() => {
-  console.log('mounted in the composition api!')
+onMounted(async () => {
+  const list = await p.find({})
+  console.log( list.data)
+  console.log('mounted in the Vite api!')
   isSubscribed()
 })
 const onUnsubscribe = async () => {

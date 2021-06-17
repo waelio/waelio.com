@@ -1,5 +1,5 @@
 import { defineStore, BaseModel } from '~/store/store.pinia'
-import { api } from '~/modules/feathers'
+import { api } from '~/feathers'
 
 export class User extends BaseModel {}
 

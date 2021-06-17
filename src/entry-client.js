@@ -9,6 +9,6 @@ if (window && typeof window !== 'undefined') {
       icon: 'https://picmymenu.s3.eu-west-3.amazonaws.com/waelio_logo.png',
     })
   })
-  import('./pwa.ts')
+  import('./feathers.ts')
   import('./store/store.pinia.ts')
 }
