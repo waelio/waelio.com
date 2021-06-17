@@ -23,6 +23,7 @@ specifiers:
   feathers-pinia: ^0.12.9
   fs.promises: ^0.1.2
   https-localhost: ^4.6.5
+  js-cookie: ^2.2.1
   markdown-it-prism: ^2.1.6
   nprogress: ^0.2.0
   path: ^0.12.7
@@ -58,6 +59,7 @@ dependencies:
   feathers-hooks-common: 5.0.6
   feathers-pinia: 0.12.9_pinia@2.0.0-beta.2+vue@3.0.11
   fs.promises: 0.1.2
+  js-cookie: 2.2.1
   nprogress: 0.2.0
   path: 0.12.7
   pinia: 2.0.0-beta.2
@@ -4933,6 +4935,10 @@ packages:
     resolution: {integrity: sha512-qux9juDtAC8HlZxAk/fku73ak4TWNLigRFTNzFShE/kw4bXVFsVu538vLXAxvNyPszXgpX4YxkXfwTYEi+zf5A==}
     hasBin: true
     dev: true
+
+  /js-cookie/2.2.1:
+    resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
+    dev: false
 
   /js-stringify/1.0.2:
     resolution: {integrity: sha1-Fzb939lyTyijaCrcYjCufk6Weds=}

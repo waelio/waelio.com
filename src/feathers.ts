@@ -12,6 +12,8 @@ const socket = io(`${import.meta.env.VITE_API_URL}`, { transports: ['websocket']
 
 const api = feathers()
   .configure(socketio(socket))
-  .configure(auth({ storage: window.localStorage }))
+  .configure(auth({
+    storage: !import.meta.env.SSR ? window.localStorage : '',
+  }))
 
 export { api }
