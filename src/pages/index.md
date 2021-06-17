@@ -53,8 +53,6 @@ const onSubscribe = async () => {
   }
 }
 onMounted(async () => {
-  const list = await p.find({})
-  console.log( list.data)
   console.log('mounted in the Vite api!')
   isSubscribed()
 })
