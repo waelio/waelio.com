@@ -2,7 +2,6 @@ import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
 import App from './App.vue'
-// import { pinia } from '~/store/store.pinia' // import from the file you just created.
 
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'

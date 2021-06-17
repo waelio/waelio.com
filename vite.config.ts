@@ -19,14 +19,10 @@ export default defineConfig({
       'src/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
-  build: {
-    manifest: true,
-  },
   plugins: [
     Vue({
       include: [/\.vue$/, /\.md$/],
-      ssr: false,
-    }),    
+    }),
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ['vue', 'md'],
@@ -48,7 +44,7 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-components
     ViteComponents({
       // allow auto load markdown components under `./src/components/`
-      extensions: ['vue', 'md', 'ts'],
+      extensions: ['vue', 'md'],
 
       // allow auto import and register components used in markdown
       customLoaderMatcher: id => id.endsWith('.md'),
@@ -75,12 +71,12 @@ export default defineConfig({
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
-      base: '/',
       start_url: '/?source=pwa',
       short_name: 'Waelio',
       name: 'Waelio.com',
       registerType: 'autoUpdate',
       display_override: ['window-control-overlay', 'minimal-ui'],
+      includeAssets: ['favicon.svg', 'robots.txt', 'safari-pinned-tab.svg'],
       display: 'standalone',
       description: 'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
       manifest: {

@@ -12,6 +12,7 @@
     "preview-https": "serve dist"
   },
   "dependencies": {
+    "@feathersjs/adapter-commons": "^4.5.11",
     "@feathersjs/authentication-client": "^4.5.11",
     "@feathersjs/feathers": "^4.5.11",
     "@feathersjs/socketio-client": "^4.5.11",

@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@antfu/eslint-config': ^0.6.5
+  '@feathersjs/adapter-commons': ^4.5.11
   '@feathersjs/authentication-client': ^4.5.11
   '@feathersjs/feathers': ^4.5.11
   '@feathersjs/socketio-client': ^4.5.11
@@ -46,6 +47,7 @@ specifiers:
   vue-tsc: ^0.1.7
 
 dependencies:
+  '@feathersjs/adapter-commons': 4.5.11
   '@feathersjs/authentication-client': 4.5.11
   '@feathersjs/feathers': 4.5.11
   '@feathersjs/socketio-client': 4.5.11
@@ -1533,6 +1535,17 @@ packages:
   /@feathers-plus/batch-loader/0.3.6:
     resolution: {integrity: sha512-r+n31iZ/B5Rl1mLkC9/S20UI445MdkZvE3VBmjupep2t8OuyTYHPkFEgR25HY6khH+RothK1VL3B5eumk9N2QQ==}
     engines: {node: '>= 6.0.0'}
+    dev: false
+
+  /@feathersjs/adapter-commons/4.5.11:
+    resolution: {integrity: sha512-qJ+P/6GLR3KfXhzgRkvl3p66YmaTxLO1js1Jzs+d5QnnUYx+jWSV7tzYVZoVjQSlF8ht/zh9N5qfh0RV9w1E+w==}
+    engines: {node: '>= 10'}
+    dependencies:
+      '@feathersjs/commons': 4.5.11
+      '@feathersjs/errors': 4.5.11
+      '@feathersjs/feathers': 4.5.11
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@feathersjs/authentication-client/4.5.11:

@@ -38,12 +38,12 @@ title: Waelio | Home
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { onMounted } from 'vue'
-import { Send, unSubscribe, isSubscribed } from '../pwa'
+import { Subscribe, unSubscribe, isSubscribed } from '~/pwa.ts'
 
 const { t } = useI18n()
 const onSubscribe = async () => {
   try {
-    const subscription = await Send()
+    const subscription = await Subscribe()
     console.log("🚀 ~ file: index.md ~ line 42 ~ onSubscribe ~ subscription", subscription)
   } catch (e) {
     console.error(e)
