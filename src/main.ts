@@ -11,7 +11,7 @@ import './styles/main.css'
 const routes = setupLayouts(generatedRoutes)
 
 // https://github.com/antfu/vite-ssg
-export const app = ViteSSG(
+export const createApp = ViteSSG(
   App,
   { routes },
   (ctx) => {

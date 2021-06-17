@@ -8,8 +8,6 @@ import { iff, discard } from 'feathers-hooks-common'
 // eslint-disable-next-line import/no-mutable-exports
 const socket = io(`${import.meta.env.VITE_API_URL}`, { transports: ['websocket'] })
 
-// This variable name is important.  It becomes the internal alias for this server.
-
 const api = feathers()
   .configure(socketio(socket))
   // .configure(auth({

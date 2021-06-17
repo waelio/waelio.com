@@ -3,7 +3,7 @@ import { api } from '~/feathers'
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
 
 const unSubscribe = () => {
-  if (!import.meta.env.SSR) {
+  if (!import.meta.env.SSR && typeof window !== 'undefined') {
     navigator.serviceWorker.ready.then((reg) => {
       reg.pushManager.getSubscription().then((subscription) => {
         if (!subscription) {
@@ -36,7 +36,7 @@ const unSubscribe = () => {
   }
 }
 const Subscribe = async function() {
-  if (!import.meta.env.SSR) {
+  if (!import.meta.env.SSR && typeof window !== 'undefined') {
     const register = await navigator.serviceWorker.register('worker.js', {
       scope: '/',
     })
@@ -72,7 +72,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 const isSubscribed = () => {
-  if (!import.meta.env.SSR) {
+  if (!import.meta.env.SSR && typeof window !== 'undefined') {
     navigator.serviceWorker.ready.then((reg) => {
       reg.pushManager.getSubscription().then(async(sub) => {
         console.log('🚀 ~ file: pwa.ts ~ line 105 ~ reg.pushManager.getSubscription ~ sub', !!sub)

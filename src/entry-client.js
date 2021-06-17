@@ -1,5 +1,5 @@
 
-if (!import.meta.env.SSR) {
+if (!import.meta.env.SSR && typeof window !== 'undefined') {
   self.addEventListener('push', (e) => {
     const data = e.data.json()
     // eslint-disable-next-line no-console
@@ -9,6 +9,6 @@ if (!import.meta.env.SSR) {
       icon: 'https://picmymenu.s3.eu-west-3.amazonaws.com/waelio_logo.png',
     })
   })
-  import('./feathers.ts')
+  // import('./feathers.ts')
   // import('./store/store.pinia.ts')
 }
