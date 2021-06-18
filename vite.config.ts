@@ -115,6 +115,7 @@ export default defineConfig({
     }),
     replace({
       __DATE__: new Date().toISOString(),
+      preventAssignment: true,
     }),
 
     // https://github.com/intlify/vite-plugin-vue-i18n

@@ -1,30 +1,31 @@
 ---
 title: Waelio | Home
 ---
-<div id="home_page" class="mx-auto">
-  <div class="text-2xl mx-auto">    
-    <a rel="noreferrer" href="https://github.com/waelio" target="_blank" class="block my-2">
-      <h3 class="text-center">Waelio</h3>
-    </a>
-    <p class="">
-      <em class="text-sm opacity-75 px-4">{{ t('intro.desc') }}</em>
-    </p>
-  </div>
-  <div
-    class="mx-auto links-list"
-  >
-    <Links1 />
-    <Links2 />
-    <Links3 />
-  </div>
+<client-only>
+  <div id="home_page" class="mx-auto">
+    <div class="text-2xl mx-auto">    
+      <a rel="noreferrer" href="https://github.com/waelio" target="_blank" class="block my-2">
+        <h3 class="text-center">Waelio</h3>
+      </a>
+      <p class="">
+        <em class="text-sm opacity-75 px-4">{{ t('intro.desc') }}</em>
+      </p>
+    </div>
     <div
-    class="mx-auto links-list flex"
-  >
-  <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" ><carbon:notification-filled /><span class="px-1 align-top">Subscribe</span></button>
-  <button style="background-color:gray" class="block mx-auto" @click="onUnsubscribe"><carbon:notification-off-filled/><span class="px-1 align-top">Unsubscribe</span></button>
+      class="mx-auto links-list"
+    >
+      <Links1 />
+      <Links2 />
+      <Links3 />
+    </div>
+      <div
+      class="mx-auto links-list flex"
+    >
+    <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" ><carbon:notification-filled /><span class="px-1 align-top">Subscribe</span></button>
+    <button style="background-color:gray" class="block mx-auto" @click="onUnsubscribe"><carbon:notification-off-filled/><span class="px-1 align-top">Unsubscribe</span></button>
+    </div>
   </div>
-</div>
-
+</client-only>
 <style>
   #home_page {
     font-size: initial;
@@ -40,7 +41,6 @@ import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { pinia } from 'src/modules/store.pinia.ts'
 // import { useNotifications } from 'src/store/notifications.pinia.ts'
-
 const { t } = useI18n()
 // const  p  = useNotifications(pinia)
 const onSubscribe = async () => {
