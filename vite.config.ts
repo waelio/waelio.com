@@ -73,12 +73,14 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
       start_url: '/?source=pwa',
-      short_name: 'Waelio',
+      display: 'standalone',
       name: 'Waelio.com',
-      registerType: 'autoUpdate',
+      short_name: 'Waelio',
+      background_color: '#3E4EB8',
+      theme_color: '#2F3BA2',
+      registerType: 'development',
       display_override: ['window-control-overlay', 'minimal-ui'],
       includeAssets: ['favicon.svg', 'robots.txt', 'safari-pinned-tab.svg'],
-      display: 'standalone',
       description: 'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
       manifest: {
         name: 'Waelio.com',

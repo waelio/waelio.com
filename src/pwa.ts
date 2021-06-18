@@ -1,16 +1,16 @@
+
 /* eslint-disable no-console */
 import { api } from '~/feathers'
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
 
 const unSubscribe = () => {
-  if (!import.meta.env.SSR && typeof window !== 'undefined') {
+  if (!import.meta.env.SSR && typeof window !== 'undefined' && 'serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((reg) => {
       reg.pushManager.getSubscription().then((subscription) => {
         if (!subscription) {
           console.log('no subscription')
           // eslint-disable-next-line no-alert
           alert('You are not subscribed')
-          return false
         }
         subscription.unsubscribe().then(async(successful) => {
         // You've successfully unsubscribed
@@ -36,7 +36,7 @@ const unSubscribe = () => {
   }
 }
 const Subscribe = async function() {
-  if (!import.meta.env.SSR && typeof window !== 'undefined') {
+  if (!import.meta.env.SSR && typeof window !== 'undefined' && 'serviceWorker' in navigator) {
     const register = await navigator.serviceWorker.register('worker.js', {
       scope: '/',
     })
@@ -71,25 +71,28 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray
 }
 
-const isSubscribed = () => {
-  if (!import.meta.env.SSR && typeof window !== 'undefined') {
+const isSubscribed = (): Boolean => {
+  if (!import.meta.env.SSR && typeof window !== 'undefined' && 'serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((reg) => {
       reg.pushManager.getSubscription().then(async(sub) => {
         console.log('🚀 ~ file: pwa.ts ~ line 105 ~ reg.pushManager.getSubscription ~ sub', !!sub)
         if (sub) {
-        // No subscription
+        // Is subscribed: Subscription exits
           console.log('Existing user')
           const { _id } = await api.service('subscribe').get(sub)
+          // Update the database subscription
           if (_id) {
             console.log('Updating existing user')
             const success = await api.service('subscribe').update(_id, sub)
             console.log('Updating existing user:success', !!success)
           }
+          return true
         }
         else {
-        // Update the database subscription
+          // New User
           console.log('// No subscription')
           console.log('New user')
+          return false
         }
       })
     })

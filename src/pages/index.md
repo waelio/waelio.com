@@ -11,7 +11,7 @@ title: Waelio | Home
     </p>
   </div>
   <div
-    class="mx-auto links-list lg:flex"
+    class="mx-auto links-list"
   >
     <Links1 />
     <Links2 />
@@ -20,8 +20,8 @@ title: Waelio | Home
     <div
     class="mx-auto links-list flex"
   >
-  <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" ><carbon:notification-filled />Subscribe</button>
-  <button style="background-color:gray" class="block mx-auto" @click="onUnsubscribe"><carbon:notification-off-filled/>Unsubscribe</button>
+  <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" ><carbon:notification-filled /><span class="px-1 align-top">Subscribe</span></button>
+  <button style="background-color:gray" class="block mx-auto" @click="onUnsubscribe"><carbon:notification-off-filled/><span class="px-1 align-top">Unsubscribe</span></button>
   </div>
 </div>
 
