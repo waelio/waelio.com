@@ -2,16 +2,8 @@
 import { useRouter } from 'vue-router'
 import { reactive, ref, computed, unref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { projects } from '~/statics'
 
-const projects = [
-  { key: 'FavsShuffler', value: 'FavsShuffler', selected: false },
-  { key: 'Sudoku17', value: 'Sudoku17', selected: false },
-  { key: 'PicMyMenu.com', value: 'PicMyMenu.com', selected: false },
-  { key: 'Api.PicMyMenu.com', value: 'PicMyMenu.com API', selected: false },
-  { key: 'QuranInPixels', value: 'Quran in Pixels', selected: false },
-  { key: 'TulipGlowShop', value: 'Tulip Glow Shop', selected: false },
-  { key: 'Waelio.com', value: 'Waelio.com Site', selected: false },
-]
 export default {
   setup() {
     const router = useRouter()

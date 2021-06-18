@@ -189,3 +189,12 @@ export const history = [
             'Migrating some Javascript libraries to TypeScript, VITE, React, Vue ..., preparing for my new secret product ;)',
   },
 ]
+export const projects = [
+  { key: 'FavsShuffler', value: 'FavsShuffler', selected: false },
+  { key: 'Sudoku17', value: 'Sudoku17', selected: false },
+  { key: 'PicMyMenu.com', value: 'PicMyMenu.com', selected: false },
+  { key: 'Api.PicMyMenu.com', value: 'PicMyMenu.com API', selected: false },
+  { key: 'QuranInPixels', value: 'Quran in Pixels', selected: false },
+  { key: 'TulipGlowShop', value: 'Tulip Glow Shop', selected: false },
+  { key: 'Waelio.com', value: 'Waelio.com Site', selected: false },
+]

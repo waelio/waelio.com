@@ -11,8 +11,13 @@ button:
   Terms_Short: Terms
   Contact: Contact us
   TimeLine: Timeline
-  Submit: Submit
-  Reset: Reset
+  submit: Submit
+  reset: Reset
+  reload: Reload
+  close: Close
+  new_content: New content available, reload to update.
+  offline_ready: App ready to work offline
+
 intro:
   desc: JavaScript enthusiast, Wolf Pack brother, Ducks lover, all about reusability and improvements.
   hi: Hi, {name}! 

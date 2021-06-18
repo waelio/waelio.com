@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n'
 import { timestamp } from '@vueuse/shared'
 import { useTimeAgo } from '@vueuse/core'
 import ReloadPrompt from '~/components/ReloadPrompt.vue'
-
 import moment from 'moment'
 import { isDark } from '~/logic'
 
@@ -13,9 +12,9 @@ useHead({
   title: 'Waelio',
   meta: [{ name: 'description', content: t('intro.desc') }],
 })
+
 const date = timestamp()
 const timeAgo = useTimeAgo(date)
-
 </script>
 
 <template>

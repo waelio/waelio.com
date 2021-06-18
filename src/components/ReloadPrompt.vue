@@ -1,36 +1,33 @@
 <script setup lang="ts">
 import { useRegisterSW } from 'virtual:pwa-register/vue'
-const {
-  offlineReady,
-  needRefresh,
-  updateServiceWorker,
-} = useRegisterSW()
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW()
+
 const close = async() => {
   offlineReady.value = false
   needRefresh.value = false
 }
-console.log(offlineReady)
 </script>
 <template>
   <div
     v-if="offlineReady || needRefresh"
-    class="pwa-toast"
+    class="pwa-toast bg-white"
     role="alert"
   >
-    offlineReady: {{offlineReady}}
     <div class="message">
       <span v-if="offlineReady">
-        App ready to work offline
+        {{ t('button.offline_ready') }}
       </span>
       <span v-if="needRefresh">
-        New content available, click on reload button to update.
+        {{ t('button.new_content') }}
       </span>
     </div>
     <button v-if="needRefresh" @click="updateServiceWorker()">
-      Reload
+      {{ t('button.reload') }}
     </button>
     <button @click="close">
-      Close
+      {{ t('button.close') }}
     </button>
   </div>
 </template>
