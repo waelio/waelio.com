@@ -35,33 +35,37 @@ title: Waelio | Home
   }
 </style>
 <script setup lang="ts">
+import { Subscribe, unSubscribe, isSubscribed } from '~/pwa.ts'
+import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { pinia } from 'src/modules/store.pinia.ts'
 // import { useNotifications } from 'src/store/notifications.pinia.ts'
-import { onMounted, ref } from 'vue'
-// import { Subscribe, unSubscribe, isSubscribed } from '~/pwa.ts'
 
 const { t } = useI18n()
 // const  p  = useNotifications(pinia)
 const onSubscribe = async () => {
-  // try {
-  //   const subscription = await Subscribe()
-  //   console.log("🚀 ~ file: index.md ~ line 42 ~ onSubscribe ~ subscription", subscription)
-  // } catch (e) {
-  //   console.error(e)
-  // }
+  try {
+    const subscription = await Subscribe()
+    console.log("🚀 ~ file: index.md ~ line 42 ~ onSubscribe ~ subscription", subscription)
+  } catch (e) {
+    console.error(e)
+  }
 }
 onMounted(async () => {
   console.log('mounted in the Vite api!')
-  // isSubscribed()
+  if (typeof window !== 'undefined') {
+    if ('serviceWorker' in navigator) {
+      isSubscribed()
+    }
+  }
 })
 const onUnsubscribe = async () => {
-  // try {
-  //   const subscription = await unSubscribe()
-  //   console.log("🚀 ~ file: index.md ~ line 49 ~ onUnsubscribe ~ subscription", subscription)
-  // } catch (e) {
-  //   console.error(e)
-  // }
+  try {
+    const subscription = await unSubscribe()
+    console.log("🚀 ~ file: index.md ~ line 49 ~ onUnsubscribe ~ subscription", subscription)
+  } catch (e) {
+    console.error(e)
+  }
 }
 </script>
 
