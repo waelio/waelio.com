@@ -124,10 +124,7 @@ export default defineConfig({
   ssgOptions: {
     script: 'async',
     formatting: 'minify',
-    ssr: false,
-
   },
-
   optimizeDeps: {
     include: [
       'vue',

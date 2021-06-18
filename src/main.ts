@@ -3,12 +3,15 @@ import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
 
 import App from './App.vue'
-
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
 import './styles/main.css'
 
 const routes = setupLayouts(generatedRoutes)
+// eslint-disable-next-line curly
+if (typeof window !== 'undefined') {
+  import('./pwa')
+}
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(
