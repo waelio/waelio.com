@@ -22,7 +22,6 @@ export default defineConfig({
   plugins: [
     Vue({
       include: [/\.vue$/, /\.md$/],
-      ssr: false,
     }),
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
@@ -125,6 +124,8 @@ export default defineConfig({
   ssgOptions: {
     script: 'async',
     formatting: 'minify',
+    ssr: false,
+
   },
 
   optimizeDeps: {
