@@ -53,11 +53,11 @@ const onSubscribe = async () => {
 }
 onMounted(async () => {
   console.log('mounted in the Vite api!')
-  if (typeof window !== 'undefined') {
-    if ('serviceWorker' in navigator) {
+  // if (typeof window !== 'undefined') {
+  //   if ('serviceWorker' in navigator) {
       isSubscribed()
-    }
-  }
+  //   }
+  // }
 })
 const onUnsubscribe = async () => {
   try {
