@@ -39,10 +39,9 @@ title: Waelio | Home
 import { Subscribe, unSubscribe, isSubscribed } from '~/pwa.ts'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-// import { pinia } from 'src/modules/store.pinia.ts'
-// import { useNotifications } from 'src/store/notifications.pinia.ts'
+// import { useStore } from '~/store/store.root'
 const { t } = useI18n()
-// const  p  = useNotifications(pinia)
+// const  store  = useStore()
 const onSubscribe = async () => {
   try {
     const subscription = await Subscribe()
@@ -53,11 +52,7 @@ const onSubscribe = async () => {
 }
 onMounted(async () => {
   console.log('mounted in the Vite api!')
-  // if (typeof window !== 'undefined') {
-  //   if ('serviceWorker' in navigator) {
-      isSubscribed()
-  //   }
-  // }
+  isSubscribed()
 })
 const onUnsubscribe = async () => {
   try {
