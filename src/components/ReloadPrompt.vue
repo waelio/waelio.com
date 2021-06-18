@@ -9,14 +9,15 @@ const close = async() => {
   offlineReady.value = false
   needRefresh.value = false
 }
+console.log(offlineReady)
 </script>
-
 <template>
   <div
     v-if="offlineReady || needRefresh"
     class="pwa-toast"
     role="alert"
   >
+    offlineReady: {{offlineReady}}
     <div class="message">
       <span v-if="offlineReady">
         App ready to work offline
@@ -33,7 +34,6 @@ const close = async() => {
     </button>
   </div>
 </template>
-
 <style>
 .pwa-toast {
   position: fixed;

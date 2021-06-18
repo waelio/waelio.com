@@ -23,6 +23,7 @@
     "feathers-pinia": "^0.12.9",
     "fs.promises": "^0.1.2",
     "js-cookie": "^2.2.1",
+    "moment": "^2.29.1",
     "nprogress": "^0.2.0",
     "path": "^0.12.7",
     "pinia": "^2.0.0-beta.2",

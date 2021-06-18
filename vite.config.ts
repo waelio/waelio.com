@@ -10,7 +10,7 @@ import WindiCSS from 'vite-plugin-windicss'
 import { VitePWA } from 'vite-plugin-pwa'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Prism from 'markdown-it-prism'
-// import replace from '@rollup/plugin-replace'
+import replace from '@rollup/plugin-replace'
 
 export default defineConfig({
   resolve: {
@@ -74,10 +74,11 @@ export default defineConfig({
       start_url: '/?source=pwa',
       display: 'standalone',
       name: 'Waelio.com',
+      base: '/',
       short_name: 'Waelio',
       background_color: '#3E4EB8',
       theme_color: '#2F3BA2',
-      registerType: 'autoUpdate',
+      registerType: 'development',
       display_override: ['window-control-overlay', 'minimal-ui'],
       includeAssets: ['favicon.svg', 'robots.txt', 'safari-pinned-tab.svg'],
       description: 'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
@@ -111,9 +112,9 @@ export default defineConfig({
         // globPatterns: ['images/*.png'],
       },
     }),
-    // replace({
-    //   __DATE__: new Date().toISOString(),
-    // }),
+    replace({
+      __DATE__: new Date().toISOString(),
+    }),
 
     // https://github.com/intlify/vite-plugin-vue-i18n
     VueI18n({

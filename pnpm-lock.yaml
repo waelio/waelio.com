@@ -25,6 +25,7 @@ specifiers:
   https-localhost: ^4.6.5
   js-cookie: ^2.2.1
   markdown-it-prism: ^2.1.6
+  moment: ^2.29.1
   nprogress: ^0.2.0
   path: ^0.12.7
   pinia: ^2.0.0-beta.2
@@ -60,6 +61,7 @@ dependencies:
   feathers-pinia: 0.12.9_pinia@2.0.0-beta.2+vue@3.0.11
   fs.promises: 0.1.2
   js-cookie: 2.2.1
+  moment: 2.29.1
   nprogress: 0.2.0
   path: 0.12.7
   pinia: 2.0.0-beta.2
@@ -5460,6 +5462,10 @@ packages:
 
   /minimist/1.2.5:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
+
+  /moment/2.29.1:
+    resolution: {integrity: sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==}
+    dev: false
 
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
