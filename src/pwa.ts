@@ -2,99 +2,89 @@
 /* eslint-disable no-console */
 import { api } from '~/feathers'
 const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
+const isClient = (): boolean => Boolean(typeof window !== 'undefined' && 'serviceWorker' in navigator)
 
-if (typeof window !== 'undefined') {
-  if ('serviceWorker' in navigator) {
-    self.addEventListener('push', (e) => {
-      const data = e.data.json()
-      console.log('Push Received...')
-      self.registration.showNotification(data.title, {
-        body: 'Notified by Waelio.com!',
-        icon: 'https://picmymenu.s3.eu-west-3.amazonaws.com/waelio_logo.png',
+const unSubscribe = () => {
+  if (isClient) {
+    navigator.serviceWorker.ready.then((reg) => {
+      reg.pushManager.getSubscription().then((subscription) => {
+        if (!subscription) {
+          console.log('no subscription')
+          // eslint-disable-next-line no-alert
+          alert('You are not subscribed')
+        }
+        subscription.unsubscribe().then(async(successful) => {
+          // You've successfully unsubscribed
+          console.log('unsubscribe success', successful)
+          try {
+            await api.service('subscribe').remove(subscription)
+            // eslint-disable-next-line no-alert
+            alert('You unsubscribed successfully!')
+            return true
+          }
+          catch (error) {
+            // Could not Delete Subscription from Database
+            console.log(error)
+            return false
+          }
+        }).catch((e) => {
+          // Cannot Unsubscribe
+          console.error(e)
+          return false
+        })
       })
     })
   }
 }
-const unSubscribe = () => {
-  if (typeof window !== 'undefined') {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready.then((reg) => {
-        reg.pushManager.getSubscription().then((subscription) => {
-          if (!subscription) {
-            console.log('no subscription')
-            // eslint-disable-next-line no-alert
-            alert('You are not subscribed')
-          }
-          subscription.unsubscribe().then(async(successful) => {
-            // You've successfully unsubscribed
-            console.log('unsubscribe success', successful)
-            try {
-              await api.service('subscribe').remove(subscription)
-              // eslint-disable-next-line no-alert
-              alert('You unsubscribed successfully!')
-              return true
-            }
-            catch (error) {
-              // Could not Delete Subscription from Database
-              console.log(error)
-              return false
-            }
-          }).catch((e) => {
-            // Cannot Unsubscribe
-            console.error(e)
-            return false
-          })
-        })
-      })
-    }
-  }
-}
-const Subscribe = async function() {
-  if (typeof window !== 'undefined') {
-    if ('serviceWorker' in navigator) {
-      const register = await navigator.serviceWorker.register('worker.js', {
-        scope: '/',
-      })
+const Subscribe = async function(): string {
+  if (isClient) {
+    const register = await navigator.serviceWorker.register('worker.js', {
+      scope: '/',
+    })
 
-      const data = await register.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+    const data: object = await register.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+    })
+    return await api.service('subscribe').create(data)
+      .then((response) => {
+        console.log('🚀 ~ file: pwa.ts ~ line 70 ~ .then ~ response', !!response)
+        return response
       })
-      return await api.service('subscribe').create(data)
-        .then((response) => {
-          console.log('🚀 ~ file: pwa.ts ~ line 70 ~ .then ~ response', !!response)
-          return response
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
+      .catch((error) => {
+        console.log(error)
+        return error.message
+      })
   }
 }
 
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4)
-  const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/')
+function urlBase64ToUint8Array(base64String): string {
+  if (isClient) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4)
+    const base64 = (base64String + padding)
+      .replace(/\-/g, '+')
+      .replace(/_/g, '/')
 
-  const rawData = window.atob(base64)
-  const outputArray = new Uint8Array(rawData.length)
+    const rawData = window.atob(base64)
+    const outputArray = new Uint8Array(rawData.length)
 
-  for (let i = 0; i < rawData.length; ++i)
-    outputArray[i] = rawData.charCodeAt(i)
+    for (let i = 0; i < rawData.length; ++i)
+      outputArray[i] = rawData.charCodeAt(i)
 
-  return outputArray
+    return outputArray
+  }
 }
 
-const isSubscribed = (): Boolean => {
-  if (typeof window !== 'undefined') {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready.then((reg) => {
+const isSubscribed = (): boolean => {
+  if (isClient) {
+    navigator.serviceWorker.register('worker.js', {
+      scope: '/',
+    })
+      .then((reg) => {
         reg.pushManager.getSubscription().then(async(sub) => {
           console.log('🚀 ~ file: pwa.ts ~ line 105 ~ reg.pushManager.getSubscription ~ sub', !!sub)
           if (sub) {
-            // Is subscribed: Subscription exits
+          // Is subscribed: Subscription exits
             console.log('Existing user')
             const { _id } = await api.service('subscribe').get(sub)
             // Update the database subscription
@@ -113,8 +103,7 @@ const isSubscribed = (): Boolean => {
           }
         })
       })
-    }
   }
 }
 
-export { Subscribe, unSubscribe, isSubscribed }
+export { Subscribe, unSubscribe, isSubscribed, isClient }

@@ -3,15 +3,17 @@ import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW()
+const isClient = (): boolean => Boolean(typeof window !== 'undefined' && 'serviceWorker' in navigator)
 
 const close = async() => {
   offlineReady.value = false
   needRefresh.value = false
 }
+
 </script>
 <template>
   <div
-    v-if="offlineReady || needRefresh"
+    v-if="offlineReady || needRefresh && isClient"
     class="pwa-toast bg-white"
     role="alert"
   >
