@@ -207,20 +207,20 @@ export default {
             <button
               class="block h-10 rounded w-30 bg-gray-500 text-white"
               name="send"
-              :alt="t('button.Submit')"
+              :alt="t('button.submit')"
               :disabled="!isReadyForm"
               :style="isReadyForm? 'background-color: green': 'background-color:red'"
               :disable="!isReadyForm"
               @click.prevent="onSubmit()"
             >
-              {{ t('button.Submit') }}
+              {{ t('button.submit') }}
             </button>
             <button
               class="Button p block h-10 rounded w-30 bg-gray-500 text-white"
-              :alt="t('button.Reset')"
+              :alt="t('button.reset')"
               type="reset"
             >
-              {{ t('button.Reset') }}
+              {{ t('button.reset') }}
             </button>
           </div>
         </form>
