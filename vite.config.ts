@@ -17,6 +17,9 @@ export default defineConfig({
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
       'src/': `${path.resolve(__dirname, 'src')}/`,
+      'store/': `${path.resolve(__dirname, 'src/store')}/`,
+      'components/': `${path.resolve(__dirname, 'src/components')}/`,
+      'pages/': `${path.resolve(__dirname, 'src/pages')}/`,
     },
   },
   plugins: [
