@@ -45,7 +45,7 @@ const { t } = useI18n()
 const onSubscribe = async () => {
   try {
     const subscription = await Subscribe()
-    console.log("🚀 ~ file: index.md ~ line 42 ~ onSubscribe ~ subscription", subscription)
+    console.log("🚀 ~ file: index.md ~ line 42 ~ onSubscribe ~ subscription", !!subscription)
   } catch (e) {
     console.error(e)
   }
@@ -57,7 +57,7 @@ onMounted(async () => {
 const onUnsubscribe = async () => {
   try {
     const subscription = await unSubscribe()
-    console.log("🚀 ~ file: index.md ~ line 49 ~ onUnsubscribe ~ subscription", subscription)
+    console.log("🚀 ~ file: index.md ~ line 49 ~ onUnsubscribe ~ subscription", !!subscription)
   } catch (e) {
     console.error(e)
   }

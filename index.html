@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,28 +10,31 @@
   <meta name="msapplication-TileColor" content="#00aba9">
   <meta name="theme-color" content="#ffffff">
 </head>
+
 <body>
-  <div id="app"></div>  
+  <div id="app"></div>
   <script>
     (function() {
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-      const setting = localStorage.getItem('color-schema') || 'auto'
-      if (setting === 'dark' || (prefersDark && setting !== 'light'))
-        document.documentElement.classList.toggle('dark', true)
+      const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches
+      const setting=localStorage.getItem('color-schema')||'auto'
+      if(setting==='dark'||(prefersDark&&setting!=='light'))
+        document.documentElement.classList.toggle('dark',true)
     })()
   </script>
   <script type="module" src="/src/main.ts"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KC5X3TQSQ1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || []
-      function gtag() { dataLayer.push(arguments) }
-      gtag('js', new Date())
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KC5X3TQSQ1"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[]
+    function gtag() { dataLayer.push(arguments) }
+    gtag('js',new Date())
 
-      gtag('config', 'G-KC5X3TQSQ1')
-    </script>
-     <script type="module" src="/src/pwa.ts"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js">
-    </script>
+    gtag('config','G-KC5X3TQSQ1')
+  </script>
+  <script type="module" src="/src/pwa.ts"></script>
+  <script src="http://localhost:8098"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js">
+  </script>
 </body>
+
 </html>

@@ -45,7 +45,7 @@ specifiers:
   vite-ssg: ^0.11.2
   vue: ^3.0.11
   vue-i18n: ^9.1.6
-  vue-property-decorator: ^9.1.2
+  vue-property-decorator: 10.0.0-rc.3
   vue-router: ^4.0.8
   vue-tsc: ^0.1.7
 
@@ -69,7 +69,6 @@ dependencies:
   socket.io-client: 2.4.0
   vue: 3.0.11
   vue-i18n: 9.1.6_vue@3.0.11
-  vue-property-decorator: 9.1.2_vue@3.0.11
   vue-router: 4.0.8_vue@3.0.11
 
 devDependencies:
@@ -98,6 +97,7 @@ devDependencies:
   vite-plugin-vue-layouts: 0.3.1_vite@2.3.7
   vite-plugin-windicss: 0.16.7_vite@2.3.7
   vite-ssg: 0.11.4_597927cc3fe00a147c2e9f6b2694d3ca
+  vue-property-decorator: 10.0.0-rc.3_vue@3.0.11
   vue-tsc: 0.1.7_vue@3.0.11
 
 packages:
@@ -7758,14 +7758,14 @@ packages:
       vue: 3.0.11
     dev: false
 
-  /vue-property-decorator/9.1.2_vue@3.0.11:
-    resolution: {integrity: sha512-xYA8MkZynPBGd/w5QFJ2d/NM0z/YeegMqYTphy7NJQXbZcuU6FC6AOdUAcy4SXP+YnkerC6AfH+ldg7PDk9ESQ==}
+  /vue-property-decorator/10.0.0-rc.3_vue@3.0.11:
+    resolution: {integrity: sha512-EGqjf8Lq+kTausZzfLB1ynWOcyay8ZLAc5p2VlKGEX2q+BjYw84oZxr6IcdwuxGIdNmriZqPUX6AlAluBdnbEg==}
     peerDependencies:
       vue: '*'
       vue-class-component: '*'
     dependencies:
       vue: 3.0.11
-    dev: false
+    dev: true
 
   /vue-router/4.0.8_vue@3.0.11:
     resolution: {integrity: sha512-42mWSQaH7CCBQDspQTHv63f34VEnZC20g9QNK4WJ/zW8SdIUeT6TQ2i/78fjF/pVBUPLBWrGhvB7uDnaz7O/pA==}
