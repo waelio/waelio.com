@@ -36,34 +36,36 @@ title: Waelio | Home
   }
 </style>
 <script setup lang="ts">
-import { Subscribe, unSubscribe, isSubscribed } from '~/pwa.ts'
+import { Subscribe, unSubscribe, isSubscribed, isClient } from 'src/pwa.ts'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { useStore } from '~/store/store.root'
 const { t } = useI18n()
 // const  store  = useStore()
-const onSubscribe = async () => {
+const onSubscribe = () => {
   try {
-    const subscription = await Subscribe()
+    const subscription = Subscribe()
     console.log("🚀 ~ file: index.md ~ line 42 ~ onSubscribe ~ subscription", !!subscription)
+    return subscription
   } catch (e) {
     console.error(e)
   }
 }
-onMounted(async () => {
+onMounted( () => {
   console.log('mounted in the Vite api!')
-  isSubscribed()
+  console.log('isClient', isClient())
+  if(isClient())
+    isSubscribed()
 })
-const onUnsubscribe = async () => {
+const onUnsubscribe = () => {
   try {
-    const subscription = await unSubscribe()
+    const subscription = unSubscribe()
     console.log("🚀 ~ file: index.md ~ line 49 ~ onUnsubscribe ~ subscription", !!subscription)
   } catch (e) {
     console.error(e)
   }
 }
 </script>
-
 <route lang="yaml">
 meta:
   layout: home
