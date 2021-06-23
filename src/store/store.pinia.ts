@@ -1,7 +1,7 @@
 // store/store.pinia.ts
 import { createPinia } from 'pinia'
 import { setup } from 'feathers-pinia'
-import { api } from '~/feathers'
+import { api } from '~/utilities/feathers'
 
 export const pinia = createPinia()
 

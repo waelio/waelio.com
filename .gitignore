@@ -7,3 +7,6 @@ node_modules
 dist
 # intellij stuff
 .idea/
+
+# Local Netlify folder
+.netlify

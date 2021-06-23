@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router'
 import { reactive, ref, computed, unref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@vueuse/head'
 import { projects } from '~/statics'
 
 export default {
@@ -21,7 +22,7 @@ export default {
     const emailjs_service = ref(import.meta.env.VITE_EMAIL_SERVICE as string)!
     const emailjs_template = ref(import.meta.env.VITE_EMAIL_TEMPLATE as string)!
     const emailjs_user = ref(import.meta.env.VITE_EMAIL_USER as string)
-    function onReset(): boolean {
+    const onReset = (): boolean => {
       form_valid.value = false
       accept.value = false
       message.value = ''
@@ -33,7 +34,6 @@ export default {
       reply_to.value = ''
       return true
     }
-
     const isReadyForm = computed(() => {
       return !!(
         user_name.value
@@ -43,7 +43,7 @@ export default {
         && message.value
       )
     })
-    const filtered_Project = computed((thisRoute) => {
+    const filtered_Project = computed(() => {
       const { target } = unref(router.currentRoute).query
       if (target) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -94,6 +94,23 @@ export default {
     onMounted(() => {
       emailjs.init(emailjs_user.value as string) as void
     })
+    const siteData = reactive({
+      title: 'Waelio | Contact Us',
+      description: 'Contact US for any questions,support or concerns.',
+      keywords: 'logo, basic, cb, php, mysql, python, javascript, mssql',
+    })
+    useHead({
+      // Can be static or computed
+      title: computed(() => siteData.title),
+      meta: [
+        {
+          name: 'description',
+          content: computed(() => siteData.description),
+          keywords: computed(() => siteData.keywords),
+        },
+      ],
+    })
+
     return {
       myProjects,
       t,
@@ -112,7 +129,6 @@ export default {
       filtered_Project,
     }
   },
-
 }
 </script>
 <template>

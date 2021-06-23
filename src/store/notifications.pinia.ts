@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { syncWithStorage, syncWithStorageCompressed } from 'feathers-pinia'
 import { defineStore, BaseModel } from '~/store/store.pinia'
-import { api } from '~/feathers'
+import { api } from '~/utilities/feathers'
 
 export class Notifications extends BaseModel {}
 
