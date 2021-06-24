@@ -11,6 +11,7 @@ declare module 'vue' {
     LinkTemplate: typeof import('./src/components/LinkTemplate.vue')['default']
     README: typeof import('./src/components/README.md')['default']
     ReloadPrompt: typeof import('./src/components/ReloadPrompt.vue')['default']
+    Subscriptions: typeof import('./src/components/Subscriptions.vue')['default']
   }
 }
 

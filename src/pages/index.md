@@ -17,13 +17,7 @@ title: Waelio | Home
       <Links1 />
       <Links2 />
       <Links3 />
-    </div>
-      <div
-      class="mx-auto links-list flex"
-    >
-    <button style="background-color:gray" class="block mx-auto" @click="onSubscribe" ><carbon:notification-filled /><span class="px-1 align-top">Subscribe</span></button>
-    <button style="background-color:gray" class="block mx-auto" @click="onUnsubscribe"><carbon:notification-off-filled/><span class="px-1 align-top">Unsubscribe</span></button>
-    </div>
+    </div>    
   </div>
 </client-only>
 <style>
@@ -36,35 +30,15 @@ title: Waelio | Home
   }
 </style>
 <script setup lang="ts">
-import { Subscribe, unSubscribe, isSubscribed, isClient } from 'src/pwa.ts'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { useStore } from '~/store/store.root'
 const { t } = useI18n()
 // const  store  = useStore()
-const onSubscribe = () => {
-  try {
-    const subscription = Subscribe()
-    console.log("🚀 ~ file: index.md ~ line 42 ~ onSubscribe ~ subscription", !!subscription)
-    return subscription
-  } catch (e) {
-    console.error(e)
-  }
-}
 onMounted( () => {
-  console.log('mounted in the Vite api!')
-  console.log('isClient', isClient())
-  if(isClient())
-    isSubscribed()
+  console.log('mounted in the Vite api!') 
 })
-const onUnsubscribe = () => {
-  try {
-    const subscription = unSubscribe()
-    console.log("🚀 ~ file: index.md ~ line 49 ~ onUnsubscribe ~ subscription", !!subscription)
-  } catch (e) {
-    console.error(e)
-  }
-}
+
 </script>
 <route lang="yaml">
 meta:
