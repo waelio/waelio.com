@@ -1,44 +1,96 @@
-import { onUnmounted, onMounted, ref } from 'vue'
+import { onUnmounted, onBeforeMount, ref, watchEffect, computed } from 'vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
-import { subscription } from 'src/interface'
+import { subscription as Interface } from './../interface/index'
 
 export function useSubscriptions() {
   const { offlineReady } = useRegisterSW()
-  // const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
+  const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
   const isSupported = !!(!offlineReady && typeof window !== 'undefined' && 'navigator' in window && 'serviceWorker' in navigator)
-  const subscription: subscription = reactive()
-  const isSubscribed = async(): Promise<boolean> => {
+
+  const localSubscription: Interface = ref({})
+
+  const collectSubscriptions = async(): Promise<boolean> => {
     try {
-      const reg = await navigator.serviceWorker.ready
-      subscription.value = await reg.pushManager.getSubscription()
-      if (subscription.value)
-        return subscription
-      return false
+      const register = await navigator.serviceWorker.ready
+      localSubscription.value = await register.pushManager.getSubscription()
+      return localSubscription
     }
     catch (error) {
       // eslint-disable-next-line no-console
       console.log(error)
-      console.error(error.message)
       return false
     }
   }
-  onMounted(() => {
-    if (isSupported)
-      // eslint-disable-next-line no-console
-      console.log(isSubscribed())
+  const subscription: Interface = computed({
+    get: () => localSubscription.value,
+    set: (newSubscription = null) => newSubscription || collectSubscriptions(),
   })
+  const isSubscribed = computed(() => !!(subscription.value && subscription.value.endpoint))
+
+  onBeforeMount(async() => {
+    if (isSupported)
+      watchEffect(() => subscription.value = localSubscription.value)
+  })
+
   onUnmounted(() => {
-    if (subscription) subscription.value = null
+    if (subscription.value) subscription.value = null
   })
   const Subscribe = async() => {
-    // eslint-disable-next-line no-console
-    console.log('In Subscribe')
-    return await true
+    try {
+      const register = await navigator.serviceWorker.ready
+      const data = await register.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+      })
+      if (data)
+        localSubscription.value = data
+      return !!data
+    }
+    catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error)
+      return false
+    }
   }
   const unSubscribe = async() => {
-    // eslint-disable-next-line no-console
-    console.log('In Unsubscribe')
-    return await true
+    try {
+      const register = await navigator.serviceWorker.ready
+      const currentSubscription = await register.pushManager.getSubscription()
+      if (!currentSubscription) {
+        // eslint-disable-next-line no-console
+        console.log('no subscription')
+        localSubscription.value = {}
+        subscription.value = {}
+        // eslint-disable-next-line no-alert
+        alert('You are not subscribed')
+        return true
+      }
+      currentSubscription.unsubscribe()
+      localSubscription.value = {}
+      subscription.value = {}
+      // eslint-disable-next-line no-alert
+      alert('You\'ve been unsubscribed!')
+      return true
+    }
+    catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error)
+      return false
+    }
   }
-  return { isSubscribed, isSupported, Subscribe, unSubscribe }
+  return { collectSubscriptions, isSupported, Subscribe, unSubscribe, subscription, isSubscribed }
+}
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4)
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/')
+
+  const rawData = window.atob(base64)
+  const outputArray = new Uint8Array(rawData.length)
+
+  for (let i = 0; i < rawData.length; ++i)
+    outputArray[i] = rawData.charCodeAt(i)
+
+  return outputArray
 }

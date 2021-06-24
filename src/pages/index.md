@@ -19,6 +19,7 @@ title: Waelio | Home
       <Links3 />
     </div>    
   </div>
+  <Subscriptions />
 </client-only>
 <style>
   #home_page {
