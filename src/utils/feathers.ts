@@ -4,6 +4,7 @@ import io from 'socket.io-client'
 import socketio from '@feathersjs/socketio-client'
 import rest from '@feathersjs/rest-client'
 import axios from 'axios'
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 const socket = io(import.meta.env.VITE_API_URL, { transports: ['websocket'] })
 const restClient = rest(import.meta.env.VITE_API_URL)
 
