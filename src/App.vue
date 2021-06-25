@@ -1,12 +1,3 @@
-<template>
-  <router-view></router-view>
-  <client-only>
-    <ReloadPrompt />
-  </client-only>
-  <div class="text-center" :class="darkMode?'text-white':'text-dark'">
-    Built at: {{ BuildTime }} ({{ timeAgo }})
-  </div>
-</template>
 <script setup lang="ts">
 import { useHead } from '@vueuse/head'
 import { useI18n } from 'vue-i18n'
@@ -25,3 +16,9 @@ const date = '__DATE__'
 const timeAgo = useTimeAgo(date)
 const BuildTime = moment(date).format('ddd MMM DD, YYYY [at] HH:mm')
 </script>
+<template>
+  <router-view></router-view>
+  <div class="text-center" :class="darkMode?'text-white':'text-dark'">
+    Built at: {{ BuildTime }} ({{ timeAgo }})
+  </div>
+</template>
