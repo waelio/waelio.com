@@ -1,7 +1,7 @@
 import { onUnmounted, onBeforeMount, ref, watchEffect, computed } from 'vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
-import { subscription as Interface } from './../interface/index'
-
+import { subscription as Interface } from 'src/interface/index'
+import axios from 'axios'
 export function useSubscriptions() {
   const { offlineReady } = useRegisterSW()
   const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
@@ -38,13 +38,16 @@ export function useSubscriptions() {
   const Subscribe = async() => {
     try {
       const register = await navigator.serviceWorker.ready
-      const data = await register.pushManager.subscribe({
+      const newSubscription = await register.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
       })
-      if (data)
-        localSubscription.value = data
-      return !!data
+      if (newSubscription) {
+        localSubscription.value = newSubscription
+        axios.post(`${import.meta.env.VITE_API_URL}/subscribe`,
+          newSubscription)
+      }
+      return !!newSubscription
     }
     catch (error) {
       // eslint-disable-next-line no-console
@@ -66,10 +69,17 @@ export function useSubscriptions() {
         return true
       }
       currentSubscription.unsubscribe()
+      await axios({
+        baseURL: import.meta.env.VITE_API_URL,
+        url: '/subscribe',
+        method: 'delete',
+        id: currentSubscription,
+        params: { id: currentSubscription },
+      })
       localSubscription.value = {}
       subscription.value = {}
-      // eslint-disable-next-line no-alert
-      alert('You\'ve been unsubscribed!')
+      // eslint-disable-next-line no-console
+      console.log('You\'ve been unsubscribed!')
       return true
     }
     catch (error) {

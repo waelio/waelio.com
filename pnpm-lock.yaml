@@ -5,6 +5,7 @@ specifiers:
   '@feathersjs/adapter-commons': ^4.5.11
   '@feathersjs/authentication-client': ^4.5.11
   '@feathersjs/feathers': ^4.5.11
+  '@feathersjs/rest-client': ^4.5.11
   '@feathersjs/socketio-client': ^4.5.11
   '@iconify/json': ^1.1.353
   '@intlify/vite-plugin-vue-i18n': ^2.2.0
@@ -17,6 +18,7 @@ specifiers:
   '@vueuse/core': ^4.11.2
   '@vueuse/head': ^0.5.1
   '@windicss/plugin-animations': ^1.0.9
+  axios: ^0.21.1
   cross-env: ^7.0.3
   eslint: ^7.28.0
   feathers-hooks-common: ^5.0.6
@@ -25,6 +27,7 @@ specifiers:
   https-localhost: ^4.6.5
   js-cookie: ^2.2.1
   markdown-it-prism: ^2.1.6
+  mitt: ^3.0.0
   moment: ^2.29.1
   nprogress: ^0.2.0
   path: ^0.12.7
@@ -53,14 +56,17 @@ dependencies:
   '@feathersjs/adapter-commons': 4.5.11
   '@feathersjs/authentication-client': 4.5.11
   '@feathersjs/feathers': 4.5.11
+  '@feathersjs/rest-client': 4.5.11
   '@feathersjs/socketio-client': 4.5.11
   '@vitejs/plugin-vue-jsx': 1.1.5
   '@vueuse/core': 4.11.2_vue@3.1.2
   '@vueuse/head': 0.5.1_vue@3.1.2
+  axios: 0.21.1
   feathers-hooks-common: 5.0.6
   feathers-pinia: 0.12.9_pinia@2.0.0-beta.3+vue@3.1.2
   fs.promises: 0.1.2
   js-cookie: 2.2.1
+  mitt: 3.0.0
   moment: 2.29.1
   nprogress: 0.2.0
   path: 0.12.7
@@ -1425,6 +1431,17 @@ packages:
       - supports-color
     dev: false
 
+  /@feathersjs/rest-client/4.5.11:
+    resolution: {integrity: sha512-OFvV7A3gk6MhTFpuz+hYBG9Do7AdStNtF6Kol/HSFPfaQv34VdOLD7M60EliCA2/7QykvuYU1uhwhhkNGUeWXg==}
+    engines: {node: '>= 10'}
+    dependencies:
+      '@feathersjs/commons': 4.5.11
+      '@feathersjs/errors': 4.5.11
+      qs: 6.10.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@feathersjs/socketio-client/4.5.11:
     resolution: {integrity: sha512-+TJvB+W+3r65kZohFVUgsKJsy18HRp+SiMCWYueo/EFoem0H2lWGgE30p/G4eJxelIfwlbNWlhWesxVZxeYZAw==}
     engines: {node: '>= 10'}
@@ -2434,6 +2451,14 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
+  /axios/0.21.1:
+    resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
+    dependencies:
+      follow-redirects: 1.14.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /babel-plugin-dynamic-import-node/2.3.3:
     resolution: {integrity: sha512-jZVI+s9Zg3IqA/kdi0i6UDCybUI3aSBLnglhYbSSjKlV7yF1F/5LWv8MakQmvYpnbJDS6fcBL2KzHSxNCMtWSQ==}
     dependencies:
@@ -2621,7 +2646,6 @@ packages:
     dependencies:
       function-bind: 1.1.1
       get-intrinsic: 1.1.1
-    dev: true
 
   /callsites/3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
@@ -3944,6 +3968,16 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /follow-redirects/1.14.1:
+    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /foreach/2.0.5:
     resolution: {integrity: sha1-C+4AUBiusmDQo6865ljdATbsG5k=}
     dev: true
@@ -4009,7 +4043,6 @@ packages:
 
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
-    dev: true
 
   /functional-red-black-tree/1.0.1:
     resolution: {integrity: sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=}
@@ -4036,7 +4069,6 @@ packages:
       function-bind: 1.1.1
       has: 1.0.3
       has-symbols: 1.0.2
-    dev: true
 
   /get-own-enumerable-property-symbols/3.0.2:
     resolution: {integrity: sha512-I0UBV/XOz1XkIJHEUDMZAbzCThU/H8DxmSfmdGcKPnVhu2VfFqr34jr9777IyaTYvxjedWhqVIilEDsCdP5G6g==}
@@ -4182,7 +4214,6 @@ packages:
   /has-symbols/1.0.2:
     resolution: {integrity: sha512-chXa79rL/UC2KlX17jo3vRGz0azaWEx5tGqZg5pO3NUyEJVB17dMruQlzCCOfUvElghKcm5194+BCRvi2Rv/Gw==}
     engines: {node: '>= 0.4'}
-    dev: true
 
   /has-yarn/2.1.0:
     resolution: {integrity: sha512-UqBRqi4ju7T+TqGNdqAO0PaSVGsDGJUBQvk9eUWNGRY1CFGDzYhLWoM7JQEemnlvVcv/YEmc2wNW8BC24EnUsw==}
@@ -4194,7 +4225,6 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
-    dev: true
 
   /hash-sum/2.0.0:
     resolution: {integrity: sha512-WdZTbAByD+pHfl/g9QSsBIIwy8IT+EsPiKDs0KNX+zSHhdDLFKdZu0BQHljvO+0QI/BasbMSUa8wYNCZTvhslg==}
@@ -5272,6 +5302,10 @@ packages:
   /minimist/1.2.5:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
 
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
+
   /moment/2.29.1:
     resolution: {integrity: sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==}
     dev: false
@@ -5366,7 +5400,6 @@ packages:
 
   /object-inspect/1.10.3:
     resolution: {integrity: sha512-e5mCJlSH7poANfC8z8S9s9S2IN5/4Zb3aZ33f5s8YqoazCFzNLloLU8r5VCG+G7WoqLvAAZoVMcy3tp/3X0Plw==}
-    dev: true
 
   /object-is/1.1.5:
     resolution: {integrity: sha512-3cyDsyHgtmi7I7DfSSI2LDp6SK2lwvtbg0p0R1e0RvTqF5ceGx+K2dfSjm1bKDMVCFEDAQvy+o8c6a7VujOddw==}
@@ -5953,6 +5986,13 @@ packages:
     resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
     engines: {node: '>=6'}
 
+  /qs/6.10.1:
+    resolution: {integrity: sha512-M528Hph6wsSVOBiYUnGf+K/7w0hNshs/duGsNXPUCLH5XAqjEtiPGwNONLV0tBH8NoGb0mvD5JubnUTrujKDTg==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.4
+    dev: false
+
   /qs/6.7.0:
     resolution: {integrity: sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==}
     engines: {node: '>=0.6'}
@@ -6415,7 +6455,6 @@ packages:
       call-bind: 1.0.2
       get-intrinsic: 1.1.1
       object-inspect: 1.10.3
-    dev: true
 
   /sift/13.5.4:
     resolution: {integrity: sha512-J/d0r/MJlD7vG3j6FZI3/KnN+MxEmPUx2nyKNawysbl2ktisEnAWI5j0AgHM19p4xFA2vDXve4i8TQYYfi9O6Q==}

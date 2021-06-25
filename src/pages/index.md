@@ -39,7 +39,12 @@ const { t } = useI18n()
 onMounted( () => {
   console.log('mounted in the Vite api!') 
 })
-
+const onNewSubscription = (targetSubscription)=>{
+  consol.log(targetSubscription)
+}
+const onRemoveSubscription = (targetSubscription)=>{
+  consol.log(targetSubscription)
+}
 </script>
 <route lang="yaml">
 meta:
