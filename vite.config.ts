@@ -143,6 +143,7 @@ export default defineConfig({
       'vue-demi',
       '@feathers',
       'feathers-pinia',
+      'waelio-utils',
     ],
   },
 })
