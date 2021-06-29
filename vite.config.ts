@@ -53,12 +53,14 @@ export default defineConfig({
 
       // allow auto import and register components used in markdown
       customLoaderMatcher: id => id.endsWith('.md'),
+
       globalComponentsDeclaration: true,
+
       // auto import icons
       customComponentResolvers: [
         // https://github.com/antfu/vite-plugin-icons
         ViteIconsResolver({
-          // componentPrefix: '',
+          componentPrefix: '',
           enabledCollections: ['carbon'],
         }),
       ],
@@ -82,7 +84,8 @@ export default defineConfig({
       background_color: '#3E4EB8',
       theme_color: '#2F3BA2',
       mode: 'production',
-      registerType: 'autoUpdate',      
+      registerType: 'autoUpdate',
+      // strategies: 'generateSW',
       includeAssets: ['favicon.svg', 'robots.txt', 'safari-pinned-tab.svg'],
       description: 'Personal Portfolio Website with current projects, links to previous projects. Contact US page as well as support page for other online projects. Welcome Friends.',
       manifest: {
@@ -138,7 +141,8 @@ export default defineConfig({
     ],
     exclude: [
       'vue-demi',
-      'feathers-pinia'      
+      '@feathers',
+      'feathers-pinia',
     ],
   },
 })
