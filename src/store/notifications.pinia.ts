@@ -12,6 +12,6 @@ api.service(servicePath).hooks({})
 const notificationsStore = useNotifications()
 
 // Pass the "used" store as the first argument to `syncWithStorage`
-syncWithStorage(notificationsStore, ['ids', 'itemsById'])
+// syncWithStorage(notificationsStore, ['ids', 'itemsById'])
 // Or use the version with LZW compression
-// syncWithStorageCompressed(notificationsStore, ['ids', 'itemsById'])
+syncWithStorageCompressed(notificationsStore, ['ids', 'itemsById'])

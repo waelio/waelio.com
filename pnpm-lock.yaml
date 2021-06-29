@@ -9,6 +9,11 @@ specifiers:
   '@feathersjs/socketio-client': ^4.5.11
   '@iconify/json': ^1.1.353
   '@intlify/vite-plugin-vue-i18n': ^2.2.0
+  '@pnotify/animate': ^5.2.0
+  '@pnotify/bootstrap4': ^5.2.0
+  '@pnotify/core': ^5.2.0
+  '@pnotify/font-awesome4': ^5.2.0
+  '@pnotify/mobile': ^5.2.0
   '@types/nprogress': ^0.2.0
   '@typescript-eslint/eslint-plugin': ^4.26.0
   '@vitejs/plugin-vue': ^1.2.3
@@ -51,6 +56,7 @@ specifiers:
   vue-property-decorator: 10.0.0-rc.3
   vue-router: ^4.0.8
   vue-tsc: ^0.1.7
+  waelio-utils: ^3.1.0
 
 dependencies:
   '@feathersjs/adapter-commons': 4.5.11
@@ -58,6 +64,8 @@ dependencies:
   '@feathersjs/feathers': 4.5.11
   '@feathersjs/rest-client': 4.5.11
   '@feathersjs/socketio-client': 4.5.11
+  '@pnotify/core': 5.2.0
+  '@pnotify/mobile': 5.2.0
   '@vitejs/plugin-vue-jsx': 1.1.5
   '@vueuse/core': 4.11.2_vue@3.1.2
   '@vueuse/head': 0.5.1_vue@3.1.2
@@ -81,6 +89,9 @@ devDependencies:
   '@antfu/eslint-config': 0.6.6_eslint@7.29.0+typescript@4.3.4
   '@iconify/json': 1.1.360
   '@intlify/vite-plugin-vue-i18n': 2.2.1_vite@2.3.8+vue-i18n@9.1.6
+  '@pnotify/animate': 5.2.0
+  '@pnotify/bootstrap4': 5.2.0
+  '@pnotify/font-awesome4': 5.2.0
   '@types/nprogress': 0.2.0
   '@typescript-eslint/eslint-plugin': 4.28.0_eslint@7.29.0+typescript@4.3.4
   '@vitejs/plugin-vue': 1.2.3_@vue+compiler-sfc@3.1.2
@@ -105,6 +116,7 @@ devDependencies:
   vite-ssg: 0.11.4_f951af2e6596f003a3bdf3584c546559
   vue-property-decorator: 10.0.0-rc.3_vue@3.1.2
   vue-tsc: 0.1.7_vue@3.1.2
+  waelio-utils: 3.1.0
 
 packages:
 
@@ -1626,6 +1638,39 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.11.0
     dev: true
+
+  /@pnotify/animate/5.2.0:
+    resolution: {integrity: sha512-vVkf4e5HbabA5BJSzq7NxO6OQuGfWqH8HrWsiNwwpG6S0QRIUFeaazeKlVBFoNB/5YScP9kfNQUTNW/WSf/R9g==}
+    peerDependencies:
+      animate.css: ^3.7.2
+    dependencies:
+      '@pnotify/core': 5.2.0
+    dev: true
+
+  /@pnotify/bootstrap4/5.2.0:
+    resolution: {integrity: sha512-yjHCpUEAm64BrgGvrjL4+iPrwRkmVU5hL9khjruImFr29oXlA7dufzK1kIapFKNcUpLmu5izfcWHIfqf3rPBuQ==}
+    peerDependencies:
+      bootstrap: ^4.4.1
+    dependencies:
+      '@pnotify/core': 5.2.0
+    dev: true
+
+  /@pnotify/core/5.2.0:
+    resolution: {integrity: sha512-d9ZM7Q6ZxuwTJ14QbOa7pWmoUqObPis7S1K+TzISffrL8w2f7JigEPI281agLShVAMIsE5SsC6O9YhkutwekbA==}
+
+  /@pnotify/font-awesome4/5.2.0:
+    resolution: {integrity: sha512-meUjDUXWQfRai1jCmC9fb632dLnXauDZ90Bg8kO8KPIhGRAKHg+eRj+Tp3DbiWF5whqOvx0Ig9x6OCExqC+9Yg==}
+    peerDependencies:
+      font-awesome: ^4.7.0
+    dependencies:
+      '@pnotify/core': 5.2.0
+    dev: true
+
+  /@pnotify/mobile/5.2.0:
+    resolution: {integrity: sha512-uu0V7h41Y8UTQA6ZB26PcHU7wHu5nwP/FEmMyimHEpEqhrvkzIRD2CxB7zu9SYp3Jk2NFcJC3NiueO3Kh25CVA==}
+    dependencies:
+      '@pnotify/core': 5.2.0
+    dev: false
 
   /@rollup/plugin-babel/5.3.0_@babel+core@7.14.6+rollup@2.52.2:
     resolution: {integrity: sha512-9uIC8HZOnVLrLHxayq/PTzw+uS25E14KPUBh5ktF+18Mjo5yK0ToMMx6epY0uEgkjwJw0aBW4x2horYXh8juWw==}
@@ -7704,6 +7749,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       xml-name-validator: 3.0.0
+    dev: true
+
+  /waelio-utils/3.1.0:
+    resolution: {integrity: sha512-Qvd12RFIQlnJ8V4xiw2XNQ0V83LAvYt69QlX9uA9UJ1SBeygdOBkTvdhfMKhqvcQavQ+DdltfCF0gX/GWq1tjQ==}
+    engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
     dev: true
 
   /wbuf/1.7.3:

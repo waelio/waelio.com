@@ -17,6 +17,8 @@
     "@feathersjs/feathers": "^4.5.11",
     "@feathersjs/rest-client": "^4.5.11",
     "@feathersjs/socketio-client": "^4.5.11",
+    "@pnotify/core": "^5.2.0",
+    "@pnotify/mobile": "^5.2.0",
     "@vitejs/plugin-vue-jsx": "^1.1.5",
     "@vueuse/core": "^4.11.2",
     "@vueuse/head": "^0.5.1",
@@ -40,6 +42,9 @@
     "@antfu/eslint-config": "^0.6.5",
     "@iconify/json": "^1.1.353",
     "@intlify/vite-plugin-vue-i18n": "^2.2.0",
+    "@pnotify/animate": "^5.2.0",
+    "@pnotify/bootstrap4": "^5.2.0",
+    "@pnotify/font-awesome4": "^5.2.0",
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@vitejs/plugin-vue": "^1.2.3",
@@ -63,6 +68,7 @@
     "vite-plugin-windicss": "^0.16.7",
     "vite-ssg": "^0.11.2",
     "vue-property-decorator": "10.0.0-rc.3",
-    "vue-tsc": "^0.1.7"
+    "vue-tsc": "^0.1.7",
+    "waelio-utils": "^3.1.0"
   }
 }

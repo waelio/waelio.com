@@ -25,6 +25,8 @@ export default defineConfig({
   plugins: [
     Vue({
       include: [/\.vue$/, /\.md$/],
+      ssr: !!process.env.VITE_SSG,
+
     }),
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({

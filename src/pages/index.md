@@ -17,7 +17,7 @@ title: Waelio | Home
       <Links1 />
       <Links2 />
       <Links3 />
-    </div>    
+    </div>
   </div>
   <Subscriptions />
 </client-only>
@@ -33,18 +33,12 @@ title: Waelio | Home
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-// import { useStore } from '~/store/store.root'
+import { useStore } from '~/store/store.root'
 const { t } = useI18n()
-// const  store  = useStore()
+const  store  = useStore()
 onMounted( () => {
   console.log('mounted in the Vite api!') 
 })
-const onNewSubscription = (targetSubscription)=>{
-  consol.log(targetSubscription)
-}
-const onRemoveSubscription = (targetSubscription)=>{
-  consol.log(targetSubscription)
-}
 </script>
 <route lang="yaml">
 meta:
