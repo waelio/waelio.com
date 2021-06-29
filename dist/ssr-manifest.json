@@ -1,0 +1,382 @@
+{
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/locales/en.yml": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/locales/ru.yml": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/modules/i18n.ts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/modules/nprogress.ts": [],
+  "vite/preload-helper": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/modules/pwa.ts": [],
+  "/@vite-plugin-pages/generated-pages": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Header.vue?vue&type=script&setup=true&lang.ts": [],
+  "@vite-icons/carbon/moon": [],
+  "@vite-icons/carbon/sun": [],
+  "@vite-icons/carbon/language": [],
+  "@vite-icons/carbon/face-cool": [],
+  "@vite-icons/carbon/logo-github": [],
+  "@vite-icons/carbon/email": [],
+  "@vite-icons/carbon/virtual-private-cloud": [],
+  "@vite-icons/carbon/deploy-rules": [],
+  "@vite-icons/carbon/ai-status-in-progress": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/logic/dark.ts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Footer.vue?vue&type=script&setup=true&lang.ts": [],
+  "@vite-icons/carbon/campsite": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/layouts/default.vue?vue&type=script&setup=true&lang.ts": [],
+  "/@vite-plugin-vue-layouts/generated-layouts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/App.vue?vue&type=script&setup=true&lang.ts": [],
+  "/@windicss/windi.css": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/styles/main.css": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/main.ts": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/index.html": [],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+shared@9.1.6/node_modules/@intlify/shared/dist/shared.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+message-resolver@9.1.6/node_modules/@intlify/message-resolver/dist/message-resolver.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+runtime@9.1.6/node_modules/@intlify/runtime/dist/runtime.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+message-compiler@9.1.6/node_modules/@intlify/message-compiler/dist/message-compiler.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+devtools-if@9.1.6/node_modules/@intlify/devtools-if/dist/devtools-if.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+core-base@9.1.6/node_modules/@intlify/core-base/dist/core-base.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+shared@3.1.2/node_modules/@vue/shared/dist/shared.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+reactivity@3.1.2/node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+runtime-core@3.1.2/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+runtime-dom@3.1.2/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vue@3.1.2/node_modules/vue/dist/vue.runtime.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/env.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/const.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/api/api.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/api/app.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/api/component.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/api/context.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/api/hooks.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/api/util.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/api/index.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vue+devtools-api@6.0.0-beta.15/node_modules/@vue/devtools-api/lib/esm/index.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@intlify+vue-devtools@9.1.6/node_modules/@intlify/vue-devtools/dist/vue-devtools.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vue-i18n@9.1.6_vue@3.1.2/node_modules/vue-i18n/dist/vue-i18n.runtime.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "\u0000commonjsHelpers.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "\u0000C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/nprogress@0.2.0/node_modules/nprogress/nprogress.js?commonjs-module": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/nprogress@0.2.0/node_modules/nprogress/nprogress.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vite-ssg@0.11.4_f951af2e6596f003a3bdf3584c546559/node_modules/vite-ssg/dist/chunk-6HTX7RH6.mjs": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vite-ssg@0.11.4_f951af2e6596f003a3bdf3584c546559/node_modules/vite-ssg/dist/chunk-KHXGTJBV.mjs": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vue-router@4.0.10_vue@3.1.2/node_modules/vue-router/dist/vue-router.esm-bundler.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vueuse+head@0.5.1_vue@3.1.2/node_modules/@vueuse/head/dist/index.mjs": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vite-ssg@0.11.4_f951af2e6596f003a3bdf3584c546559/node_modules/vite-ssg/dist/index.mjs": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/vue-demi@0.9.1_vue@3.1.2/node_modules/vue-demi/lib/index.esm.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vueuse+shared@4.11.2_vue@3.1.2/node_modules/@vueuse/shared/dist/index.esm.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/@vueuse+core@4.11.2_vue@3.1.2/node_modules/@vueuse/core/dist/index.esm.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/pinia@2.0.0-beta.3/node_modules/pinia/dist/pinia.esm-browser.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/moment@2.29.1/node_modules/moment/dist/moment.js": [
+    "/assets/vendor.b40dd116.js"
+  ],
+  "/@vite-plugin-pwa/virtual:pwa-register": [
+    "/assets/virtual_pwa-register.c298aae9.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/workbox-window@6.1.5/node_modules/workbox-window/build/workbox-window.prod.es5.mjs": [
+    "/assets/workbox-window.prod.es5.3ec2694c.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/[...all].vue?vue&type=script&setup=true&lang.ts": [
+    "/assets/[...all].1736958e.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/[...all].vue?vue&type=route&index=0&lang.yaml": [
+    "/assets/[...all].1736958e.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/[...all].vue": [
+    "/assets/[...all].1736958e.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/timeline.vue?vue&type=script&lang.ts": [
+    "/assets/timeline.95d380b3.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/timeline.vue": [
+    "/assets/timeline.95d380b3.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/statics/index.ts": [
+    "/assets/index.d6f56c2f.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/terms.md": [
+    "/assets/terms.30188bec.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/privacy.md": [
+    "/assets/privacy.a41dd229.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/LinkTemplate.vue?vue&type=script&lang.ts": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/LinkTemplate.vue?vue&type=style&index=0&lang.css": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/LinkTemplate.vue": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Links1.md": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Links2.md": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Links3.md": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "@vite-icons/carbon/notification-filled": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "@vite-icons/carbon/notification-off-filled": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "/@vite-plugin-pwa/virtual:pwa-register/vue": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "\u0000C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/waelio-utils@3.1.0/node_modules/waelio-utils/dist/waelioUtils.js?commonjs-module": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/waelio-utils@3.1.0/node_modules/waelio-utils/dist/waelioUtils.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "\u0000C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/axios.js?commonjs-module": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/bind.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/utils.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/buildURL.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/core/InterceptorManager.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/core/transformData.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/cancel/isCancel.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/normalizeHeaderName.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/core/enhanceError.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/core/createError.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/core/settle.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/cookies.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/isAbsoluteURL.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/combineURLs.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/core/buildFullPath.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/parseHeaders.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/isURLSameOrigin.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/adapters/xhr.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/defaults.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/core/dispatchRequest.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/core/mergeConfig.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/core/Axios.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/cancel/Cancel.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/cancel/CancelToken.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/spread.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/helpers/isAxiosError.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/lib/axios.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/node_modules/.pnpm/axios@0.21.1/node_modules/axios/index.js": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/utils/subscriptionsHelper.ts": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/utils/useSubscriptions.ts": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Subscriptions.vue?vue&type=script&setup=true&lang.ts": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/components/Subscriptions.vue?vue&type=style&index=0&lang.css": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/store/store.root.ts": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/index.md?vue&type=style&index=0&lang.css": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/index.md?vue&type=route&index=0&lang.yaml": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/index.md": [
+    "/assets/index.15f49ad2.js",
+    "/assets/index.b25c940d.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/contact.vue?vue&type=script&lang.ts": [
+    "/assets/contact.c764fb33.js",
+    "/assets/contact.81aceb69.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/contact.vue?vue&type=style&index=0&scoped=true&lang.css": [
+    "/assets/contact.c764fb33.js",
+    "/assets/contact.81aceb69.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/contact.vue": [
+    "/assets/contact.c764fb33.js",
+    "/assets/contact.81aceb69.css"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/pages/about.md": [
+    "/assets/about.29969d21.js"
+  ],
+  "@vite-icons/carbon/warning": [
+    "/assets/404.d0b8aca6.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/layouts/404.vue?vue&type=script&setup=true&lang.ts": [
+    "/assets/404.d0b8aca6.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/layouts/404.vue": [
+    "/assets/404.d0b8aca6.js"
+  ],
+  "C:/Users/wahbe/Documents/GitHub/waelio.com/src/layouts/home.vue": [
+    "/assets/home.8acf2922.js"
+  ]
+}
