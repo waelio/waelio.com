@@ -141,11 +141,11 @@ export default defineConfig({
       'vue',
       'vue-router',
       '@vueuse/core',
-      '@feathers',
       'feathers-pinia',
     ],
     exclude: [
       'vue-demi',
+      '@feathers',
     ],
   },
 })
