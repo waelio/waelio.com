@@ -5,7 +5,8 @@
     "target": "es2016",
     "lib": [
       "DOM",
-      "ESNext"
+      "ESNext",
+      "WebWorker"
     ],
     "strict": true,
     "esModuleInterop": true,
