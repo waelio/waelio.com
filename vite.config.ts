@@ -133,16 +133,19 @@ export default defineConfig({
     script: 'async',
     formatting: 'minify',
   },
+  ssr:{
+    target: 'webworker'
+  },
   optimizeDeps: {
     include: [
       'vue',
       'vue-router',
       '@vueuse/core',
+      '@feathers',
+      'feathers-pinia',
     ],
     exclude: [
       'vue-demi',
-      '@feathers',
-      'feathers-pinia',
     ],
   },
 })
