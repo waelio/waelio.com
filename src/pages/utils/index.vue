@@ -14,8 +14,15 @@
 </template>
 <script setup lang="ts">
 import { waelioUtils } from 'waelio-utils'
+import { useHead } from '@vueuse/head'
+import { useI18n } from 'vue-i18n'
 import { computed, ref, onBeforeMount } from 'vue'
+const { t } = useI18n()
 
+useHead({
+  title: 'Waelio-utils',
+  meta: [{ name: 'description', content: t('intro.desc') }],
+})
 const contain = ref([])
 onBeforeMount(() => {
   for (const [key, value] of Object.entries(waelioUtils)) {
