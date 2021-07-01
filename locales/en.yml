@@ -11,6 +11,7 @@ button:
   Terms_Short: Terms
   Contact: Contact us
   TimeLine: Timeline
+  Utils: Utils
   submit: Submit
   reset: Reset
   reload: Reload
@@ -20,7 +21,7 @@ button:
 
 intro:
   desc: JavaScript enthusiast, Wolf Pack brother, Ducks lover, all about reusability and improvements.
-  hi: Hi, {name}! 
+  hi: Request -  {name}
 not-found: Not found
 contact:
   help: We are here

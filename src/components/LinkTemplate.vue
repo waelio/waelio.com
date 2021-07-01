@@ -21,6 +21,6 @@ export default {
 }
 
 .link-template p {
-    height:1rem;
+    height:.5rem;
 }
 </style>

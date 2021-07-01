@@ -142,6 +142,7 @@ export default defineConfig({
       'vue-router',
       '@vueuse/core',
       'feathers-pinia',
+      'waelio-utils'
     ],
     exclude: [
       'vue-demi',

@@ -24,16 +24,12 @@ const toggleLocales = () => {
       {{ t('button.Contact') }}
     </router-link>
     |
-    <!-- <router-link class="icon-btn mx-2 text-sm" to="/privacy" :title="t('button.Privacy')">
-      {{ t('button.Privacy_Short') }}
-    </router-link>
-    |
-    <router-link class="icon-btn mx-2 text-sm" to="/terms" :title="t('button.Terms')">
-      {{ t('button.Terms_Short') }}
-    </router-link>
-    | -->
     <router-link class="icon-btn mx-2 text-sm" to="/timeline" :title="t('button.TimeLine')">
       {{ t('button.TimeLine') }}
+    </router-link>
+    |
+    <router-link class="icon-btn mx-2 text-sm" to="/utils" :title="t('button.Utils')">
+      {{ t('button.Utils') }}
     </router-link>
   </nav>
 </template>

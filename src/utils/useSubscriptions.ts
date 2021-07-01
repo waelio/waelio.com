@@ -43,9 +43,9 @@ export function useSubscriptions() {
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
       })
-      if (newSubscription) {
+      if (await newSubscription) {
         localSubscription.value = newSubscription
-        await subAdd(newSubscription)
+        subAdd(newSubscription)
       }
       return !!newSubscription
     }

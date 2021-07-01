@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.6.6",
-    "@iconify/json": "^1.1.364",
+    "@iconify/json": "^1.1.365",
     "@intlify/vite-plugin-vue-i18n": "^2.2.1",
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
@@ -46,15 +46,14 @@
     "@windicss/plugin-animations": "^1.0.9",
     "cross-env": "^7.0.3",
     "eslint": "^7.29.0",
-    "fs": "^0.0.1-security",
-    "fs.promises": "^0.1.2",
     "https-localhost": "^4.6.5",
+    "markdown-it-link-attributes": "^3.0.0",
     "markdown-it-prism": "^2.1.7",
     "pnpm": "^6.9.1",
     "scss": "^0.2.4",
     "typescript": "^4.3.4",
     "vite": "^2.3.8",
-    "vite-plugin-components": "^0.10.4",
+    "vite-plugin-components": "^0.11.3",
     "vite-plugin-icons": "^0.6.3",
     "vite-plugin-md": "^0.6.7",
     "vite-plugin-pages": "^0.12.2",
@@ -64,6 +63,6 @@
     "vite-ssg": "^0.11.4",
     "vue-property-decorator": "10.0.0-rc.3",
     "vue-tsc": "^0.1.7",
-    "waelio-utils": "^3.1.0"
+    "waelio-utils": "^3.1.9"
   }
 }
