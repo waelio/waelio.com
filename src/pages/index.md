@@ -1,6 +1,7 @@
 ---
 title: Waelio | Home
 ---
+<!-- https://gist.github.com/waelio -->
 <client-only>
   <div id="home_page" class="mx-auto">
     <div class="text-2xl mx-auto">    
@@ -31,6 +32,7 @@ title: Waelio | Home
   }
 </style>
 <script setup lang="ts">
+// vscode://vscode.github-authentication/did-authenticate?windowid=12&code=eaf7cbf2cb4a73d1c4a7&state=9de87a84-0d4a-4c7c-b35f-42bce631baed
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '~/store/store.root'

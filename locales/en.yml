@@ -21,7 +21,7 @@ button:
 
 intro:
   desc: JavaScript enthusiast, Wolf Pack brother, Ducks lover, all about reusability and improvements.
-  hi: Request -  {name}
+  hi: Requested plugin is  {name}
 not-found: Not found
 contact:
   help: We are here

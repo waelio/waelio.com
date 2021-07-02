@@ -25,6 +25,7 @@ declare module 'vue' {
     'Carbon:notificationFilled': typeof import('virtual:vite-icons/carbon/notification-filled')['default']
     'Carbon:notificationOffFilled': typeof import('virtual:vite-icons/carbon/notification-off-filled')['default']
     CarbonTools: typeof import('virtual:vite-icons/carbon/tools')['default']
+    CarbonWarning: typeof import('virtual:vite-icons/carbon/warning')['default']
   }
 }
 
