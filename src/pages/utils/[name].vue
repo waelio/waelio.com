@@ -2,13 +2,13 @@
 import { useRouter } from 'vue-router'
 import { useHead } from '@vueuse/head'
 import { useI18n } from 'vue-i18n'
-import { defineProps, computed, ref } from 'vue'
+import { defineProps, computed, ref, watch } from 'vue'
 import { waelioUtils } from 'waelio-utils'
 import { isDark } from '~/logic'
 const { t } = useI18n()
 const contain = ref([])
 const router = useRouter()
-const salt = 'kjhggk4jhg4kjhg'
+const salt = ref('3uqi11wg9')
 const props = defineProps({
   name: {
     type: String,
@@ -35,12 +35,25 @@ const test4 = ref({
   title: `waelioUtils.${pluginName.value}`,
   meta: [{ name: 'description', content: t('intro.desc') }],
 })
-const param1 = ref(test1)
-const param2 = ref()
+let param1 = ref(salt)
+let param2 = ref(test1)
 useHead({
   title: `waelioUtils.${pluginName.value}`,
   meta: [{ name: 'description', content: t('intro.desc') }],
 })
+watch(pluginName, (pluginName: string) => {
+  switch (true) {
+    case pluginName === '_decrypt':
+      param1 = ref(salt)
+      param2 = ref(test1)
+      break
+    default:
+      param1 = ref(test1)
+      break
+  }
+  return pluginName
+})
+
 </script>
 <template>
   <div class="util-page">
@@ -97,11 +110,11 @@ useHead({
       </p>
       <div v-if="param2" class="result_pan mx-auto ">
         <code class="block mx-auto font-mono p-1 rounded text-shadow-lg text-x0" :class="{ 'bg-light-blue-200' : !isDark }" lang="javascript"> waelioUtils.{{ pluginName }}({{ param1 }}, {{ param2 }})</code>
-        <pre class=" mx-auto my-8 bg-dark-100 p-1 rounded-sm text-white">{{ waelioUtils[pluginName](param1) }}</pre>
+        <pre class=" mx-auto my-8 bg-dark-100 p-1 rounded-sm text-white">{{ waelioUtils[pluginName](param1, param2) }}</pre>
       </div>
       <div v-else class="result_pan mx-auto">
         <code class="block mx-auto font-mono p-1 rounded text-shadow-lg text-x0" :class="{ 'bg-light-blue-200' : !isDark }" lang="javascript"> waelioUtils.{{ pluginName }}({{ param1 }})</code>
-        <pre class=" mx-auto my-8 bg-dark-100 p-1 rounded-sm text-white">{{ JSON.stringify(waelioUtils[pluginName](param1, param2)) }}</pre>
+        <pre class=" mx-auto my-8 bg-dark-100 p-1 rounded-sm text-white">{{ waelioUtils[pluginName](param1) }}</pre>
       </div>
     </div>
 
@@ -148,5 +161,14 @@ useHead({
     overflow: scroll;
     padding: 1rem;
     border-radius: 4px;
+  }
+  pre{
+    height: 5rem;
+    overflow: hidden;
+    border: none;
+    outline: none;
+    padding: .2rem;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
 </style>
