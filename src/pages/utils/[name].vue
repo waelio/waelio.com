@@ -28,6 +28,10 @@ const closestPlugin = computed(() => {
 const notFound = 'Who?'
 const pluginName = computed(() => { return closestPlugin.value ? closestPlugin.value.name : notFound })
 
+const dec1 = ref('0312040321161b021246')
+const dec2 = ref('2c550312040321161b021246555b550312040321161b021245555b550312040321161b021244552a')
+const dec3 = ref('2c465b455b445b435b425b415b405b4f5b4e2a')
+const dec4 = ref('0c55031e031b12554d550016121b1e1822031e1b045928121914050e0703555b551a120316554d2c0c5519161a12554d5513120414051e07031e1819555b5514181903121903554d553d1601162414051e0703571219031f02041e1604035b5720181b11572716141c57150518031f12055b573302141c04571b180112055b57161b1b571615180203570512020416151e1b1e030e57161913571e1a07051801121a1219030459550a2a0a')
 const test1 = ref('testValue1')
 const test2 = ref(['testValue1', 'testValue2', 'testValue3'])
 const test3 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -95,6 +99,10 @@ watch(pluginName, (pluginName: string) => {
           <option key="test4" :value="test4">
             {{ test4 }}
           </option>
+          <option key="dec1" :value="dec1">{{ dec1 }}</option>
+          <option key="dec2" :value="dec2">{{ dec2 }}</option>
+          <option key="dec3" :value="dec3">{{ dec3 }}</option>
+          <option key="dec4" :value="dec4">{{ dec4 }}</option>
         </select>
       </div>
     </div>
