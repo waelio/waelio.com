@@ -50,7 +50,7 @@ specifiers:
   vue-property-decorator: 10.0.0-rc.3
   vue-router: ^4.0.10
   vue-tsc: ^0.1.7
-  waelio-utils: ^3.1.9
+  waelio-utils: ^3.1.15
 
 dependencies:
   '@feathersjs/adapter-commons': 4.5.11
@@ -104,7 +104,7 @@ devDependencies:
   vite-ssg: 0.11.4_f951af2e6596f003a3bdf3584c546559
   vue-property-decorator: 10.0.0-rc.3_vue@3.1.2
   vue-tsc: 0.1.7_vue@3.1.2
-  waelio-utils: 3.1.9
+  waelio-utils: 3.1.15
 
 packages:
 
@@ -7667,9 +7667,11 @@ packages:
       xml-name-validator: 3.0.0
     dev: true
 
-  /waelio-utils/3.1.9:
-    resolution: {integrity: sha512-smmyR2TUS6p9D+DkYFuZJAszQcPLCyHpvxCVi81z6HRAajIAFizhi5tGJVtvNOTykmM4noi3Nq8SYxAfogz/LA==}
+  /waelio-utils/3.1.15:
+    resolution: {integrity: sha512-Mh+18/1QYeONTrNPQyKVfKrO3qAWSrOjHPs7xiJA0fEeUS7cw5YjcpJKzmnePJytIzvss8b4WVJ2kW0l3nj2wA==}
     engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
+    dependencies:
+      lodash: 4.17.21
     dev: true
 
   /wbuf/1.7.3:

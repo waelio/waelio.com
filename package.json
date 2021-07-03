@@ -63,6 +63,6 @@
     "vite-ssg": "^0.11.4",
     "vue-property-decorator": "10.0.0-rc.3",
     "vue-tsc": "^0.1.7",
-    "waelio-utils": "^3.1.9"
+    "waelio-utils": "^3.1.15"
   }
 }

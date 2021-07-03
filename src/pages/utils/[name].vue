@@ -4,10 +4,11 @@ import { useHead } from '@vueuse/head'
 import { useI18n } from 'vue-i18n'
 import { defineProps, computed, ref } from 'vue'
 import { waelioUtils } from 'waelio-utils'
+import { isDark } from '~/logic'
 const { t } = useI18n()
 const contain = ref([])
 const router = useRouter()
-
+const salt = 'kjhggk4jhg4kjhg'
 const props = defineProps({
   name: {
     type: String,
@@ -26,6 +27,7 @@ const closestPlugin = computed(() => {
 })
 const notFound = 'Who?'
 const pluginName = computed(() => { return closestPlugin.value ? closestPlugin.value.name : notFound })
+
 const test1 = ref('testValue1')
 const test2 = ref(['testValue1', 'testValue2', 'testValue3'])
 const test3 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -49,7 +51,7 @@ useHead({
     <div class="params-selection">
       <div class="param param1">
         <label class="text-blue-500" for="param-one-select">param1</label>
-        <select id="param-one-select" v-model="param1">
+        <select id="param-one-select" v-model="param1" :class="{ 'bg-dark-200 text-blue-300' : isDark }">
           <option key="test1" :value="test1">
             {{ test1 }}
           </option>
@@ -66,7 +68,8 @@ useHead({
       </div>
       <div class="param param2">
         <label class="text-blue-500" for="param-two-select">param2</label>
-        <select id="param-two-select" v-model="param2">
+        <select id="param-two-select" v-model="param2" :class="{ 'bg-dark-200 text-blue-300' : isDark }">
+          :class="{ 'bg-dark-200 text-yellow-300' : isDark }"
           <option key="test1" :value="test1">
             {{ test1 }}
           </option>
@@ -86,18 +89,20 @@ useHead({
 
     <div v-if="pluginName.value !== notFound">
       <p class="my-4 text-left px-4 text-lg">
-        Using function name <code lang="js" class="text-blue-700 text-bold">{{ closestPlugin.name || notFound }}</code>.
+        Using function name <code lang="js" class="text-blue-700 text-bold ">{{ closestPlugin.name || notFound }}</code>.
       </p>
 
       <p class="my-4 text-left px-4 text-lg">
         The following output is the result of:
       </p>
-
-      <code v-if="param2" class="font-mono bg-light-blue-200 p-1 rounded text-shadow-lg text-xl" lang="javascript"> waelioUtils.{{ pluginName }}({{ param1 }}, {{ param2 }})</code>
-      <code v-else class="font-mono bg-light-blue-200 p-1 rounded text-shadow-lg text-xl" lang="javascript"> waelioUtils.{{ pluginName }}({{ param1 }})</code>
-
-      <pre v-if="param2" class="my-8 bg-dark-100 p-1 rounded-sm text-white">{{ waelioUtils[pluginName](param1, param2) }}</pre>
-      <pre v-else class="my-8 bg-dark-100 p-1 rounded-sm text-white">{{ waelioUtils[pluginName](param1) }}</pre>
+      <div v-if="param2" class="result_pan mx-auto ">
+        <code class="block mx-auto font-mono p-1 rounded text-shadow-lg text-x0" :class="{ 'bg-light-blue-200' : !isDark }" lang="javascript"> waelioUtils.{{ pluginName }}({{ param1 }}, {{ param2 }})</code>
+        <pre class=" mx-auto my-8 bg-dark-100 p-1 rounded-sm text-white">{{ waelioUtils[pluginName](param1) }}</pre>
+      </div>
+      <div v-else class="result_pan mx-auto">
+        <code class="block mx-auto font-mono p-1 rounded text-shadow-lg text-x0" :class="{ 'bg-light-blue-200' : !isDark }" lang="javascript"> waelioUtils.{{ pluginName }}({{ param1 }})</code>
+        <pre class=" mx-auto my-8 bg-dark-100 p-1 rounded-sm text-white">{{ JSON.stringify(waelioUtils[pluginName](param1, param2)) }}</pre>
+      </div>
     </div>
 
     <div>
