@@ -11,7 +11,8 @@ export function useSubscriptions() {
   const localSubscription: Interface = ref({})
 
   if (isSupported) {
-    self.addEventListener('push', (e) => {
+    // eslint-disable-next-line prefer-arrow-callback
+    self.addEventListener('push', function(e) {
       // eslint-disable-next-line no-console
       console.log('Push Received...')
       const data = e.data.json()
