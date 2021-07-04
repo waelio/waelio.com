@@ -13,7 +13,11 @@ declare module 'vue' {
     README: typeof import('./src/components/README.md')['default']
     ReloadPrompt: typeof import('./src/components/ReloadPrompt.vue')['default']
     Subscriptions: typeof import('./src/components/Subscriptions.vue')['default']
+    CarbonWarning: typeof import('virtual:vite-icons/carbon/warning')['default']
     CarbonCampsite: typeof import('virtual:vite-icons/carbon/campsite')['default']
+    CarbonTools: typeof import('virtual:vite-icons/carbon/tools')['default']
+    'Carbon:notificationFilled': typeof import('virtual:vite-icons/carbon/notification-filled')['default']
+    'Carbon:notificationOffFilled': typeof import('virtual:vite-icons/carbon/notification-off-filled')['default']
     CarbonMoon: typeof import('virtual:vite-icons/carbon/moon')['default']
     CarbonSun: typeof import('virtual:vite-icons/carbon/sun')['default']
     CarbonLanguage: typeof import('virtual:vite-icons/carbon/language')['default']
@@ -23,9 +27,6 @@ declare module 'vue' {
     CarbonVirtualPrivateCloud: typeof import('virtual:vite-icons/carbon/virtual-private-cloud')['default']
     CarbonDeployRules: typeof import('virtual:vite-icons/carbon/deploy-rules')['default']
     CarbonAiStatusInProgress: typeof import('virtual:vite-icons/carbon/ai-status-in-progress')['default']
-    'Carbon:notificationFilled': typeof import('virtual:vite-icons/carbon/notification-filled')['default']
-    'Carbon:notificationOffFilled': typeof import('virtual:vite-icons/carbon/notification-off-filled')['default']
-    CarbonTools: typeof import('virtual:vite-icons/carbon/tools')['default']
   }
 }
 
