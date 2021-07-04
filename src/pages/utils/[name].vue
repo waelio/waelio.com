@@ -43,7 +43,7 @@ const test4 = ref({
   meta: [{ name: 'description', content: t('intro.desc') }],
 })
 let param1 = ref(salt.value || null)
-let param2 = ref(null)
+let param2: any = ref(null)
 useHead({
   title: `waelioUtils.${pluginName.value}`,
   meta: [{ name: 'description', content: t('intro.desc') }],
@@ -52,36 +52,41 @@ const reverseResult = computed(() => {
   let test = null
   if (isSpecial && reversePlugin) {
     test = waelioUtils[pluginName.value](param1.value, param2.value)
-    return waelioUtils[reversePlugin.value](param1.value, test)
+    if (test)
+      return waelioUtils[reversePlugin.value](param1.value || param1.value, test && test)
+    // eslint-disable-next-line no-console
+    console.log('🚀 ~ file: [name].vue ~ line 56 ~ reverseResult ~ test', test)
   }
   return false
 })
 watchEffect(() => {
   switch (true) {
     case pluginName.value === 'generateId':
-      param1 = ref(null)
+      param1 = ref(salt)
       param2 = ref(null)
       break
     case pluginName.value === '_encrypt':
       param1 = ref(salt)
-      param2 = incomingParam2.value ? incomingParam2.value : ref(test1)
-      isSpecial = ref(true)
+      param2 = incomingParam2 || incomingParam2.value || ref(test1)
       reversePlugin = ref('_decrypt')
+      isSpecial = ref(true)
       break
     case pluginName.value === '_decrypt':
       param1 = ref(salt)
       param2 = incomingParam2.value ? incomingParam2.value : ref(test1)
-      isSpecial = ref(true)
       reversePlugin = ref('_encrypt')
+      isSpecial = ref(true)
       break
     default:
+      isSpecial = ref(false)
       param1 = ref(test1)
       break
   }
   return pluginName
 })
 watch(incomingParam2, (newParam2) => {
-  param2 = newParam2
+  if (newParam2)
+    param2 = newParam2
 })
 
 </script>
@@ -155,7 +160,7 @@ watch(incomingParam2, (newParam2) => {
         <pre class=" mx-auto my-8 bg-dark-100 p-1 rounded-sm text-white">{{ waelioUtils[pluginName](param1, param2) }}</pre>
 
         <code v-if="isSpecial" class="block mx-auto font-mono p-1 rounded text-shadow-lg text-x0" :class="{ 'bg-light-blue-200' : !isDark }" lang="javascript"> waelioUtils.{{ reversePlugin }} ( {{ param1 }}, {{ param2 }} )</code>
-        <pre v-if="isSpecial" class=" mx-auto my-8 bg-dark-100 p-1 rounded-sm text-white">{{ reverseResult || waelioUtils[reversePlugin](param1, param2.value) }}</pre>
+        <pre v-if="isSpecial" class=" mx-auto my-8 bg-dark-100 p-1 rounded-sm text-white">{{ reverseResult || waelioUtils[reversePlugin](param1, param2) }}</pre>
       </div>
       <div v-else class="result_pan mx-auto">
         <code class="block mx-auto font-mono p-1 rounded text-shadow-lg text-x0" :class="{ 'bg-light-blue-200' : !isDark }" lang="javascript"> waelioUtils.{{ pluginName }}({{ param1 }})</code>
