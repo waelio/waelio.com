@@ -29,9 +29,7 @@ const onUnsubscribe = async(): Promise<boolean> => {
 // eslint-disable-next-line no-console
 </script>
 <template>
-  <div
-    class="mx-auto links-list flex"
-  >
+  <div class="mx-auto links-list flex">
     <button v-if="!isSubscribed" style="background-color:gray" class="block mx-auto" @click="onSubscribe()">
       <carbon:notification-filled /><span class="px-1 align-top">Subscribe</span>
     </button>
@@ -40,7 +38,3 @@ const onUnsubscribe = async(): Promise<boolean> => {
     </button>
   </div>
 </template>
-
-<style>
-
-</style>

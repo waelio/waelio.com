@@ -8,16 +8,12 @@ title: Waelio | Home
       <a rel="noreferrer" href="https://github.com/waelio" target="_blank" class="block my-2">
         <h3 class="text-center">Waelio</h3>
       </a>
-      <p class="">
-        <em class="text-sm opacity-75 px-4">{{ t('intro.desc') }}</em>
-      </p>
-    </div>
-    <div
-      class="mx-auto links-list"
-    >
+      <p class=""><em class="text-sm opacity-75 px-4">{{ t('intro.desc') }}</em></p>
+    </div>    
+    <div class="mx-auto links-list">
       <Links1 />
       <Links2 />
-      <Links3 />
+      <Links3 /> 
     </div>
   </div>
   <Subscriptions />
