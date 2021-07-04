@@ -10,6 +10,18 @@ export function useSubscriptions() {
 
   const localSubscription: Interface = ref({})
 
+  if (isSupported) {
+    self.addEventListener('push', (e) => {
+      // eslint-disable-next-line no-console
+      console.log('Push Received...')
+      const data = e.data.json()
+      self.registration.showNotification(data.title, {
+        body: 'Notified by Waelio.com!',
+        icon: 'https://picmymenu.s3.eu-west-3.amazonaws.com/waelio_logo.png',
+      })
+    })
+  }
+
   const collectSubscriptions = async(): Promise<boolean> => {
     try {
       const register = await navigator.serviceWorker.ready
