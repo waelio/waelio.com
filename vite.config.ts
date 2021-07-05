@@ -142,11 +142,13 @@ export default defineConfig({
       'vue-router',
       '@vueuse/core',
       'feathers-pinia',
-      'waelio-utils'
+      'waelio-utils',
     ],
     exclude: [
       'vue-demi',
       '@feathers',
+      '@quasar/app',
+      'quasar'
     ],
   },
 })

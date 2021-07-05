@@ -11,7 +11,6 @@ export function initQuasar(app) {
         darkBG: '#1D2F37',
       },
       globalProperties: {},
-      // dark: true
     },
     plugins: {
       Notify, Dialog, LoadingBar, Loading,

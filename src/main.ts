@@ -18,12 +18,13 @@ export const createApp = ViteSSG(
     const { app, initialState } = ctx
     const pinia = createPinia()
     app.use(pinia)
-    initQuasar(app)
 
-    if (import.meta.env.SSR)
-      initialState.pinia = pinia.state.value
-    else
+    if (import.meta.env.SSR) 
+      initialState.pinia = pinia.state.value   
+    else {
+      initQuasar(app)
       pinia.state.value = initialState.pinia || {}
+    }
   },
 
 )
