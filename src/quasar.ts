@@ -11,7 +11,11 @@ export function initQuasar(app) {
         darkBG: '#1D2F37',
       },
       globalProperties: {},
+      screen: {
+        bodyClasses: true,
+      },
     },
+    importStrategy: 'auto',
     plugins: {
       Notify, Dialog, LoadingBar, Loading,
     },

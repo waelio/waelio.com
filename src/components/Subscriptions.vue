@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useSubscriptions } from 'src/utils/useSubscriptions'
+import { onMounted, ref } from '@vue/runtime-core' 
 const { collectSubscriptions, isSubscribed, Subscribe, unSubscribe } = useSubscriptions()
 collectSubscriptions()
 const onSubscribe = async(): Promise<boolean> => {
@@ -14,6 +15,10 @@ const onSubscribe = async(): Promise<boolean> => {
     return false
   }
 }
+const existingUser = ref(false)
+onMounted(() =>{ 
+existingUser.value = isSubscribed
+})
 const onUnsubscribe = async(): Promise<boolean> => {
   try {
     const subscription = await unSubscribe()
