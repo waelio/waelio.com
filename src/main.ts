@@ -2,6 +2,7 @@ import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { createPinia } from 'pinia'
+import { initQuasar } from './quasar'
 
 import App from './App.vue'
 import 'virtual:windi.css'
@@ -17,6 +18,7 @@ export const createApp = ViteSSG(
     const { app, initialState } = ctx
     const pinia = createPinia()
     app.use(pinia)
+    initQuasar(app)
 
     if (import.meta.env.SSR)
       initialState.pinia = pinia.state.value

@@ -2,7 +2,7 @@ import { onUnmounted, onBeforeMount, ref, watchEffect, computed } from 'vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { subscription as Interface } from 'src/interface/index'
 import { subAdd, subDel } from './subscriptionsHelper'
-
+import { note } from './useNote'
 export function useSubscriptions() {
   const { offlineReady } = useRegisterSW()
   const publicVapidKey = import.meta.env.VITE_VID_PUBLIC
@@ -16,6 +16,7 @@ export function useSubscriptions() {
       // eslint-disable-next-line no-console
       console.log('Push Received...')
       const data = e.data.json()
+      note.success(data)
       self.registration.showNotification(data.title, {
         body: 'Notified by Waelio.com!',
         icon: 'https://picmymenu.s3.eu-west-3.amazonaws.com/waelio_logo.png',
@@ -60,6 +61,7 @@ export function useSubscriptions() {
         localSubscription.value = newSubscription
         subAdd(newSubscription)
       }
+      note.success('You have subscribed successfully.')
       return !!newSubscription
     }
     catch (error) {
@@ -77,16 +79,14 @@ export function useSubscriptions() {
         console.log('no subscription')
         localSubscription.value = {}
         subscription.value = {}
-        // eslint-disable-next-line no-alert
-        alert('You are not subscribed')
+        note.info('You are not subscribed.')
         return true
       }
       currentSubscription.unsubscribe()
       await subDel(currentSubscription)
       localSubscription.value = {}
       subscription.value = {}
-      // eslint-disable-next-line no-alert
-      alert('You\'ve been unsubscribed!')
+      note.warning('You\'ve been unsubscribed!')
       return true
     }
     catch (error) {

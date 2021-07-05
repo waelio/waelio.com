@@ -3,6 +3,18 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    'Carbon:notificationFilled': typeof import('virtual:vite-icons/carbon/notification-filled')['default']
+    'Carbon:notificationOffFilled': typeof import('virtual:vite-icons/carbon/notification-off-filled')['default']
+    CarbonAiStatusInProgress: typeof import('virtual:vite-icons/carbon/ai-status-in-progress')['default']
+    CarbonCampsite: typeof import('virtual:vite-icons/carbon/campsite')['default']
+    CarbonDeployRules: typeof import('virtual:vite-icons/carbon/deploy-rules')['default']
+    CarbonEmail: typeof import('virtual:vite-icons/carbon/email')['default']
+    CarbonFaceCool: typeof import('virtual:vite-icons/carbon/face-cool')['default']
+    CarbonLanguage: typeof import('virtual:vite-icons/carbon/language')['default']
+    CarbonLogoGithub: typeof import('virtual:vite-icons/carbon/logo-github')['default']
+    CarbonMoon: typeof import('virtual:vite-icons/carbon/moon')['default']
+    CarbonSun: typeof import('virtual:vite-icons/carbon/sun')['default']
+    CarbonVirtualPrivateCloud: typeof import('virtual:vite-icons/carbon/virtual-private-cloud')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     Links1: typeof import('./src/components/Links1.md')['default']
@@ -13,19 +25,6 @@ declare module 'vue' {
     README: typeof import('./src/components/README.md')['default']
     ReloadPrompt: typeof import('./src/components/ReloadPrompt.vue')['default']
     Subscriptions: typeof import('./src/components/Subscriptions.vue')['default']
-    CarbonCampsite: typeof import('virtual:vite-icons/carbon/campsite')['default']
-    CarbonMoon: typeof import('virtual:vite-icons/carbon/moon')['default']
-    CarbonSun: typeof import('virtual:vite-icons/carbon/sun')['default']
-    CarbonLanguage: typeof import('virtual:vite-icons/carbon/language')['default']
-    CarbonFaceCool: typeof import('virtual:vite-icons/carbon/face-cool')['default']
-    CarbonLogoGithub: typeof import('virtual:vite-icons/carbon/logo-github')['default']
-    CarbonEmail: typeof import('virtual:vite-icons/carbon/email')['default']
-    CarbonVirtualPrivateCloud: typeof import('virtual:vite-icons/carbon/virtual-private-cloud')['default']
-    CarbonDeployRules: typeof import('virtual:vite-icons/carbon/deploy-rules')['default']
-    CarbonAiStatusInProgress: typeof import('virtual:vite-icons/carbon/ai-status-in-progress')['default']
-    'Carbon:notificationFilled': typeof import('virtual:vite-icons/carbon/notification-filled')['default']
-    'Carbon:notificationOffFilled': typeof import('virtual:vite-icons/carbon/notification-off-filled')['default']
-    CarbonTools: typeof import('virtual:vite-icons/carbon/tools')['default']
   }
 }
 
