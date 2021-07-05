@@ -67,7 +67,7 @@ watchEffect(() => {
       break
     case pluginName.value === '_encrypt':
       param1 = ref(salt)
-      param2 = incomingParam2 || incomingParam2.value || ref(test1)
+      param2 = incomingParam2.value ? incomingParam2.value : ref(test1)
       reversePlugin = ref('_decrypt')
       isSpecial = ref(true)
       break
