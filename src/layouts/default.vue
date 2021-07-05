@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { isDark } from '~/logic'
-const { t } = useI18n()
-const draggingFab = ref(true)
+import { useQuasar } from 'quasar'
+const $q = useQuasar()
+const dimensions = ref($q.screen|| {height: 1000})
+const draggingFab: boolean = ref(true)
 let fabPos: Ref<number[]>  = ref([18, 18])
  const moveFab = (ev): void => {
       draggingFab.value = ev.isFirst !== true && ev.isFinal !== true;
@@ -11,28 +12,32 @@ let fabPos: Ref<number[]>  = ref([18, 18])
     }
 </script>
 <template>
-    <QLayout  class="px-4 py-2 text-center text-gray-700 dark:text-gray-200">
-    <Header />
-    <QPageContainer>
+  <main class="px-4 py-2 text-center text-gray-700 dark:text-gray-200">
+    <q-Layout  view="lHh Lpr lFf" container :style="`height:${dimensions.height*.96}px;`" >
+      <q-header reveal elevated>
+        <Header />
+      </q-header>
+    <q-page-container>
       <router-view />
-      <QPageScroller
+      <q-page-scroller
         position="bottom-right"
         :scroll-offset="150"
         :offset="fabPos"
+        :draggable="draggingFab"
         v-touch-pan.prevent.mouse="moveFab"
       >
-        <QBtn
+        <q-btn
           fab          
-          :color="isDark?'white':'dark'"
-          :text-color="!isDark?'white':'dark'"
-        ><QIcon name="keyboard_arrow_up" /></QBtn>
-      </QPageScroller>
-    </QPageContainer>
-    <Footer />
-  </QLayout>
-  <!-- <main class="px-4 py-2 text-center text-gray-700 dark:text-gray-200">
-    <router-view class="mx-auto" />
-  </main> -->
+          :color=" isDark ? 'white' : 'dark'"
+          :text-color="!isDark ? 'white' : 'dark'"
+        ><q-icon name="keyboard_arrow_up" /></q-btn>
+      </q-page-scroller>
+    </q-page-container>
+    <q-footer>
+      <Footer />
+    </q-footer>
+  </q-layout>
+  </main>
 </template>
 <style scoped>
 .q-layout{

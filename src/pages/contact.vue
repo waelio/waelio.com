@@ -132,7 +132,7 @@ export default {
 }
 </script>
 <template>
-  <div class="container mx-auto">
+  <q-page padding class="container mx-auto">
     <h1 class="text-h2">
       {{ t('button.Contact') }}
     </h1>
@@ -242,7 +242,7 @@ export default {
         </form>
       </div>
     </div>
-  </div>
+  </q-page>
 </template>
 <style scoped>
   .form-group{
