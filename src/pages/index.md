@@ -11,20 +11,35 @@ title: Waelio | Home
       <p class=""><em class="text-sm opacity-75 px-4">{{ t('intro.desc') }}</em></p>
     </div>    
     <div class="mx-auto links-list">
-      <Links1 />
-      <Links2 />
-      <Links3 /> 
+      <Links1 class="package" />
+      <Links2 class="package" />
+      <Links3 class="package" /> 
     </div>
   </div>
   <Subscriptions />
 </client-only>
+
+<style >
+.prose-sm h2 + * {
+    margin-top: -25px;
+}
+</style>
 <style>
+  #home_page *,
   #home_page {
     font-size: initial;
     line-height: initial;
   }
   #home_page h3{
     margin: unset!important
+  }
+  .links-list h2{
+    margin-top: .5rem!important;
+    margin-bottom: .5rem!important;
+  }
+  .links-list * {
+    font-size: inherit;
+    line-height: inherit;
   }
 </style>
 <script setup lang="ts">

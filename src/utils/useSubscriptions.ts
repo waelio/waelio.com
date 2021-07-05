@@ -13,8 +13,7 @@ export function useSubscriptions() {
   if (isSupported) {
     // eslint-disable-next-line prefer-arrow-callback
     self.addEventListener('push', function(e) {
-      // eslint-disable-next-line no-console
-      console.log('Push Received...')
+      note.info('Push Received...')
       const data = e.data.json()
       note.success(data)
       self.registration.showNotification(data.title, {
