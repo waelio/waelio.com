@@ -6,7 +6,7 @@
 
 [![NPM total downloads](https://img.shields.io/npm/dt/waelio-utils.svg?style=flat&color=purple&label=Downloads)](https://npmjs.org/package/waelio-utils)
 
-[![Package Size](https://badgen.net/npm/types/waelio-utils?label=TypeScript)](https://npmjs.org/package/waelio-utils)
+[![Package Size](https://badgen.net/npm/types/waelio-utils)](https://npmjs.org/package/waelio-utils)
 
 [![Package Size](https://badgen.net/bundlephobia/minzip/waelio-utils)](https://npmjs.org/package/waelio-utils)
 
