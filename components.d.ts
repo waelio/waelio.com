@@ -26,7 +26,6 @@ declare module 'vue' {
     README: typeof import('./src/components/README.md')['default']
     ReloadPrompt: typeof import('./src/components/ReloadPrompt.vue')['default']
     Subscriptions: typeof import('./src/components/Subscriptions.vue')['default']
-    Timeline: typeof import('./src/components/timeline.vue')['default']
     TimeLine: typeof import('./src/components/TimeLine.vue')['default']
   }
 }

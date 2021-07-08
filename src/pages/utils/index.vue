@@ -3,10 +3,13 @@
     <h1>WaelioUtils</h1>
     <ol class="mx-auto p-lg inline-block">
       <li v-for="(f, i) in contain" :key="i" class="util-func">
-        <div class="flex">
+        <div v-if="!blackList.includes(f.name)" class="flex">
           <router-link :to="{path:`/utils/${f.name}`}">
             <em>{{ i+1 }}</em><span class="ml-5 text-bolder text-left">{{ f.name }}</span>
           </router-link>
+        </div>
+        <div v-else class="flex">
+          <em>{{ i+1 }}</em><span class="ml-5 text-bolder text-left">{{ f.name }}</span>
         </div>
       </li>
     </ol>
@@ -18,7 +21,7 @@ import { useHead } from '@vueuse/head'
 import { useI18n } from 'vue-i18n'
 import { computed, ref, onBeforeMount } from 'vue'
 const { t } = useI18n()
-
+const blackList = ref(['_formatErrors', '_parseErrors', 'calculateClockDrift'])
 useHead({
   title: 'Waelio-utils',
   meta: [{ name: 'description', content: t('intro.desc') }],

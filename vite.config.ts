@@ -148,7 +148,7 @@ export default defineConfig({
       'vue-demi',
       '@feathers',
       '@quasar/app',
-      'quasar'
+      'quasar',
     ],
   },
 })

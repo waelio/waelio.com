@@ -35,6 +35,7 @@ specifiers:
   pnpm: ^6.9.1
   prism-theme-vars: ^0.2.2
   quasar: ^2.0.1
+  sass: ^1.35.1
   scss: ^0.2.4
   socket.io-client: ^2.4.0
   typescript: ^4.3.5
@@ -52,7 +53,7 @@ specifiers:
   vue-property-decorator: 10.0.0-rc.3
   vue-router: ^4.0.10
   vue-tsc: ^0.1.7
-  waelio-utils: ^3.1.21
+  waelio-utils: ^3.1.23
 
 dependencies:
   '@feathersjs/adapter-commons': 4.5.11
@@ -95,6 +96,7 @@ devDependencies:
   markdown-it-link-attributes: 3.0.0
   markdown-it-prism: 2.1.8
   pnpm: 6.9.1
+  sass: 1.35.1
   scss: 0.2.4
   typescript: 4.3.5
   vite: 2.3.8
@@ -108,7 +110,7 @@ devDependencies:
   vite-ssg: 0.11.4_7a3d7b43fd6ea36db553365e6bc84df4
   vue-property-decorator: 10.0.0-rc.3_vue@3.1.4
   vue-tsc: 0.1.7_vue@3.1.4
-  waelio-utils: 3.1.21
+  waelio-utils: 3.1.23
 
 packages:
 
@@ -8699,6 +8701,14 @@ packages:
       chokidar: 3.5.2
     dev: false
 
+  /sass/1.35.1:
+    resolution: {integrity: sha512-oCisuQJstxMcacOPmxLNiLlj4cUyN2+8xJnG7VanRoh2GOLr9RqkvI4AxA4a6LHVg/rsu+PmxXeGhrdSF9jCiQ==}
+    engines: {node: '>=8.9.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.2
+    dev: true
+
   /sax/1.1.4:
     resolution: {integrity: sha1-dLbTPJrh4AFRDxeakRaFiPGu2qk=}
     dev: false
@@ -10386,8 +10396,8 @@ packages:
       xml-name-validator: 3.0.0
     dev: true
 
-  /waelio-utils/3.1.21:
-    resolution: {integrity: sha512-wEmYG6R7v8fSRFNUs2y7lZN3dAw8UXbQINPBIP2KUAngMFHF7T2zKoKaDtEq/kkTXQoQQO1OFJAx3Br4MzTmVA==}
+  /waelio-utils/3.1.23:
+    resolution: {integrity: sha512-+WJ0ggZOP5RTphUtpT/qb4XQCvLjqP8Zvl0NCmPSxdQixdIUAGIDQuR6p1k8P4dRiBCvhf5XRGrzq7n7+JAiBQ==}
     engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
     dev: true
 
