@@ -44,6 +44,24 @@ const test4 = ref({
   _id: '0312040321161b021246',
   meta: [{ name: 'description', content: t('intro.desc') }],
 })
+const test5 = ref({
+  total: 1,
+  limit: 10,
+  skip: 0,
+  data: [
+    {
+      _id: '650937936xc8b143d8c575d2a',
+      name: 'Some Data',
+      user: '679363c6dc8b123d8c575d29',
+      createdAt: '2021-05-06T06:14:09.209Z',
+      updatedAt: '2021-05-06T06:14:09.209Z',
+      __v: 0,
+    },
+  ],
+})
+const test6 = ref('https%3A%2F%2Fwaelio.com')
+
+
 const hidParams = ref(false)
 let param1: any = ref(salt.value || null)
 let param2: any = ref(null)
@@ -87,6 +105,16 @@ watchEffect(() => {
       param2 = 2
       isSpecial = ref(false)
       break
+    case pluginName.value === '_cleanResponse':
+      param1 = ref(test5.value)
+      param2 = false
+      isSpecial = ref(false)
+      break
+    case pluginName.value === '_equals':
+      param1 = test3
+      param2 = test3
+      isSpecial = ref(false)
+      break
     default:
       isSpecial = ref(false)
       param1 = ref(test1)
@@ -122,9 +150,15 @@ watch(incomingParam2, (newParam2) => {
           <option key="test4" :value="test4">
             {{ test4 }}
           </option>
+          <option key="test5" :value="test5">
+            {{ test5 }}
+          </option>
+          <option key="test6" :value="test6">
+            {{ test6 }}
+          </option>
         </select>
       </div>
-      <div class="param param2">
+      <div v-if="param2" class="param param2">
         <label class="text-blue-500" for="param-two-select">param2</label>
         <select id="param-two-select" v-model="param2" :class="{ 'bg-dark-200 text-blue-300' : isDark }">
           :class="{ 'bg-dark-200 text-yellow-300' : isDark }"
@@ -151,6 +185,12 @@ watch(incomingParam2, (newParam2) => {
           </option>
           <option key="dec4" :value="dec4">
             {{ dec4 }}
+          </option>
+          <option key="test5" :value="test5">
+            {{ test5 }}
+          </option>
+          <option key="test6" :value="test6">
+            {{ test6 }}
           </option>
         </select>
       </div>
@@ -226,12 +266,15 @@ watch(incomingParam2, (newParam2) => {
     border-radius: 4px;
   }
   pre{
-    height: 5rem;
+    min-height: 5rem;
+    height: 100%;
     overflow: hidden;
     border: none;
     outline: none;
     padding: .2rem;
-    text-overflow: ellipsis;
+
     word-break: break-all;
+    overflow-y: scroll;
+    white-space: pre-wrap;
   }
 </style>
