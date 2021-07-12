@@ -134,7 +134,7 @@ export default defineConfig({
     formatting: 'minify',
   },
   ssr:{
-    target: 'webworker'
+    target: 'webworker',
   },
   optimizeDeps: {
     include: [
