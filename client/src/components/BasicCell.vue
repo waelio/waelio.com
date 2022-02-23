@@ -1,0 +1,105 @@
+<script lang="ts">
+export default {
+  inheritAttrs: true,
+};
+</script>
+<script lang="ts" setup>
+import { unref, ref, defineProps, defineEmits, watchEffect } from "vue";
+import type { Ref } from "vue";
+type Location = {
+  row: number;
+  col: number;
+};
+const props = defineProps({
+  _location: { type: Location, default: { row: 0, col: 0 } },
+  _value: { type: Number, default: 0 },
+});
+const emit = defineEmits(["change"]);
+const myValue: Ref<number> = ref(props._value);
+const myLocation: Location = ref(props._location);
+const myValueChange = (value: number) => {
+  myValue.value = value;
+  $emit("change", myValue.value);
+};
+</script>
+<template>
+  <input
+    readonly
+    class="cell good"
+    :class="`row-${myLocation.row} col-${myLocation.col}`"
+    :ref="`ROW${myLocation.row}COL${myLocation.col}`"
+    v-model="myValue"
+    :myValue="myValue"
+    @input="myValueChange"
+    @click="$emit('change', myValue.value)"
+  />
+</template>
+<style lang="scss" >
+.cell:hover {
+  cursor: pointer;
+}
+.sudoku-grid {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  // grid-template-columns: repeat(8, 2em);
+  grid-template-rows: repeat(9, 5em);
+  gap: 0;
+}
+.row-grid {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(9, 8em);
+  grid-template-rows: repeat(1, 100%);
+  gap: 0;
+}
+.c
+.cell {
+  display: flex;
+  max-width: 2em;
+  border-radius: 0.2em;
+  padding: 0.5em;
+  text-align: center;
+  line-height: 0.5em;
+  font-size: 1.5em;
+  --hue: 115;
+  --saturation: 51%;
+  --lightness: 47%;
+  --good-cell: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--lightness, 51%))
+  );
+  border-color: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--lightness, 51%))
+  );
+}
+.cell.row-0.col-0 {
+  --hue: 0;
+  --saturation: 0%;
+  --lightness: 100%;
+  --lightness-offset: -10%;
+}
+.cell.good {
+  border: 0.1rem solid var(--good-cell);
+  color: var(--good-cell);
+  font-weight: bold;
+}
+.cel:active,
+.cel:focus,
+.cel:focus-visible,
+.cel:focus-within {
+  border-color: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--lightness, 51%))
+  );
+}
+</style>

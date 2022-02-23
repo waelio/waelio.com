@@ -1,11 +1,12 @@
 {
   "cSpell.words": [
-    "Vitesse",
     "emailjs",
     "feathersjs",
+    "ipdata",
     "pinia",
     "socketio",
     "unref",
+    "Vitesse",
     "windi",
     "windicss"
   ],
@@ -26,4 +27,5 @@
   "files.associations": {
     "*.css": "postcss",
   },
+  "quokka.automaticRestart": true,
 }

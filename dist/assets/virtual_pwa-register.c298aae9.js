@@ -1,1 +1,0 @@
-import{v as e}from"./workbox-window.prod.es5.3ec2694c.js";function n(n={}){const{immediate:o=!1,onNeedRefresh:i,onOfflineReady:t}=n;let r;return"serviceWorker"in navigator&&(r=new e("/sw.js",{scope:"/"}),r.addEventListener("activated",(e=>{e.isUpdate?window.location.reload():null==t||t()})),r.register({immediate:o}).then((e=>e))),async(e=!0)=>{}}export{n as registerSW};
