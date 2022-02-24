@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { _encrypt } from 'waelio-utils'
+import { _encrypt } from 'waelio-utils/dist/waelioUtils'
 export const useTransactions = defineStore('transactions', {
   state: () => ({
     _addressFrom: '',
@@ -40,7 +40,7 @@ export const useTransactions = defineStore('transactions', {
     setCurrentAccount(newAccount: string) {
       localStorage.removeItem('cec')
       this._currentAccount = newAccount
-      localStorage.setItem('cec', _encrypt(newAccount))
+      localStorage.setItem('cec', _encrypt("salt", newAccount))
     },
     setTransactionCount(count: number) {
       this._transactionCount = count

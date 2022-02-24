@@ -48,7 +48,6 @@
                 </div>
                 <q-icon
                   name="play_circle_filled"
-                  v-model="ethSVG"
                   fontSize="17"
                   color="#fff"
                 />

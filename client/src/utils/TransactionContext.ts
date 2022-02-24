@@ -2,9 +2,11 @@ import { ethers } from "ethers";
 import { contractABI, contractAddress } from "../utils/constants";
 import { useForm } from 'src/store/form.pinia'
 import { useTransactions } from 'src/store/transactions.pinia'
+import { note } from "./useNote";
 // import { ref } from 'vue'
 const transactions = useTransactions();
 const eathForm = useForm();
+
 
 export interface Transaction {
   addressFrom: string;
@@ -69,7 +71,7 @@ export const getAllTransactions = async () => {
 
 export const checkIfWalletIsConnect = async () => {
   try {
-    if (!ethereum) return alert("Please install MetaMask.");
+    if (!ethereum) return note.error("Please install MetaMask.");
 
     const accounts = await ethereum.request({ method: "eth_accounts" });
 
@@ -80,7 +82,8 @@ export const checkIfWalletIsConnect = async () => {
     } else {
       console.log("No accounts found");
     }
-  } catch (error) {
+  } catch (error: any) {
+    note.error(error.message);
     console.log(error);
   }
 };
@@ -102,12 +105,13 @@ export const checkIfTransactionsExists = async () => {
 
 export const connectWallet = async () => {
   try {
-    if (!ethereum) return alert("Please install MetaMask.");
+    if (!ethereum) return note.warning("Please install MetaMask.");
 
     const accounts = await ethereum.request({ method: "eth_requestAccounts", });
     const nc = accounts[0]
     setCurrentAccount(nc);
-  } catch (error) {
+  } catch (error: { code: number, message: string, stack: string } | any) {
+    note.error(error.message);
     console.log(error);
 
     throw new Error("No ethereum object");
@@ -117,7 +121,7 @@ export const connectWallet = async () => {
 export const sendTransaction = async () => {
   try {
     if (ethereum) {
-      const { addressTo, amount, message, keyword ,setIsLoading } = eathForm.values;
+      const { addressTo, amount, message, keyword, setIsLoading } = eathForm.values;
       const transactionsContract = createEthereumContract();
       const parsedAmount = ethers.utils.parseEther(amount);
 

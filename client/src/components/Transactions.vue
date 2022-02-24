@@ -20,11 +20,11 @@
 </template>
 <script lang="ts" setup>
 import { useTransactions } from "src/store/transactions.pinia";
-import { ref } from "vue";
+// import { ref } from "vue";
 import dummyData from "src/statics/dummyData";
 const _transactions = useTransactions();
 const transactions = _transactions.transactions;
-const currentAccount = ref(_transactions.currentAccount);
+const currentAccount = _transactions.currentAccount;
 const newTransactions = [...dummyData, ...transactions].reverse();
 </script>
 <style lang="scss" scoped>

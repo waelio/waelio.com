@@ -37,6 +37,6 @@
   </nav>
 </template>
 <script lang="ts" setup>
-const router = useRouter();
 import logo from "/waelio_logo.png";
+const router = useRouter();
 </script>

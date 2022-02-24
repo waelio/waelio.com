@@ -8,6 +8,7 @@ declare module 'vue' {
     Cell: typeof import('./components/Cell.vue')['default']
     CryptoNavBar: typeof import('./components/CryptoNavBar.vue')['default']
     CryptoServices: typeof import('./components/CryptoServices.vue')['default']
+    CryptoTransactions: typeof import('./components/CryptoTransactions.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     GetDifficulty: typeof import('./components/GetDifficulty.vue')['default']
     Header: typeof import('./components/Header.vue')['default']

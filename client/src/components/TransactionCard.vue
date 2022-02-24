@@ -5,70 +5,47 @@
     <div class="flex flex-col items-center w-full mt-3">
       <div class="display-flex justify-start w-full mb-6 p-2">
         <a
-          :href="`https://ropsten.etherscan.io/address/${props.addressFrom}`"
+          :href="`https://ropsten.etherscan.io/address/${addressFrom}`"
           target="_blank"
           rel="noreferrer"
         >
-          <p class="text-white text-base">
-            From: {{ shortenAddress(props.addressFrom) }}
-          </p>
+          <p class="text-white text-base">From: {{ shortenAddress(addressFrom) }}</p>
         </a>
         <a
-          :href="`https://ropsten.etherscan.io/address/${props.addressTo}`"
+          :href="`https://ropsten.etherscan.io/address/${addressTo}`"
           target="_blank"
           rel="noreferrer"
         >
-          <p class="text-white text-base">To: {{ shortenAddress(props.addressTo) }}</p>
+          <p class="text-white text-base">To: {{ shortenAddress(addressTo) }}</p>
         </a>
-        <p class="text-white text-base">Amount: {{ props.amount }} ETH</p>
+        <p class="text-white text-base">Amount: {{ amount }} ETH</p>
 
         <br />
-        <p v-if="message" class="text-white text-base">Message: {{ props.message }}</p>
+        <p v-if="message" class="text-white text-base">Message: {{ message }}</p>
       </div>
       <img
-        :src="gifUrl || props.url"
+        :src="gifUrl || url"
         alt="nature"
         class="w-full h-64 2xl:h-96 rounded-md shadow-lg object-cover"
       />
       <div class="bg-black p-3 px-5 w-max rounded-3xl -mt-5 shadow-2xl">
-        <p class="text-[#37c7da] font-bold">{{ props.timestamp }}</p>
+        <p class="text-[#37c7da] font-bold">{{ timestamp }}</p>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { shortenAddress } from "~/utils/cryptoHelpers";
-import useFetch from "~/utils/useFetch";
-const props = defineProps({
-  addressFrom: {
-    type: String,
-    required: true
-  },
-  addressTo: {
-    type: String,
-    required: true
-  },
-  amount: {
-    type: String,
-    required: true
-  },
-  message: {
-    type: String,
-    required: false
-  },
-  timestamp: {
-    type: String,
-    required: true
-  },
-  url: {
-    type: String,
-    required: true
-  },
-  keyword: {
-    type: String,
-    required: false
-  }
+import useFetch from "src/utils/useFetch";
+defineProps({
+  addressFrom: String,
+  addressTo: String,
+  amount: Number,
+  message: String,
+  timestamp: String,
+  url: String,
+  keyword: String,
 });
 
-const gifUrl = useFetch({ props.keyword });
+const gifUrl = useFetch("hello");
 </script>

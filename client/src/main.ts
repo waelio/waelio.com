@@ -5,10 +5,10 @@ import { createPinia } from 'pinia'
 import { initQuasar } from './quasar'
 import {runSetup} from './utils/setCssVars'
 import App from './App.vue'
+import 'uno.css'
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
 import './styles/main.css'
-import 'uno.css'
 
 const routes = setupLayouts(generatedRoutes)
 export const createApp = ViteSSG(

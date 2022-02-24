@@ -1,4 +1,30 @@
-export const history = [
+type Key = number
+type Color = string
+type Name = string
+type Link = string
+type Year = string
+type Text = string
+type Value = string
+
+interface History {
+  key: Key,
+  color: Color,
+  name: Name,
+  link: Link,
+  year: Year,
+  text: Text
+}
+interface Projects {
+  key: string
+  value: Value,
+  selected: boolean
+}
+interface Sponsors {
+  name: string,
+  img: string,
+  url: string
+}
+export const history: History[] = [
   {
     key: 1,
     color: 'red',
@@ -140,7 +166,7 @@ export const history = [
     color: 'orange',
     name: 'Angular7',
     link:
-            'https://en.wikipedia.org/wiki/Angular_(application_platform)#Version_7',
+      'https://en.wikipedia.org/wiki/Angular_(application_platform)#Version_7',
     year: '2018',
     text: 'Frontend @ Luneve Solutions',
   },
@@ -151,7 +177,7 @@ export const history = [
     link: 'https://en.wikipedia.org/wiki/Pandas_(software)',
     year: '2018',
     text:
-            'NBA Stats, financial reporting, excel generations. @Luneve Solutions',
+      'NBA Stats, financial reporting, excel generations. @Luneve Solutions',
   },
   {
     key: 20,
@@ -160,7 +186,7 @@ export const history = [
     link: 'https://golang.org/#',
     year: '2018',
     text:
-            'Online classes, Udemy Academy, Youtube lessons and home exercises.',
+      'Online classes, Udemy Academy, Youtube lessons and home exercises.',
   },
   {
     key: 21,
@@ -169,7 +195,7 @@ export const history = [
     link: 'https://quasar.dev/',
     year: '2019',
     text:
-            'Amaizing Vue Framework, SPA, PWA, SSR, Cordova, Electron, Capacitor and more.',
+      'Amaizing Vue Framework, SPA, PWA, SSR, Cordova, Electron, Capacitor and more.',
   },
   {
     key: 22,
@@ -186,10 +212,11 @@ export const history = [
     link: 'https://waelio.com',
     year: 'Today...',
     text:
-            'Migrating some Javascript libraries to TypeScript, VITE, React, Vue ..., preparing for my new secret product ;)',
+      'Migrating some Javascript libraries to TypeScript, VITE, React, Vue ..., preparing for my new secret product ;)',
   },
 ]
-export const projects = [
+
+export const projects: Projects[] = [
   { key: 'FavsShuffler', value: 'FavsShuffler', selected: false },
   { key: 'Sudoku17', value: 'Sudoku17', selected: false },
   { key: 'PicMyMenu.com', value: 'PicMyMenu.com', selected: false },
@@ -199,7 +226,7 @@ export const projects = [
   { key: 'Waelio.com', value: 'Waelio.com Site', selected: false },
 ]
 
-export const sponsors = [
+export const sponsors: Sponsors[] = [
   { name: 'Quasar', img: 'https://cdn.quasar.dev/logo/svg/quasar-logo.svg', url: 'https://quasar.dev' },
   { name: 'Vue', img: 'https://vuejs.org/images/logo.png', url: 'https://vuejs.org/' },
   { name: 'Amazon', img: 'https://d1.awsstatic.com/training-and-certification/Certification%20Badges/AWS-Certified_Cloud-Practitioner_512x512.bc006f14f986fa4f3ca238b0b62be458ce1fb5ce.png', url: 'https://aws.amazon.com' },

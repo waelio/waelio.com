@@ -7,6 +7,7 @@ meta:
     <CryptoNavBar />
     <Welcome />
     <CryptoServices />
+    <CryptoTransactions />
   </div>
 </template>
 <script lang="ts" setup>
