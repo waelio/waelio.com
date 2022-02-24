@@ -37,7 +37,6 @@
 // import { useI18n } from "vue-i18n";
 import { ref, unref, onMounted, reactive, computed, inject, provide } from "vue";
 import type { Ref } from "vue";
-// import axios from "axios";
 import IPData from "ipdata";
 import { useStore } from "~/store/store.root";
 import { useHead } from "@vueuse/head";
@@ -47,7 +46,7 @@ import {
   currencyLayer,
   fetchConfig,
   fetchConfigOptions,
-  renderer,
+  // renderer,
 } from "src/utils/converterHelper";
 export default {
   setup() {
@@ -60,23 +59,27 @@ export default {
     let exchangeRate = ref(1);
     let currenciesList = ref([]);
     let ECO_MODE = ref(true);
-    const f_select: Ref<{ label: string; value: any }> = ref({
+    type SelectObject = Ref<{
+      label: string;
+      value: any;
+    }>;
+    const f_select: SelectObject = ref({
       label: "ILS",
       value: "Israeli New Sheqel",
     });
-    const t_select: Ref<{ label: string; value: any }> = ref({
+    const t_select: SelectObject = ref({
       label: "USD",
       value: "United States Dollar",
     });
-    const fromSelectOptions: Ref<{ label: string; value: any }[]> = ref([]);
-    const toSelectOptions: Ref<{ label: string; value: any }[]> = ref([]);
+    const fromSelectOptions: Ref<SelectObject[]> = ref([]);
+    const toSelectOptions: Ref<SelectObject[]> = ref([]);
 
     // HELPERS : get inputs values
     const fromCurrencyCode: Ref<string> = ref("NIS");
     const fromCurrencyAmount: Ref<number> = ref(1.0);
     const toCurrencyCode: Ref<string> = ref("USD");
     const toCurrencyAmount: Ref<number> = ref(1.0);
-    const apiSecret: string = envy({ name: "IP_DATA_KEY" });
+    const apiSecret: string = envy({ name: "IP_DATA_KEY" })?.toString();
     const ipdata = new IPData(apiSecret, cacheConfig);
     const store = useStore();
     const newExchangeRate = () => {
@@ -110,10 +113,10 @@ export default {
         content: "application/json",
       };
       const config = fetchConfig(options);
-      const response = await fetch(config);
-      const data = await response.data
-      const currencies = data.currencies;
-      store.setUserCurrencies(currencies);
+      const response = await fetch({ config });
+      const { data } = await response.json();
+      const { currencies } = data;
+      if (currencies) store.setUserCurrencies(currencies);
       return currencies;
     };
     // GET USER'S LOCAL CURRENCY

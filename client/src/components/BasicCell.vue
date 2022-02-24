@@ -34,7 +34,7 @@ const myValueChange = (value: number) => {
     @click="$emit('change', myValue.value)"
   />
 </template>
-<style lang="scss" >
+<style lang="scss">
 .cell:hover {
   cursor: pointer;
 }
@@ -47,6 +47,7 @@ const myValueChange = (value: number) => {
   // grid-template-columns: repeat(8, 2em);
   grid-template-rows: repeat(9, 5em);
   gap: 0;
+  margin: 4rem 0;
 }
 .row-grid {
   display: grid;
@@ -54,19 +55,18 @@ const myValueChange = (value: number) => {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  grid-template-columns: repeat(9, 8em);
-  grid-template-rows: repeat(1, 100%);
+  grid-template-columns: repeat(9, 5.9em);
+  grid-template-rows: repeat(1, 6.5em);
   gap: 0;
 }
-.c
 .cell {
   display: flex;
-  max-width: 2em;
-  border-radius: 0.2em;
-  padding: 0.5em;
+  border-radius: 0.1em;
+  padding: 0.1em;
   text-align: center;
   line-height: 0.5em;
   font-size: 1.5em;
+  border: 1px solid #c3c3c3;
   --hue: 115;
   --saturation: 51%;
   --lightness: 47%;
@@ -91,6 +91,8 @@ const myValueChange = (value: number) => {
   border: 0.1rem solid var(--good-cell);
   color: var(--good-cell);
   font-weight: bold;
+  width: 4em;
+  height: 4em;
 }
 .cel:active,
 .cel:focus,

@@ -1,14 +1,18 @@
 <template>
   <div class="sudoku-game sudoku-grid">
-    <Fragment class="row-grid" v-for="(row, rindex) in grd" :key="rindex">
+    <Fragment
+      :class="`row-grid row-${rindex + 1}`"
+      v-for="(row, rindex) in grd"
+      :key="rindex"
+    >
       <BasicCell
         v-for="(col, cindex) in row"
         :key="cindex"
         :_location="{
-          col: `${!cindex + (1 % 9) ? 1 : cindex + 1}`,
+          col: `${(cindex + 1).toString()}`,
           row: `${rindex + 1 > 9 ? 1 : rindex + 1}`,
         }"
-        :_value="`${(col)}`"
+        :_value="`${col}`"
       />
     </Fragment>
   </div>

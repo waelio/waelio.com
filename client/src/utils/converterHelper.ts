@@ -44,7 +44,7 @@ export const corUrl = (url: string) => `${CorsAnyWhere}${url}`
 export interface fetchConfigOptions {
   url: string,
   method: string,
-  cors: boolean,
+  cors?: boolean,
   content?: string,
 }
 interface fetchConfigResult {

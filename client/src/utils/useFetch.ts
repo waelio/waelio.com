@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue"
 const APIKEY = import.meta.env.VITE_GIPHY_API;
 
 export const useFetch = ({ keyword }) => {
+  keyword = keyword || { keyword: "hello" };
   const gifUrl = ref()
   const fetchGifs = async () => {
     try {
