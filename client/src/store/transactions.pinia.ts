@@ -10,12 +10,27 @@ export const useTransactions = defineStore('transactions', {
     _url: '',
     _gifUrl: '',
     _keyword: 'hello',
+    _transaction: {
+      addressFrom: '',
+      addressTo: '',
+      amount: 0,
+      message: '',
+      keyword: '',
+      timestamp: 0,
+      url: '',
+      gifUrl: '',
+      receiver: '',
+      sender: '',
+    },
     _transactions: [],
     _currentAccount: '',
     _transactionCount: 0,
     _currentWallet: '',
   }),
   actions: {
+    setTransaction(state, transaction) {
+      state._transaction = transaction
+    },
     setAddressFrom(addressFrom: string) {
       this._addressFrom = addressFrom
     },

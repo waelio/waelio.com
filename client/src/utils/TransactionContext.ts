@@ -23,7 +23,7 @@ export interface Transaction {
 export type Transactions = Transaction[];
 
 
-const { ethereum } = document.defaultView;
+const { ethereum } = window;
 const { currentAccount, setCurrentAccount, setTransactionCount } = transactions;
 
 const createEthereumContract = () => {
@@ -108,6 +108,8 @@ export const connectWallet = async () => {
     if (!ethereum) return note.warning("Please install MetaMask.");
 
     const accounts = await ethereum.request({ method: "eth_requestAccounts", });
+    console.log(accounts[0]);
+    
     const nc = accounts[0]
     setCurrentAccount(nc);
   } catch (error: { code: number, message: string, stack: string } | any) {
@@ -121,9 +123,9 @@ export const connectWallet = async () => {
 export const sendTransaction = async () => {
   try {
     if (ethereum) {
-      const { addressTo, amount, message, keyword, setIsLoading } = eathForm.values;
+      const { addressTo, amount, message, keyword, setIsLoading } = eathForm
       const transactionsContract = createEthereumContract();
-      const parsedAmount = ethers.utils.parseEther(amount);
+      const parsedAmount = ethers.utils.parseEther(amount.toString());
 
       await ethereum.request({
         method: "eth_sendTransaction",

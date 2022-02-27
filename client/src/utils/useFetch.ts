@@ -1,18 +1,21 @@
 import { onMounted, ref } from "vue"
 
 const APIKEY = import.meta.env.VITE_GIPHY_API;
+const gifUrl = ref("https://media.giphy.com/media/lz67zZWfWPsWnuGH0s/giphy.gif")
 
 export const useFetch = ({ keyword }) => {
-  keyword = keyword || { keyword: "hello" };
-  const gifUrl = ref()
+  console.log(keyword);
+  
+  keyword = keyword;
   const fetchGifs = async () => {
     try {
       const response = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&q=${keyword.split(" ").join("")}&limit=1`);
       const { data } = await response.json();
+      console.log(data[0].images.original.url);
 
-      gifUrl.value = data[0]?.images?.downsized_medium.url
+      return gifUrl.value = data[0].images.downsized_medium.url
     } catch (error) {
-      gifUrl.value = "https://metro.co.uk/wp-content/uploads/2015/05/pokemon_crying.gif?quality=90&strip=all&zoom=1&resize=500%2C284"
+      gifUrl.value = "https://media.giphy.com/media/lz67zZWfWPsWnuGH0s/giphy.gif"
     }
   };
 

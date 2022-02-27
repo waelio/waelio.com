@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref,  defineEmits } from 'vue'
 import type { Difficulty } from '~/types'
 import type { Ref } from 'vue'
 setup(){

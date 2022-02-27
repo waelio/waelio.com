@@ -20,7 +20,7 @@
         <ServiceCard
           color="bg-[#2952E3]"
           title="Security gurantee"
-          icon="BsShieldFillCheck"
+          icon="clarity:shield-check-solid"
           :fontSize="21"
           class="text-white"
           subtitle="Security is guranteed. We always maintain privacy and maintain the
@@ -28,13 +28,13 @@
         <ServiceCard
           color="bg-[#8945F8]"
           title="Best exchange rates"
-          icon="BiSearchAlt"
+          icon="clarity:shield-check-solid"
           subtitle="Security is guranteed. We always maintain privacy and maintain the quality of our products"
         />
         <ServiceCard
           color="bg-[#F84550]"
           title="Fastest transactions"
-          icon="ant-design:heart-filled"
+          icon="clarity:shield-check-solid"
           subtitle="Security is guranteed. We always maintain privacy and maintain the quality of our products"
         />
       </div>

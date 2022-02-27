@@ -61,6 +61,6 @@ declare type NoteLoadingBarSetWidth = (...params: any) => any
 declare type NoteLoadingBarGetWidth = (...params: any) => any
 declare type NoteLoadingBarSetPosition = (...params: any) => any
 declare type NoteLoadingBarGetPosition = (...params: any) => any
-declare type NoteLoadingBarSetColorBackground = (...params: any) => any
-declare type NoteLoadingBarGetColorBackground = (...params: any) => any
-declare type NoteLoadingBarSetColorBackgroundTransparent = (...params: any
+declare global {
+    interface Window { ethereum: any; }
+}

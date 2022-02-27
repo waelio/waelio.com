@@ -1,16 +1,18 @@
 import { ethers } from 'ethers'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import contractABI from 'contracts/Transactions.sol/WavePortal.json'
-const contractAddress = '0xEb3B8A7bF4E853d11aD233e15438852Ac067e253'
-
+import { useForm } from 'src/store/form.pinia'
+import { contractABI, contractAddress } from "../utils/constants";
+const eathForm = useForm();
 export const useCryptoStore = defineStore('user', () => {
+  const { /*addressTo, amount, message, keyword,*/setIsLoading } = eathForm;
   const account = ref(null)
   const guestPosts = ref([] as any)
   const loading = ref(false)
   const guestPostsCount = ref(0)
 
   async function getBalance() {
-    setLoader(true)
+
+    setIsLoading(true)
     try {
       const { ethereum } = window
       if (ethereum) {
@@ -20,23 +22,23 @@ export const useCryptoStore = defineStore('user', () => {
         const count = (await wavePortalContract.getBalance())
         const amt = ethers.utils.formatEther(count)
         console.log('count', amt)
-        setLoader(false)
+        setIsLoading(false)
       }
     }
     catch (e) {
-      setLoader(false)
+      setIsLoading(false)
       console.log('e', e)
     }
   }
 
   async function wave(messageInput) {
     console.log('setting loader')
-    setLoader(true)
+    setIsLoading(true)
     try {
       console.log('got', messageInput)
       const { ethereum } = window
       if (ethereum) {
-      // create provider object from ethers library, using ethereum object injected by metamask
+        // create provider object from ethers library, using ethereum object injected by metamask
         const provider = new ethers.providers.Web3Provider(ethereum)
         const signer = provider.getSigner()
         const wavePortalContract = new ethers.Contract(contractAddress, contractABI.abi, signer)
@@ -60,21 +62,21 @@ export const useCryptoStore = defineStore('user', () => {
         const count = (await wavePortalContract.totalWaveCount()).toNumber()
         console.log('count', count)
         messageInput = ''
-        setLoader(false)
+        setIsLoading(false)
       }
       else {
         console.log('Ethereum object doesn\'t exist!')
       }
     }
     catch (error) {
-      setLoader(false)
+      setIsLoading(false)
       console.log(error)
     }
   }
 
   async function getAllWaves() {
     try {
-    // setLoading(true);
+      // setLoading(true);
       const { ethereum } = window
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum)
@@ -120,7 +122,7 @@ export const useCryptoStore = defineStore('user', () => {
       else {
         console.log('Ethereum object doesn\'t exist!')
       }
-    // setLoading(false)
+      // setLoading(false)
     }
     catch (error) {
       console.log(error)
@@ -131,7 +133,7 @@ export const useCryptoStore = defineStore('user', () => {
     try {
       const { ethereum } = window
       if (ethereum) {
-      // create provider object from ethers library, using ethereum object injected by metamask
+        // create provider object from ethers library, using ethereum object injected by metamask
         const provider = new ethers.providers.Web3Provider(ethereum)
         const signer = provider.getSigner()
 
@@ -143,7 +145,7 @@ export const useCryptoStore = defineStore('user', () => {
       else {
         console.log('Ethereum object doesn\'t exist!')
       }
-    // setLoading(false)
+      // setLoading(false)
     }
     catch (error) {
       console.log(error)
@@ -151,6 +153,7 @@ export const useCryptoStore = defineStore('user', () => {
   }
 
   async function connectWallet() {
+    console.log(contractABI)
     try {
       const { ethereum } = window
       if (!ethereum) {
@@ -170,13 +173,10 @@ export const useCryptoStore = defineStore('user', () => {
     }
   }
 
-  function setLoader(value: boolean) {
-    console.log('setloader', value)
-    loading.value = value
-  }
+
 
   return {
-    setLoader,
+    setIsLoading,
     loading,
     wave,
     connectWallet,

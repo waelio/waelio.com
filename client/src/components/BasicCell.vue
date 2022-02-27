@@ -4,8 +4,12 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { unref, ref, defineProps, defineEmits, watchEffect } from "vue";
+import { unref, ref,  defineEmits, watchEffect } from "vue";
 import type { Ref } from "vue";
+interface CellLocation {
+  col: string;
+  row: string;
+}
 type Location = {
   row: number;
   col: number;
@@ -19,7 +23,7 @@ const myValue: Ref<number> = ref(props._value);
 const myLocation: Location = ref(props._location);
 const myValueChange = (value: number) => {
   myValue.value = value;
-  $emit("change", myValue.value);
+  emit("change", myValue.value);
 };
 </script>
 <template>
@@ -47,7 +51,7 @@ const myValueChange = (value: number) => {
   // grid-template-columns: repeat(8, 2em);
   grid-template-rows: repeat(9, 5em);
   gap: 0;
-  margin: 4rem 0;
+  margin: 1.5rem 0;
 }
 .row-grid {
   display: grid;

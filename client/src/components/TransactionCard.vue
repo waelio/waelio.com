@@ -2,6 +2,7 @@
   <div
     class="bg-[#181918] m-4 flex flex-1 2xl:min-w-[450px] 2xl:max-w-[500px] sm:min-w-[270px] sm:max-w-[300px] min-w-full flex-col p-3 rounded-md hover:shadow-2xl"
   >
+    <Icon icon="clarity:shield-check-solid" fontSize="17" color="#fff" />
     <div class="flex flex-col items-center w-full mt-3">
       <div class="display-flex justify-start w-full mb-6 p-2">
         <a
@@ -28,7 +29,7 @@
         </p>
       </div>
       <img
-        :src="gifUrl || props.url"
+        :src="props.url"
         alt="nature"
         class="w-full h-64 2xl:h-96 rounded-md shadow-lg object-cover"
       />
@@ -40,9 +41,6 @@
 </template>
 <script lang="ts" setup>
 import { shortenAddress } from "~/utils/cryptoHelpers";
-
-import useFetch from "src/utils/useFetch";
-
 const props = defineProps<{
   addressFrom: string;
   addressTo: string;
@@ -52,6 +50,4 @@ const props = defineProps<{
   url: string;
   keyword: string;
 }>();
- 
-const gifUrl = useFetch(props);
 </script>

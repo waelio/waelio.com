@@ -46,11 +46,7 @@
                 >
                   <Icon icon="cib:ethereum" />
                 </div>
-                <q-icon
-                  name="play_circle_filled"
-                  fontSize="17"
-                  color="#fff"
-                />
+                <Icon icon="clarity:shield-check-solid" fontSize="17" color="#fff" />
               </div>
               <div>
                 <p class="text-white font-light text-sm">
@@ -67,24 +63,28 @@
               placeholder="Address To"
               name="addressTo"
               type="text"
+              v-model="addressTo"
               :handleChange="handleChange"
             />
             <Input
               placeholder="Amount (ETH)"
               name="amount"
               type="number"
+              v-model="amount"
               :handleChange="handleChange"
             />
             <Input
               placeholder="Keyword (Gif)"
               name="keyword"
               type="text"
+              v-model="keyword"
               :handleChange="handleChange"
             />
             <Input
               placeholder="Enter Message"
               name="message"
               type="text"
+              v-model="message"
               :handleChange="handleChange"
             />
             <div class="h-[1px] w-full bg-gray-400 my-2" />
