@@ -8,18 +8,21 @@ const transactions = useTransactions();
 const eathForm = useForm();
 
 
-export interface Transaction {
+export interface TransactionInterface {
   addressFrom: string;
   addressTo: string;
   amount: number;
   message: string;
   keyword: string;
-  timestamp: number;
+  timestamp: string;
   url?: string;
   gifUrl?: string;
   receiver: string;
   sender: string;
 }
+export type Transaction = TransactionInterface & {
+  id?: string | number;
+};
 export type Transactions = Transaction[];
 
 
@@ -109,7 +112,7 @@ export const connectWallet = async () => {
 
     const accounts = await ethereum.request({ method: "eth_requestAccounts", });
     console.log(accounts[0]);
-    
+
     const nc = accounts[0]
     setCurrentAccount(nc);
   } catch (error: { code: number, message: string, stack: string } | any) {

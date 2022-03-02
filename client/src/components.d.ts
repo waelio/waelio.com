@@ -5,7 +5,6 @@
 declare module 'vue' {
   export interface GlobalComponents {
     BasicCell: typeof import('./components/BasicCell.vue')['default']
-    Cell: typeof import('./components/Cell.vue')['default']
     CryptoNavBar: typeof import('./components/CryptoNavBar.vue')['default']
     CryptoServices: typeof import('./components/CryptoServices.vue')['default']
     CryptoTransactions: typeof import('./components/CryptoTransactions.vue')['default']

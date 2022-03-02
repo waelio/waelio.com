@@ -1,29 +1,20 @@
 <script lang="ts">
+import type { GridLocation } from "~/.d";
 export default {
   inheritAttrs: true,
 };
 </script>
 <script lang="ts" setup>
-import { unref, ref,  defineEmits, watchEffect } from "vue";
-import type { Ref } from "vue";
-interface CellLocation {
-  col: string;
-  row: string;
-}
-type Location = {
-  row: number;
-  col: number;
-};
 const props = defineProps({
-  _location: { type: Location, default: { row: 0, col: 0 } },
+  _location: { type: Object, default: { row: 0, col: 0 } },
   _value: { type: Number, default: 0 },
 });
 const emit = defineEmits(["change"]);
-const myValue: Ref<number> = ref(props._value);
-const myLocation: Location = ref(props._location);
+let myValue: number = props._value;
+const myLocation: GridLocation = props._location;
 const myValueChange = (value: number) => {
-  myValue.value = value;
-  emit("change", myValue.value);
+  myValue = value;
+  emit("change", myValue);
 };
 </script>
 <template>
@@ -35,7 +26,7 @@ const myValueChange = (value: number) => {
     v-model="myValue"
     :myValue="myValue"
     @input="myValueChange"
-    @click="$emit('change', myValue.value)"
+    @click="$emit('change', myValue)"
   />
 </template>
 <style lang="scss">
@@ -48,10 +39,12 @@ const myValueChange = (value: number) => {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  // grid-template-columns: repeat(8, 2em);
-  grid-template-rows: repeat(9, 5em);
+  grid-template-rows: repeat(1, calc(var(--vw) / 9));
   gap: 0;
   margin: 1.5rem 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 .row-grid {
   display: grid;
@@ -59,17 +52,22 @@ const myValueChange = (value: number) => {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  grid-template-columns: repeat(9, 5.9em);
-  grid-template-rows: repeat(1, 6.5em);
+  grid-template-columns: repeat(9, calc(var(--vw) / 11));
+  grid-template-rows: repeat(1, calc(var(--vw) / 9));
   gap: 0;
 }
 .cell {
+  width: calc(var(--vw) / 9);
+  height: calc(var(--vw) / 9);
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
   border-radius: 0.1em;
-  padding: 0.1em;
+  padding: 0.01em;
   text-align: center;
-  line-height: 0.5em;
-  font-size: 1.5em;
   border: 1px solid #c3c3c3;
   --hue: 115;
   --saturation: 51%;
@@ -95,8 +93,6 @@ const myValueChange = (value: number) => {
   border: 0.1rem solid var(--good-cell);
   color: var(--good-cell);
   font-weight: bold;
-  width: 4em;
-  height: 4em;
 }
 .cel:active,
 .cel:focus,

@@ -2,10 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "ESNext",
-    "target": "es2016",
+    "target": "ES6",
     "lib": [
       "DOM",
       "ESNext",
+      "ES2016",
       "WebWorker"
     ],
     "strict": true,
@@ -21,7 +22,7 @@
     "types": [
       "vite/client",
       "vite-plugin-vue-layouts/client",
-      "vite-plugin-pwa/client"      
+      "vite-plugin-pwa/client"
     ],
     "paths": {
       "~/*": [
@@ -33,5 +34,4 @@
     "dist",
     "node_modules"
   ],
-    
 }

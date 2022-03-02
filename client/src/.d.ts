@@ -1,20 +1,20 @@
 declare type EnumSudokuCell = {
   id: string;
-  value: number|string|null;
+  value: number | string | null;
   x?: number;
   y?: number;
-  gName?:string
+  gName?: string
 }
-export interface EnumSudokuCells extends Array<EnumSudokuCell>{}
-export interface SudokuRol extends EnumSudokuCells{}
-export interface SudokuCol extends EnumSudokuCells{}
-export interface SudokuBox extends Array<EnumSudokuCells>{}
-export interface SudokuGrid extends Array<EnumSudokuCells>{}
-export interface SudokuInterface extends Array<SudokuGrid>{}
+export interface EnumSudokuCells extends Array<EnumSudokuCell> { }
+export interface SudokuRol extends EnumSudokuCells { }
+export interface SudokuCol extends EnumSudokuCells { }
+export interface SudokuBox extends Array<EnumSudokuCells> { }
+export interface SudokuGrid extends Array<EnumSudokuCells> { }
+export interface SudokuInterface extends Array<SudokuGrid> { }
 export interface SudokuLegends {
   row1: SudokuRow;
   row2: SudokuRow;
-}  
+}
 export interface Difficulty {
   name: string
   value: number
@@ -24,6 +24,14 @@ export const DifficultyProps = {
   name: String,
   value: Number,
 }
+export interface LocationInterface {
+  col: number,
+  row: number
+}
+export type GridLocation = {
+    col: number,
+    row: number
+  }
 declare type Transaction = {
   sender: string;
   receiver: string;
@@ -62,5 +70,5 @@ declare type NoteLoadingBarGetWidth = (...params: any) => any
 declare type NoteLoadingBarSetPosition = (...params: any) => any
 declare type NoteLoadingBarGetPosition = (...params: any) => any
 declare global {
-    interface Window { ethereum: any; }
+  interface Window { ethereum: any; }
 }

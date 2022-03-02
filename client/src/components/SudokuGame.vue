@@ -8,10 +8,7 @@
       <BasicCell
         v-for="(col, cindex) in row"
         :key="cindex"
-        :_location="{
-          col: `${(cindex + 1).toString()}`,
-          row: `${rindex + 1 > 9 ? 1 : rindex + 1}`,
-        }"
+        :_location="{ col: cindex + 1, row: rindex + 1 > 9 ? 1 : rindex + 1 }"
         :_value="`${col}`"
       />
     </Fragment>
@@ -21,18 +18,11 @@
 <script lang="ts" setup>
 import _ from "lodash";
 import { reactive } from "vue";
+import { Matrix } from "src/statics/matrix";
+const randomGameNumber = () => Math.floor(Math.random() * Matrix.length) + 1;
+const dummyMatrix = Matrix[randomGameNumber()];
+dummyMatrix;
 
-const dummyMatrix = [
-  [8, 6, 4, 3, 7, 1, 2, 5, 9],
-  [3, 2, 5, 8, 4, 9, 7, 6, 1],
-  [9, 7, 1, 2, 6, 5, 8, 4, 3],
-  [4, 3, 6, 1, 9, 2, 5, 8, 7],
-  [1, 9, 8, 6, 5, 7, 4, 3, 2],
-  [2, 5, 7, 4, 8, 3, 9, 1, 6],
-  [6, 8, 9, 7, 3, 4, 1, 2, 5],
-  [7, 1, 3, 5, 2, 8, 6, 9, 4],
-  [5, 4, 2, 9, 1, 6, 3, 7, 8],
-];
 const grd = reactive(dummyMatrix);
 </script>
 
