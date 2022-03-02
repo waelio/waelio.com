@@ -7,7 +7,7 @@ export default {
 <script lang="ts" setup>
 const props = defineProps({
   _location: { type: Object, default: { row: 0, col: 0 } },
-  _value: { type: Number, default: 0 },
+  _value: { type: [Number, String], default: 0 },
 });
 const emit = defineEmits(["change"]);
 let myValue: number = props._value;

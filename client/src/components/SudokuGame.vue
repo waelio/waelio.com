@@ -9,7 +9,7 @@
         v-for="(col, cindex) in row"
         :key="cindex"
         :_location="{ col: cindex + 1, row: rindex + 1 > 9 ? 1 : rindex + 1 }"
-        :_value="`${col}`"
+        :_value="`${col.toString()}`"
       />
     </Fragment>
   </div>
