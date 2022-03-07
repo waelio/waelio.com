@@ -1,16 +1,38 @@
 declare type EnumSudokuCell = {
-  id: string;
+  id?: string;
   value: number | string | null;
   x?: number;
   y?: number;
   gName?: string
 }
+declare type Letter = string
+export type Letter = {
+  [key]: Letter
+}
+enum Letter {
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+}
+export type GridLetters = Array<Letter>
+
 export interface EnumSudokuCells extends Array<EnumSudokuCell> { }
 export interface SudokuRol extends EnumSudokuCells { }
 export interface SudokuCol extends EnumSudokuCells { }
 export interface SudokuBox extends Array<EnumSudokuCells> { }
-export interface SudokuGrid extends Array<EnumSudokuCells> { }
-export interface SudokuInterface extends Array<SudokuGrid> { }
+export interface SudokuGrid extends Array<EnumSudokuCells> {
+  [index?: number]: EnumSudokuCells;
+  [Grid?: string]: string
+}
+export interface SudokuInterface extends Array<SudokuGrid> {
+  [index: number]: SudokuGrid;
+}
 export interface SudokuLegends {
   row1: SudokuRow;
   row2: SudokuRow;
@@ -28,10 +50,8 @@ export interface LocationInterface {
   col: number,
   row: number
 }
-export type GridLocation = {
-    col: number,
-    row: number
-  }
+export type GridLocation = Record<string, LocationInterface>
+export type GridLocations = Array<GridLocation>
 declare type Transaction = {
   sender: string;
   receiver: string;
@@ -44,6 +64,7 @@ declare type Transaction = {
   url?: string;
   gifUrl?: string;
 }
+
 declare type Transactions = Array<Transaction>
 declare type NoteActions = 'show' | 'success' | 'info' | 'warning' | 'error' | 'log' | 'debug' | 'loading'
 declare type Note = (action: NoteActions, ...params: any) => any

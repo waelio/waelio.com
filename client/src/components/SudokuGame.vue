@@ -1,29 +1,121 @@
 <template>
-  <div class="sudoku-game sudoku-grid">
-    <Fragment
-      :class="`row-grid row-${rindex + 1}`"
-      v-for="(row, rindex) in grd"
-      :key="rindex"
-    >
-      <BasicCell
-        v-for="(col, cindex) in row"
-        :key="cindex"
-        :_location="{ col: cindex + 1, row: rindex + 1 > 9 ? 1 : rindex + 1 }"
-        :_value="`${col.toString()}`"
-      />
-    </Fragment>
+  <div>
+    <div class="sudoku-game sudoku-grid">
+      <Fragment
+        :class="`row-grid row-${rindex + 1}`"
+        v-for="(row, rindex) in grd"
+        :key="rindex"
+      >
+        <BasicCell
+          v-for="(col, cindex) in row"
+          :key="cindex"
+          :_selectedNumber="selectedNumber"
+          :_location="{ col: cindex + 1, row: rindex + 1 > 9 ? 1 : rindex + 1 }"
+          :_value="`${col.toString()}`"
+          @change="setSeletedNumber"
+        />
+      </Fragment>
+    </div>
+    <div class="mt-5 grid-numbers">
+      <div class="flex row numbers-row">
+        <div v-for="r1 in legend.row1" :key="r1">
+          <div
+            @click.prevent="setSelectNumber(r1)"
+            class="numbers-input"
+            :class="{ ['__' + r1]: true, isSelected: selectedNumber == r1 }"
+          >
+            <span class="sideByside">
+              <div
+                class="grid-identifier"
+                :class="['numbers-col', SolvedNumber(r1) ? 'Solved' : 'Unsolved']"
+              >
+                {{ r1 }}
+              </div>
+            </span>
+            <span class="sideByside">
+              <template r1="r1">
+                <div class="gl" :ref="'gn_' + r1">
+                  <div v-for="letter in letters" :key="letter">
+                    {{ _inGrid(dummyMatrix, letter) ? "." : " " }}
+                  </div>
+                </div>
+              </template>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="flex row numbers-row">
+        <div width="20%" v-for="r2 in legend.row2" :key="r2">
+          <div
+            @click.prevent="selectNumber(r2)"
+            class="numbers-input"
+            :class="{ ['__' + r2]: true, isSelected: selectedNumber == r2 }"
+          >
+            <span class="sideByside">
+              <div
+                class="grid-identifier"
+                :class="['numbers-col', SolvedNumber(r2) ? 'Solved' : 'Unsolved']"
+              >
+                {{ r2 }}
+              </div>
+            </span>
+            <span class="sideByside">
+              <template r1="r1">
+                <div class="gl" :ref="'gn_' + r2">
+                  <div v-for="letter in letters" :key="letter">
+                    {{ _inGrid(letter, r2) ? "." : " " }}
+                  </div>
+                </div>
+              </template>
+            </span>
+          </div>
+        </div>
+        <div width="20%" class="numbers-col">
+          <v-btn
+            class="numbers-input"
+            @click="_markAccordingly({ row: 9, col: 9 }), _reCalc()"
+            >Clear</v-btn
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import type { SudokuGrid, GridLocation, GridLetters, Letter } from "src/.d";
 import _ from "lodash";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
+import type { Ref } from "vue";
 import { Matrix } from "src/statics/matrix";
+// import { useSudoku } from "src/store/sudoku.pinia";
+const letters: Ref<GridLetters> = ref(["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
 const randomGameNumber = () => Math.floor(Math.random() * Matrix.length) + 1;
-const dummyMatrix = Matrix[randomGameNumber()];
-dummyMatrix;
-
+const dummyMatrix: SudokuGrid = Matrix[randomGameNumber()];
 const grd = reactive(dummyMatrix);
+const selectedNumber: Ref<number> = ref(1);
+const setSeletedNumber = (num: number) => {
+  selectedNumber.value = num;
+};
+const _inGrid = (grid: SudokuGrid, needle: Letter) => {
+  let tmp = _.flattenDeep(dummyMatrix[grid]);
+  return _.includes(tmp, needle);
+};
+
+const legend = {
+  row1: [1, 2, 3, 4, 5],
+  row2: [6, 7, 8, 9],
+};
+const setSelectNumber = (value: number) => {
+  if (selectedNumber.value !== value) {
+    selectedNumber.value = value;
+  } else {
+    selectedNumber.value = 0;
+  }
+};
+const SolvedNumber = (value) => {
+  return _.countBy(dummyMatrix, _.identity);
+};
 </script>
 
 <style lang="scss">
@@ -121,12 +213,18 @@ const grd = reactive(dummyMatrix);
   overflow: visible;
   max-width: 100vw;
 }
+.numbers-row {
+  align-content: space-between;
+  justify-content: space-between;
+  align-items: center;
+}
 .numbers-col {
   box-shadow: -3px 7px 11px -7px #48a64c;
   flex-basis: 0;
   -webkit-box-flex: 0;
   flex-grow: 1;
   max-width: 20vw;
+  width: calc((var(--vw) * 0.98) / 9);
 }
 .numbers-input {
   border: 1px solid #48a64c !important;
@@ -216,7 +314,6 @@ input.grid-cell-editor[disabled] {
   padding-right: 0.3rem;
   height: 100%;
   margin: auto;
-  vertical-align: middle;
   line-height: 100%;
   color: #4caf50;
 }

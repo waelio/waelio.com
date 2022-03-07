@@ -5,27 +5,29 @@ export default {
 };
 </script>
 <script lang="ts" setup>
+import { computed } from "vue";
+import type { ComputedRef } from "vue";
 const props = defineProps({
   _location: { type: Object, default: { row: 0, col: 0 } },
   _value: { type: [Number, String], default: 0 },
+  _selectedNumber: { type: [Number, String], default: 0 },
 });
-const emit = defineEmits(["change"]);
-let myValue: number = props._value;
+defineEmits(["change"]);
+let myValue: number | string = props._value;
 const myLocation: GridLocation = props._location;
-const myValueChange = (value: number) => {
-  myValue = value;
-  emit("change", myValue);
-};
+const AmISelected: ComputedRef<boolean> = computed(() => {
+  return myValue == props._selectedNumber;
+});
 </script>
 <template>
   <input
     readonly
-    class="cell good"
-    :class="`row-${myLocation.row} col-${myLocation.col}`"
+    :class="`${AmISelected ? 'cell good' : 'cell'} row-${myLocation.row} col-${
+      myLocation.col
+    }`"
     :ref="`ROW${myLocation.row}COL${myLocation.col}`"
     v-model="myValue"
     :myValue="myValue"
-    @input="myValueChange"
     @click="$emit('change', myValue)"
   />
 </template>
@@ -39,7 +41,7 @@ const myValueChange = (value: number) => {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  grid-template-rows: repeat(1, calc(var(--vw) / 9));
+  grid-template-rows: repeat(1, calc(var(--vw) * 0.09));
   gap: 0;
   margin: 1.5rem 0;
   width: 100%;
@@ -52,13 +54,13 @@ const myValueChange = (value: number) => {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  grid-template-columns: repeat(9, calc(var(--vw) / 11));
-  grid-template-rows: repeat(1, calc(var(--vw) / 9));
+  grid-template-rows: repeat(1, calc(var(--vw) * 0.09));
+  grid-template-columns: repeat(9, calc(var(--vw) * 0.09));
   gap: 0;
 }
 .cell {
-  width: calc(var(--vw) / 9);
-  height: calc(var(--vw) / 9);
+  width: calc(var(--vw) * 0.09);
+  height: calc(var(--vw) * 0.09);
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -90,9 +92,9 @@ const myValueChange = (value: number) => {
   --lightness-offset: -10%;
 }
 .cell.good {
-  border: 0.1rem solid var(--good-cell);
+  outline: 0.2rem dashed var(--good-cell);
   color: var(--good-cell);
-  font-weight: bold;
+  font-weight: bolder;
 }
 .cel:active,
 .cel:focus,
