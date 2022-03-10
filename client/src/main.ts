@@ -8,7 +8,7 @@ import App from './App.vue'
 import 'uno.css'
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
-import './styles/main.css'
+import './styles/main.scss'
 
 const routes = setupLayouts(generatedRoutes)
 export const createApp = ViteSSG(

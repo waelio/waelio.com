@@ -1,12 +1,12 @@
 <script lang="ts">
 import type { GridLocation } from "~/.d";
+import type { ComputedRef } from "vue";
 export default {
   inheritAttrs: true,
 };
 </script>
 <script lang="ts" setup>
 import { computed } from "vue";
-import type { ComputedRef } from "vue";
 const props = defineProps({
   _location: { type: Object, default: { row: 0, col: 0 } },
   _value: { type: [Number, String], default: 0 },
@@ -15,16 +15,22 @@ const props = defineProps({
 defineEmits(["change"]);
 let myValue: number | string = props._value;
 const myLocation: GridLocation = props._location;
+const myStyle = computed(() => {
+  return !!AmISelected.value
+    ? "font-weight: bolder!important; color:red; font-size:calc(var(--vw)*0.04);"
+    : "font-weight: normal;color:black";
+});
 const AmISelected: ComputedRef<boolean> = computed(() => {
-  return myValue == props._selectedNumber;
+  return props._value == props._selectedNumber;
 });
 </script>
 <template>
   <input
     readonly
-    :class="`${AmISelected ? 'cell good' : 'cell'} row-${myLocation.row} col-${
-      myLocation.col
-    }`"
+    :style="myStyle"
+    :class="`single-sudoku-cell ${AmISelected ? 'cell good' : 'cell'} row-${
+      myLocation.row
+    } col-${myLocation.col} sudoku-cell-${+myLocation.row + +myLocation.col}`"
     :ref="`ROW${myLocation.row}COL${myLocation.col}`"
     v-model="myValue"
     :myValue="myValue"
@@ -41,11 +47,11 @@ const AmISelected: ComputedRef<boolean> = computed(() => {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  grid-template-rows: repeat(1, calc(var(--vw) * 0.09));
+  grid-template-rows: repeat(1, 9vmin);
   gap: 0;
   margin: 1.5rem 0;
   width: 100%;
-  height: 100%;
+
   overflow: hidden;
 }
 .row-grid {
@@ -54,13 +60,13 @@ const AmISelected: ComputedRef<boolean> = computed(() => {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  grid-template-rows: repeat(1, calc(var(--vw) * 0.09));
-  grid-template-columns: repeat(9, calc(var(--vw) * 0.09));
+  grid-template-rows: repeat(1, 9vmin);
+  grid-template-columns: repeat(9, 9vmin);
   gap: 0;
 }
 .cell {
-  width: calc(var(--vw) * 0.09);
-  height: calc(var(--vw) * 0.09);
+  width: 9vmin;
+  height: 9vmin;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -70,7 +76,7 @@ const AmISelected: ComputedRef<boolean> = computed(() => {
   border-radius: 0.1em;
   padding: 0.01em;
   text-align: center;
-  border: 1px solid #c3c3c3;
+  border: 0.1vmin solid #c3c3c3;
   --hue: 115;
   --saturation: 51%;
   --lightness: 47%;

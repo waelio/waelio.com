@@ -2,6 +2,7 @@
 
 html.dark {
   background: #121212;
+  
 }
 
 #nprogress {
@@ -106,36 +107,37 @@ button {
   left: 50px;
 }
 
-.grid-rows {
+.row-grid *,
+.row-grid {
   background-color: #f44336;
   color: whitesmoke;
 }
 
-.grid-row:nth-child(-n + 3),
-.grid-row:nth-child(n + 3),
-.grid-row:nth-child(n + 7) {
+.row-grid:nth-child(-n + 3) input,
+.row-grid:nth-child(n + 3) input,
+.row-grid:nth-child(n + 7) input{
   background-color: whitesmoke;
 }
 
-.grid-row .grid-cell:nth-child(-n + 3),
-.grid-row .grid-cell:nth-child(n + 7) {
+.row-grid .cell:nth-child(-n + 3) *,
+.row-grid .cell:nth-child(n + 7) *{
   background-color: whitesmoke;
 }
-.grid-row:nth-child(-n + 3),
-.grid-row:nth-child(n + 7) {
-  background-color: "blue";
+.row-grid:nth-child(-n + 3)*,
+.row-grid:nth-child(n + 7) *{
+  background-color: blue;
 }
 
-label .grid-cell:nth-child(-n + 3),
-.grid-row:nth-child(4) .grid-cell:nth-child(-n + 3),
-.grid-row:nth-child(5) .grid-cell:nth-child(-n + 3),
-.grid-row:nth-child(6) .grid-cell:nth-child(-n + 3),
-.grid-row:nth-child(4) .grid-cell:nth-child(n + 7),
-.grid-row:nth-child(5) .grid-cell:nth-child(n + 7),
-.grid-row:nth-child(6) .grid-cell:nth-child(n + 7) {
-  background-color: "blue";
+label .cell:nth-child(-n + 3)*,
+.row-grid:nth-child(4) .cell:nth-child(-n + 3)*,
+.row-grid:nth-child(5) .cell:nth-child(-n + 3)*,
+.row-grid:nth-child(6) .cell:nth-child(-n + 3)*,
+.row-grid:nth-child(4) .cell:nth-child(n + 7)*,
+.row-grid:nth-child(5) .cell:nth-child(n + 7)*,
+.row-grid:nth-child(6) .cell:nth-child(n + 7) *{
+  background-color: blue;
 }
-.grid-cell {
+.cell {
   border: 1px solid #cec7c7ba;
   overflow: hidden;
   cursor: grab;
@@ -160,13 +162,7 @@ label .grid-cell:nth-child(-n + 3),
   overflow: visible;
   max-width: 100vw;
 }
-.numbers-col {
-  box-shadow: -3px 7px 11px -7px green;
-  flex-basis: 0;
-  -webkit-box-flex: 0;
-  flex-grow: 1;
-  max-width: 20vw;
-}
+
 .numbers-input {
   border: 1px solid green;
   height: 2.5rem;
@@ -207,12 +203,12 @@ input.grid-cell-editor[disabled] {
 .highlightXY label {
   color: white;
 }
-.grid-row .error {
+.row-grid .error {
   background-color: #f44336;
   color: white;
 }
-.grid-row.highlightXY,
-.grid-row.highlightXY .grid-cell,
+.row-grid.highlightXY,
+.row-grid.highlightXY .grid-cell,
 .grid-cell.highlightXY {
   background-color: #4caf5029;
   color: #f57c00;
@@ -228,10 +224,7 @@ input.grid-cell-editor[disabled] {
 .mark-button {
   cursor: pointer;
 }
-.sideByside {
-  height: auto;
-  clear: none;
-}
+
 .emoji {
   font-size: 2rem;
   line-height: 2rem;
@@ -278,8 +271,6 @@ input.grid-cell-editor[disabled] {
   text-align: center;
 }
 
-#hints-checkbox {
-}
 .actions-menu .action-column {
   width: 20vw;
   margin: auto;

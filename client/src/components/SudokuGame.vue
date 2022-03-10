@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="game-sudoku expand-height">
     <div class="sudoku-game sudoku-grid">
       <Fragment
         :class="`row-grid row-${rindex + 1}`"
@@ -16,7 +16,7 @@
         />
       </Fragment>
     </div>
-    <div class="mt-5 grid-numbers">
+    <div class="grid-numbers">
       <div class="flex row numbers-row">
         <div v-for="r1 in legend.row1" :key="r1">
           <div
@@ -35,7 +35,7 @@
             <span class="sideByside">
               <template r1="r1">
                 <div class="gl" :ref="'gn_' + r1">
-                  <div v-for="letter in letters" :key="letter">
+                  <div v-for="(letter, index) in letters" :key="`${letter}_${index}`">
                     {{ _inGrid(dummyMatrix, letter) ? "." : " " }}
                   </div>
                 </div>
@@ -47,7 +47,7 @@
       <div class="flex row numbers-row">
         <div width="20%" v-for="r2 in legend.row2" :key="r2">
           <div
-            @click.prevent="selectNumber(r2)"
+            @click.prevent="setSelectNumber(r2)"
             class="numbers-input"
             :class="{ ['__' + r2]: true, isSelected: selectedNumber == r2 }"
           >
@@ -62,8 +62,8 @@
             <span class="sideByside">
               <template r1="r1">
                 <div class="gl" :ref="'gn_' + r2">
-                  <div v-for="letter in letters" :key="letter">
-                    {{ _inGrid(letter, r2) ? "." : " " }}
+                  <div v-for="(letter, index) in letters" :key="`${letter}_${index}`">
+                    {{ _inGrid(dummyMatrix, letter) ? "." : " " }}
                   </div>
                 </div>
               </template>
@@ -71,10 +71,8 @@
           </div>
         </div>
         <div width="20%" class="numbers-col">
-          <v-btn
-            class="numbers-input"
-            @click="_markAccordingly({ row: 9, col: 9 }), _reCalc()"
-            >Clear</v-btn
+          <q-btn stretch class="numbers-input full-width" @click="setSelectNumber(0)"
+            >Clear</q-btn
           >
         </div>
       </div>
@@ -83,7 +81,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { SudokuGrid, GridLocation, GridLetters, Letter } from "src/.d";
+import type { SudokuGrid, GridLetters, Letter } from "src/types";
 import _ from "lodash";
 import { reactive, ref } from "vue";
 import type { Ref } from "vue";
@@ -121,6 +119,15 @@ const SolvedNumber = (value) => {
 <style lang="scss">
 * {
   transition: all 500ms ease-in-out;
+}
+.expand-height {
+  height: var(--vh);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: space-between;
 }
 .content {
   margin: auto;
@@ -206,12 +213,15 @@ const SolvedNumber = (value) => {
   word-break: break-all;
 }
 .grid-numbers {
-  display: block;
+  display: flex;
   margin: auto;
   background: white;
-  width: 99%;
   overflow: visible;
-  max-width: 100vw;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 .numbers-row {
   align-content: space-between;
@@ -224,7 +234,7 @@ const SolvedNumber = (value) => {
   -webkit-box-flex: 0;
   flex-grow: 1;
   max-width: 20vw;
-  width: calc((var(--vw) * 0.98) / 9);
+  width: 15vmin;
 }
 .numbers-input {
   border: 1px solid #48a64c !important;
