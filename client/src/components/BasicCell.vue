@@ -16,9 +16,7 @@ defineEmits(["change"]);
 let myValue: number | string = props._value;
 const myLocation: GridLocation = props._location;
 const myStyle = computed(() => {
-  return !!AmISelected.value
-    ? "font-weight: bolder!important; color:red; font-size:calc(var(--vw)*0.04);"
-    : "font-weight: normal;color:black";
+  return !!AmISelected.value ? "isSelected" : "";
 });
 const AmISelected: ComputedRef<boolean> = computed(() => {
   return props._value == props._selectedNumber;
@@ -27,10 +25,9 @@ const AmISelected: ComputedRef<boolean> = computed(() => {
 <template>
   <input
     readonly
-    :style="myStyle"
-    :class="`single-sudoku-cell ${AmISelected ? 'cell good' : 'cell'} row-${
+    :class="`single-sudoku-cell cell ${AmISelected ? 'good' : ''} row-${
       myLocation.row
-    } col-${myLocation.col} sudoku-cell-${+myLocation.row + +myLocation.col}`"
+    } col-${myLocation.col} sudoku-cell-${+myLocation.row + +myLocation.col} ${myStyle}`"
     :ref="`ROW${myLocation.row}COL${myLocation.col}`"
     v-model="myValue"
     :myValue="myValue"
@@ -74,7 +71,7 @@ const AmISelected: ComputedRef<boolean> = computed(() => {
   justify-content: center;
   align-items: center;
   border-radius: 0.1em;
-  padding: 0.01em;
+  padding: 0.0075vmin;
   text-align: center;
   border: 0.1vmin solid #c3c3c3;
   --hue: 115;
@@ -98,7 +95,7 @@ const AmISelected: ComputedRef<boolean> = computed(() => {
   --lightness-offset: -10%;
 }
 .cell.good {
-  outline: 0.2rem dashed var(--good-cell);
+  border: 0.15rem solid var(--good-cell);
   color: var(--good-cell);
   font-weight: bolder;
 }
@@ -111,5 +108,11 @@ const AmISelected: ComputedRef<boolean> = computed(() => {
     var(--saturation, 1%),
     calc(var(--lightness-offset, 0%) + var(--lightness, 51%))
   );
+  color: #8b8b8b;
+}
+.cell.isSelected {
+  border: 0.2rem solid #f44336 ;
+  color: #f44336 ;
+  font-weight: bolder;
 }
 </style>

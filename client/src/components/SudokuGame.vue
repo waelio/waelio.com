@@ -159,34 +159,33 @@ const SolvedNumber = (value) => {
   left: 50px;
 }
 
-.grid-row {
+.row-grid {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  height: 5.7vh;
 }
 
-.grid-row:nth-child(-n + 3),
-.grid-row:nth-child(n + 3),
-.grid-row:nth-child(n + 7) {
+.row-grid .single-sudoku-cell:nth-child(-n + 3),
+.row-grid .single-sudoku-cell:nth-child(-n + 3) *,
+.row-grid .single-sudoku-cell:nth-child(n + 7),
+.row-grid .single-sudoku-cell:nth-child(n + 7) * {
+  background-color: hsl(138, 94%, 25%);
+  color: #ffffff;
+}
+
+.row-grid:nth-child(4) .single-sudoku-cell:nth-child(-n + 3),
+.row-grid:nth-child(5) .single-sudoku-cell:nth-child(-n + 3),
+.row-grid:nth-child(6) .single-sudoku-cell:nth-child(-n + 3) {
   background-color: #ffffff;
+  color: hsl(138, 94%, 25%);
 }
-
-.grid-row .grid-cell:nth-child(-n + 3),
-.grid-row .grid-cell:nth-child(n + 7) {
+.row-grid .single-sudoku-cell:nth-child(-n + 3) {
+  background-color: hsl(138, 94%, 25%);
+}
+.row-grid:nth-child(4) .single-sudoku-cell:nth-child(n + 7),
+.row-grid:nth-child(5) .single-sudoku-cell:nth-child(n + 7),
+.row-grid:nth-child(6) .single-sudoku-cell:nth-child(n + 7) {
   background-color: #ffffff;
-}
-.grid-row:nth-child(-n + 3),
-.grid-row:nth-child(n + 7) {
-  background-color: #e9e8e8;
-}
-
-.grid-row:nth-child(4) .grid-cell:nth-child(-n + 3),
-.grid-row:nth-child(5) .grid-cell:nth-child(-n + 3),
-.grid-row:nth-child(6) .grid-cell:nth-child(-n + 3),
-.grid-row:nth-child(4) .grid-cell:nth-child(n + 7),
-.grid-row:nth-child(5) .grid-cell:nth-child(n + 7),
-.grid-row:nth-child(6) .grid-cell:nth-child(n + 7) {
-  background-color: #e9e8e8;
+  color: hsl(138, 94%, 25%);
 }
 .grid-cell {
   display: block;
@@ -276,12 +275,12 @@ input.grid-cell-editor[disabled] {
 .highlightXY label {
   color: #ffffff;
 }
-.grid-row .error {
+.row-grid .error {
   background-color: #f44336 !important;
   color: white !important;
 }
-.grid-row.highlightXY,
-.grid-row.highlightXY .grid-cell,
+.row-grid.highlightXY,
+.row-grid.highlightXY .grid-cell,
 .grid-cell.highlightXY {
   background-color: #4caf5029 !important;
   color: #f57c00 !important;
@@ -290,8 +289,7 @@ input.grid-cell-editor[disabled] {
   letter-spacing: 1px;
 }
 .isSelected {
-  background-color: #48a64c !important;
-  color: #f2f3ed;
+  color: var(--bad-cell);
   font-weight: bold;
 }
 .mark-button {

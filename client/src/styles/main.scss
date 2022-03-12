@@ -107,35 +107,9 @@ button {
   left: 50px;
 }
 
-.row-grid *,
-.row-grid {
-  background-color: #f44336;
-  color: whitesmoke;
-}
 
-.row-grid:nth-child(-n + 3) input,
-.row-grid:nth-child(n + 3) input,
-.row-grid:nth-child(n + 7) input{
-  background-color: whitesmoke;
-}
-
-.row-grid .cell:nth-child(-n + 3) *,
-.row-grid .cell:nth-child(n + 7) *{
-  background-color: whitesmoke;
-}
-.row-grid:nth-child(-n + 3)*,
-.row-grid:nth-child(n + 7) *{
-  background-color: blue;
-}
-
-label .cell:nth-child(-n + 3)*,
-.row-grid:nth-child(4) .cell:nth-child(-n + 3)*,
-.row-grid:nth-child(5) .cell:nth-child(-n + 3)*,
-.row-grid:nth-child(6) .cell:nth-child(-n + 3)*,
-.row-grid:nth-child(4) .cell:nth-child(n + 7)*,
-.row-grid:nth-child(5) .cell:nth-child(n + 7)*,
-.row-grid:nth-child(6) .cell:nth-child(n + 7) *{
-  background-color: blue;
+label .cell:nth-child(-n + 3)*{
+ background-color: blue;
 }
 .cell {
   border: 1px solid #cec7c7ba;
@@ -183,6 +157,7 @@ label .cell:nth-child(-n + 3)*,
 }
 .numbers-col:hover {
   background-color: green;
+  color: white;
   border-radius: 5px;
   transform: translateY(-5px);
   box-shadow: -7px 10px 9px -7px green;
@@ -216,11 +191,7 @@ input.grid-cell-editor[disabled] {
   word-break: break-all;
   letter-spacing: 1px;
 }
-.isSelected {
-  background-color: green;
-  color: #f2f3ed;
-  font-weight: bold;
-}
+
 .mark-button {
   cursor: pointer;
 }
