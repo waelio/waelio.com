@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSubscriptions } from 'src/utils/useSubscriptions'
-import { onMounted, ref } from '@vue/runtime-core' 
+import { onMounted, ref } from 'vue' 
 const { collectSubscriptions, isSubscribed, Subscribe, unSubscribe } = useSubscriptions()
 collectSubscriptions()
 const onSubscribe = async(): Promise<boolean> => {
