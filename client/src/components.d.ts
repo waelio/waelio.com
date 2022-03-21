@@ -19,6 +19,7 @@ declare module 'vue' {
     LinkTemplate: typeof import('./components/LinkTemplate.vue')['default']
     Loader: typeof import('./components/Loader.md')['default']
     NavBarItem: typeof import('./components/NavBarItem.vue')['default']
+    Pixel: typeof import('./components/pixel.vue')['default']
     README: typeof import('./components/README.md')['default']
     ReloadPrompt: typeof import('./components/ReloadPrompt.vue')['default']
     ServiceCard: typeof import('./components/ServiceCard.vue')['default']
