@@ -1,0 +1,13 @@
+.DS_Store
+.vite-ssg-dist
+.vite-ssg-temp
+*.local
+node_modules
+/node_modules
+dist
+dist/
+# intellij stuff
+.idea/
+
+# Local Netlify folder
+.netlify
