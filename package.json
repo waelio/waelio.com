@@ -39,6 +39,7 @@
     "pnpm": ">=9"
   },
   "scripts": {
+    "preinstall": "node scripts/check-node.mjs",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",

@@ -16,6 +16,13 @@ export default defineNuxtConfig({
     },
   },
 
+  runtimeConfig: {
+    public: {
+      // Set via NUXT_PUBLIC_GA_ID env var (e.g. G-XXXXXXXXXX)
+      googleAnalyticsId: process.env.NUXT_PUBLIC_GA_ID,
+    },
+  },
+
   css: ['~/assets/css/tailwind.css'],
   vite: {
     plugins: [
