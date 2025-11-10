@@ -13,6 +13,11 @@ import Prism from 'markdown-it-prism'
 import replace from '@rollup/plugin-replace'
 
 export default defineConfig({
+  server: {
+    port: 3000,
+    strictPort: true,
+    host: true,
+  },
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
@@ -133,7 +138,7 @@ export default defineConfig({
     script: 'async',
     formatting: 'minify',
   },
-  ssr:{
+  ssr: {
     target: 'webworker'
   },
   optimizeDeps: {
