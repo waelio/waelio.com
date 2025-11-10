@@ -1,13 +1,31 @@
-.DS_Store
-.vite-ssg-dist
-.vite-ssg-temp
-*.local
-node_modules
-/node_modules
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
 dist
-dist/
-# intellij stuff
-.idea/
-
-# Local Netlify folder
+.vercel
 .netlify
+.turbo
+.pnpm-store
+
+# Backup folders
+.git.backup*/
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
