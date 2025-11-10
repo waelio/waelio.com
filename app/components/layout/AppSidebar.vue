@@ -16,7 +16,7 @@ const teams: {
 }[] = [
   {
     name: 'Waelio',
-    logo: '/favicon.ico',
+  logo: '/waelio_logo.svg',
     plan: 'Site',
   },
 ]
