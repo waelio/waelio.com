@@ -32,6 +32,22 @@ export default defineAppConfig({
 })
 ```
 
+## Analytics (GA4)
+
+Google Analytics 4 is supported via a small Nuxt client plugin. Set your Measurement ID using a public env var:
+
+1. Copy `.env.example` to `.env` and set your ID
+
+```
+NUXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+```
+
+2. The GA script will only load in production builds when the ID is set. For local testing, you can build and preview:
+
+```bash
+pnpm build && pnpm preview
+```
+
 ## Contributing
 
 1. Clone this repository.
