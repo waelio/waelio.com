@@ -74,6 +74,7 @@ This repo is configured for Netlify static deploys via `netlify.toml`.
 - Node: `NODE_VERSION=22` (Netlify will try Node 22; CI allows >=20)
 
 Netlify UI steps (if connecting fresh):
+
 1. Create a site from Git and select `github.com/waelio/waelio.com`.
 2. Choose branch `Default`.
 3. Ensure the build and publish settings match above or leave blank (netlify.toml takes precedence).
