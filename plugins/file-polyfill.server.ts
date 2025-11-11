@@ -2,7 +2,7 @@
 // If Node provides a native File (Node 22+), we leave it untouched.
 // Some libraries (e.g. undici consumers) may reference global File during SSR.
 export default defineNuxtPlugin(() => {
-    if (typeof File === 'undefined') {
+    if (typeof globalThis.File === 'undefined') {
         class PolyfillFile extends Blob {
             name: string
             lastModified: number
@@ -12,7 +12,7 @@ export default defineNuxtPlugin(() => {
                 this.lastModified = options.lastModified || Date.now()
             }
         }
-        // @ts-expect-error assign global
+        // @ts-expect-error define polyfill
         globalThis.File = PolyfillFile
     }
 })
