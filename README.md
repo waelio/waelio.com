@@ -1,5 +1,3 @@
-![nuxt-shadcn-dashboard-social-card](https://nuxt-shadcn-dashboard.vercel.app/social-card.png)
-
 # waelio.com (Open Source)
 
 [![built with nuxt][nuxt-src]][nuxt-href]
@@ -66,3 +64,19 @@ MIT. Original template © 2024 Dian Pratama. Modifications © 2025 Wael Wahbeh.
 
 [nuxt-src]: https://img.shields.io/badge/Built%20With%20Nuxt-18181B?logo=nuxt.js
 [nuxt-href]: https://nuxt.com/
+
+## Deploy
+
+This repo is configured for Netlify static deploys via `netlify.toml`.
+
+- Build command: `pnpm install --frozen-lockfile --prefer-offline && pnpm generate`
+- Publish directory: `dist`
+- Node: `NODE_VERSION=22` (Netlify will try Node 22; CI allows >=20)
+
+Netlify UI steps (if connecting fresh):
+1. Create a site from Git and select `github.com/waelio/waelio.com`.
+2. Choose branch `Default`.
+3. Ensure the build and publish settings match above or leave blank (netlify.toml takes precedence).
+4. Optional env vars: `NUXT_PUBLIC_GA_ID`, `PNPM_VERSION=10.10.0`.
+
+Note: Any Vercel preview links from the original template (e.g., social cards) are not used here.
