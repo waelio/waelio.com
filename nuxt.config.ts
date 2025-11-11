@@ -2,6 +2,8 @@ import tailwindcss from '@tailwindcss/vite'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  // Use the app directory as the source to match template structure
+  srcDir: 'app',
   app: {
     head: {
       title: 'Waelio.com',
