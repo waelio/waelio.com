@@ -87,4 +87,11 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2024-12-14',
+
+  nitro: {
+    prerender: {
+      // Don't fail the entire build if a crawled link 404s (we add stubs, but keep resilience)
+      failOnError: false,
+    },
+  },
 })
