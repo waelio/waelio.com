@@ -1,4 +1,4 @@
-const CACHE_NAME = 'waelio-cache-v4';
+const CACHE_NAME = 'waelio-cache-v5';
 const APP_SHELL = [
   '/',
   '/index.html',
@@ -6,6 +6,7 @@ const APP_SHELL = [
   '/app.js',
   '/theme.js',
   '/ga.js',
+  '/favicon.svg',
   '/manifest.webmanifest',
   '/about.html',
   '/contact.html',
