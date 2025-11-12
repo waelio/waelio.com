@@ -1,5 +1,18 @@
-const CACHE_NAME = 'waelio-cache-v3';
-const APP_SHELL = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest'];
+const CACHE_NAME = 'waelio-cache-v4';
+const APP_SHELL = [
+  '/',
+  '/index.html',
+  '/styles.css',
+  '/app.js',
+  '/theme.js',
+  '/ga.js',
+  '/manifest.webmanifest',
+  '/about.html',
+  '/contact.html',
+  '/privacy.html',
+  '/terms.html',
+  '/thanks.html'
+];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

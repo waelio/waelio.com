@@ -2,9 +2,21 @@
   "tasks": {
     "dev": "deno run --watch --allow-net --allow-read main.ts",
     "start": "deno run --allow-net --allow-read main.ts",
-    "test": "deno test"
+    "test": "deno test",
+    "build:app": "deno bundle src/app.ts > public/app.js",
+    "build:ga": "deno bundle src/ga.ts > public/ga.js",
+    "build": "deno task build:app && deno task build:ga"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "esnext",
+      "deno.ns",
+      "deno.window"
+    ],
+    "strict": true
   }
 }
