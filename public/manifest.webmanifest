@@ -1,10 +1,10 @@
 {
-  "name": "waelio.com",
-  "short_name": "waelio",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#111827",
-  "description": "Live npm package stats for waelio packages",
-  "icons": []
+    "name": "waelio.com",
+    "short_name": "waelio",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#111827",
+    "description": "Live npm package stats for waelio packages",
+    "icons": []
 }
