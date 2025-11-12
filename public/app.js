@@ -1,7 +1,36 @@
 async function loadPackage(name) {
-  const res = await fetch('/api/npm?name=' + encodeURIComponent(name));
-  if (!res.ok) throw new Error(await res.text());
-  return await res.json();
+  // Fetch npm registry metadata and weekly downloads directly (static-friendly)
+  const [meta, dl] = await Promise.all([
+    fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`).then(r => {
+      if (!r.ok) throw new Error(`registry: ${r.status}`);
+      return r.json();
+    }),
+    fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`).then(r => {
+      if (!r.ok) throw new Error(`downloads: ${r.status}`);
+      return r.json();
+    }).catch(() => ({ downloads: 0 }))
+  ]);
+
+  const distTags = meta["dist-tags"] || {};
+  const latest = distTags.latest || Object.keys(meta.versions || {}).pop() || '';
+  const v = (meta.versions && meta.versions[latest]) || {};
+  const hasTypes = Boolean(v.types || v.typings);
+  const license = v.license || meta.license || '';
+  const homepage = v.homepage || meta.homepage || '';
+  let repository = v.repository || meta.repository || null;
+  if (typeof repository === 'string') repository = { url: repository };
+
+  return {
+    name: meta.name || name,
+    description: v.description || meta.description || '',
+    version: latest,
+    homepage,
+    repository,
+    downloads_week: Number(dl.downloads || 0),
+    keywords: Array.isArray(v.keywords) ? v.keywords : (Array.isArray(meta.keywords) ? meta.keywords : []),
+    license,
+    has_types: hasTypes
+  };
 }
 
 function linkify(meta) {
@@ -60,9 +89,9 @@ function badges(name, hasTypes) {
   try {
     // Try unscoped first; then scoped fallbacks
     let util = null;
-    try { util = await loadPackage('waelio-utils'); } catch (_) {}
-    if (!util) { try { util = await loadPackage('@waelio/utils'); } catch (_) {} }
-    if (!util) { try { util = await loadPackage('@waelio/waelio-utils'); } catch (_) {} }
+  try { util = await loadPackage('waelio-utils'); } catch (_) { /* ignore */ }
+  if (!util) { try { util = await loadPackage('@waelio/utils'); } catch (_) { /* ignore */ } }
+  if (!util) { try { util = await loadPackage('@waelio/waelio-utils'); } catch (_) { /* ignore */ } }
 
     if (util) {
       document.getElementById('util-desc').textContent = util.description || '—';
@@ -81,7 +110,7 @@ function badges(name, hasTypes) {
   }
 
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
+    self.addEventListener('load', () => {
       navigator.serviceWorker.register('/service-worker.js').catch((err) => {
         console.warn('Service worker registration failed:', err);
       });

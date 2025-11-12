@@ -1,0 +1,33 @@
+[build][build]
+
+  command = ""  command = "node -v && npm -v && npm ci --prefer-offline || npm i --prefer-offline && npm run generate"
+
+  publish = "public"  publish = "dist"
+
+
+
+# Long-cache immutable assets (optional if you later add hashed assets)[build.environment]
+
+[[headers]]  # Ensure Netlify uses a modern Node (22 preferred)
+
+  for = "/assets/*"  NODE_VERSION = "22"
+
+  [headers.values]  NUXT_TELEMETRY_DISABLED = "1"
+
+    Cache-Control = "public, max-age=31536000, immutable"  NPM_CONFIG_ENGINE_STRICT = "false"
+
+
+[[redirects]]
+  from = "/sw.js"
+  to = "/sw.js"
+  status = 200
+
+[[headers]]
+  for = "/_nuxt/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    cache-control = "max-age=31536000, immutable"
