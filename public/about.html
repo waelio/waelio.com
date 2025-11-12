@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About – waelio.com</title>
+    <meta name="theme-color" content="#111827" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="ga-id" content="" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-left">
+        <h1>About</h1>
+        <span class="muted">Learn more about waelio.com</span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about.html" aria-current="page">About</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <section class="section">
+        <h2>Who we are</h2>
+        <p>
+          waelio.com provides small utilities, libraries, and examples focused
+          on developer productivity and clean front‑end experiences.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>What this site does</h2>
+        <p>
+          This site showcases live npm package metadata for selected waelio
+          packages. It’s a static PWA powered by Deno for local dev and Netlify
+          for hosting.
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="muted">
+        © <span id="year"></span> waelio. All rights reserved.
+      </p>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+    <script src="/ga.js" defer></script>
+  </body>
+</html>
