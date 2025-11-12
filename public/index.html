@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>waelio.com – Package stats</title>
+    <meta name="theme-color" content="#111827" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>waelio.com – Package stats</h1>
+      <span class="muted">Live npm metadata via Deno</span>
+    </header>
+    <div class="container">
+      <div class="card" id="pkg-messaging">
+        <h2>@waelio/messaging</h2>
+        <div class="muted" id="msg-desc">Loading…</div>
+        <div class="row">
+          <span class="label">Latest:</span>
+          <span class="val" id="msg-ver">—</span>
+        </div>
+        <div class="row">
+          <span class="label">Last week:</span>
+          <span class="val" id="msg-dl">—</span>
+        </div>
+        <div class="row">
+          <span class="label">Links:</span> <span id="msg-links">—</span>
+        </div>
+        <div class="badges" id="msg-badges"></div>
+        <div class="row">
+          <span class="label">Tags:</span
+          ><span id="msg-tags"><span class="muted">—</span></span>
+        </div>
+        <div class="error" id="msg-error"></div>
+      </div>
+      <div class="card" id="pkg-ustore">
+        <h2>@waelio/ustore</h2>
+        <div class="muted" id="ust-desc">Loading…</div>
+        <div class="row">
+          <span class="label">Latest:</span>
+          <span class="val" id="ust-ver">—</span>
+        </div>
+        <div class="row">
+          <span class="label">Last week:</span>
+          <span class="val" id="ust-dl">—</span>
+        </div>
+        <div class="row">
+          <span class="label">Links:</span> <span id="ust-links">—</span>
+        </div>
+        <div class="badges" id="ust-badges"></div>
+        <div class="row">
+          <span class="label">Tags:</span
+          ><span id="ust-tags"><span class="muted">—</span></span>
+        </div>
+        <div class="error" id="ust-error"></div>
+      </div>
+      <div class="card" id="pkg-utils">
+        <h2>waelio-utils</h2>
+        <div class="muted" id="util-desc">Loading…</div>
+        <div class="row">
+          <span class="label">Latest:</span>
+          <span class="val" id="util-ver">—</span>
+        </div>
+        <div class="row">
+          <span class="label">Last week:</span>
+          <span class="val" id="util-dl">—</span>
+        </div>
+        <div class="row">
+          <span class="label">Links:</span> <span id="util-links">—</span>
+        </div>
+        <div class="badges" id="util-badges"></div>
+        <div class="row">
+          <span class="label">Tags:</span
+          ><span id="util-tags"><span class="muted">—</span></span>
+        </div>
+        <div class="error" id="util-error"></div>
+      </div>
+    </div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
