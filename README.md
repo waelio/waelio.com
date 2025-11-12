@@ -2,6 +2,8 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0da4984c-e76c-42e2-aa68-8fdc10cdca15/deploy-status)](https://app.netlify.com/sites/waelio/deploys)
 
+![Social preview](public/social-card.svg)
+
 # waelio.com (Deno static + PWA)
 
 This repository contains a small Deno project that serves a static site from `public/` and a couple of demo APIs. The front-end fetches npm package metadata directly from the npm APIs and registers a service worker for basic offline support.
@@ -45,3 +47,10 @@ Deploy status: see badge above. Click through to Netlify for deploy details/logs
 ## Notes
 
 - The client fetches `https://registry.npmjs.org` and `https://api.npmjs.org` directly (CORS-enabled), so no server or Node build step is required for deployment.
+
+## Social & SEO
+
+- Open Graph and Twitter card meta tags are included on all pages.
+- Social preview image: `public/social-card.svg` (1200×630). If desired, replace with a PNG/JPG for maximum compatibility across crawlers.
+- Favicon: `public/favicon.svg` and linked in all pages.
+- Manifest includes a maskable icon, and the service worker precaches core assets including the social image for offline.
