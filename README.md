@@ -1,106 +1,47 @@
-# waelio.com (Deno project)# Nuxt Minimal Starter
+<!-- Netlify status badge -->
 
-This repository currently contains a minimal Deno project with a simple example
-function and a matching test.Look at the
-[Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to
-learn more.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0da4984c-e76c-42e2-aa68-8fdc10cdca15/deploy-status)](https://app.netlify.com/sites/waelio/deploys)
 
-## Files## Setup
+# waelio.com (Deno static + PWA)
 
-- `main.ts` — exports a sample `add(a, b)` function and prints a demo when run
-  directly.Make sure to install dependencies:
+This repository contains a small Deno project that serves a static site from `public/` and a couple of demo APIs. The front-end fetches npm package metadata directly from the npm APIs and registers a service worker for basic offline support.
 
-- `main_test.ts` — unit test for `add` using the Deno standard assert library.
+## Structure
 
-- `deno.json` — project tasks and import mappings.```bash
+- `public/`
+  - `index.html` – UI for viewing npm package stats
+  - `app.js` – client logic (fetches npm registry + downloads APIs)
+  - `styles.css` – styles
+  - `manifest.webmanifest` – PWA manifest
+  - `service-worker.js` – network-first for HTML/APIs, cache-first for static
+- `main.ts` – Deno server for local development; also exposes `/api/add` and `/api/npm`
+- `main_test.ts` – tiny unit test for `add(a, b)`
+- `deno.json` – tasks and import mappings
+- `netlify.toml` – static deploy: publish `public/` with no build step
 
-# npm
+## Run locally
 
-## Quick startnpm install
-
-Run the program once:# pnpm
-
-pnpm install
-
-````sh
-deno run main.ts# yarn
-
-```yarn install
-
-
-
-Run in watch mode (restarts on file changes):# bun
-
-bun install
-
-```sh```
-
+```bash
 deno task dev
+```
 
-```## Development Server
+Then open http://localhost:8000
 
+## Deploy (Netlify)
 
+This site is configured for static deploys:
 
-Run tests:Start the development server on `http://localhost:3000`:
+- Publish directory: `public/`
+- Build command: none (handled by `netlify.toml`)
 
-
-
-```sh```bash
-
-deno test# npm
-
-```npm run dev
-
-
-
-## Notes# pnpm
-
-pnpm dev
-
-- This is a Deno-native project. Node, npm, and Nuxt/Vue configs are not used in this folder.
-
-- If you previously had Node or Nuxt artifacts here (e.g., `node_modules/`, `package.json`), remove them to avoid conflicts.# yarn
-
-yarn dev
-
-# bun
-bun run dev
-````
+Deploy status: see badge above. Click through to Netlify for deploy details/logs.
 
 ## Production
 
-Build the application for production:
+- Live site: https://waelio.com
+- Netlify subdomain: https://waelio.netlify.app
+- Deploys dashboard: https://app.netlify.com/sites/waelio/deploys
 
-```bash
-# npm
-npm run build
+## Notes
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the
-[deployment documentation](https://nuxt.com/docs/getting-started/deployment) for
-more information.
+- The client fetches `https://registry.npmjs.org` and `https://api.npmjs.org` directly (CORS-enabled), so no server or Node build step is required for deployment.
