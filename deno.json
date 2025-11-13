@@ -5,7 +5,9 @@
     "test": "deno test",
     "build:app": "deno bundle src/app.ts > public/app.js",
     "build:ga": "deno bundle src/ga.ts > public/ga.js",
-    "build": "deno task build:app && deno task build:ga"
+    "build": "deno task build:app && deno task build:ga",
+    "deploy": "netlify deploy --dir=public",
+    "deploy:prod": "netlify deploy --prod --dir=public"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
