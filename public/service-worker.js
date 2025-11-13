@@ -1,15 +1,17 @@
-const CACHE_NAME = 'waelio-cache-v8';
+const CACHE_NAME = 'waelio-cache-v9';
+const ASSET_VERSION = '20251113';
+const v = (path) => `${path}?v=${ASSET_VERSION}`;
 const APP_SHELL = [
   '/',
   '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/theme.js',
-  '/ga.js',
-  '/consent.js',
+  v('/styles.css'),
+  v('/app.js'),
+  v('/theme.js'),
+  v('/ga.js'),
+  v('/consent.js'),
   '/favicon.svg',
   '/social-card.svg',
-  '/manifest.webmanifest',
+  v('/manifest.webmanifest'),
   '/about.html',
   '/contact.html',
   '/privacy.html',
