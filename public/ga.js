@@ -20,21 +20,40 @@ function loadGA(id) {
     anonymize_ip: true
   });
 }
+function consentGranted() {
+  try {
+    return localStorage.getItem("consent") === "granted";
+  } catch {
+    return false;
+  }
+}
+var state = {
+  id: "",
+  loaded: false
+};
+function maybeInit() {
+  if (state.loaded) return;
+  if (!state.id) return;
+  if (!consentGranted()) return;
+  loadGA(state.id);
+  state.loaded = true;
+}
 async function init() {
-  let id = readMeta();
-  if (!id) {
+  state.id = readMeta();
+  if (!state.id) {
     try {
       const res = await fetch("/ga.json", {
         cache: "no-store"
       });
       if (res.ok) {
         const data = await res.json();
-        if (data && data.gaId) id = String(data.gaId).trim();
+        if (data && data.gaId) state.id = String(data.gaId).trim();
       }
     } catch {
     }
   }
-  if (!id) return;
-  loadGA(id);
+  if (!state.id) return;
+  maybeInit();
 }
 init();
+globalThis.addEventListener("consent:granted", () => maybeInit());

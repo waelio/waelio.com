@@ -20,19 +20,35 @@ function loadGA(id: string): void {
     gtag('config', id, { anonymize_ip: true });
 }
 
+function consentGranted(): boolean {
+    try { return localStorage.getItem('consent') === 'granted'; } catch { return false; }
+}
+
+const state: { id: string; loaded: boolean } = { id: '', loaded: false };
+
+function maybeInit() {
+    if (state.loaded) return;
+    if (!state.id) return;
+    if (!consentGranted()) return;
+    loadGA(state.id);
+    state.loaded = true;
+}
+
 async function init(): Promise<void> {
-    let id = readMeta();
-    if (!id) {
+    state.id = readMeta();
+    if (!state.id) {
         try {
             const res = await fetch('/ga.json', { cache: 'no-store' });
             if (res.ok) {
                 const data = await res.json();
-                if (data && data.gaId) id = String(data.gaId).trim();
+                if (data && data.gaId) state.id = String(data.gaId).trim();
             }
         } catch { /* ignore */ }
     }
-    if (!id) return;
-    loadGA(id);
+    if (!state.id) return;
+    maybeInit();
 }
 
+// Initialize and also wait for possible user consent
 init();
+globalThis.addEventListener('consent:granted', () => maybeInit());
