@@ -74,7 +74,12 @@ function setPackageDom(prefix: string, meta: NpmMeta): void {
     (get(`${prefix}-links`)).innerHTML = linkify(meta);
     (get(`${prefix}-badges`)).innerHTML = badges(meta.name, !!meta.has_types);
     if (Array.isArray(meta.keywords) && meta.keywords.length) {
-        (get(`${prefix}-tags`)).innerHTML = '<span class="chips">' + meta.keywords.map(k => `<span class="chip">${k}</span>`).join('') + '</span>';
+        const chips = meta.keywords.map((k) => {
+            const q = encodeURIComponent(`keywords:${k}`);
+            const href = `https://www.npmjs.com/search?q=${q}`;
+            return `<a class="chip" href="${href}" target="_blank" rel="noreferrer" aria-label="Search npm for keyword ${k}">#${k}</a>`;
+        }).join('');
+        (get(`${prefix}-tags`)).innerHTML = '<span class="chips">' + chips + '</span>';
     }
 }
 

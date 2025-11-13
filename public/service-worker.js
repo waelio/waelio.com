@@ -1,4 +1,4 @@
-const CACHE_NAME = 'waelio-cache-v9';
+const CACHE_NAME = 'waelio-cache-v10';
 const ASSET_VERSION = '20251113';
 const v = (path) => `${path}?v=${ASSET_VERSION}`;
 const APP_SHELL = [
