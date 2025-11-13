@@ -18,6 +18,14 @@ h1 {
   font-size: 1.5rem;
   margin: 0;
 }
+h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+h1 a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .theme-toggle {
   border: 1px solid #e5e7eb;
   background: #ffffff;
