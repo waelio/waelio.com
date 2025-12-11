@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>waelio.com – Package stats</title>
+    <title>waelio.com – Home</title>
     <meta name="theme-color" content="#111827" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.webmanifest?v=20251113" />
@@ -11,12 +11,12 @@
     <link rel="canonical" href="https://waelio.com/" />
     <meta
       name="description"
-      content="Live npm package stats for waelio packages. Static PWA, deployed on Netlify."
+      content="Developer tools, APIs, and projects. Explore the NPM Wall and API."
     />
-    <meta property="og:title" content="waelio.com – Package stats" />
+    <meta property="og:title" content="waelio.com – Home" />
     <meta
       property="og:description"
-      content="Live npm package stats for waelio packages. Static PWA, deployed on Netlify."
+      content="Developer tools, APIs, and projects. Explore the NPM Wall and API."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://waelio.com/" />
@@ -34,12 +34,13 @@
   <body>
     <header>
       <div class="header-left">
-        <h1><a href="/">waelio.com – Package stats</a></h1>
-        <span class="muted">Live npm metadata via Deno</span>
+        <h1><a href="/">waelio.com</a></h1>
+        <span class="muted">Developer tools, APIs, and projects</span>
       </div>
       <nav class="nav">
         <a href="/">Home</a>
         <a href="/about.html">About</a>
+        <a href="/wall.html">Wall</a>
         <a href="/api.html">API</a>
         <a href="/contact.html">Contact</a>
         <a href="/privacy.html">Privacy</a>
@@ -55,82 +56,39 @@
         </button>
       </nav>
     </header>
-    <div class="container">
-      <div class="card" id="pkg-messaging">
-        <h2>@waelio/messaging</h2>
-        <div class="muted" id="msg-desc">Loading…</div>
-        <div class="row">
-          <span class="label">Latest:</span>
-          <span class="val" id="msg-ver">—</span>
-        </div>
-        <div class="row">
-          <span class="label">Last week:</span>
-          <span class="val" id="msg-dl">—</span>
-        </div>
-        <div class="row">
-          <span class="label">Links:</span> <span id="msg-links">—</span>
-        </div>
-        <div class="badges" id="msg-badges"></div>
-        <div class="row">
-          <span class="label">Tags:</span
-          ><span id="msg-tags"><span class="muted">—</span></span>
-        </div>
-        <div class="error" id="msg-error"></div>
-      </div>
-      <div class="card" id="pkg-ustore">
-        <h2>@waelio/ustore</h2>
-        <div class="muted" id="ust-desc">Loading…</div>
-        <div class="row">
-          <span class="label">Latest:</span>
-          <span class="val" id="ust-ver">—</span>
-        </div>
-        <div class="row">
-          <span class="label">Last week:</span>
-          <span class="val" id="ust-dl">—</span>
-        </div>
-        <div class="row">
-          <span class="label">Links:</span> <span id="ust-links">—</span>
-        </div>
-        <div class="badges" id="ust-badges"></div>
-        <div class="row">
-          <span class="label">Tags:</span
-          ><span id="ust-tags"><span class="muted">—</span></span>
-        </div>
-        <div class="error" id="ust-error"></div>
-      </div>
-      <div class="card" id="pkg-utils">
-        <h2>waelio-utils</h2>
-        <div class="muted" id="util-desc">Loading…</div>
-        <div class="row">
-          <span class="label">Latest:</span>
-          <span class="val" id="util-ver">—</span>
-        </div>
-        <div class="row">
-          <span class="label">Last week:</span>
-          <span class="val" id="util-dl">—</span>
-        </div>
-        <div class="row">
-          <span class="label">Links:</span> <span id="util-links">—</span>
-        </div>
-        <div class="badges" id="util-badges"></div>
-        <div class="row">
-          <span class="label">Tags:</span
-          ><span id="util-tags"><span class="muted">—</span></span>
-        </div>
-        <div class="error" id="util-error"></div>
-      </div>
-    </div>
+    <main class="page">
+      <section class="hero card">
+        <h2>Welcome</h2>
+        <p>
+          waelio.com hosts small, focused tools and examples for the web. Check
+          out the <a href="/wall.html">NPM Wall</a> for live package stats, or
+          explore our <a href="/api.html">public API</a>.
+        </p>
+        <p class="actions">
+          <a class="button" href="/wall.html">View NPM Wall</a>
+          <a class="button secondary" href="/api.html">Read API Docs</a>
+        </p>
+      </section>
+    </main>
     <script src="/theme.js?v=20251113" defer></script>
     <script src="/consent.js?v=20251113" defer></script>
     <script src="/ga.js?v=20251113" defer></script>
-    <script src="/app.js?v=20251113" defer></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch((err) => {
+            console.warn('Service worker registration failed:', err);
+          });
+        });
+      }
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "waelio.com",
         "url": "https://waelio.com/",
-        "description": "Live npm package stats for waelio packages. Static PWA, deployed on Netlify.",
+        "description": "Developer tools, APIs, and projects. Explore the NPM Wall and API.",
         "inLanguage": "en"
       }
     </script>

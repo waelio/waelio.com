@@ -1,4 +1,4 @@
-const CACHE_NAME = 'waelio-cache-v11';
+const CACHE_NAME = 'waelio-cache-v12';
 const ASSET_VERSION = '20251113';
 const v = (path) => `${path}?v=${ASSET_VERSION}`;
 const APP_SHELL = [
@@ -17,7 +17,8 @@ const APP_SHELL = [
   '/privacy.html',
   '/terms.html',
   '/thanks.html',
-  '/api.html'
+  '/api.html',
+  '/wall.html'
 ];
 
 self.addEventListener('install', (event) => {
