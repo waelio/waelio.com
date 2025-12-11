@@ -109,6 +109,45 @@ GET /api/npm?name=@scope/pkg</code></pre>
       </section>
 
       <section class="section">
+        <h3>Quran (demo)</h3>
+        <p class="muted">
+          This demo queries <code>/api/quran</code>. If your API is hosted on a
+          different origin (e.g., <code>https://api.waelio.com</code>), set the
+          Base URL below.
+        </p>
+        <form id="quran-demo" class="card form" onsubmit="return false;">
+          <div class="field">
+            <label for="quran-base">Base URL</label>
+            <input
+              id="quran-base"
+              type="url"
+              placeholder="https://api.waelio.com"
+            />
+          </div>
+          <div class="field">
+            <label for="quran-surah">Surah</label>
+            <input id="quran-surah" type="number" min="1" max="114" value="1" />
+          </div>
+          <div class="field">
+            <label for="quran-ayah">Ayah (optional)</label>
+            <input id="quran-ayah" type="number" min="1" />
+          </div>
+          <div class="field">
+            <label for="quran-lang">Lang (optional)</label>
+            <select id="quran-lang">
+              <option value="">auto</option>
+              <option value="ar">ar</option>
+              <option value="en">en</option>
+            </select>
+          </div>
+          <div class="actions">
+            <button id="quran-run" type="submit">Fetch</button>
+          </div>
+        </form>
+        <pre id="quran-out" class="muted" style="white-space: pre-wrap"></pre>
+      </section>
+
+      <section class="section">
         <h3>Examples</h3>
         <p>
           Replace <code>https://api.waelio.com</code> with your backend URL.
@@ -143,5 +182,43 @@ console.log(data);
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
     <script src="/theme.js?v=20251113" defer></script>
+    <script>
+      (function () {
+        const form = document.getElementById("quran-demo");
+        if (!form) return;
+        const out = document.getElementById("quran-out");
+        const base = document.getElementById("quran-base");
+        const surah = document.getElementById("quran-surah");
+        const ayah = document.getElementById("quran-ayah");
+        const lang = document.getElementById("quran-lang");
+
+        // Default base to current origin
+        if (base && !base.value) base.value = location.origin;
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          try {
+            const b = (base.value || location.origin).replace(/\/$/, "");
+            const params = new URLSearchParams();
+            if (surah.value) params.set("surah", String(surah.value));
+            if (ayah.value) params.set("ayah", String(ayah.value));
+            if (lang.value) params.set("lang", String(lang.value));
+            const url = `${b}/api/quran?${params.toString()}`;
+            out.textContent = `Fetching ${url}...`;
+            const res = await fetch(url);
+            const text = await res.text();
+            try {
+              const data = JSON.parse(text);
+              out.textContent = JSON.stringify(data, null, 2);
+            } catch {
+              out.textContent = text;
+            }
+          } catch (err) {
+            out.textContent =
+              "Error: " + (err && err.message ? err.message : String(err));
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
