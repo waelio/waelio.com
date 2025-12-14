@@ -148,6 +148,44 @@ if (import.meta.main) {
       }
     }
 
+    // Serve local data files
+    if (path === "/api/quran") {
+      try {
+        const txt = await Deno.readTextFile("data/quran.json");
+        return json(JSON.parse(txt));
+      } catch (e) {
+        return json({ error: "Failed to read quran.json", detail: String(e) }, 500);
+      }
+    }
+
+    if (path === "/api/editions") {
+      // ?lang= en|bn|... default en
+      const lang = (url.searchParams.get("lang") || "en").toLowerCase();
+      try {
+        const txt = await Deno.readTextFile(`editions/${lang}.json`);
+        return json(JSON.parse(txt));
+      } catch (e) {
+        return json({ error: "Failed to read editions for lang", lang, detail: String(e) }, 500);
+      }
+    }
+
+    // /api/chapters or /api/chapters/:lang
+    if (path === "/api/chapters" || path.startsWith("/api/chapters/")) {
+      let lang = url.searchParams.get("lang");
+      if (!lang) {
+        const parts = path.split("/").filter(Boolean);
+        // parts = ["api","chapters","en"]
+        lang = parts[2] || "en";
+      }
+      lang = (lang || "en").toLowerCase();
+      try {
+        const txt = await Deno.readTextFile(`data/chapters/${lang}.json`);
+        return json(JSON.parse(txt));
+      } catch (e) {
+        return json({ error: "Failed to read chapters for lang", lang, detail: String(e) }, 500);
+      }
+    }
+
     // Health/version
     if (path === "/api/health") return json({ status: "ok", time: new Date().toISOString(), version: API_VERSION });
     if (path === "/api/version") return json({ version: API_VERSION });
