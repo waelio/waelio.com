@@ -30,7 +30,6 @@ deno run --allow-net --allow-read main.ts
 
 API endpoints
 
-- GET /api/quran -> returns the contents of `data/quran.json`
 - GET /api/editions?lang=en -> returns `editions/{lang}.json` (default `en`)
 - GET /api/chapters or /api/chapters/:lang -> returns `data/chapters/{lang}.json`
 - Static site served from `public/`

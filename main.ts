@@ -149,15 +149,6 @@ if (import.meta.main) {
     }
 
     // Serve local data files
-    if (path === "/api/quran") {
-      try {
-        const txt = await Deno.readTextFile("data/quran.json");
-        return json(JSON.parse(txt));
-      } catch (e) {
-        return json({ error: "Failed to read quran.json", detail: String(e) }, 500);
-      }
-    }
-
     if (path === "/api/editions") {
       // ?lang= en|bn|... default en
       const lang = (url.searchParams.get("lang") || "en").toLowerCase();
