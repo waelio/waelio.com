@@ -3,22 +3,44 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>API Documentation – waelio.com</title>
-    <meta name="theme-color" content="#111827" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="manifest" href="/manifest.webmanifest?v=20251113" />
+    <title>waelio API Docs</title>
     <meta
       name="description"
-      content="REST API for waelio.com – npm metadata and downloads endpoints with CORS enabled."
+      content="Embedded view of the waelio API documentation."
     />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest?v=20251113" />
     <link rel="stylesheet" href="/styles.css?v=20251113" />
+    <style>
+      .embed {
+        margin-top: 1.5rem;
+        border: 1px solid var(--border, #1f2937);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        min-height: 70vh;
+      }
+
+      .embed iframe {
+        width: 100%;
+        height: 80vh;
+        border: 0;
+        background: #fff;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+    </style>
   </head>
   <body>
     <header>
       <div class="header-left">
         <h1>API Documentation</h1>
         <span class="muted"
-          >Base URL: <code>https://api.waelio.com</code> (example)</span
+          >Embedded from <code>https://api.waelio.com</code></span
         >
       </div>
       <nav class="nav">
@@ -42,183 +64,45 @@
     </header>
 
     <main class="page">
-      <section class="section">
-        <h2>Overview</h2>
+      <section class="section card">
+        <h2>waelio API docs</h2>
         <p>
-          This API provides read-only endpoints around npm package metadata and
-          download stats. All endpoints support CORS
-          (Access-Control-Allow-Origin: *). Authentication is not required.
+          You can view the live documentation below or open it in a dedicated
+          tab. The embedded view reflects
+          <a href="https://api.waelio.com/" target="_blank" rel="noopener"
+            >https://api.waelio.com/</a
+          >.
         </p>
-        <p class="muted">
-          Note: Deploy the backend separately (e.g., Deno Deploy) and map a
-          hostname like <code>api.waelio.com</code>.
+        <div class="actions">
+          <a
+            class="button"
+            href="https://api.waelio.com/"
+            target="_blank"
+            rel="noopener"
+            >Open full page</a
+          >
+          <button
+            class="button secondary"
+            type="button"
+            onclick="window.location.href='https://api.waelio.com/'"
+          >
+            Navigate here
+          </button>
+        </div>
+        <div class="embed">
+          <iframe
+            src="https://api.waelio.com/"
+            title="waelio API documentation"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <p class="muted" style="margin-top: 1rem">
+          Some browsers block cross-origin embeds. If you see a blank area, use
+          the button above to open the site directly.
         </p>
-      </section>
-
-      <section class="section">
-        <h3>Health</h3>
-        <pre><code>GET /api/health</code></pre>
-        <pre class="muted"><code>{
-  "status": "ok",
-  "time": "2025-11-13T...Z",
-  "version": "1.0.0"
-}</code></pre>
-      </section>
-
-      <section class="section">
-        <h3>Version</h3>
-        <pre><code>GET /api/version</code></pre>
-        <pre class="muted"><code>{ "version": "1.0.0" }</code></pre>
-      </section>
-
-      <section class="section">
-        <h3>Package details</h3>
-        <pre><code>GET /api/pkg?name=@scope/pkg
-GET /api/npm?name=@scope/pkg</code></pre>
-        <p>
-          Returns merged npm metadata (latest version) and last-week downloads.
-        </p>
-        <pre class="muted"><code>{
-  "name": "@waelio/messaging",
-  "description": "...",
-  "version": "x.y.z",
-  "homepage": "...",
-  "repository": { "type": "git", "url": "..." },
-  "downloads_week": 1234,
-  "keywords": ["..."],
-  "license": "MIT",
-  "has_types": true
-}</code></pre>
-      </section>
-
-      <section class="section">
-        <h3>Downloads</h3>
-        <pre><code>GET /api/downloads?name=@scope/pkg&range=last-day|last-week|last-month|last-year</code></pre>
-        <p>Returns npm downloads for a time period.</p>
-        <pre class="muted"><code>{
-  "name": "@waelio/messaging",
-  "range": "last-week",
-  "data": { /* npm downloads API response */ }
-}</code></pre>
-      </section>
-
-      <section class="section">
-        <h3>Search</h3>
-        <pre><code>GET /api/search?q=vue&size=10</code></pre>
-        <p>Proxies npm registry search with a size limit (1..50).</p>
-      </section>
-
-      <section class="section">
-        <h3>Quran (demo)</h3>
-        <p class="muted">
-          This demo queries <code>/api/quran</code>. If your API is hosted on a
-          different origin (e.g., <code>https://api.waelio.com</code>), set the
-          Base URL below.
-        </p>
-        <form id="quran-demo" class="card form" onsubmit="return false;">
-          <div class="field">
-            <label for="quran-base">Base URL</label>
-            <input
-              id="quran-base"
-              type="url"
-              placeholder="https://api.waelio.com"
-            />
-          </div>
-          <div class="field">
-            <label for="quran-surah">Surah</label>
-            <input id="quran-surah" type="number" min="1" max="114" value="1" />
-          </div>
-          <div class="field">
-            <label for="quran-ayah">Ayah (optional)</label>
-            <input id="quran-ayah" type="number" min="1" />
-          </div>
-          <div class="field">
-            <label for="quran-lang">Lang (optional)</label>
-            <select id="quran-lang">
-              <option value="">auto</option>
-              <option value="ar">ar</option>
-              <option value="en">en</option>
-            </select>
-          </div>
-          <div class="actions">
-            <button id="quran-run" type="submit">Fetch</button>
-          </div>
-        </form>
-        <pre id="quran-out" class="muted" style="white-space: pre-wrap"></pre>
-      </section>
-
-      <section class="section">
-        <h3>Examples</h3>
-        <p>
-          Replace <code>https://api.waelio.com</code> with your backend URL.
-        </p>
-        <pre><code class="language-bash"># Health
-curl -s https://api.waelio.com/api/health
-
-# Package details
-curl -s "https://api.waelio.com/api/pkg?name=@waelio/messaging"
-
-# Downloads last-month
-curl -s "https://api.waelio.com/api/downloads?name=@waelio/messaging&range=last-month"
-
-# Search
-curl -s "https://api.waelio.com/api/search?q=vue&size=5"</code></pre>
-        <pre><code class="language-javascript">// fetch example
-const base = 'https://api.waelio.com';
-const res = await fetch(`${base}/api/pkg?name=@waelio/messaging`);
-const data = await res.json();
-console.log(data);
-</code></pre>
       </section>
     </main>
 
-    <footer class="footer">
-      <p class="muted">
-        © <span id="year"></span> waelio. All rights reserved.
-      </p>
-    </footer>
-
-    <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
     <script src="/theme.js?v=20251113" defer></script>
-    <script>
-      (function () {
-        const form = document.getElementById("quran-demo");
-        if (!form) return;
-        const out = document.getElementById("quran-out");
-        const base = document.getElementById("quran-base");
-        const surah = document.getElementById("quran-surah");
-        const ayah = document.getElementById("quran-ayah");
-        const lang = document.getElementById("quran-lang");
-
-        // Default base to current origin
-        if (base && !base.value) base.value = location.origin;
-
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          try {
-            const b = (base.value || location.origin).replace(/\/$/, "");
-            const params = new URLSearchParams();
-            if (surah.value) params.set("surah", String(surah.value));
-            if (ayah.value) params.set("ayah", String(ayah.value));
-            if (lang.value) params.set("lang", String(lang.value));
-            const url = `${b}/api/quran?${params.toString()}`;
-            out.textContent = `Fetching ${url}...`;
-            const res = await fetch(url);
-            const text = await res.text();
-            try {
-              const data = JSON.parse(text);
-              out.textContent = JSON.stringify(data, null, 2);
-            } catch {
-              out.textContent = text;
-            }
-          } catch (err) {
-            out.textContent =
-              "Error: " + (err && err.message ? err.message : String(err));
-          }
-        });
-      })();
-    </script>
   </body>
 </html>
