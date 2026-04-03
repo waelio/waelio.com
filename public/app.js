@@ -1,119 +1,130 @@
+// src/app.ts
 async function loadPackage(name) {
-  // Fetch npm registry metadata and weekly downloads directly (static-friendly)
-  const [meta, dl] = await Promise.all([
-    fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`).then(r => {
-      if (!r.ok) throw new Error(`registry: ${r.status}`);
-      return r.json();
+  const [meta, downloads] = await Promise.all([
+    fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`).then((response) => {
+      if (!response.ok) throw new Error(`registry: ${response.status}`);
+      return response.json();
     }),
-    fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`).then(r => {
-      if (!r.ok) throw new Error(`downloads: ${r.status}`);
-      return r.json();
-    }).catch(() => ({ downloads: 0 }))
+    fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`).then((response) => {
+      if (!response.ok) throw new Error(`downloads: ${response.status}`);
+      return response.json();
+    }).catch(() => ({
+      downloads: 0
+    }))
   ]);
-
   const distTags = meta["dist-tags"] || {};
-  const latest = distTags.latest || Object.keys(meta.versions || {}).pop() || '';
-  const v = (meta.versions && meta.versions[latest]) || {};
-  const hasTypes = Boolean(v.types || v.typings);
-  const license = v.license || meta.license || '';
-  const homepage = v.homepage || meta.homepage || '';
-  let repository = v.repository || meta.repository || null;
-  if (typeof repository === 'string') repository = { url: repository };
-
+  const latest = distTags.latest || Object.keys(meta.versions || {}).pop() || "";
+  const versionMeta = meta.versions && meta.versions[latest] || {};
+  const hasTypes = Boolean(versionMeta.types || versionMeta.typings);
+  const license = versionMeta.license || meta.license || "";
+  const homepage = versionMeta.homepage || meta.homepage || "";
+  let repository = versionMeta.repository || meta.repository || null;
+  if (typeof repository === "string") {
+    repository = {
+      url: repository
+    };
+  }
   return {
     name: meta.name || name,
-    description: v.description || meta.description || '',
+    description: versionMeta.description || meta.description || "",
     version: latest,
     homepage,
     repository,
-    downloads_week: Number(dl.downloads || 0),
-    keywords: Array.isArray(v.keywords) ? v.keywords : (Array.isArray(meta.keywords) ? meta.keywords : []),
+    downloads_week: Number(downloads.downloads || 0),
+    keywords: Array.isArray(versionMeta.keywords) ? versionMeta.keywords : Array.isArray(meta.keywords) ? meta.keywords : [],
     license,
     has_types: hasTypes
   };
 }
-
+function requireElement(id) {
+  const element = document.getElementById(id);
+  if (!element) throw new Error(`Missing element: ${id}`);
+  return element;
+}
 function linkify(meta) {
   const links = [];
-  if (meta.homepage) links.push('<a href="' + meta.homepage + '" target="_blank" rel="noreferrer">homepage</a>');
-  if (meta.repository && meta.repository.url) {
-    const url = meta.repository.url.replace(/^git\+/, '').replace(/\.git$/, '');
-    links.push('<a href="' + url + '" target="_blank" rel="noreferrer">repository</a>');
+  if (meta.homepage) {
+    links.push(`<a href="${meta.homepage}" target="_blank" rel="noreferrer">homepage</a>`);
   }
-  links.push('<a href="https://www.npmjs.com/package/' + encodeURIComponent(meta.name) + '" target="_blank" rel="noreferrer">npm</a>');
-  return links.join(' · ');
+  if (meta.repository && typeof meta.repository === "object" && meta.repository.url) {
+    const url = meta.repository.url.replace(/^git\+/, "").replace(/\.git$/, "");
+    links.push(`<a href="${url}" target="_blank" rel="noreferrer">repository</a>`);
+  }
+  links.push(`<a href="https://www.npmjs.com/package/${encodeURIComponent(meta.name)}" target="_blank" rel="noreferrer">npm</a>`);
+  return links.join(" \xB7 ");
 }
-
 function shieldsName(name) {
-  return name.replace(/\//g, '%2F');
+  return name.replace(/\//g, "%2F");
 }
-
 function badges(name, hasTypes) {
-  const n = shieldsName(name);
-  const version = '<img alt="npm version" src="https://img.shields.io/npm/v/' + n + '?label=version">';
-  const downloads = '<img alt="weekly downloads" src="https://img.shields.io/npm/dw/' + n + '">';
-  const license = '<img alt="license" src="https://img.shields.io/npm/l/' + n + '">';
-  const types = hasTypes ? '<img alt="types included" src="https://img.shields.io/badge/types-included-blue?logo=typescript">' : '';
-  return [version, downloads, license, types].filter(Boolean).join('\n');
+  const safeName = shieldsName(name);
+  const version = `<img alt="npm version" src="https://img.shields.io/npm/v/${safeName}?label=version">`;
+  const downloads = `<img alt="weekly downloads" src="https://img.shields.io/npm/dw/${safeName}">`;
+  const license = `<img alt="license" src="https://img.shields.io/npm/l/${safeName}">`;
+  const types = hasTypes ? '<img alt="types included" src="https://img.shields.io/badge/types-included-blue?logo=typescript">' : "";
+  return [
+    version,
+    downloads,
+    license,
+    types
+  ].filter(Boolean).join("\n");
 }
-
-(async () => {
-  try {
-    const msg = await loadPackage('@waelio/messaging');
-    document.getElementById('msg-desc').textContent = msg.description || '—';
-    document.getElementById('msg-ver').textContent = msg.version || '—';
-    document.getElementById('msg-dl').textContent = new Intl.NumberFormat().format(msg.downloads_week || 0);
-    document.getElementById('msg-links').innerHTML = linkify(msg);
-    document.getElementById('msg-badges').innerHTML = badges(msg.name, !!msg.has_types);
-    if (Array.isArray(msg.keywords) && msg.keywords.length) {
-      document.getElementById('msg-tags').innerHTML = '<span class="chips">' + msg.keywords.map(k => '<span class="chip">' + k + '</span>').join('') + '</span>';
+function renderKeywords(id, keywords) {
+  if (!Array.isArray(keywords) || keywords.length === 0) return;
+  requireElement(id).innerHTML = `<span class="chips">${keywords.map((keyword) => `<span class="chip">${keyword}</span>`).join("")}</span>`;
+}
+function renderPackage(prefix, meta) {
+  requireElement(`${prefix}-desc`).textContent = meta.description || "\u2014";
+  requireElement(`${prefix}-ver`).textContent = meta.version || "\u2014";
+  requireElement(`${prefix}-dl`).textContent = new Intl.NumberFormat().format(meta.downloads_week || 0);
+  requireElement(`${prefix}-links`).innerHTML = linkify(meta);
+  requireElement(`${prefix}-badges`).innerHTML = badges(meta.name, Boolean(meta.has_types));
+  renderKeywords(`${prefix}-tags`, meta.keywords);
+}
+function renderError(id, error) {
+  requireElement(id).textContent = error instanceof Error ? error.message : String(error);
+}
+async function loadPreferredUtilsPackage() {
+  const candidates = [
+    "waelio-utils",
+    "@waelio/utils",
+    "@waelio/waelio-utils"
+  ];
+  for (const candidate of candidates) {
+    try {
+      return await loadPackage(candidate);
+    } catch {
     }
-  } catch (e) {
-    document.getElementById('msg-error').textContent = e.message || String(e);
   }
-
+  return null;
+}
+async function init() {
   try {
-    const ust = await loadPackage('@waelio/ustore');
-    document.getElementById('ust-desc').textContent = ust.description || '—';
-    document.getElementById('ust-ver').textContent = ust.version || '—';
-    document.getElementById('ust-dl').textContent = new Intl.NumberFormat().format(ust.downloads_week || 0);
-    document.getElementById('ust-links').innerHTML = linkify(ust);
-    document.getElementById('ust-badges').innerHTML = badges(ust.name, !!ust.has_types);
-    if (Array.isArray(ust.keywords) && ust.keywords.length) {
-      document.getElementById('ust-tags').innerHTML = '<span class="chips">' + ust.keywords.map(k => '<span class="chip">' + k + '</span>').join('') + '</span>';
-    }
-  } catch (e) {
-    document.getElementById('ust-error').textContent = e.message || String(e);
+    renderPackage("msg", await loadPackage("@waelio/messaging"));
+  } catch (error) {
+    renderError("msg-error", error);
   }
-
   try {
-    // Try unscoped first; then scoped fallbacks
-    let util = null;
-  try { util = await loadPackage('waelio-utils'); } catch (_) { /* ignore */ }
-  if (!util) { try { util = await loadPackage('@waelio/utils'); } catch (_) { /* ignore */ } }
-  if (!util) { try { util = await loadPackage('@waelio/waelio-utils'); } catch (_) { /* ignore */ } }
-
-    if (util) {
-      document.getElementById('util-desc').textContent = util.description || '—';
-      document.getElementById('util-ver').textContent = util.version || '—';
-      document.getElementById('util-dl').textContent = new Intl.NumberFormat().format(util.downloads_week || 0);
-      document.getElementById('util-links').innerHTML = linkify(util);
-      document.getElementById('util-badges').innerHTML = badges(util.name, !!util.has_types);
-      if (Array.isArray(util.keywords) && util.keywords.length) {
-        document.getElementById('util-tags').innerHTML = '<span class="chips">' + util.keywords.map(k => '<span class="chip">' + k + '</span>').join('') + '</span>';
-      }
+    renderPackage("ust", await loadPackage("@waelio/ustore"));
+  } catch (error) {
+    renderError("ust-error", error);
+  }
+  try {
+    const utilsPackage = await loadPreferredUtilsPackage();
+    if (!utilsPackage) {
+      requireElement("util-error").textContent = "Package not found on npm";
     } else {
-      document.getElementById('util-error').textContent = 'Package not found on npm';
+      renderPackage("util", utilsPackage);
     }
-  } catch (e) {
-    document.getElementById('util-error').textContent = e.message || String(e);
+  } catch (error) {
+    renderError("util-error", error);
   }
-
-  if ('serviceWorker' in navigator) {
-    self.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js').catch((err) => {
-        console.warn('Service worker registration failed:', err);
+  if ("serviceWorker" in navigator) {
+    globalThis.addEventListener("load", () => {
+      navigator.serviceWorker.register("/service-worker.js").catch((error) => {
+        console.warn("Service worker registration failed:", error);
       });
     });
   }
-})();
+}
+void init();
