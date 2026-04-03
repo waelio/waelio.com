@@ -153,7 +153,7 @@ if (import.meta.main) {
       // ?lang= en|bn|... default en
       const lang = (url.searchParams.get("lang") || "en").toLowerCase();
       try {
-        const txt = await Deno.readTextFile(`editions/${lang}.json`);
+        const txt = await Deno.readTextFile(`data/editions/${lang}.json`);
         return json(JSON.parse(txt));
       } catch (e) {
         return json({ error: "Failed to read editions for lang", lang, detail: String(e) }, 500);

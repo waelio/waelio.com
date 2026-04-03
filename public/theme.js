@@ -20,14 +20,16 @@
   }
 
   function getInitialTheme(){
-    const saved = localStorage.getItem(KEY);
-    if (saved === 'light' || saved === 'dark') return saved;
+    try {
+      const saved = localStorage.getItem(KEY);
+      if (saved === 'light' || saved === 'dark') return saved;
+    } catch { /* ignore */ }
     return systemPrefersDark() ? 'dark' : 'light';
   }
 
   function toggleTheme(){
     const next = (document.documentElement.dataset.theme === 'dark') ? 'light' : 'dark';
-    localStorage.setItem(KEY, next);
+    try { localStorage.setItem(KEY, next); } catch { /* ignore */ }
     applyTheme(next);
   }
 
@@ -45,7 +47,8 @@
   if (globalThis.matchMedia) {
     const mq = globalThis.matchMedia('(prefers-color-scheme: dark)');
     mq.addEventListener?.('change', (e) => {
-      const saved = localStorage.getItem(KEY);
+      let saved = null;
+      try { saved = localStorage.getItem(KEY); } catch { /* ignore */ }
       if (saved !== 'light' && saved !== 'dark') {
         applyTheme(e.matches ? 'dark' : 'light');
       }

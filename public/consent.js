@@ -2,8 +2,10 @@
   const KEY = 'consent'; // 'granted' | 'denied'
 
   function getConsent(){
-    const v = localStorage.getItem(KEY);
-    return v === 'granted' || v === 'denied' ? v : null;
+    try {
+      const v = localStorage.getItem(KEY);
+      return v === 'granted' || v === 'denied' ? v : null;
+    } catch { return null; }
   }
 
   function setConsent(val){

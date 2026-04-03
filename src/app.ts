@@ -42,28 +42,66 @@ async function loadPackage(name: string): Promise<NpmMeta> {
     };
 }
 
-function linkify(meta: NpmMeta): string {
-    const links: string[] = [];
-    if (meta.homepage) links.push(`<a href="${meta.homepage}" target="_blank" rel="noreferrer">homepage</a>`);
-    if (meta.repository && typeof meta.repository === 'object' && meta.repository.url) {
-        const url = meta.repository.url.replace(/^git\+/, '').replace(/\.git$/, '');
-        links.push(`<a href="${url}" target="_blank" rel="noreferrer">repository</a>`);
-    }
-    links.push(`<a href="https://www.npmjs.com/package/${encodeURIComponent(meta.name)}" target="_blank" rel="noreferrer">npm</a>`);
-    return links.join(' · ');
-}
-
 function shieldsName(name: string): string {
     return name.replace(/\//g, '%2F');
 }
 
-function badges(name: string, hasTypes: boolean | undefined): string {
+function appendLinks(container: HTMLElement, meta: NpmMeta): void {
+    const addLink = (href: string, text: string) => {
+        const a = document.createElement('a');
+        a.href = href;
+        a.target = '_blank';
+        a.rel = 'noreferrer';
+        a.textContent = text;
+        return a;
+    };
+    const items: HTMLElement[] = [];
+    if (meta.homepage) items.push(addLink(meta.homepage, 'homepage'));
+    if (meta.repository && typeof meta.repository === 'object' && meta.repository.url) {
+        const url = meta.repository.url.replace(/^git\+/, '').replace(/\.git$/, '');
+        items.push(addLink(url, 'repository'));
+    }
+    items.push(addLink(`https://www.npmjs.com/package/${encodeURIComponent(meta.name)}`, 'npm'));
+    container.textContent = '';
+    items.forEach((el, i) => {
+        if (i > 0) container.appendChild(document.createTextNode(' · '));
+        container.appendChild(el);
+    });
+}
+
+function appendBadges(container: HTMLElement, name: string, hasTypes: boolean): void {
     const n = shieldsName(name);
-    const version = `<img alt="npm version" src="https://img.shields.io/npm/v/${n}?label=version">`;
-    const downloads = `<img alt="weekly downloads" src="https://img.shields.io/npm/dw/${n}">`;
-    const license = `<img alt="license" src="https://img.shields.io/npm/l/${n}">`;
-    const types = hasTypes ? '<img alt="types included" src="https://img.shields.io/badge/types-included-blue?logo=typescript">' : '';
-    return [version, downloads, license, types].filter(Boolean).join('\n');
+    const defs = [
+        { src: `https://img.shields.io/npm/v/${n}?label=version`, alt: 'npm version' },
+        { src: `https://img.shields.io/npm/dw/${n}`, alt: 'weekly downloads' },
+        { src: `https://img.shields.io/npm/l/${n}`, alt: 'license' },
+        ...(hasTypes ? [{ src: 'https://img.shields.io/badge/types-included-blue?logo=typescript', alt: 'types included' }] : []),
+    ];
+    container.textContent = '';
+    for (const d of defs) {
+        const img = document.createElement('img');
+        img.alt = d.alt;
+        img.src = d.src;
+        container.appendChild(img);
+    }
+}
+
+function appendTags(container: HTMLElement, keywords: string[]): void {
+    container.textContent = '';
+    const span = document.createElement('span');
+    span.className = 'chips';
+    for (const k of keywords) {
+        const q = encodeURIComponent(`keywords:${k}`);
+        const a = document.createElement('a');
+        a.className = 'chip';
+        a.href = `https://www.npmjs.com/search?q=${q}`;
+        a.target = '_blank';
+        a.rel = 'noreferrer';
+        a.setAttribute('aria-label', `Search npm for keyword ${k}`);
+        a.textContent = `#${k}`;
+        span.appendChild(a);
+    }
+    container.appendChild(span);
 }
 
 function setPackageDom(prefix: string, meta: NpmMeta): void {
@@ -71,15 +109,10 @@ function setPackageDom(prefix: string, meta: NpmMeta): void {
     (get(`${prefix}-desc`)).textContent = meta.description || '—';
     (get(`${prefix}-ver`)).textContent = meta.version || '—';
     (get(`${prefix}-dl`)).textContent = new Intl.NumberFormat().format(meta.downloads_week || 0);
-    (get(`${prefix}-links`)).innerHTML = linkify(meta);
-    (get(`${prefix}-badges`)).innerHTML = badges(meta.name, !!meta.has_types);
+    appendLinks(get(`${prefix}-links`), meta);
+    appendBadges(get(`${prefix}-badges`), meta.name, !!meta.has_types);
     if (Array.isArray(meta.keywords) && meta.keywords.length) {
-        const chips = meta.keywords.map((k) => {
-            const q = encodeURIComponent(`keywords:${k}`);
-            const href = `https://www.npmjs.com/search?q=${q}`;
-            return `<a class="chip" href="${href}" target="_blank" rel="noreferrer" aria-label="Search npm for keyword ${k}">#${k}</a>`;
-        }).join('');
-        (get(`${prefix}-tags`)).innerHTML = '<span class="chips">' + chips + '</span>';
+        appendTags(get(`${prefix}-tags`), meta.keywords);
     }
 }
 
