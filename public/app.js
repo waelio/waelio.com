@@ -65,10 +65,24 @@ function appendLinks(container, meta) {
 function appendBadges(container, name, hasTypes) {
   const n = shieldsName(name);
   const defs = [
-    { src: `https://img.shields.io/npm/v/${n}?label=version`, alt: "npm version" },
-    { src: `https://img.shields.io/npm/dw/${n}`, alt: "weekly downloads" },
-    { src: `https://img.shields.io/npm/l/${n}`, alt: "license" },
-    ...hasTypes ? [{ src: "https://img.shields.io/badge/types-included-blue?logo=typescript", alt: "types included" }] : []
+    {
+      src: `https://img.shields.io/npm/v/${n}?label=version`,
+      alt: "npm version"
+    },
+    {
+      src: `https://img.shields.io/npm/dw/${n}`,
+      alt: "weekly downloads"
+    },
+    {
+      src: `https://img.shields.io/npm/l/${n}`,
+      alt: "license"
+    },
+    ...hasTypes ? [
+      {
+        src: "https://img.shields.io/badge/types-included-blue?logo=typescript",
+        alt: "types included"
+      }
+    ] : []
   ];
   container.textContent = "";
   for (const d of defs) {

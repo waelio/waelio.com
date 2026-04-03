@@ -4,8 +4,11 @@
     "start": "deno run --allow-net --allow-read main.ts",
     "test": "deno test",
     "build:app": "deno bundle src/app.ts > public/app.js",
+    "build:consent": "deno bundle src/consent.ts > public/consent.js",
     "build:ga": "deno bundle src/ga.ts > public/ga.js",
-    "build": "deno task build:app && deno task build:ga",
+    "build:service-worker": "deno bundle src/service-worker.ts > public/service-worker.js",
+    "build:theme": "deno bundle src/theme.ts > public/theme.js",
+    "build": "deno task build:app && deno task build:consent && deno task build:ga && deno task build:service-worker && deno task build:theme",
     "deploy": "netlify deploy --dir=public",
     "deploy:prod": "netlify deploy --prod --dir=public"
   },

@@ -1,29 +1,29 @@
-(function(){
-  const KEY = 'consent'; // 'granted' | 'denied'
-
-  function getConsent(){
-    try {
-      const v = localStorage.getItem(KEY);
-      return v === 'granted' || v === 'denied' ? v : null;
-    } catch { return null; }
+// src/consent.ts
+var CONSENT_STORAGE_KEY = "consent";
+function getConsent() {
+  try {
+    const value = localStorage.getItem(CONSENT_STORAGE_KEY);
+    return value === "granted" || value === "denied" ? value : null;
+  } catch {
+    return null;
   }
-
-  function setConsent(val){
-    try { localStorage.setItem(KEY, val); } catch {}
+}
+function setConsent(value) {
+  try {
+    localStorage.setItem(CONSENT_STORAGE_KEY, value);
+  } catch {
   }
-
-  function hide(banner){
-    banner?.parentElement?.removeChild(banner);
-  }
-
-  function createBanner(){
-    const wrapper = document.createElement('div');
-    wrapper.className = 'consent-banner';
-    wrapper.setAttribute('role', 'dialog');
-    wrapper.setAttribute('aria-live', 'polite');
-    wrapper.setAttribute('aria-label', 'Cookie consent');
-
-    wrapper.innerHTML = `
+}
+function hideBanner(banner) {
+  banner?.parentElement?.removeChild(banner);
+}
+function createBanner() {
+  const wrapper = document.createElement("div");
+  wrapper.className = "consent-banner";
+  wrapper.setAttribute("role", "dialog");
+  wrapper.setAttribute("aria-live", "polite");
+  wrapper.setAttribute("aria-label", "Cookie consent");
+  wrapper.innerHTML = `
       <div class="consent-inner">
         <p class="muted">We use analytics (GA4) to improve the site. Do you consent to anonymous usage tracking?</p>
         <div class="consent-actions">
@@ -32,27 +32,22 @@
         </div>
       </div>
     `;
-
-    const decline = wrapper.querySelector('.decline');
-    const accept = wrapper.querySelector('.accept');
-    decline?.addEventListener('click', () => {
-      setConsent('denied');
-      hide(wrapper);
-    });
-    accept?.addEventListener('click', () => {
-      setConsent('granted');
-      hide(wrapper);
-      const ev = new CustomEvent('consent:granted');
-      globalThis.dispatchEvent(ev);
-    });
-
-    document.body.appendChild(wrapper);
-    return wrapper;
-  }
-
-  // Initialize on DOM ready
-  globalThis.addEventListener('DOMContentLoaded', () => {
-    const state = getConsent();
-    if (!state) createBanner();
+  const declineButton = wrapper.querySelector(".decline");
+  const acceptButton = wrapper.querySelector(".accept");
+  declineButton?.addEventListener("click", () => {
+    setConsent("denied");
+    hideBanner(wrapper);
   });
-})();
+  acceptButton?.addEventListener("click", () => {
+    setConsent("granted");
+    hideBanner(wrapper);
+    globalThis.dispatchEvent(new CustomEvent("consent:granted"));
+  });
+  document.body.appendChild(wrapper);
+  return wrapper;
+}
+globalThis.addEventListener("DOMContentLoaded", () => {
+  if (!getConsent()) {
+    createBanner();
+  }
+});
