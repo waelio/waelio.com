@@ -2,8 +2,8 @@
 
 declare const self: ServiceWorkerGlobalScope;
 
-const CACHE_NAME = 'waelio-cache-v5';
-const APP_SHELL: string[] = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest'];
+const CACHE_NAME = 'waelio-cache-v6';
+const APP_SHELL: string[] = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest', '/favicon.svg'];
 
 self.addEventListener('install', (event: ExtendableEvent) => {
     event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));

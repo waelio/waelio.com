@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background (fills full square — safe for maskable icons) -->
+  <rect width="512" height="512" rx="80" fill="#111827"/>
+  <!-- "W" glyph — centered within the maskable safe zone (~80%) -->
+  <text
+    x="256"
+    y="342"
+    font-family="system-ui, -apple-system, sans-serif"
+    font-size="320"
+    font-weight="700"
+    fill="#f9fafb"
+    text-anchor="middle"
+    dominant-baseline="auto"
+    letter-spacing="-8"
+  >W</text>
+</svg>

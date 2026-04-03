@@ -1,11 +1,12 @@
 // src/service-worker.ts
-var CACHE_NAME = "waelio-cache-v5";
+var CACHE_NAME = "waelio-cache-v6";
 var APP_SHELL = [
   "/",
   "/index.html",
   "/styles.css",
   "/app.js",
   "/manifest.webmanifest",
+  "/favicon.svg",
 ];
 self.addEventListener("install", (event) => {
   event.waitUntil(
