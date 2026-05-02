@@ -150,8 +150,8 @@ async function init(): Promise<void> {
 
     if ('serviceWorker' in navigator) {
         globalThis.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js').catch((error: unknown) => {
-                console.warn('Service worker registration failed:', error);
+            navigator.serviceWorker.register('/service-worker.js').catch(() => {
+                // Logging disabled.
             });
         });
     }

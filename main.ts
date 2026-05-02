@@ -108,6 +108,5 @@ if (import.meta.main) {
     return new Response("Not Found", { status: 404 });
   };
 
-  console.log(`Server listening on http://localhost:${port}`);
   Deno.serve({ port }, handler);
 }

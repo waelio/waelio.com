@@ -322,7 +322,4 @@ const server = createServer(async (req, res) => {
   res.end("Not Found");
 });
 
-server.listen(PORT, "127.0.0.1", () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
-  console.log(`Google allowlist loaded: ${ALLOWED_EMAILS.length}`);
-});
+server.listen(PORT, "127.0.0.1");
