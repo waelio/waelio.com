@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type { ReactNode } from "react";
 import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
+import { useThemeMode } from "./shared/theme.ts";
 
 type PackageKey = "msg" | "ust" | "util";
 
@@ -276,6 +277,7 @@ function PackageCard(props: { title: string; state: PackageState }): ReactNode {
 
 function App(): ReactNode {
     const [packages, setPackages] = useState<Record<PackageKey, PackageState>>(INITIAL_PACKAGE_STATE);
+    const { theme, setTheme, themeOptions } = useThemeMode();
 
     useEffect(() => {
         let cancelled = false;
@@ -329,6 +331,22 @@ function App(): ReactNode {
                 </div>
                 <div className="header-nav">
                     <span className="muted">Live npm metadata</span>
+                    <div className="theme-switcher" role="group" aria-label="Choose theme">
+                        {themeOptions.map((option) => (
+                            <button
+                                key={option.value}
+                                type="button"
+                                className={theme === option.value ? "theme-option theme-option-active" : "theme-option"}
+                                aria-pressed={theme === option.value}
+                                onClick={() => {
+                                    setTheme(option.value);
+                                }}
+                            >
+                                <span className="theme-option-icon" aria-hidden="true">{option.icon}</span>
+                                <span>{option.label}</span>
+                            </button>
+                        ))}
+                    </div>
                     <a href="/private" className="nav-link">🔒 Private</a>
                 </div>
             </header>

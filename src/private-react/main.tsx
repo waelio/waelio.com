@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import type { FormEvent, ReactNode } from "react";
 import type { ApiErrorResponse } from "../shared/auth.ts";
 import { disableWaelioRuntimeCaching } from "../shared/browser-runtime.ts";
+import { useThemeMode } from "../shared/theme.ts";
 import type {
     LedgerEntryInput,
     LedgerEntryKind,
@@ -762,6 +763,7 @@ function App(): ReactNode {
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [reviewingEntryId, setReviewingEntryId] = useState<string | null>(null);
+    const { theme, setTheme, themeOptions } = useThemeMode();
 
     async function loadWorkbook(): Promise<void> {
         setLoading(true);
@@ -1207,6 +1209,22 @@ function App(): ReactNode {
                 </div>
                 <div className="workbook-toolbar">
                     <span className="workbook-user">{view.viewer.name}</span>
+                    <div className="theme-switcher" role="group" aria-label="Choose theme">
+                        {themeOptions.map((option) => (
+                            <button
+                                key={option.value}
+                                type="button"
+                                className={theme === option.value ? "theme-option theme-option-active" : "theme-option"}
+                                aria-pressed={theme === option.value}
+                                onClick={() => {
+                                    setTheme(option.value);
+                                }}
+                            >
+                                <span className="theme-option-icon" aria-hidden="true">{option.icon}</span>
+                                <span>{option.label}</span>
+                            </button>
+                        ))}
+                    </div>
                     <button type="button" className="btn-outline" onClick={() => { void handleBack(); }}>
                         Back and sign out
                     </button>

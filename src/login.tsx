@@ -8,6 +8,7 @@ import type {
     GoogleConfigResponse,
 } from "./shared/auth.ts";
 import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
+import { useThemeMode } from "./shared/theme.ts";
 
 interface GoogleCredentialResponse {
     credential: string;
@@ -147,6 +148,7 @@ function LoginApp(): ReactNode {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isPreparing, setIsPreparing] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { theme, setTheme, themeOptions } = useThemeMode();
 
     useEffect(() => {
         let cancelled = false;
@@ -228,6 +230,24 @@ function LoginApp(): ReactNode {
     return (
         <div className="auth-wrapper">
             <div className="auth-card">
+                <div className="auth-card-tools">
+                    <div className="theme-switcher" role="group" aria-label="Choose theme">
+                        {themeOptions.map((option) => (
+                            <button
+                                key={option.value}
+                                type="button"
+                                className={theme === option.value ? "theme-option theme-option-active" : "theme-option"}
+                                aria-pressed={theme === option.value}
+                                onClick={() => {
+                                    setTheme(option.value);
+                                }}
+                            >
+                                <span className="theme-option-icon" aria-hidden="true">{option.icon}</span>
+                                <span>{option.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
                 <div className="auth-logo">
                     <img
                         src="/logo.png?v=20260502"

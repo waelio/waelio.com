@@ -11,7 +11,42 @@
     <meta name="author" content="waelio" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://waelio.com/" />
-    <meta name="theme-color" content="#111827" />
+    <meta name="theme-color" content="#dbe1e8" />
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("waelio-theme");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const themeColors = {
+            dim: "#dbe1e8",
+            light: "#f4f7fb",
+            dark: "#171d2c",
+          };
+          const theme =
+            storedTheme === "light" ||
+            storedTheme === "dim" ||
+            storedTheme === "dark"
+              ? storedTheme
+              : prefersDark
+                ? "dark"
+                : "dim";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme =
+            theme === "dark" ? "dark" : "light";
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", themeColors[theme]);
+        } catch {
+          document.documentElement.dataset.theme = "dim";
+          document.documentElement.style.colorScheme = "light";
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", "#dbe1e8");
+        }
+      })();
+    </script>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -45,8 +80,8 @@
     />
     <link rel="shortcut icon" href="/favicon.png?v=20260502" type="image/png" />
     <link rel="apple-touch-icon" href="/favicon.png?v=20260502" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="stylesheet" href="/styles.css?v=20260502-react-ui-3" />
+    <link rel="manifest" href="/manifest.webmanifest?v=20260502-theme-ui-6" />
+    <link rel="stylesheet" href="/styles.css?v=20260502-theme-ui-5" />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -65,6 +100,6 @@
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/app.js?v=20260502-react-ui-3"></script>
+    <script type="module" src="/app.js?v=20260502-theme-ui-6"></script>
   </body>
 </html>
