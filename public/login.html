@@ -50,12 +50,20 @@
 
       function initGoogleSignIn() {
         fetch("/api/config")
-          .then((r) => r.json())
+          .then(async (response) => {
+            if (!response.ok) {
+              throw new Error(
+                "Authentication backend is not deployed yet. Deploy the Netlify functions for /api/config.",
+              );
+            }
+
+            return response.json();
+          })
           .then((config) => {
             if (!config.googleClientId) {
               googleBtnWrapper.style.display = "none";
               showError(
-                "Google sign-in is not configured yet. Add GOOGLE_CLIENT_ID to .env and restart the server.",
+                "Google sign-in is not configured yet. Set GOOGLE_CLIENT_ID in your environment and redeploy or restart the server.",
               );
               return;
             }
@@ -74,9 +82,13 @@
               },
             );
           })
-          .catch(() => {
+          .catch((error) => {
             googleBtnWrapper.style.display = "none";
-            showError("Google sign-in is unavailable right now.");
+            showError(
+              error instanceof Error
+                ? error.message
+                : "Google sign-in is unavailable right now.",
+            );
           });
       }
 
