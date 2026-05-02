@@ -102,7 +102,7 @@
           });
           const data = await res.json();
           if (!res.ok) throw new Error(data.error || "Google sign-in failed");
-          window.location.href = "/private";
+          window.location.href = "/private.html";
         } catch (err) {
           errorEl.textContent = err.message;
           errorEl.hidden = false;
