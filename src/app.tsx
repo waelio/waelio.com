@@ -355,6 +355,19 @@ function DownloadsSummary(props: {
     );
 }
 
+function HeroIntro(): ReactNode {
+    return (
+        <section className="hero-card" aria-label="Homepage introduction">
+            <div className="hero-eyebrow">Built for developers like me</div>
+            <h2 className="hero-title">Built with love to help developers like me save time.</h2>
+            <p className="hero-description">
+                Practical npm packages, live stats, and small tools I actually reach for when shipping things.
+            </p>
+            <div className="hero-note">Made with love for developers who just want to ship.</div>
+        </section>
+    );
+}
+
 function App(): ReactNode {
     const [packageDefinitions, setPackageDefinitions] = useState<PackageDefinition[]>(FALLBACK_PACKAGE_DEFINITIONS);
     const [packages, setPackages] = useState<Record<string, PackageState>>(() => (
@@ -451,6 +464,7 @@ function App(): ReactNode {
             </header>
 
             <div className="page-shell">
+                <HeroIntro />
                 <DownloadsSummary packageDefinitions={packageDefinitions} packages={packages} />
             </div>
 
