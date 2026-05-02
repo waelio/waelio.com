@@ -4,8 +4,6 @@ import type { ReactNode } from "react";
 import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
 import { useThemeMode } from "./shared/theme.ts";
 
-type PackageKey = "msg" | "ust" | "util";
-
 type NpmRepository = { url?: string } | null;
 
 interface NpmMeta {
@@ -26,34 +24,46 @@ type PackageState =
     | { status: "error"; error: string };
 
 interface PackageDefinition {
-    key: PackageKey;
+    key: string;
     title: string;
     load: () => Promise<NpmMeta>;
 }
 
-const PACKAGE_DEFINITIONS: PackageDefinition[] = [
-    {
-        key: "msg",
-        title: "@waelio/messaging",
-        load: () => loadPackage("@waelio/messaging"),
-    },
-    {
-        key: "ust",
-        title: "@waelio/ustore",
-        load: () => loadPackage("@waelio/ustore"),
-    },
-    {
-        key: "util",
-        title: "waelio-utils",
-        load: loadPreferredUtilsPackage,
-    },
+const NPM_MAINTAINER = "waelio";
+
+const FALLBACK_PACKAGE_NAMES = [
+    "@waelio/messaging",
+    "@waelio/ustore",
+    "@waelio/utils",
+    "quasar-app-extension-waelio",
+    "waelio-utils",
 ];
 
-const INITIAL_PACKAGE_STATE: Record<PackageKey, PackageState> = {
-    msg: { status: "loading" },
-    ust: { status: "loading" },
-    util: { status: "loading" },
-};
+const LOADING_PACKAGE_STATE: PackageState = { status: "loading" };
+
+function buildPackageDefinitions(names: string[]): PackageDefinition[] {
+    const seen = new Set<string>();
+
+    return names.flatMap((name) => {
+        const normalizedName = name.trim();
+        if (!normalizedName || seen.has(normalizedName)) {
+            return [];
+        }
+
+        seen.add(normalizedName);
+        return [{
+            key: normalizedName,
+            title: normalizedName,
+            load: () => loadPackage(normalizedName),
+        }];
+    });
+}
+
+const FALLBACK_PACKAGE_DEFINITIONS = buildPackageDefinitions(FALLBACK_PACKAGE_NAMES);
+
+function buildInitialPackageState(definitions: PackageDefinition[]): Record<string, PackageState> {
+    return Object.fromEntries(definitions.map(({ key }) => [key, LOADING_PACKAGE_STATE])) as Record<string, PackageState>;
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === "object" && value !== null;
@@ -148,6 +158,37 @@ async function loadPreferredUtilsPackage(): Promise<NpmMeta> {
     }
 
     throw new Error("Package not found on npm");
+}
+
+async function loadMaintainerPackageNames(maintainer: string): Promise<string[]> {
+    const response = await fetch(
+        `https://registry.npmjs.org/-/v1/search?text=${encodeURIComponent(`maintainer:${maintainer}`)}&size=250`,
+    );
+
+    if (!response.ok) {
+        throw new Error(`maintainer search: ${response.status}`);
+    }
+
+    const payload = await response.json() as unknown;
+    const payloadRecord = isRecord(payload) ? payload : {};
+    const objects = Array.isArray(payloadRecord.objects) ? payloadRecord.objects : [];
+    const names = objects
+        .map((entry) => {
+            if (!isRecord(entry)) {
+                return undefined;
+            }
+
+            const packageRecord = readRecord(entry, "package");
+            return packageRecord ? readString(packageRecord, "name") : undefined;
+        })
+        .filter((name): name is string => Boolean(name));
+
+    const uniqueNames = [...new Set(names)];
+    if (uniqueNames.length === 0) {
+        throw new Error(`No npm packages found for ${maintainer}`);
+    }
+
+    return uniqueNames;
 }
 
 function shieldsName(name: string): string {
@@ -276,14 +317,33 @@ function PackageCard(props: { title: string; state: PackageState }): ReactNode {
 }
 
 function App(): ReactNode {
-    const [packages, setPackages] = useState<Record<PackageKey, PackageState>>(INITIAL_PACKAGE_STATE);
+    const [packageDefinitions, setPackageDefinitions] = useState<PackageDefinition[]>(FALLBACK_PACKAGE_DEFINITIONS);
+    const [packages, setPackages] = useState<Record<string, PackageState>>(() => (
+        buildInitialPackageState(FALLBACK_PACKAGE_DEFINITIONS)
+    ));
     const { theme, setTheme, themeOptions } = useThemeMode();
 
     useEffect(() => {
         let cancelled = false;
 
         const loadAllPackages = async () => {
-            await Promise.all(PACKAGE_DEFINITIONS.map(async (definition) => {
+            let definitions = FALLBACK_PACKAGE_DEFINITIONS;
+
+            try {
+                const maintainerPackageNames = await loadMaintainerPackageNames(NPM_MAINTAINER);
+                definitions = buildPackageDefinitions(maintainerPackageNames);
+            } catch {
+                // Keep the fallback list if npm maintainer search is unavailable.
+            }
+
+            if (cancelled) {
+                return;
+            }
+
+            setPackageDefinitions(definitions);
+            setPackages(buildInitialPackageState(definitions));
+
+            await Promise.all(definitions.map(async (definition) => {
                 try {
                     const meta = await definition.load();
                     if (cancelled) {
@@ -330,7 +390,7 @@ function App(): ReactNode {
                     <h1 className="site-title">Package stats</h1>
                 </div>
                 <div className="header-nav">
-                    <span className="muted">Live npm metadata</span>
+                    <span className="muted">{packageDefinitions.length} npm packages · live metadata</span>
                     <div className="theme-switcher" role="group" aria-label="Choose theme">
                         {themeOptions.map((option) => (
                             <button
@@ -352,11 +412,11 @@ function App(): ReactNode {
             </header>
 
             <div className="container">
-                {PACKAGE_DEFINITIONS.map((definition) => (
+                {packageDefinitions.map((definition) => (
                     <PackageCard
                         key={definition.key}
                         title={definition.title}
-                        state={packages[definition.key]}
+                        state={packages[definition.key] ?? LOADING_PACKAGE_STATE}
                     />
                 ))}
             </div>
