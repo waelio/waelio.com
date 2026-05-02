@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type { ReactNode } from "react";
+import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
 
 type PackageKey = "msg" | "ust" | "util";
 
@@ -307,13 +308,8 @@ function App(): ReactNode {
             }));
         };
 
+        void disableWaelioRuntimeCaching();
         void loadAllPackages();
-
-        if ("serviceWorker" in navigator) {
-            void navigator.serviceWorker.register("/service-worker.js").catch(() => {
-                // Logging disabled.
-            });
-        }
 
         return () => {
             cancelled = true;

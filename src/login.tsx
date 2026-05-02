@@ -7,6 +7,7 @@ import type {
     GoogleAuthSuccessResponse,
     GoogleConfigResponse,
 } from "./shared/auth.ts";
+import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
 
 interface GoogleCredentialResponse {
     credential: string;
@@ -81,7 +82,13 @@ async function readJson(response: Response): Promise<unknown> {
 }
 
 async function loadGoogleConfig(): Promise<GoogleConfigResponse> {
-    const response = await fetch("/api/config");
+    const response = await fetch("/api/config", {
+        credentials: "same-origin",
+        cache: "no-store",
+        headers: {
+            Accept: "application/json",
+        },
+    });
     const payload = await readJson(response);
 
     if (!response.ok) {
@@ -96,6 +103,8 @@ async function loadGoogleConfig(): Promise<GoogleConfigResponse> {
 async function submitGoogleSignIn(request: GoogleAuthRequest): Promise<GoogleAuthSuccessResponse> {
     const response = await fetch("/api/auth/google", {
         method: "POST",
+        credentials: "same-origin",
+        cache: "no-store",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(request),
     });
@@ -152,6 +161,7 @@ function LoginApp(): ReactNode {
 
             try {
                 await submitGoogleSignIn({ credential: response.credential });
+                await disableWaelioRuntimeCaching();
                 window.location.href = "/private";
             } catch (error) {
                 if (!cancelled) {
@@ -163,6 +173,7 @@ function LoginApp(): ReactNode {
 
         const initGoogleSignIn = async () => {
             try {
+                await disableWaelioRuntimeCaching();
                 const config = await loadGoogleConfig();
                 if (!config.googleClientId) {
                     throw new Error(

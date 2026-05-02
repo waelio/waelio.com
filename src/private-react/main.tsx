@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type { FormEvent, ReactNode } from "react";
 import type { ApiErrorResponse } from "../shared/auth.ts";
+import { disableWaelioRuntimeCaching } from "../shared/browser-runtime.ts";
 import type {
     LedgerEntryInput,
     LedgerEntryKind,
@@ -78,6 +79,24 @@ function parseApiError(value: unknown): ApiErrorResponse {
     }
 
     return { error: "Request failed" };
+}
+
+function getErrorMessage(response: Response, payload: unknown, rawText: string): string {
+    const parsedError = parseApiError(payload).error.trim();
+    if (parsedError && parsedError !== "Request failed") {
+        return parsedError;
+    }
+
+    const trimmedText = rawText.trim();
+    if (trimmedText) {
+        if (trimmedText.startsWith("<!doctype html") || trimmedText.startsWith("<html")) {
+            return `HTTP ${response.status} ${response.statusText || "Request failed"}`;
+        }
+
+        return trimmedText.slice(0, 280);
+    }
+
+    return `HTTP ${response.status} ${response.statusText || "Request failed"}`;
 }
 
 function parseLedgerViewResponse(value: unknown): LedgerViewResponse {
@@ -261,17 +280,28 @@ async function requestJson<TResponse>(
 ): Promise<TResponse> {
     const response = await fetch(url, {
         credentials: "same-origin",
+        cache: "no-store",
         ...options,
         headers: {
-            "Content-Type": "application/json",
+            Accept: "application/json",
+            ...(options.body ? { "Content-Type": "application/json" } : {}),
             ...(options.headers ?? {}),
         },
     });
 
-    const payload = await readJson(response);
+    const rawText = await response.text().catch(() => "");
+    let payload: unknown = null;
+
+    if (rawText) {
+        try {
+            payload = JSON.parse(rawText) as unknown;
+        } catch {
+            payload = null;
+        }
+    }
+
     if (!response.ok) {
-        const error = parseApiError(payload);
-        throw Object.assign(new Error(error.error), { statusCode: response.status });
+        throw Object.assign(new Error(getErrorMessage(response, payload, rawText)), { statusCode: response.status });
     }
 
     return parser(payload);
@@ -737,7 +767,12 @@ function App(): ReactNode {
         setLoading(true);
 
         try {
-            const payload = await requestJson("/api/private-ledger", { method: "GET" }, parseLedgerViewResponse);
+            await disableWaelioRuntimeCaching();
+            const payload = await requestJson(
+                `/api/private-ledger?ts=${Date.now()}`,
+                { method: "GET" },
+                parseLedgerViewResponse,
+            );
             setView(payload);
             setForm((current) => current.subjectEmail ? current : resetForm(payload.viewer.email));
             setPageStatus(null);
