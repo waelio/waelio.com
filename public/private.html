@@ -22,7 +22,12 @@
         </div>
         <div class="private-header-right">
           <span class="private-user" id="user-name">—</span>
-          <a href="/api/logout" class="btn-outline" id="logout-btn">Sign out</a>
+          <div class="private-header-actions">
+            <a href="/" class="btn-outline" id="back-btn">← Back</a>
+            <a href="/api/logout" class="btn-outline" id="logout-btn"
+              >Sign out</a
+            >
+          </div>
         </div>
       </header>
 
@@ -63,6 +68,14 @@
     <script>
       (async () => {
         try {
+          const backButton = document.getElementById("back-btn");
+          backButton?.addEventListener("click", (event) => {
+            if (window.history.length > 1) {
+              event.preventDefault();
+              window.history.back();
+            }
+          });
+
           const res = await fetch("/api/me");
           if (!res.ok) {
             window.location.href = "/login.html";
