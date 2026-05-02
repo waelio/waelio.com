@@ -4,20 +4,19 @@
 
 # waelio.com
 
-This repository contains a small Node-powered site that serves static files from `public/`, exposes a few lightweight APIs, and protects `/private` with either password auth or Google Sign-In.
+This repository contains a small Node-powered site that serves static files from `public/`, exposes a few lightweight APIs, and protects `/private` with Google Sign-In.
 
 ## Structure
 
 - `public/`
   - `index.html` – UI for viewing npm package stats
-  - `login.html` – sign-in page for `/private`
+  - `login.html` – Google sign-in page for `/private`
   - `private.html` – authenticated page
   - `app.js` – client logic (fetches npm registry + downloads APIs)
   - `styles.css` – styles
   - `manifest.webmanifest` – PWA manifest
   - `service-worker.js` – network-first for HTML/APIs, cache-first for static
 - `server.mjs` – Node server for local development and auth/API routes
-- `hash-password.mjs` – helper for generating password hashes for `.env`
 - `main.ts` / `main_test.ts` / `deno.json` – older Deno artifacts still in the repo
 - `netlify.toml` – deploy configuration
 
@@ -37,20 +36,13 @@ After changing `.env`, restart the dev server so the new auth values are loaded.
 
 Required variables:
 
-- `AUTH_SECRET` – secret used to sign session cookies and password hashes
-- `AUTH_USER_1`, `AUTH_USER_2` – username/hash pairs in the form `user:sha256hash`
+- `AUTH_SECRET` – secret used to sign session cookies
 - `GOOGLE_CLIENT_ID` – Google OAuth 2.0 **Web application** client ID
 - `ALLOWED_EMAILS` – comma-separated email allowlist for Google Sign-In
 
-Generate password hashes with:
-
-```bash
-node hash-password.mjs <password> <secret>
-```
-
 ### Google Sign-In notes
 
-If `GOOGLE_CLIENT_ID` is blank, the Google button is hidden and password login still works.
+If `GOOGLE_CLIENT_ID` is blank, the login page shows a Google configuration error and no alternate sign-in is available.
 
 If Google shows `Error 401: invalid_client`, the configured `GOOGLE_CLIENT_ID` is not a real OAuth client for this app. Create or copy a valid **Web application** client ID from Google Cloud Console and make sure these origins are allowed:
 
@@ -63,7 +55,6 @@ Also make sure the account you use is included in `ALLOWED_EMAILS`.
 
 - `GET /api/add?a=NUMBER&b=NUMBER`
 - `GET /api/npm?name=PACKAGE_NAME`
-- `POST /api/login`
 - `POST /api/auth/google`
 - `GET /api/me`
 - `GET /api/logout`

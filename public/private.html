@@ -12,11 +12,11 @@
     <div class="private-wrapper">
       <header class="private-header">
         <div class="private-header-left">
-          <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-            <rect width="100" height="100" rx="20" fill="url(#g2)"/>
-            <text x="50" y="62" text-anchor="middle" font-size="42" font-weight="700" fill="#fff" font-family="system-ui">W</text>
-            <defs><linearGradient id="g2" x1="0" y1="0" x2="100" y2="100"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
-          </svg>
+          <img
+            src="/favicon.svg"
+            alt="waelio logo"
+            class="brand-logo brand-logo-private"
+          />
           <span class="private-brand">waelio.com</span>
           <span class="private-badge">Private</span>
         </div>
@@ -29,7 +29,10 @@
       <main class="private-main">
         <div class="private-greeting" id="greeting-card">
           <h1 id="greeting-text">Welcome back</h1>
-          <p class="muted">This is your private workspace. Only you and your business partner can see this page.</p>
+          <p class="muted">
+            This is your private workspace. Only you and your business partner
+            can see this page.
+          </p>
         </div>
 
         <div class="private-grid">
@@ -60,16 +63,17 @@
     <script>
       (async () => {
         try {
-          const res = await fetch('/api/me');
+          const res = await fetch("/api/me");
           if (!res.ok) {
-            window.location.href = '/login.html';
+            window.location.href = "/login.html";
             return;
           }
           const data = await res.json();
-          document.getElementById('user-name').textContent = data.user;
-          document.getElementById('greeting-text').textContent = `Welcome back, ${data.user}`;
+          document.getElementById("user-name").textContent = data.user;
+          document.getElementById("greeting-text").textContent =
+            `Welcome back, ${data.user}`;
         } catch {
-          window.location.href = '/login.html';
+          window.location.href = "/login.html";
         }
       })();
     </script>
