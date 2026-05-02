@@ -1,10 +1,8 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { fileURLToPath } from "node:url";
 
-const FUNCTIONS_DIR = fileURLToPath(new URL(".", import.meta.url));
-const ROOT_DIR = join(FUNCTIONS_DIR, "..", "..");
+const ROOT_DIR = process.cwd();
 
 try {
   const raw = readFileSync(join(ROOT_DIR, ".env"), "utf8");
