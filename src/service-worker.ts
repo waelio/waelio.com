@@ -1,25 +1,27 @@
 /// <reference lib="webworker" />
 
-declare const self: ServiceWorkerGlobalScope;
+export { };
+
+const serviceWorker = globalThis as unknown as ServiceWorkerGlobalScope;
 
 const CACHE_NAME = 'waelio-cache-v6';
 const APP_SHELL: string[] = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest', '/favicon.svg'];
 
-self.addEventListener('install', (event: ExtendableEvent) => {
+serviceWorker.addEventListener('install', (event: ExtendableEvent) => {
     event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
-    void self.skipWaiting();
+    void serviceWorker.skipWaiting();
 });
 
-self.addEventListener('activate', (event: ExtendableEvent) => {
+serviceWorker.addEventListener('activate', (event: ExtendableEvent) => {
     event.waitUntil(
         caches.keys().then((keys) => Promise.all(
             keys.map((key) => (key !== CACHE_NAME ? caches.delete(key) : Promise.resolve(false))),
         )),
     );
-    void self.clients.claim();
+    void serviceWorker.clients.claim();
 });
 
-self.addEventListener('fetch', (event: FetchEvent) => {
+serviceWorker.addEventListener('fetch', (event: FetchEvent) => {
     const request = event.request;
     const url = new URL(request.url);
     const wantsHtml = request.mode === 'navigate' || (request.headers.get('accept') ?? '').includes('text/html');

@@ -18,6 +18,21 @@
   status = 200
 
 [[redirects]]
+  from = "/api/private-ledger"
+  to = "/.netlify/functions/private-ledger"
+  status = 200
+
+[[redirects]]
+  from = "/api/private-ledger/entries"
+  to = "/.netlify/functions/private-ledger-entry"
+  status = 200
+
+[[redirects]]
+  from = "/api/private-ledger/review"
+  to = "/.netlify/functions/private-ledger-review"
+  status = 200
+
+[[redirects]]
   from = "/api/logout"
   to = "/.netlify/functions/logout"
   status = 200
@@ -40,6 +55,11 @@
 
 [[headers]]
   for = "/app.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/private.js"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 

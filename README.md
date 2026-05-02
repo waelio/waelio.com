@@ -8,22 +8,29 @@ This repository contains a small Node-powered site that serves static files from
 
 ## Structure
 
+- `src/`
+  - `app.ts` – TypeScript source for the npm package stats page
+  - `login.ts` – TypeScript source for Google sign-in
+  - `private.ts` – TypeScript source for the shared finance room
+  - `service-worker.ts` – TypeScript source for the service worker
+  - `shared/` – shared auth and ledger type definitions
 - `public/`
   - `index.html` – UI for viewing npm package stats
   - `login.html` – Google sign-in page for `/private`
   - `private.html` – authenticated page
-  - `app.js` – client logic (fetches npm registry + downloads APIs)
+  - `app.js` / `login.js` / `private.js` / `service-worker.js` – generated browser files built from `src/`
   - `styles.css` – styles
   - `manifest.webmanifest` – PWA manifest
-  - `service-worker.js` – network-first for HTML/APIs, cache-first for static
-- `server.mjs` – Node server for local development and auth/API routes
+- `server.ts` – local Node server for auth, API routes, and static serving
+- `auth.ts` / `google-client-id.ts` / `private-ledger-store.ts` – shared server-side TypeScript modules
+- `netlify/functions/*.ts` – deployed Netlify function entry points
 - `main.ts` / `main_test.ts` / `deno.json` – older Deno artifacts still in the repo
 - `netlify.toml` – deploy configuration
 
 ## Run locally
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Then open `http://localhost:3333`.
@@ -37,6 +44,7 @@ After changing `.env`, restart the dev server so the new auth values are loaded.
 Required variables:
 
 - `AUTH_SECRET` – secret used to sign session cookies
+- `LEDGER_SECRET` – secret used to encrypt the shared finance ledger at rest (recommended to keep separate from `AUTH_SECRET`)
 - `GOOGLE_CLIENT_ID` – Google OAuth 2.0 **Web application** client ID
 - `ALLOWED_EMAILS` – comma-separated email allowlist for Google Sign-In
 
@@ -57,7 +65,28 @@ Also make sure the account you use is included in `ALLOWED_EMAILS`.
 - `GET /api/npm?name=PACKAGE_NAME`
 - `POST /api/auth/google`
 - `GET /api/me`
+- `GET /api/private-ledger`
+- `POST /api/private-ledger/entries`
+- `POST /api/private-ledger/review`
 - `GET /api/logout`
+
+## Shared finance ledger
+
+The private area now includes a two-partner finance ledger designed for trust and transparency:
+
+- every new entry starts as `pending`
+- only the _other_ signed-in partner can approve or reject it
+- approved entries drive the totals and suggested settlement
+- every action is written to a tamper-evident audit chain
+- the stored ledger snapshot is encrypted at rest using `LEDGER_SECRET`
+
+Supported entry types:
+
+- `debt` – one partner owes the other directly
+- `payment` – one partner paid the other toward a debt
+- `expense` – one partner covered a shared cost
+- `income` – one partner received shared money
+- `note` – non-monetary context that still deserves partner approval
 
 ## Production
 
@@ -67,6 +96,7 @@ Also make sure the account you use is included in `ALLOWED_EMAILS`.
 
 ## Notes
 
-- The app loads environment variables from a local `.env` file with a tiny built-in loader in `server.mjs`.
+- The app loads environment variables from a local `.env` file with a tiny built-in loader in `auth.ts`.
 - The login page fetches `/api/config` to load the Google client ID at runtime.
 - The npm metadata flow uses `https://registry.npmjs.org` and `https://api.npmjs.org`.
+- Browser JavaScript in `public/` is generated from TypeScript sources in `src/`.

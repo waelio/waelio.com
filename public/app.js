@@ -1,148 +1,161 @@
-// src/app.ts
+"use strict";
+/// <reference lib="dom" />
+function isRecord(value) {
+    return typeof value === 'object' && value !== null;
+}
+function readString(record, key) {
+    const value = record[key];
+    return typeof value === 'string' ? value : undefined;
+}
+function readRecord(record, key) {
+    const value = record[key];
+    return isRecord(value) ? value : undefined;
+}
+function readStringArray(record, key) {
+    const value = record[key];
+    if (!Array.isArray(value) || value.some((item) => typeof item !== 'string')) {
+        return undefined;
+    }
+    return value;
+}
+function normalizeRepository(value) {
+    if (typeof value === 'string') {
+        return { url: value };
+    }
+    if (isRecord(value)) {
+        const url = readString(value, 'url');
+        return url ? { url } : {};
+    }
+    return null;
+}
 async function loadPackage(name) {
-  const [meta, downloads] = await Promise.all([
-    fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`).then(
-      (response) => {
-        if (!response.ok) throw new Error(`registry: ${response.status}`);
-        return response.json();
-      },
-    ),
-    fetch(
-      `https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`,
-    )
-      .then((response) => {
-        if (!response.ok) throw new Error(`downloads: ${response.status}`);
-        return response.json();
-      })
-      .catch(() => ({
-        downloads: 0,
-      })),
-  ]);
-  const distTags = meta["dist-tags"] || {};
-  const latest =
-    distTags.latest || Object.keys(meta.versions || {}).pop() || "";
-  const versionMeta = (meta.versions && meta.versions[latest]) || {};
-  const hasTypes = Boolean(versionMeta.types || versionMeta.typings);
-  const license = versionMeta.license || meta.license || "";
-  const homepage = versionMeta.homepage || meta.homepage || "";
-  let repository = versionMeta.repository || meta.repository || null;
-  if (typeof repository === "string") {
-    repository = {
-      url: repository,
+    const [meta, downloads] = await Promise.all([
+        fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`).then((response) => {
+            if (!response.ok)
+                throw new Error(`registry: ${response.status}`);
+            return response.json();
+        }),
+        fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`)
+            .then((response) => {
+            if (!response.ok)
+                throw new Error(`downloads: ${response.status}`);
+            return response.json();
+        })
+            .catch(() => ({ downloads: 0 })),
+    ]);
+    const metaRecord = isRecord(meta) ? meta : {};
+    const downloadsRecord = isRecord(downloads) ? downloads : {};
+    const distTags = readRecord(metaRecord, 'dist-tags') ?? {};
+    const versions = readRecord(metaRecord, 'versions') ?? {};
+    const latest = readString(distTags, 'latest') || Object.keys(versions).pop() || '';
+    const versionMeta = readRecord(versions, latest) ?? {};
+    const hasTypes = Boolean(versionMeta.types || versionMeta.typings);
+    const license = readString(versionMeta, 'license') || readString(metaRecord, 'license') || '';
+    const homepage = readString(versionMeta, 'homepage') || readString(metaRecord, 'homepage') || '';
+    const repository = normalizeRepository(versionMeta.repository ?? metaRecord.repository ?? null);
+    const keywords = readStringArray(versionMeta, 'keywords') ?? readStringArray(metaRecord, 'keywords') ?? [];
+    return {
+        name: readString(metaRecord, 'name') || name,
+        description: readString(versionMeta, 'description') || readString(metaRecord, 'description') || '',
+        version: latest,
+        homepage,
+        repository,
+        downloads_week: Number(downloadsRecord.downloads ?? 0),
+        keywords,
+        license,
+        has_types: hasTypes,
     };
-  }
-  return {
-    name: meta.name || name,
-    description: versionMeta.description || meta.description || "",
-    version: latest,
-    homepage,
-    repository,
-    downloads_week: Number(downloads.downloads || 0),
-    keywords: Array.isArray(versionMeta.keywords)
-      ? versionMeta.keywords
-      : Array.isArray(meta.keywords)
-        ? meta.keywords
-        : [],
-    license,
-    has_types: hasTypes,
-  };
 }
 function requireElement(id) {
-  const element = document.getElementById(id);
-  if (!element) throw new Error(`Missing element: ${id}`);
-  return element;
+    const element = document.getElementById(id);
+    if (!element)
+        throw new Error(`Missing element: ${id}`);
+    return element;
 }
 function linkify(meta) {
-  const links = [];
-  if (meta.homepage) {
-    links.push(
-      `<a href="${meta.homepage}" target="_blank" rel="noreferrer">homepage</a>`,
-    );
-  }
-  if (
-    meta.repository &&
-    typeof meta.repository === "object" &&
-    meta.repository.url
-  ) {
-    const url = meta.repository.url.replace(/^git\+/, "").replace(/\.git$/, "");
-    links.push(
-      `<a href="${url}" target="_blank" rel="noreferrer">repository</a>`,
-    );
-  }
-  links.push(
-    `<a href="https://www.npmjs.com/package/${encodeURIComponent(meta.name)}" target="_blank" rel="noreferrer">npm</a>`,
-  );
-  return links.join(" \xB7 ");
+    const links = [];
+    if (meta.homepage) {
+        links.push(`<a href="${meta.homepage}" target="_blank" rel="noreferrer">homepage</a>`);
+    }
+    if (meta.repository && typeof meta.repository === 'object' && meta.repository.url) {
+        const url = meta.repository.url.replace(/^git\+/, '').replace(/\.git$/, '');
+        links.push(`<a href="${url}" target="_blank" rel="noreferrer">repository</a>`);
+    }
+    links.push(`<a href="https://www.npmjs.com/package/${encodeURIComponent(meta.name)}" target="_blank" rel="noreferrer">npm</a>`);
+    return links.join(' · ');
 }
 function shieldsName(name) {
-  return name.replace(/\//g, "%2F");
+    return name.replace(/\//g, '%2F');
 }
 function badges(name, hasTypes) {
-  const safeName = shieldsName(name);
-  const version = `<img alt="npm version" src="https://img.shields.io/npm/v/${safeName}?label=version">`;
-  const downloads = `<img alt="weekly downloads" src="https://img.shields.io/npm/dw/${safeName}">`;
-  const license = `<img alt="license" src="https://img.shields.io/npm/l/${safeName}">`;
-  const types = hasTypes
-    ? '<img alt="types included" src="https://img.shields.io/badge/types-included-blue?logo=typescript">'
-    : "";
-  return [version, downloads, license, types].filter(Boolean).join("\n");
+    const safeName = shieldsName(name);
+    const version = `<img alt="npm version" src="https://img.shields.io/npm/v/${safeName}?label=version">`;
+    const downloads = `<img alt="weekly downloads" src="https://img.shields.io/npm/dw/${safeName}">`;
+    const license = `<img alt="license" src="https://img.shields.io/npm/l/${safeName}">`;
+    const types = hasTypes
+        ? '<img alt="types included" src="https://img.shields.io/badge/types-included-blue?logo=typescript">'
+        : '';
+    return [version, downloads, license, types].filter(Boolean).join('\n');
 }
 function renderKeywords(id, keywords) {
-  if (!Array.isArray(keywords) || keywords.length === 0) return;
-  requireElement(id).innerHTML =
-    `<span class="chips">${keywords.map((keyword) => `<span class="chip">${keyword}</span>`).join("")}</span>`;
+    if (!Array.isArray(keywords) || keywords.length === 0)
+        return;
+    requireElement(id).innerHTML = `<span class="chips">${keywords.map((keyword) => `<span class="chip">${keyword}</span>`).join('')}</span>`;
 }
 function renderPackage(prefix, meta) {
-  requireElement(`${prefix}-desc`).textContent = meta.description || "\u2014";
-  requireElement(`${prefix}-ver`).textContent = meta.version || "\u2014";
-  requireElement(`${prefix}-dl`).textContent = new Intl.NumberFormat().format(
-    meta.downloads_week || 0,
-  );
-  requireElement(`${prefix}-links`).innerHTML = linkify(meta);
-  requireElement(`${prefix}-badges`).innerHTML = badges(
-    meta.name,
-    Boolean(meta.has_types),
-  );
-  renderKeywords(`${prefix}-tags`, meta.keywords);
+    requireElement(`${prefix}-desc`).textContent = meta.description || '—';
+    requireElement(`${prefix}-ver`).textContent = meta.version || '—';
+    requireElement(`${prefix}-dl`).textContent = new Intl.NumberFormat().format(meta.downloads_week || 0);
+    requireElement(`${prefix}-links`).innerHTML = linkify(meta);
+    requireElement(`${prefix}-badges`).innerHTML = badges(meta.name, Boolean(meta.has_types));
+    renderKeywords(`${prefix}-tags`, meta.keywords);
 }
 function renderError(id, error) {
-  requireElement(id).textContent =
-    error instanceof Error ? error.message : String(error);
+    requireElement(id).textContent = error instanceof Error ? error.message : String(error);
 }
 async function loadPreferredUtilsPackage() {
-  const candidates = ["waelio-utils", "@waelio/utils", "@waelio/waelio-utils"];
-  for (const candidate of candidates) {
-    try {
-      return await loadPackage(candidate);
-    } catch {}
-  }
-  return null;
+    const candidates = ['waelio-utils', '@waelio/utils', '@waelio/waelio-utils'];
+    for (const candidate of candidates) {
+        try {
+            return await loadPackage(candidate);
+        }
+        catch {
+            // Try the next package name.
+        }
+    }
+    return null;
 }
 async function init() {
-  try {
-    renderPackage("msg", await loadPackage("@waelio/messaging"));
-  } catch (error) {
-    renderError("msg-error", error);
-  }
-  try {
-    renderPackage("ust", await loadPackage("@waelio/ustore"));
-  } catch (error) {
-    renderError("ust-error", error);
-  }
-  try {
-    const utilsPackage = await loadPreferredUtilsPackage();
-    if (!utilsPackage) {
-      requireElement("util-error").textContent = "Package not found on npm";
-    } else {
-      renderPackage("util", utilsPackage);
+    try {
+        renderPackage('msg', await loadPackage('@waelio/messaging'));
     }
-  } catch (error) {
-    renderError("util-error", error);
-  }
-  if ("serviceWorker" in navigator) {
-    globalThis.addEventListener("load", () => {
-      navigator.serviceWorker.register("/service-worker.js").catch(() => {});
-    });
-  }
+    catch (error) {
+        renderError('msg-error', error);
+    }
+    try {
+        renderPackage('ust', await loadPackage('@waelio/ustore'));
+    }
+    catch (error) {
+        renderError('ust-error', error);
+    }
+    try {
+        const utilsPackage = await loadPreferredUtilsPackage();
+        if (!utilsPackage) {
+            requireElement('util-error').textContent = 'Package not found on npm';
+        }
+        else {
+            renderPackage('util', utilsPackage);
+        }
+    }
+    catch (error) {
+        renderError('util-error', error);
+    }
+    if ('serviceWorker' in navigator) {
+        globalThis.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js').catch(() => {
+                // Logging disabled.
+            });
+        });
+    }
 }
 void init();

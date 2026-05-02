@@ -12,43 +12,78 @@ type NpmMeta = {
     has_types?: boolean;
 };
 
+type NpmRepository = Exclude<NpmMeta['repository'], undefined>;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null;
+}
+
+function readString(record: Record<string, unknown>, key: string): string | undefined {
+    const value = record[key];
+    return typeof value === 'string' ? value : undefined;
+}
+
+function readRecord(record: Record<string, unknown>, key: string): Record<string, unknown> | undefined {
+    const value = record[key];
+    return isRecord(value) ? value : undefined;
+}
+
+function readStringArray(record: Record<string, unknown>, key: string): string[] | undefined {
+    const value = record[key];
+    if (!Array.isArray(value) || value.some((item) => typeof item !== 'string')) {
+        return undefined;
+    }
+
+    return value;
+}
+
+function normalizeRepository(value: unknown): NpmRepository {
+    if (typeof value === 'string') {
+        return { url: value };
+    }
+
+    if (isRecord(value)) {
+        const url = readString(value, 'url');
+        return url ? { url } : {};
+    }
+
+    return null;
+}
+
 async function loadPackage(name: string): Promise<NpmMeta> {
     const [meta, downloads] = await Promise.all([
         fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`).then((response) => {
             if (!response.ok) throw new Error(`registry: ${response.status}`);
-            return response.json();
+            return response.json() as Promise<unknown>;
         }),
         fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`)
             .then((response) => {
                 if (!response.ok) throw new Error(`downloads: ${response.status}`);
-                return response.json();
+                return response.json() as Promise<unknown>;
             })
             .catch(() => ({ downloads: 0 })),
     ]);
 
-    const distTags = meta['dist-tags'] || {};
-    const latest = distTags.latest || Object.keys(meta.versions || {}).pop() || '';
-    const versionMeta = (meta.versions && meta.versions[latest]) || {};
+    const metaRecord = isRecord(meta) ? meta : {};
+    const downloadsRecord = isRecord(downloads) ? downloads : {};
+    const distTags = readRecord(metaRecord, 'dist-tags') ?? {};
+    const versions = readRecord(metaRecord, 'versions') ?? {};
+    const latest = readString(distTags, 'latest') || Object.keys(versions).pop() || '';
+    const versionMeta = readRecord(versions, latest) ?? {};
     const hasTypes = Boolean(versionMeta.types || versionMeta.typings);
-    const license = versionMeta.license || meta.license || '';
-    const homepage = versionMeta.homepage || meta.homepage || '';
-    let repository: NpmMeta['repository'] = versionMeta.repository || meta.repository || null;
-    if (typeof repository === 'string') {
-        repository = { url: repository };
-    }
+    const license = readString(versionMeta, 'license') || readString(metaRecord, 'license') || '';
+    const homepage = readString(versionMeta, 'homepage') || readString(metaRecord, 'homepage') || '';
+    const repository = normalizeRepository(versionMeta.repository ?? metaRecord.repository ?? null);
+    const keywords = readStringArray(versionMeta, 'keywords') ?? readStringArray(metaRecord, 'keywords') ?? [];
 
     return {
-        name: meta.name || name,
-        description: versionMeta.description || meta.description || '',
+        name: readString(metaRecord, 'name') || name,
+        description: readString(versionMeta, 'description') || readString(metaRecord, 'description') || '',
         version: latest,
         homepage,
         repository,
-        downloads_week: Number(downloads.downloads || 0),
-        keywords: Array.isArray(versionMeta.keywords)
-            ? versionMeta.keywords
-            : Array.isArray(meta.keywords)
-                ? meta.keywords
-                : [],
+        downloads_week: Number(downloadsRecord.downloads ?? 0),
+        keywords,
         license,
         has_types: hasTypes,
     };

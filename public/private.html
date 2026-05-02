@@ -34,61 +34,152 @@
       <main class="private-main">
         <div class="private-greeting" id="greeting-card">
           <h1 id="greeting-text">Welcome back</h1>
-          <p class="muted">
-            This is your private workspace. Only you and your business partner
-            can see this page.
+          <p class="muted" id="greeting-intro">
+            This is your private finance room. Every number here should stay
+            transparent, legitimate, and agreed by both partners.
           </p>
         </div>
 
-        <div class="private-grid">
-          <div class="card private-card">
-            <div class="private-card-icon">📊</div>
-            <h2>Business Overview</h2>
-            <p class="muted">Partnership dashboard — coming soon</p>
-          </div>
-          <div class="card private-card">
-            <div class="private-card-icon">📝</div>
-            <h2>Shared Notes</h2>
-            <p class="muted">Collaborative notes — coming soon</p>
-          </div>
-          <div class="card private-card">
-            <div class="private-card-icon">💰</div>
-            <h2>50/50 Split</h2>
-            <p class="muted">Revenue tracking — coming soon</p>
-          </div>
-          <div class="card private-card">
-            <div class="private-card-icon">⚙️</div>
-            <h2>Settings</h2>
-            <p class="muted">Account settings — coming soon</p>
-          </div>
+        <div id="page-status" class="ledger-status-banner" hidden></div>
+
+        <section class="ledger-summary-grid" id="summary-grid"></section>
+
+        <div class="ledger-layout">
+          <section class="ledger-panel">
+            <div class="ledger-section-heading">
+              <h2>How this stays fair</h2>
+              <p class="muted">
+                No hidden edits. No one-sided totals. No “trust me bro” math.
+              </p>
+            </div>
+            <ul class="ledger-rules" id="rules-list"></ul>
+          </section>
+
+          <section class="ledger-panel">
+            <div class="ledger-section-heading">
+              <h2>Add a finance entry</h2>
+              <p class="muted">
+                Submit the record once. The other partner reviews it before it
+                counts.
+              </p>
+            </div>
+
+            <form id="ledger-form" class="ledger-form">
+              <div class="ledger-field-grid">
+                <label class="ledger-field">
+                  <span>Entry type</span>
+                  <select name="kind" id="entry-kind">
+                    <option value="debt">Debt</option>
+                    <option value="payment">Payment</option>
+                    <option value="expense">Shared expense</option>
+                    <option value="income">Shared income</option>
+                    <option value="note">Shared note</option>
+                  </select>
+                </label>
+
+                <label class="ledger-field" id="subject-group">
+                  <span id="subject-label">Who owes this amount?</span>
+                  <select name="subjectEmail" id="entry-subject"></select>
+                </label>
+
+                <label class="ledger-field ledger-field-wide">
+                  <span>Title</span>
+                  <input
+                    type="text"
+                    name="title"
+                    id="entry-title"
+                    maxlength="140"
+                    placeholder="e.g. Payment for Heidar debt / Hosting invoice"
+                    required
+                  />
+                </label>
+
+                <label class="ledger-field" id="amount-group">
+                  <span>Amount</span>
+                  <input
+                    type="number"
+                    name="amount"
+                    id="entry-amount"
+                    step="0.01"
+                    min="0.01"
+                    placeholder="0.00"
+                  />
+                </label>
+
+                <label class="ledger-field" id="currency-group">
+                  <span>Currency</span>
+                  <input
+                    type="text"
+                    name="currency"
+                    id="entry-currency"
+                    value="USD"
+                    maxlength="8"
+                    placeholder="USD"
+                  />
+                </label>
+
+                <label class="ledger-field" id="split-group" hidden>
+                  <span>Other partner share %</span>
+                  <input
+                    type="number"
+                    name="splitPercent"
+                    id="entry-split"
+                    value="50"
+                    min="0"
+                    max="100"
+                    step="1"
+                  />
+                </label>
+
+                <label class="ledger-field ledger-field-wide">
+                  <span>Details</span>
+                  <textarea
+                    name="details"
+                    id="entry-details"
+                    rows="4"
+                    maxlength="4000"
+                    placeholder="Add context, links, what was paid for, or anything the other partner should see before approving."
+                  ></textarea>
+                </label>
+              </div>
+
+              <p class="ledger-kind-help muted" id="kind-help"></p>
+              <div id="form-status" class="ledger-status-banner" hidden></div>
+
+              <button
+                type="submit"
+                class="btn-primary ledger-submit-btn"
+                id="ledger-submit-btn"
+              >
+                Submit for partner approval
+              </button>
+            </form>
+          </section>
         </div>
+
+        <section class="ledger-panel">
+          <div class="ledger-section-heading">
+            <h2>Pending approvals</h2>
+            <p class="muted">
+              These are waiting for the other partner before they affect the
+              books.
+            </p>
+          </div>
+          <div class="ledger-list" id="pending-list"></div>
+        </section>
+
+        <section class="ledger-panel">
+          <div class="ledger-section-heading">
+            <h2>Full ledger history</h2>
+            <p class="muted">
+              The shared record stays visible, including approvals and
+              rejections.
+            </p>
+          </div>
+          <div class="ledger-list" id="entry-list"></div>
+        </section>
       </main>
     </div>
-
-    <script>
-      (async () => {
-        try {
-          const backButton = document.getElementById("back-btn");
-          backButton?.addEventListener("click", (event) => {
-            if (window.history.length > 1) {
-              event.preventDefault();
-              window.history.back();
-            }
-          });
-
-          const res = await fetch("/api/me");
-          if (!res.ok) {
-            window.location.href = "/login.html";
-            return;
-          }
-          const data = await res.json();
-          document.getElementById("user-name").textContent = data.user;
-          document.getElementById("greeting-text").textContent =
-            `Welcome back, ${data.user}`;
-        } catch {
-          window.location.href = "/login.html";
-        }
-      })();
-    </script>
+    <script type="module" src="/private.js"></script>
   </body>
 </html>
