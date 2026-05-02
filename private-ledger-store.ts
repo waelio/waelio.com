@@ -28,7 +28,15 @@ import {
     type Partner,
 } from "./src/shared/private-ledger.ts";
 
-const ROOT_DIR = dirname(fileURLToPath(import.meta.url));
+function resolveRootDir(): string {
+    try {
+        return dirname(fileURLToPath(import.meta.url));
+    } catch {
+        return process.cwd();
+    }
+}
+
+const ROOT_DIR = resolveRootDir();
 const LOCAL_LEDGER_FILE = join(ROOT_DIR, "data", "private-ledger.enc");
 const BLOB_STORE_NAME = "waelio-private";
 const BLOB_LEDGER_KEY = "finance-ledger";
