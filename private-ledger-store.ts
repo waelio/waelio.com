@@ -349,18 +349,27 @@ function verifyAuditChain(audit: LedgerAuditEvent[]): IntegrityStatus {
 }
 
 function isNetlifyRuntime(): boolean {
+    const cwd = typeof process.cwd === "function" ? process.cwd() : "";
+
     return Boolean(
         process.env.NETLIFY_BLOBS_CONTEXT
         || process.env.netlifyBlobsContext
         || process.env.NETLIFY
-        || process.env.CONTEXT,
+        || process.env.CONTEXT
+        || process.env.AWS_LAMBDA_FUNCTION_NAME
+        || process.env.LAMBDA_TASK_ROOT
+        || cwd.startsWith("/var/task"),
     );
 }
 
 async function readLedgerPayload(): Promise<string | null> {
     if (isNetlifyRuntime()) {
-        const payload = await getStore(BLOB_STORE_NAME).get(BLOB_LEDGER_KEY, { type: "text" });
-        return payload || null;
+        try {
+            const payload = await getStore(BLOB_STORE_NAME).get(BLOB_LEDGER_KEY, { type: "text" });
+            return payload || null;
+        } catch {
+            throw ledgerError(500, "Unable to access Netlify ledger storage");
+        }
     }
 
     try {
@@ -376,8 +385,12 @@ async function readLedgerPayload(): Promise<string | null> {
 
 async function writeLedgerPayload(payload: string): Promise<void> {
     if (isNetlifyRuntime()) {
-        await getStore(BLOB_STORE_NAME).set(BLOB_LEDGER_KEY, payload);
-        return;
+        try {
+            await getStore(BLOB_STORE_NAME).set(BLOB_LEDGER_KEY, payload);
+            return;
+        } catch {
+            throw ledgerError(500, "Unable to save the finance ledger in Netlify storage");
+        }
     }
 
     await mkdir(dirname(LOCAL_LEDGER_FILE), { recursive: true });
