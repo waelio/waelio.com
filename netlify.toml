@@ -1,4 +1,5 @@
 [build]
+  command = "pnpm run build:web"
   publish = "public"
   functions = "netlify/functions"
 

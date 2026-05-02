@@ -1,4 +1,6 @@
-# Ignore environment files# Nuxt dev/build outputs
+# Ignore environment files
+
+# Nuxt dev/build outputs
 
 .env.output
 
@@ -26,3 +28,7 @@ logs
 .env
 .env.*
 !.env.example
+
+# Generated browser build output
+public/*.js
+public/shared/*.js
