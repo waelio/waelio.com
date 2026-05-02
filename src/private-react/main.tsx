@@ -733,6 +733,30 @@ function App(): ReactNode {
     const [submitting, setSubmitting] = useState(false);
     const [reviewingEntryId, setReviewingEntryId] = useState<string | null>(null);
 
+    async function loadWorkbook(): Promise<void> {
+        setLoading(true);
+
+        try {
+            const payload = await requestJson("/api/private-ledger", { method: "GET" }, parseLedgerViewResponse);
+            setView(payload);
+            setForm((current) => current.subjectEmail ? current : resetForm(payload.viewer.email));
+            setPageStatus(null);
+        } catch (error) {
+            if (getStatusCode(error) === 401) {
+                window.location.href = LOGIN_PAGE;
+                return;
+            }
+
+            setView(null);
+            setPageStatus({
+                tone: "error",
+                text: error instanceof Error ? error.message : String(error),
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         const handlePageHide = () => {
             void triggerExitLogout();
@@ -745,28 +769,7 @@ function App(): ReactNode {
     }, []);
 
     useEffect(() => {
-        const boot = async () => {
-            try {
-                const payload = await requestJson("/api/private-ledger", { method: "GET" }, parseLedgerViewResponse);
-                setView(payload);
-                setForm((current) => current.subjectEmail ? current : resetForm(payload.viewer.email));
-                setPageStatus(null);
-            } catch (error) {
-                if (getStatusCode(error) === 401) {
-                    window.location.href = LOGIN_PAGE;
-                    return;
-                }
-
-                setPageStatus({
-                    tone: "error",
-                    text: error instanceof Error ? error.message : String(error),
-                });
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        void boot();
+        void loadWorkbook();
     }, []);
 
     const viewerLabel = useMemo(
@@ -1104,7 +1107,55 @@ function App(): ReactNode {
     }
 
     if (!view) {
-        return <div className="loading-state">Unable to load the private workbook.</div>;
+        const fallbackStatus = pageStatus ?? {
+            tone: "error" as const,
+            text: "The workbook request failed before any ledger data could be rendered.",
+        };
+
+        return (
+            <div className="loading-state">
+                <div className="sheet-panel workbook-fallback-card">
+                    <div className="sheet-panel-header">
+                        <div>
+                            <h2>Unable to load the private workbook.</h2>
+                            <p>The page shell loaded, but the workbook data request failed.</p>
+                        </div>
+                    </div>
+                    <div className="sheet-panel-body">
+                        <StatusBanner status={fallbackStatus} />
+                        <div className="workbook-fallback-actions">
+                            <button
+                                type="button"
+                                className="btn-primary"
+                                onClick={() => {
+                                    void loadWorkbook();
+                                }}
+                            >
+                                Retry load
+                            </button>
+                            <button
+                                type="button"
+                                className="btn-outline"
+                                onClick={() => {
+                                    window.location.href = LOGIN_PAGE;
+                                }}
+                            >
+                                Go to login
+                            </button>
+                            <button
+                                type="button"
+                                className="btn-outline"
+                                onClick={() => {
+                                    window.location.href = "/";
+                                }}
+                            >
+                                Go home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (
