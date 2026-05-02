@@ -2,39 +2,71 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0da4984c-e76c-42e2-aa68-8fdc10cdca15/deploy-status)](https://app.netlify.com/sites/waelio/deploys)
 
-# waelio.com (Deno static + PWA)
+# waelio.com
 
-This repository contains a small Deno project that serves a static site from `public/` and a couple of demo APIs. The front-end fetches npm package metadata directly from the npm APIs and registers a service worker for basic offline support.
+This repository contains a small Node-powered site that serves static files from `public/`, exposes a few lightweight APIs, and protects `/private` with either password auth or Google Sign-In.
 
 ## Structure
 
 - `public/`
   - `index.html` – UI for viewing npm package stats
+  - `login.html` – sign-in page for `/private`
+  - `private.html` – authenticated page
   - `app.js` – client logic (fetches npm registry + downloads APIs)
   - `styles.css` – styles
   - `manifest.webmanifest` – PWA manifest
   - `service-worker.js` – network-first for HTML/APIs, cache-first for static
-- `main.ts` – Deno server for local development; also exposes `/api/add` and `/api/npm`
-- `main_test.ts` – tiny unit test for `add(a, b)`
-- `deno.json` – tasks and import mappings
-- `netlify.toml` – static deploy: publish `public/` with no build step
+- `server.mjs` – Node server for local development and auth/API routes
+- `hash-password.mjs` – helper for generating password hashes for `.env`
+- `main.ts` / `main_test.ts` / `deno.json` – older Deno artifacts still in the repo
+- `netlify.toml` – deploy configuration
 
 ## Run locally
 
 ```bash
-deno task dev
+npm run dev
 ```
 
-Then open http://localhost:8000
+Then open `http://localhost:3333`.
 
-## Deploy (Netlify)
+## Auth configuration
 
-This site is configured for static deploys:
+Copy `.env.example` to `.env` and set the auth values you want to use locally.
 
-- Publish directory: `public/`
-- Build command: none (handled by `netlify.toml`)
+After changing `.env`, restart the dev server so the new auth values are loaded.
 
-Deploy status: see badge above. Click through to Netlify for deploy details/logs.
+Required variables:
+
+- `AUTH_SECRET` – secret used to sign session cookies and password hashes
+- `AUTH_USER_1`, `AUTH_USER_2` – username/hash pairs in the form `user:sha256hash`
+- `GOOGLE_CLIENT_ID` – Google OAuth 2.0 **Web application** client ID
+- `ALLOWED_EMAILS` – comma-separated email allowlist for Google Sign-In
+
+Generate password hashes with:
+
+```bash
+node hash-password.mjs <password> <secret>
+```
+
+### Google Sign-In notes
+
+If `GOOGLE_CLIENT_ID` is blank, the Google button is hidden and password login still works.
+
+If Google shows `Error 401: invalid_client`, the configured `GOOGLE_CLIENT_ID` is not a real OAuth client for this app. Create or copy a valid **Web application** client ID from Google Cloud Console and make sure these origins are allowed:
+
+- `http://localhost:3333`
+- your production domain, if applicable
+
+Also make sure the account you use is included in `ALLOWED_EMAILS`.
+
+## Available routes
+
+- `GET /api/add?a=NUMBER&b=NUMBER`
+- `GET /api/npm?name=PACKAGE_NAME`
+- `POST /api/login`
+- `POST /api/auth/google`
+- `GET /api/me`
+- `GET /api/logout`
 
 ## Production
 
@@ -44,4 +76,6 @@ Deploy status: see badge above. Click through to Netlify for deploy details/logs
 
 ## Notes
 
-- The client fetches `https://registry.npmjs.org` and `https://api.npmjs.org` directly (CORS-enabled), so no server or Node build step is required for deployment.
+- The app loads environment variables from a local `.env` file with a tiny built-in loader in `server.mjs`.
+- The login page fetches `/api/config` to load the Google client ID at runtime.
+- The npm metadata flow uses `https://registry.npmjs.org` and `https://api.npmjs.org`.
