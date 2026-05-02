@@ -3,9 +3,8 @@
     "dev": "deno run --watch --allow-net --allow-read main.ts",
     "start": "deno run --allow-net --allow-read main.ts",
     "test": "deno test",
-    "build:app": "deno bundle src/app.ts > public/app.js",
-    "build:service-worker": "deno bundle src/service-worker.ts > public/service-worker.js",
-    "build": "deno task build:app && deno task build:service-worker"
+    "build:web": "pnpm run build:web",
+    "build": "deno task build:web"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"

@@ -18,34 +18,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body>
-    <div class="auth-wrapper">
-      <div class="auth-card">
-        <div class="auth-logo">
-          <img
-            src="/logo.png?v=20260502"
-            alt="waelio logo"
-            class="brand-lockup brand-lockup-auth"
-          />
-        </div>
-        <h1 class="auth-title">Sign in</h1>
-        <p class="auth-subtitle">
-          Use your approved Google account to open your private workspace.
-        </p>
-
-        <div id="google-btn-wrapper" class="google-signin-wrapper">
-          <div id="google-btn"></div>
-        </div>
-
-        <div id="login-error" class="auth-error" hidden></div>
-
-        <a href="/" class="auth-back">← Back to waelio.com</a>
-        <div class="legal-links">
-          <a href="/privacy.html">Privacy Policy</a>
-          <a href="/terms.html">Terms of Service</a>
-        </div>
-      </div>
-    </div>
-
+    <div id="app"></div>
     <script type="module" src="/login.js"></script>
   </body>
 </html>

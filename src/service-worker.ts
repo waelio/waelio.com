@@ -4,8 +4,18 @@ export { };
 
 const serviceWorker = globalThis as unknown as ServiceWorkerGlobalScope;
 
-const CACHE_NAME = 'waelio-cache-v7';
-const APP_SHELL: string[] = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest', '/favicon.png?v=20260502', '/logo.png?v=20260502'];
+const CACHE_NAME = 'waelio-cache-v8';
+const APP_SHELL: string[] = [
+    '/',
+    '/index.html',
+    '/login.html',
+    '/styles.css',
+    '/app.js',
+    '/login.js',
+    '/manifest.webmanifest',
+    '/favicon.png?v=20260502',
+    '/logo.png?v=20260502',
+];
 
 serviceWorker.addEventListener('install', (event: ExtendableEvent) => {
     event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));

@@ -5,7 +5,7 @@
   "type": "module",
   "description": "waelio.com – Package stats site",
   "scripts": {
-    "build:web": "tsc -p tsconfig.web.json && tsx scripts/build-private-react.ts",
+    "build:web": "tsc -p tsconfig.web.json && tsx scripts/build-react-web.ts",
     "build": "pnpm run build:web",
     "dev": "tsx scripts/dev.ts",
     "start": "pnpm run build:web && tsx server.ts",

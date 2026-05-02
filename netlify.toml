@@ -60,7 +60,17 @@
     Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
-  for = "/private.js"
+  for = "/login.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/private-app/main.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/private-app/main.css"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
