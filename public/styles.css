@@ -26,6 +26,55 @@ header {
   gap: 0.75rem;
 }
 
+.site-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #6b7280;
+  margin: 0;
+}
+
+.site-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-brand-link:hover {
+  text-decoration: none;
+}
+
+.site-brand-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: inherit;
+}
+
+.brand-lockup {
+  display: block;
+  flex: 0 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.brand-lockup-header {
+  width: 196px;
+}
+
+.brand-lockup-auth {
+  width: 228px;
+  margin: 0 auto;
+}
+
+.brand-lockup-private {
+  width: 180px;
+}
+
+.brand-lockup-legal {
+  width: 196px;
+}
+
 .brand-logo {
   display: block;
   flex: 0 0 auto;
@@ -305,6 +354,25 @@ a:hover {
   text-decoration: none;
 }
 
+.legal-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+.legal-links a {
+  color: #94a3b8;
+}
+
+.legal-links a:hover {
+  color: #cbd5e1;
+  text-decoration: none;
+}
+
 .google-signin-wrapper {
   display: flex;
   justify-content: center;
@@ -439,6 +507,67 @@ a:hover {
   font-size: 2rem;
 }
 
+.page-shell {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.content-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+}
+
+.policy-content {
+  max-width: 960px;
+}
+
+.page-title {
+  font-size: 2rem;
+  margin: 0 0 0.5rem;
+}
+
+.page-meta {
+  margin: 0 0 0.5rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.policy-section + .policy-section {
+  margin-top: 1.75rem;
+}
+
+.policy-section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+}
+
+.policy-section ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.site-footer {
+  max-width: 960px;
+  margin: 2rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 /* ── Nav link in header ──────────────────────────────── */
 
 .header-nav {
@@ -464,10 +593,28 @@ a:hover {
 }
 
 @media (prefers-color-scheme: dark) {
+  .site-title {
+    color: #cbd5e1;
+  }
+
   .nav-link {
     color: #9ca3af;
     border-color: #2a2a2a;
   }
+
+  .content-card {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  .page-meta {
+    color: #94a3b8;
+  }
+
+  .site-footer {
+    border-color: #2a2a2a;
+  }
+
   .nav-link:hover {
     color: #a5b4fc;
     border-color: #6366f1;
@@ -491,6 +638,19 @@ a:hover {
     gap: 0.65rem;
   }
 
+  .site-brand-link {
+    gap: 0.65rem;
+  }
+
+  .brand-lockup-header,
+  .brand-lockup-legal {
+    width: 180px;
+  }
+
+  .brand-lockup-private {
+    width: 168px;
+  }
+
   h1 {
     font-size: 1.25rem;
   }
@@ -502,6 +662,10 @@ a:hover {
   .header-nav {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .site-footer {
+    align-items: flex-start;
   }
 
   /* Auth page */
@@ -518,6 +682,14 @@ a:hover {
 
   .auth-title {
     font-size: 1.5rem;
+  }
+
+  .content-card {
+    padding: 1.5rem;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
   }
 
   /* Private page */
@@ -556,6 +728,27 @@ a:hover {
     font-size: 1.1rem;
   }
 
+  .site-title {
+    font-size: 0.95rem;
+  }
+
+  .site-brand-name {
+    font-size: 1rem;
+  }
+
+  .brand-lockup-header,
+  .brand-lockup-legal {
+    width: 156px;
+  }
+
+  .brand-lockup-auth {
+    width: 200px;
+  }
+
+  .brand-lockup-private {
+    width: 146px;
+  }
+
   .brand-logo-main {
     width: 38px;
     height: 38px;
@@ -590,6 +783,18 @@ a:hover {
 
   .auth-title {
     font-size: 1.3rem;
+  }
+
+  .legal-links {
+    gap: 0.75rem;
+  }
+
+  .content-card {
+    padding: 1.25rem;
+  }
+
+  .page-title {
+    font-size: 1.4rem;
   }
 
   .form-group input {
@@ -650,5 +855,13 @@ a:hover {
 
   .remember-row {
     min-height: 44px;
+  }
+
+  .footer-links a,
+  .legal-links a,
+  .site-brand-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
 }

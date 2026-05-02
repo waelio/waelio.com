@@ -5,12 +5,12 @@
       <stop offset="1" stop-color="#1E293B" />
     </linearGradient>
     <linearGradient id="leftGrad" x1="118" y1="146" x2="256" y2="410" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#22D3EE" />
-      <stop offset="1" stop-color="#2563EB" />
+      <stop stop-color="#38BDF8" />
+      <stop offset="1" stop-color="#1D4ED8" />
     </linearGradient>
     <linearGradient id="rightGrad" x1="394" y1="146" x2="256" y2="410" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#A78BFA" />
-      <stop offset="1" stop-color="#EC4899" />
+      <stop stop-color="#38BDF8" />
+      <stop offset="1" stop-color="#1D4ED8" />
     </linearGradient>
     <linearGradient id="brickGrad" x1="214" y1="88" x2="306" y2="184" gradientUnits="userSpaceOnUse">
       <stop stop-color="#FDE68A" />

@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 260" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 10 760 236" fill="none">
   <defs>
     <linearGradient id="surface" x1="36" y1="22" x2="212" y2="214" gradientUnits="userSpaceOnUse">
       <stop stop-color="#0F172A" />
       <stop offset="1" stop-color="#1E293B" />
     </linearGradient>
     <linearGradient id="leftGrad" x1="74" y1="66" x2="140" y2="198" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#22D3EE" />
-      <stop offset="1" stop-color="#2563EB" />
+      <stop stop-color="#38BDF8" />
+      <stop offset="1" stop-color="#1D4ED8" />
     </linearGradient>
     <linearGradient id="rightGrad" x1="190" y1="66" x2="124" y2="198" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#A78BFA" />
-      <stop offset="1" stop-color="#EC4899" />
+      <stop stop-color="#38BDF8" />
+      <stop offset="1" stop-color="#1D4ED8" />
     </linearGradient>
     <linearGradient id="brickGrad" x1="104" y1="34" x2="152" y2="88" gradientUnits="userSpaceOnUse">
       <stop stop-color="#FDE68A" />
@@ -33,6 +33,6 @@
     <path d="M64 203C88 216 136 216 160 203" stroke="#E2E8F0" stroke-opacity="0.55" stroke-width="10" stroke-linecap="round" />
   </g>
 
-  <text x="274" y="126" fill="#0F172A" font-family="Inter, Avenir Next, Segoe UI, system-ui, sans-serif" font-size="106" font-weight="800" letter-spacing="-3">waelio</text>
-  <text x="280" y="172" fill="#64748B" font-family="Inter, Avenir Next, Segoe UI, system-ui, sans-serif" font-size="28" font-weight="700" letter-spacing="6">BUILD TOGETHER</text>
+  <text x="252" y="126" fill="#0F172A" font-family="Inter, Avenir Next, Segoe UI, system-ui, sans-serif" font-size="106" font-weight="800" letter-spacing="-3">waelio</text>
+  <text x="258" y="172" fill="#64748B" font-family="Inter, Avenir Next, Segoe UI, system-ui, sans-serif" font-size="28" font-weight="700" letter-spacing="6">BUILD TOGETHER</text>
 </svg>
