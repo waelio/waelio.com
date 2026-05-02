@@ -24,19 +24,7 @@
 
         <!-- Google Sign-In button -->
         <div id="google-btn-wrapper" class="google-signin-wrapper">
-          <div id="g_id_onload"
-            data-client_id=""
-            data-callback="handleGoogleSignIn"
-            data-auto_prompt="false">
-          </div>
-          <div class="g_id_signin"
-            data-type="standard"
-            data-size="large"
-            data-theme="filled_blue"
-            data-text="sign_in_with"
-            data-shape="pill"
-            data-width="340">
-          </div>
+          <div id="google-btn"></div>
         </div>
 
         <div id="login-error" class="auth-error" hidden></div>
@@ -85,21 +73,38 @@
     <script>
       const errorEl = document.getElementById('login-error');
 
-      // ── Load Google Client ID from server ──────────────
-      (async () => {
-        try {
-          const res = await fetch('/api/config');
-          const config = await res.json();
-          if (config.googleClientId) {
-            document.getElementById('g_id_onload')
-              .setAttribute('data-client_id', config.googleClientId);
-          } else {
+      // ── Load Google Client ID and render button ────────
+      function initGoogleSignIn() {
+        fetch('/api/config')
+          .then((r) => r.json())
+          .then((config) => {
+            if (!config.googleClientId) {
+              document.getElementById('google-btn-wrapper').style.display = 'none';
+              return;
+            }
+            google.accounts.id.initialize({
+              client_id: config.googleClientId,
+              callback: handleGoogleSignIn,
+            });
+            google.accounts.id.renderButton(
+              document.getElementById('google-btn'),
+              { theme: 'filled_blue', size: 'large', shape: 'pill', text: 'sign_in_with', width: 340 }
+            );
+          })
+          .catch(() => {
             document.getElementById('google-btn-wrapper').style.display = 'none';
-          }
-        } catch {
-          document.getElementById('google-btn-wrapper').style.display = 'none';
-        }
-      })();
+          });
+      }
+
+      // Wait for Google library to load, then init
+      if (typeof google !== 'undefined') {
+        initGoogleSignIn();
+      } else {
+        window.addEventListener('load', () => {
+          if (typeof google !== 'undefined') initGoogleSignIn();
+          else document.getElementById('google-btn-wrapper').style.display = 'none';
+        });
+      }
 
       // ── Google Sign-In callback ────────────────────────
       async function handleGoogleSignIn(response) {
