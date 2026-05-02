@@ -265,6 +265,29 @@ a:hover {
   text-decoration: none;
 }
 
+.google-signin-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0 1.5rem;
+  color: #475569;
+  font-size: 0.8rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 /* ── Private page ────────────────────────────────────── */
 
 .private-wrapper {

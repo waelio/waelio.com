@@ -28,6 +28,11 @@ try {
 
 const AUTH_SECRET = process.env.AUTH_SECRET || 'change-me-in-production';
 const TOKEN_MAX_AGE = 7 * 24 * 60 * 60; // 7 days in seconds
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
+const ALLOWED_EMAILS = (process.env.ALLOWED_EMAILS || '')
+  .split(',')
+  .map((e) => e.trim().toLowerCase())
+  .filter(Boolean);
 
 // Users from env: AUTH_USER_1="username:sha256hash"
 function loadUsers() {
@@ -162,6 +167,58 @@ const server = createServer(async (req, res) => {
       'Set-Cookie': `session=${token}; HttpOnly; Path=/; Max-Age=${TOKEN_MAX_AGE}; SameSite=Strict`,
     });
     return res.end(JSON.stringify({ ok: true, user: username }));
+  }
+
+  // ── AUTH: POST /api/auth/google ────────────────────────
+  if (path === '/api/auth/google' && req.method === 'POST') {
+    const body = await readBody(req);
+    if (!body || !body.credential) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Missing credential' }));
+    }
+    try {
+      // Verify token with Google
+      const verifyRes = await fetch(
+        `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(body.credential)}`
+      );
+      if (!verifyRes.ok) {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'Invalid Google token' }));
+      }
+      const payload = await verifyRes.json();
+
+      // Check audience matches our client ID
+      if (payload.aud !== GOOGLE_CLIENT_ID) {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'Token audience mismatch' }));
+      }
+
+      // Check email is in allowed list
+      const email = (payload.email || '').toLowerCase();
+      if (!ALLOWED_EMAILS.includes(email)) {
+        res.writeHead(403, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'Email not authorized' }));
+      }
+
+      // Create session
+      const displayName = payload.name || email.split('@')[0];
+      const token = createToken(displayName);
+      res.writeHead(200, {
+        'Content-Type': 'application/json',
+        'Set-Cookie': `session=${token}; HttpOnly; Path=/; Max-Age=${TOKEN_MAX_AGE}; SameSite=Strict`,
+      });
+      return res.end(JSON.stringify({ ok: true, user: displayName }));
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: `Google auth failed: ${msg}` }));
+    }
+  }
+
+  // ── CONFIG: GET /api/config ────────────────────────────
+  if (path === '/api/config') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ googleClientId: GOOGLE_CLIENT_ID }));
   }
 
   // ── AUTH: GET /api/logout ─────────────────────────────

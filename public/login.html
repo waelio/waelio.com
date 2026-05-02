@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#111827" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body>
     <div class="auth-wrapper">
@@ -20,6 +21,29 @@
         </div>
         <h1 class="auth-title">Welcome back</h1>
         <p class="auth-subtitle">Sign in to your private workspace</p>
+
+        <!-- Google Sign-In button -->
+        <div id="google-btn-wrapper" class="google-signin-wrapper">
+          <div id="g_id_onload"
+            data-client_id=""
+            data-callback="handleGoogleSignIn"
+            data-auto_prompt="false">
+          </div>
+          <div class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="filled_blue"
+            data-text="sign_in_with"
+            data-shape="pill"
+            data-width="340">
+          </div>
+        </div>
+
+        <div id="login-error" class="auth-error" hidden></div>
+
+        <div class="auth-divider">
+          <span>or sign in with password</span>
+        </div>
 
         <form id="login-form" autocomplete="on">
           <div class="form-group">
@@ -45,7 +69,6 @@
               required
             />
           </div>
-          <div id="login-error" class="auth-error" hidden></div>
           <label class="remember-row">
             <input type="checkbox" id="remember" checked />
             <span>Remember me</span>
@@ -60,17 +83,52 @@
     </div>
 
     <script>
-      const form = document.getElementById('login-form');
       const errorEl = document.getElementById('login-error');
+
+      // ── Load Google Client ID from server ──────────────
+      (async () => {
+        try {
+          const res = await fetch('/api/config');
+          const config = await res.json();
+          if (config.googleClientId) {
+            document.getElementById('g_id_onload')
+              .setAttribute('data-client_id', config.googleClientId);
+          } else {
+            document.getElementById('google-btn-wrapper').style.display = 'none';
+          }
+        } catch {
+          document.getElementById('google-btn-wrapper').style.display = 'none';
+        }
+      })();
+
+      // ── Google Sign-In callback ────────────────────────
+      async function handleGoogleSignIn(response) {
+        errorEl.hidden = true;
+        try {
+          const res = await fetch('/api/auth/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ credential: response.credential }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Google sign-in failed');
+          window.location.href = '/private';
+        } catch (err) {
+          errorEl.textContent = err.message;
+          errorEl.hidden = false;
+        }
+      }
+
+      // ── Password login ────────────────────────────────
+      const form = document.getElementById('login-form');
       const btn = document.getElementById('login-btn');
       const usernameEl = document.getElementById('username');
       const passwordEl = document.getElementById('password');
 
-      // Pre-fill saved username
       const saved = localStorage.getItem('waelio_user');
       if (saved) {
         usernameEl.value = saved;
-        passwordEl.focus();   // jump straight to password
+        passwordEl.focus();
       }
 
       form.addEventListener('submit', async (e) => {
@@ -78,7 +136,6 @@
         errorEl.hidden = true;
         btn.disabled = true;
         btn.textContent = 'Signing in…';
-
         const username = usernameEl.value.trim();
 
         try {
@@ -87,20 +144,14 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password: passwordEl.value }),
           });
-
           const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Login failed');
 
-          if (!res.ok) {
-            throw new Error(data.error || 'Login failed');
-          }
-
-          // Save username if "Remember me" is checked
           if (document.getElementById('remember').checked) {
             localStorage.setItem('waelio_user', username);
           } else {
             localStorage.removeItem('waelio_user');
           }
-
           window.location.href = '/private';
         } catch (err) {
           errorEl.textContent = err.message;
