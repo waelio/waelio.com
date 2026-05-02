@@ -1,14 +1,8 @@
 User-agent: *
 Allow: /
-Allow: /login.html
 
-# Block non-content resources from indexing
+# Block private and API URLs from crawling
 Disallow: /private
 Disallow: /api/
-Disallow: /app.js
-Disallow: /service-worker.js
-Disallow: /styles.css
-Disallow: /manifest.webmanifest
-Disallow: /favicon.svg
 
 Sitemap: https://waelio.com/sitemap.xml
