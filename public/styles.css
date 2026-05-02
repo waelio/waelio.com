@@ -556,6 +556,13 @@ a:hover {
   grid-column: 1 / -1;
 }
 
+.ledger-field-help {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
 .ledger-field span,
 .ledger-mini-label {
   font-size: 0.82rem;
@@ -593,6 +600,53 @@ a:hover {
 
 .ledger-kind-help {
   margin: 0;
+}
+
+.ledger-form-tools {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.ledger-checkbox {
+  flex: 1 1 280px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.ledger-checkbox input {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.2rem;
+  accent-color: #818cf8;
+  flex: 0 0 auto;
+}
+
+.ledger-checkbox-copy {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.ledger-checkbox-copy strong {
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.ledger-checkbox-copy small {
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.ledger-ai-btn {
+  align-self: center;
+  white-space: nowrap;
 }
 
 .ledger-submit-btn {
@@ -753,6 +807,12 @@ a:hover {
   background: rgba(245, 158, 11, 0.14);
   color: #fde68a;
   border-color: rgba(251, 191, 36, 0.18);
+}
+
+.ledger-pill-maybe {
+  background: rgba(244, 114, 182, 0.14);
+  color: #fbcfe8;
+  border-color: rgba(244, 114, 182, 0.25);
 }
 
 .ledger-entry-amount {

@@ -83,7 +83,7 @@
                 </label>
 
                 <label class="ledger-field ledger-field-wide">
-                  <span>Title</span>
+                  <span id="entry-title-label">Title</span>
                   <input
                     type="text"
                     name="title"
@@ -92,6 +92,10 @@
                     placeholder="e.g. Payment for Heidar debt / Hosting invoice"
                     required
                   />
+                  <p class="ledger-field-help" id="entry-title-help">
+                    Give every debt or payment a short title so both partners
+                    can recognize it quickly.
+                  </p>
                 </label>
 
                 <label class="ledger-field" id="amount-group">
@@ -108,14 +112,14 @@
 
                 <label class="ledger-field" id="currency-group">
                   <span>Currency</span>
-                  <input
-                    type="text"
-                    name="currency"
-                    id="entry-currency"
-                    value="USD"
-                    maxlength="8"
-                    placeholder="USD"
-                  />
+                  <select name="currency" id="entry-currency">
+                    <option value="USD">USD — Dollar ($)</option>
+                    <option value="ILS">ILS — Shekel (₪)</option>
+                  </select>
+                  <p class="ledger-field-help">
+                    Switch each payment, debt, expense, or income between
+                    dollars and shekels.
+                  </p>
                 </label>
 
                 <label class="ledger-field" id="split-group" hidden>
@@ -141,6 +145,27 @@
                     placeholder="Add context, links, what was paid for, or anything the other partner should see before approving."
                   ></textarea>
                 </label>
+
+                <div class="ledger-form-tools">
+                  <label class="ledger-checkbox" for="entry-is-maybe">
+                    <input type="checkbox" name="isMaybe" id="entry-is-maybe" />
+                    <span class="ledger-checkbox-copy">
+                      <strong>Maybe / needs confirmation</strong>
+                      <small>
+                        Adds a clear “maybe” note to the description so the
+                        other partner knows it is tentative.
+                      </small>
+                    </span>
+                  </label>
+
+                  <button
+                    type="button"
+                    class="btn-outline ledger-ai-btn"
+                    id="ledger-ai-btn"
+                  >
+                    Suggest title + details with AI
+                  </button>
+                </div>
               </div>
 
               <p class="ledger-kind-help muted" id="kind-help"></p>

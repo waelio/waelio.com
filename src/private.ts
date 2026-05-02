@@ -11,11 +11,51 @@ import type {
 
 type StatusTone = "info" | "success" | "warning" | "error";
 
+type SuggestionSource = "ai" | "fallback";
+
+interface LedgerEntrySuggestion {
+    title: string;
+    details: string;
+    source: SuggestionSource;
+}
+
+interface LedgerEntrySuggestionContext {
+    kind: LedgerEntryKind;
+    subjectLabel: string;
+    counterpartyLabel: string;
+    amount: string;
+    currency: string;
+    splitPercent: string;
+    title: string;
+    details: string;
+    isMaybe: boolean;
+}
+
+interface AiPromptSession {
+    prompt(input: string): Promise<string>;
+    destroy?: () => void;
+}
+
+interface BrowserLanguageModelFactory {
+    create(): Promise<AiPromptSession>;
+}
+
+declare global {
+    interface Window {
+        ai?: {
+            languageModel?: BrowserLanguageModelFactory;
+        };
+        LanguageModel?: BrowserLanguageModelFactory;
+    }
+}
+
 interface AppState {
     data: LedgerViewResponse | null;
 }
 
 const DEFAULT_CURRENCY = "USD";
+const MAYBE_PREFIX = "Maybe / needs confirmation: ";
+const MAYBE_ONLY_MESSAGE = "Maybe / needs confirmation.";
 
 const state: AppState = {
     data: null,
@@ -31,11 +71,15 @@ const pendingListEl = requireElement<HTMLElement>("pending-list");
 const entryListEl = requireElement<HTMLElement>("entry-list");
 const ledgerForm = requireElement<HTMLFormElement>("ledger-form");
 const submitButton = requireElement<HTMLButtonElement>("ledger-submit-btn");
+const aiButton = requireElement<HTMLButtonElement>("ledger-ai-btn");
 const formStatusEl = requireElement<HTMLDivElement>("form-status");
 const pageStatusEl = requireElement<HTMLDivElement>("page-status");
 const kindField = requireElement<HTMLSelectElement>("entry-kind");
 const subjectField = requireElement<HTMLSelectElement>("entry-subject");
-const currencyField = requireElement<HTMLInputElement>("entry-currency");
+const titleInput = requireElement<HTMLInputElement>("entry-title");
+const titleLabelEl = requireElement<HTMLSpanElement>("entry-title-label");
+const titleHelpEl = requireElement<HTMLParagraphElement>("entry-title-help");
+const currencyField = requireElement<HTMLSelectElement>("entry-currency");
 const splitField = requireElement<HTMLInputElement>("entry-split");
 const splitGroup = requireElement<HTMLElement>("split-group");
 const amountGroup = requireElement<HTMLElement>("amount-group");
@@ -44,6 +88,8 @@ const subjectGroup = requireElement<HTMLElement>("subject-group");
 const kindHelpEl = requireElement<HTMLParagraphElement>("kind-help");
 const subjectLabelEl = requireElement<HTMLSpanElement>("subject-label");
 const amountInput = requireElement<HTMLInputElement>("entry-amount");
+const detailsInput = requireElement<HTMLTextAreaElement>("entry-details");
+const maybeField = requireElement<HTMLInputElement>("entry-is-maybe");
 
 function requireElement<TElement extends HTMLElement>(id: string): TElement {
     const element = document.getElementById(id);
@@ -89,6 +135,27 @@ function escapeHtml(value: string | number | null | undefined): string {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#39;");
+}
+
+function normalizeText(value: string, maxLength: number): string {
+    return value.trim().replace(/^"|"$/g, "").slice(0, maxLength);
+}
+
+function stripMaybePrefix(details: string): string {
+    const trimmed = details.trim();
+    if (trimmed === MAYBE_ONLY_MESSAGE) return "";
+    if (trimmed.startsWith(MAYBE_PREFIX)) {
+        return trimmed.slice(MAYBE_PREFIX.length).trim();
+    }
+
+    return trimmed;
+}
+
+function withMaybePrefix(details: string, isMaybe: boolean): string {
+    const stripped = stripMaybePrefix(details);
+    if (!isMaybe) return stripped;
+    if (!stripped) return MAYBE_ONLY_MESSAGE;
+    return `${MAYBE_PREFIX}${stripped}`;
 }
 
 function formatDate(value: string | null | undefined): string {
@@ -188,6 +255,51 @@ function getKindHelp(kind: LedgerEntryKind): string {
     }
 }
 
+function getTitleHelp(kind: LedgerEntryKind): string {
+    switch (kind) {
+        case "debt":
+            return "Every debt should have a short title so both partners know exactly what it refers to.";
+        case "payment":
+            return "Name the payment clearly so it is easy to match against the debt or agreement it affects.";
+        case "expense":
+            return "Give the shared expense a recognizable title, like hosting, ads, or travel.";
+        case "income":
+            return "Use a title that says where the shared income came from.";
+        case "note":
+            return "Use a short title so this note stays easy to scan later.";
+    }
+}
+
+function getTitlePlaceholder(kind: LedgerEntryKind): string {
+    switch (kind) {
+        case "debt":
+            return "e.g. Hosting advance owed back";
+        case "payment":
+            return "e.g. Partial payment for hosting debt";
+        case "expense":
+            return "e.g. Shared domain renewal";
+        case "income":
+            return "e.g. Client project deposit";
+        case "note":
+            return "e.g. Agreed payment plan";
+    }
+}
+
+function getDetailsPlaceholder(kind: LedgerEntryKind): string {
+    switch (kind) {
+        case "debt":
+            return "Explain why the debt exists, what it covers, and anything the other partner should confirm.";
+        case "payment":
+            return "Explain what the payment covered, whether it was partial or full, and any reference details.";
+        case "expense":
+            return "Describe the shared expense, what was paid for, and anything that supports the amount.";
+        case "income":
+            return "Describe where the income came from and how the shared split should be understood.";
+        case "note":
+            return "Add context, links, or reminders the other partner should approve transparently.";
+    }
+}
+
 function getSubjectLabel(kind: LedgerEntryKind): string {
     switch (kind) {
         case "debt":
@@ -210,6 +322,10 @@ function updateFormForKind(): void {
 
     kindHelpEl.textContent = getKindHelp(kind);
     subjectLabelEl.textContent = getSubjectLabel(kind);
+    titleLabelEl.textContent = kind === "debt" ? "Debt title" : "Title";
+    titleHelpEl.textContent = getTitleHelp(kind);
+    titleInput.placeholder = getTitlePlaceholder(kind);
+    detailsInput.placeholder = getDetailsPlaceholder(kind);
 
     amountGroup.hidden = isNote;
     currencyGroup.hidden = isNote;
@@ -219,6 +335,158 @@ function updateFormForKind(): void {
     amountInput.required = !isNote;
     subjectField.required = !isNote;
     splitField.required = usesSplit;
+}
+
+function getPartnerLabelsForSuggestion(): { subjectLabel: string; counterpartyLabel: string } {
+    const subjectLabel = getPartnerLabel(subjectField.value);
+    const counterpartyLabel = state.data?.partners.find((partner) => partner.email !== subjectField.value)?.label
+        ?? state.data?.partners[0]?.label
+        ?? "Partner";
+
+    return {
+        subjectLabel,
+        counterpartyLabel,
+    };
+}
+
+function buildSuggestionContext(): LedgerEntrySuggestionContext {
+    const { subjectLabel, counterpartyLabel } = getPartnerLabelsForSuggestion();
+
+    return {
+        kind: kindField.value as LedgerEntryKind,
+        subjectLabel,
+        counterpartyLabel,
+        amount: amountInput.value.trim(),
+        currency: currencyField.value || DEFAULT_CURRENCY,
+        splitPercent: splitField.value.trim(),
+        title: titleInput.value.trim(),
+        details: stripMaybePrefix(detailsInput.value),
+        isMaybe: maybeField.checked,
+    };
+}
+
+function buildFallbackSuggestion(context: LedgerEntrySuggestionContext): LedgerEntrySuggestion {
+    const amountText = context.amount ? `${context.amount} ${context.currency}` : context.currency;
+    const title = context.title || (() => {
+        switch (context.kind) {
+            case "debt":
+                return `${context.subjectLabel} owes ${context.counterpartyLabel}`;
+            case "payment":
+                return `Payment from ${context.subjectLabel}`;
+            case "expense":
+                return `Shared expense paid by ${context.subjectLabel}`;
+            case "income":
+                return `Shared income received by ${context.subjectLabel}`;
+            case "note":
+                return `Shared note for ${context.subjectLabel}`;
+        }
+    })();
+
+    const detailsBase = context.details || (() => {
+        switch (context.kind) {
+            case "debt":
+                return `${context.subjectLabel} may owe ${context.counterpartyLabel} ${amountText}. Add what this debt is for and when it should be settled.`;
+            case "payment":
+                return `${context.subjectLabel} paid ${amountText} toward a shared obligation with ${context.counterpartyLabel}. Add what this payment covers.`;
+            case "expense":
+                return `${context.subjectLabel} paid ${amountText} for a shared expense. The other partner share is ${context.splitPercent || "50"}% unless both agree otherwise.`;
+            case "income":
+                return `${context.subjectLabel} received ${amountText} as shared income. The partner split is ${context.splitPercent || "50"}% unless both agree otherwise.`;
+            case "note":
+                return `Shared note between ${context.subjectLabel} and ${context.counterpartyLabel}. Add the context both partners should approve.`;
+        }
+    })();
+
+    return {
+        title: normalizeText(title, 140),
+        details: withMaybePrefix(normalizeText(detailsBase, 4000), context.isMaybe),
+        source: "fallback",
+    };
+}
+
+function getBrowserLanguageModelFactory(): BrowserLanguageModelFactory | null {
+    if (window.ai?.languageModel) return window.ai.languageModel;
+    if (window.LanguageModel) return window.LanguageModel;
+    return null;
+}
+
+function buildAiPrompt(context: LedgerEntrySuggestionContext): string {
+    return [
+        "You help write very short finance ledger entries for a two-partner approval workflow.",
+        "Return JSON only with exactly two string keys: title and details.",
+        "Keep the title under 70 characters.",
+        "Keep the details under 220 characters.",
+        "Be clear, neutral, and easy for another partner to review.",
+        `Kind: ${context.kind}`,
+        `Main partner: ${context.subjectLabel}`,
+        `Other partner: ${context.counterpartyLabel}`,
+        context.amount ? `Amount: ${context.amount}` : "",
+        context.currency ? `Currency: ${context.currency}` : "",
+        context.splitPercent ? `Split percent: ${context.splitPercent}` : "",
+        context.title ? `Current title draft: ${context.title}` : "",
+        context.details ? `Current details draft: ${context.details}` : "",
+        context.isMaybe ? "This entry is tentative and should sound like a maybe / needs confirmation item." : "",
+    ].filter(Boolean).join("\n");
+}
+
+function parseAiSuggestion(raw: string, isMaybe: boolean): LedgerEntrySuggestion | null {
+    const trimmed = raw.trim();
+    const jsonStart = trimmed.indexOf("{");
+    const jsonEnd = trimmed.lastIndexOf("}");
+
+    if (jsonStart !== -1 && jsonEnd > jsonStart) {
+        try {
+            const parsed = JSON.parse(trimmed.slice(jsonStart, jsonEnd + 1)) as unknown;
+            if (isRecord(parsed) && typeof parsed.title === "string" && typeof parsed.details === "string") {
+                return {
+                    title: normalizeText(parsed.title, 140),
+                    details: withMaybePrefix(normalizeText(parsed.details, 4000), isMaybe),
+                    source: "ai",
+                };
+            }
+        } catch {
+            // Fall through to the line-based parser.
+        }
+    }
+
+    const lines = trimmed.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+    const titleLine = lines.find((line) => /^title\s*:/i.test(line));
+    const detailsLine = lines.find((line) => /^details\s*:/i.test(line));
+    if (!titleLine || !detailsLine) return null;
+
+    return {
+        title: normalizeText(titleLine.replace(/^title\s*:/i, ""), 140),
+        details: withMaybePrefix(normalizeText(detailsLine.replace(/^details\s*:/i, ""), 4000), isMaybe),
+        source: "ai",
+    };
+}
+
+async function suggestWithAi(context: LedgerEntrySuggestionContext): Promise<LedgerEntrySuggestion | null> {
+    const factory = getBrowserLanguageModelFactory();
+    if (!factory) return null;
+
+    let session: AiPromptSession | null = null;
+
+    try {
+        session = await factory.create();
+        const response = await session.prompt(buildAiPrompt(context));
+        return parseAiSuggestion(response, context.isMaybe);
+    } catch {
+        return null;
+    } finally {
+        session?.destroy?.();
+    }
+}
+
+async function suggestEntryCopy(): Promise<LedgerEntrySuggestion> {
+    const context = buildSuggestionContext();
+    const aiSuggestion = await suggestWithAi(context);
+    if (aiSuggestion) return aiSuggestion;
+    return buildFallbackSuggestion(context);
+}
+
+function syncMaybeDetails(): void {
+    detailsInput.value = withMaybePrefix(detailsInput.value, maybeField.checked);
 }
 
 function populatePartnerOptions(): void {
@@ -316,6 +584,9 @@ function renderEntryCard(entry: LedgerEntryView): string {
     const splitMarkup = entry.splitPercent !== null
         ? `<span class="ledger-pill">Split ${escapeHtml(entry.splitPercent)}%</span>`
         : "";
+    const maybeMarkup = entry.isMaybe
+        ? '<span class="ledger-pill ledger-pill-maybe">maybe</span>'
+        : "";
 
     return `
     <article class="ledger-entry ledger-entry-${escapeHtml(entry.status)}">
@@ -325,6 +596,7 @@ function renderEntryCard(entry: LedgerEntryView): string {
             <span class="ledger-pill ledger-pill-kind">${escapeHtml(entry.kind)}</span>
             <span class="ledger-pill ledger-pill-status ledger-pill-status-${escapeHtml(entry.status)}">${escapeHtml(entry.status)}</span>
             ${splitMarkup}
+                        ${maybeMarkup}
           </div>
           <h3>${escapeHtml(entry.title)}</h3>
           <p class="ledger-entry-subtitle">${escapeHtml(entry.descriptionLine)}</p>
@@ -386,10 +658,12 @@ async function loadLedger(): Promise<void> {
 
 function buildLedgerEntryInput(formData: FormData): LedgerEntryInput {
     const kind = String(formData.get("kind") ?? "note") as LedgerEntryKind;
+    const isMaybe = formData.get("isMaybe") !== null;
     const payload: LedgerEntryInput = {
         kind,
         title: String(formData.get("title") ?? ""),
-        details: String(formData.get("details") ?? ""),
+        details: withMaybePrefix(String(formData.get("details") ?? ""), isMaybe),
+        isMaybe,
     };
 
     if (kind !== "note") {
@@ -431,6 +705,7 @@ async function handleSubmit(event: SubmitEvent): Promise<void> {
         ledgerForm.reset();
         currencyField.value = DEFAULT_CURRENCY;
         splitField.value = "50";
+        maybeField.checked = false;
         renderPage();
     } catch (error) {
         if (getStatusCode(error) === 401) {
@@ -441,6 +716,29 @@ async function handleSubmit(event: SubmitEvent): Promise<void> {
         showStatus(formStatusEl, error instanceof Error ? error.message : String(error), "error");
     } finally {
         submitButton.disabled = false;
+    }
+}
+
+async function handleAiSuggestion(): Promise<void> {
+    showStatus(formStatusEl, "Working on a draft…", "info");
+
+    try {
+        aiButton.disabled = true;
+        const suggestion = await suggestEntryCopy();
+        titleInput.value = suggestion.title;
+        detailsInput.value = suggestion.details;
+
+        showStatus(
+            formStatusEl,
+            suggestion.source === "ai"
+                ? "Filled the title and description with AI help."
+                : "Browser AI was not available, so I filled a smart draft instead.",
+            suggestion.source === "ai" ? "success" : "warning",
+        );
+    } catch (error) {
+        showStatus(formStatusEl, error instanceof Error ? error.message : String(error), "error");
+    } finally {
+        aiButton.disabled = false;
     }
 }
 
@@ -500,6 +798,10 @@ backButton.addEventListener("click", (event) => {
 });
 
 kindField.addEventListener("change", updateFormForKind);
+maybeField.addEventListener("change", syncMaybeDetails);
+aiButton.addEventListener("click", () => {
+    void handleAiSuggestion();
+});
 ledgerForm.addEventListener("submit", (event) => {
     void handleSubmit(event);
 });

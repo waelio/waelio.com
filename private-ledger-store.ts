@@ -100,6 +100,10 @@ function roundMoney(value: number | string | null | undefined): number {
     return Math.round(Number(value ?? 0) * 100) / 100;
 }
 
+function parseBooleanLike(value: unknown): boolean {
+    return value === true || value === "true" || value === "on" || value === 1 || value === "1";
+}
+
 function normalizeEmail(value: unknown): string {
     return String(value ?? "").trim().toLowerCase();
 }
@@ -203,6 +207,7 @@ function normalizeEntry(value: unknown): LedgerEntry | null {
         id: sanitizeText(value.id, 80) || randomUUID(),
         title: sanitizeText(value.title, 140) || "Untitled entry",
         details: sanitizeText(value.details, 4000),
+        isMaybe: parseBooleanLike(value.isMaybe),
         status: normalizeStatus(value.status),
         createdAt: sanitizeText(value.createdAt, 64) || nowIso(),
         createdBy: normalizeActor(value.createdBy),
@@ -473,6 +478,7 @@ function createEntryRecord(input: unknown, actor: LedgerViewer, partners: Partne
 
     const title = sanitizeText(input.title, 140);
     const details = sanitizeText(input.details, 4000);
+    const isMaybe = parseBooleanLike(input.isMaybe);
     if (!title) {
         throw ledgerError(400, "Title is required");
     }
@@ -481,6 +487,7 @@ function createEntryRecord(input: unknown, actor: LedgerViewer, partners: Partne
         id: randomUUID(),
         title,
         details,
+        isMaybe,
         status: "pending" as const,
         createdAt: nowIso(),
         createdBy: {

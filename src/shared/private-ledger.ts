@@ -28,6 +28,7 @@ export interface LedgerEntryBase {
     id: string;
     title: string;
     details: string;
+    isMaybe: boolean;
     status: LedgerEntryStatus;
     createdAt: string;
     createdBy: LedgerActor;
@@ -124,6 +125,7 @@ export interface LedgerEntryInput {
     kind: LedgerEntryKind;
     title: string;
     details: string;
+    isMaybe?: boolean;
     subjectEmail?: string;
     amount?: string | number;
     currency?: string;
