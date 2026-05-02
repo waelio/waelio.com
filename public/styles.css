@@ -408,3 +408,174 @@ a:hover {
     border-color: #6366f1;
   }
 }
+
+/* ── Responsive: Tablet (≤768px) ─────────────────────── */
+
+@media (max-width: 768px) {
+  body {
+    padding: 1.25rem;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .header-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Auth page */
+  .auth-wrapper {
+    padding: 1rem;
+    align-items: flex-start;
+    padding-top: 15vh;
+  }
+
+  .auth-card {
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+  }
+
+  .auth-title {
+    font-size: 1.5rem;
+  }
+
+  /* Private page */
+  .private-header {
+    padding: 1rem 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .private-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .private-main {
+    padding: 0.5rem 1.25rem 2rem;
+  }
+
+  .private-greeting h1 {
+    font-size: 1.5rem;
+  }
+
+  .private-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Responsive: Mobile (≤480px) ─────────────────────── */
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+  }
+
+  .card {
+    padding: 0.85rem 1rem;
+  }
+
+  .label {
+    min-width: 90px;
+  }
+
+  .badges img {
+    height: 16px;
+  }
+
+  .chip {
+    font-size: 0.75rem;
+    padding: 1px 6px;
+  }
+
+  /* Auth page */
+  .auth-wrapper {
+    padding: 0.75rem;
+    padding-top: 10vh;
+  }
+
+  .auth-card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .auth-title {
+    font-size: 1.3rem;
+  }
+
+  .form-group input {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.95rem;
+  }
+
+  .btn-primary {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  /* Private page */
+  .private-header-left {
+    gap: 0.5rem;
+  }
+
+  .private-brand {
+    font-size: 0.95rem;
+  }
+
+  .private-greeting h1 {
+    font-size: 1.3rem;
+  }
+
+  .private-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .private-card {
+    padding: 1.25rem;
+  }
+
+  .private-card-icon {
+    font-size: 1.5rem;
+  }
+
+  .private-card h2 {
+    font-size: 0.95rem;
+  }
+}
+
+/* ── Touch-friendly targets ──────────────────────────── */
+
+@media (pointer: coarse) {
+  .btn-primary,
+  .btn-outline,
+  .nav-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-group input {
+    min-height: 48px;
+  }
+
+  .remember-row {
+    min-height: 44px;
+  }
+}
+
