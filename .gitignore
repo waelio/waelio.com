@@ -32,3 +32,4 @@ logs
 # Generated browser build output
 public/*.js
 public/shared/*.js
+public/private-app/

@@ -134,7 +134,7 @@ async function handleGoogleSignIn(response: GoogleCredentialResponse): Promise<v
 
     try {
         await submitGoogleSignIn({ credential: response.credential });
-        window.location.href = "/private.html";
+        window.location.href = "/private";
     } catch (error) {
         showError(error instanceof Error ? error.message : String(error));
     }

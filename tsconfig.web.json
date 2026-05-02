@@ -8,12 +8,6 @@
     "types": [],
     "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
-  "include": [
-    "src/app.ts",
-    "src/login.ts",
-    "src/private.ts",
-    "src/service-worker.ts",
-    "src/shared/**/*.ts"
-  ],
+  "include": ["src/app.ts", "src/login.ts", "src/service-worker.ts"],
   "exclude": ["node_modules"]
 }
