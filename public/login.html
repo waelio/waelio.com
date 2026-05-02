@@ -46,6 +46,10 @@
             />
           </div>
           <div id="login-error" class="auth-error" hidden></div>
+          <label class="remember-row">
+            <input type="checkbox" id="remember" checked />
+            <span>Remember me</span>
+          </label>
           <button type="submit" id="login-btn" class="btn-primary">
             Sign in
           </button>
@@ -59,6 +63,15 @@
       const form = document.getElementById('login-form');
       const errorEl = document.getElementById('login-error');
       const btn = document.getElementById('login-btn');
+      const usernameEl = document.getElementById('username');
+      const passwordEl = document.getElementById('password');
+
+      // Pre-fill saved username
+      const saved = localStorage.getItem('waelio_user');
+      if (saved) {
+        usernameEl.value = saved;
+        passwordEl.focus();   // jump straight to password
+      }
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -66,20 +79,26 @@
         btn.disabled = true;
         btn.textContent = 'Signing in…';
 
+        const username = usernameEl.value.trim();
+
         try {
           const res = await fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              username: document.getElementById('username').value.trim(),
-              password: document.getElementById('password').value,
-            }),
+            body: JSON.stringify({ username, password: passwordEl.value }),
           });
 
           const data = await res.json();
 
           if (!res.ok) {
             throw new Error(data.error || 'Login failed');
+          }
+
+          // Save username if "Remember me" is checked
+          if (document.getElementById('remember').checked) {
+            localStorage.setItem('waelio_user', username);
+          } else {
+            localStorage.removeItem('waelio_user');
           }
 
           window.location.href = '/private';
