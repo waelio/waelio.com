@@ -4,14 +4,17 @@ export { };
 
 const serviceWorker = globalThis as unknown as ServiceWorkerGlobalScope;
 
-const CACHE_NAME = 'waelio-cache-v8';
+const CACHE_NAME = 'waelio-cache-v9';
+const ASSET_VERSION = '20260502-react-ui-2';
 const APP_SHELL: string[] = [
     '/',
     '/index.html',
     '/login.html',
-    '/styles.css',
-    '/app.js',
-    '/login.js',
+    `/styles.css?v=${ASSET_VERSION}`,
+    `/app.js?v=${ASSET_VERSION}`,
+    `/login.js?v=${ASSET_VERSION}`,
+    `/private-app/main.css?v=${ASSET_VERSION}`,
+    `/private-app/main.js?v=${ASSET_VERSION}`,
     '/manifest.webmanifest',
     '/favicon.png?v=20260502',
     '/logo.png?v=20260502',
@@ -35,8 +38,14 @@ serviceWorker.addEventListener('fetch', (event: FetchEvent) => {
     const request = event.request;
     const url = new URL(request.url);
     const wantsHtml = request.mode === 'navigate' || (request.headers.get('accept') ?? '').includes('text/html');
+    const isApiRequest = url.pathname.startsWith('/api/');
+    const isRuntimeAsset = request.destination === 'script'
+        || request.destination === 'style'
+        || url.pathname === '/app.js'
+        || url.pathname === '/login.js'
+        || url.pathname.startsWith('/private-app/');
 
-    if (wantsHtml || url.pathname.startsWith('/api/')) {
+    if (wantsHtml || isApiRequest || isRuntimeAsset) {
         event.respondWith(
             fetch(request)
                 .then((response) => {
