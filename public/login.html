@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login – waelio.com</title>
+    <meta name="theme-color" content="#111827" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="auth-wrapper">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+            <rect width="100" height="100" rx="20" fill="url(#g1)"/>
+            <text x="50" y="62" text-anchor="middle" font-size="42" font-weight="700" fill="#fff" font-family="system-ui">W</text>
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="100" y2="100"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          </svg>
+        </div>
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-subtitle">Sign in to your private workspace</p>
+
+        <form id="login-form" autocomplete="on">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              autocomplete="username"
+              placeholder="Enter your username"
+              required
+              autofocus
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <div id="login-error" class="auth-error" hidden></div>
+          <button type="submit" id="login-btn" class="btn-primary">
+            Sign in
+          </button>
+        </form>
+
+        <a href="/" class="auth-back">← Back to waelio.com</a>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('login-form');
+      const errorEl = document.getElementById('login-error');
+      const btn = document.getElementById('login-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorEl.hidden = true;
+        btn.disabled = true;
+        btn.textContent = 'Signing in…';
+
+        try {
+          const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: document.getElementById('username').value.trim(),
+              password: document.getElementById('password').value,
+            }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error || 'Login failed');
+          }
+
+          window.location.href = '/private';
+        } catch (err) {
+          errorEl.textContent = err.message;
+          errorEl.hidden = false;
+          btn.disabled = false;
+          btn.textContent = 'Sign in';
+        }
+      });
+    </script>
+  </body>
+</html>
