@@ -9,6 +9,7 @@ import {
     TOKEN_MAX_AGE,
     verifyToken,
 } from "../../auth.ts";
+import { connectLambda } from "@netlify/blobs";
 
 loadEnvFile(process.cwd());
 
@@ -16,6 +17,7 @@ export interface NetlifyFunctionEvent {
     httpMethod: string;
     body: string | null;
     headers: Record<string, string | undefined>;
+    blobs?: string;
 }
 
 export interface NetlifyFunctionResponse {
@@ -75,4 +77,12 @@ export function redirect(location: string, headers: Record<string, string> = {})
 
 export function methodNotAllowed(allow: string): NetlifyFunctionResponse {
     return json(405, { error: "Method not allowed" }, { Allow: allow });
+}
+
+export function connectNetlifyBlobs(event: NetlifyFunctionEvent): void {
+    if (typeof event.blobs !== "string" || !event.blobs) {
+        return;
+    }
+
+    connectLambda(event as Parameters<typeof connectLambda>[0]);
 }

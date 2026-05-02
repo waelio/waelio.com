@@ -1,4 +1,5 @@
 import {
+    connectNetlifyBlobs,
     json,
     methodNotAllowed,
     parseCookies,
@@ -13,6 +14,7 @@ import type { ApiErrorResponse } from "../../src/shared/auth.ts";
 export async function handler(event: NetlifyFunctionEvent): Promise<NetlifyFunctionResponse> {
     if (event.httpMethod !== "POST") return methodNotAllowed("POST");
 
+    connectNetlifyBlobs(event);
     const session = verifyToken(parseCookies(event.headers).session);
 
     try {
