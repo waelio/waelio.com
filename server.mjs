@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { resolveGoogleClientId } from "./google-client-id.mjs";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const PORT = Number(process.env.PORT) || 3333;
@@ -33,7 +34,7 @@ try {
 
 const AUTH_SECRET = process.env.AUTH_SECRET || "change-me-in-production";
 const TOKEN_MAX_AGE = 7 * 24 * 60 * 60; // 7 days in seconds
-const GOOGLE_CLIENT_ID = (process.env.GOOGLE_CLIENT_ID || "").trim();
+const GOOGLE_CLIENT_ID = resolveGoogleClientId(process.env.GOOGLE_CLIENT_ID);
 const ALLOWED_EMAILS = (process.env.ALLOWED_EMAILS || "")
   .split(",")
   .map((e) => e.trim().toLowerCase())

@@ -1,6 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { resolveGoogleClientId } from "../../google-client-id.mjs";
 
 const ROOT_DIR = process.cwd();
 
@@ -24,7 +25,9 @@ try {
 
 const AUTH_SECRET = process.env.AUTH_SECRET || "change-me-in-production";
 export const TOKEN_MAX_AGE = 7 * 24 * 60 * 60;
-export const GOOGLE_CLIENT_ID = (process.env.GOOGLE_CLIENT_ID || "").trim();
+export const GOOGLE_CLIENT_ID = resolveGoogleClientId(
+  process.env.GOOGLE_CLIENT_ID,
+);
 export const ALLOWED_EMAILS = (process.env.ALLOWED_EMAILS || "")
   .split(",")
   .map((email) => email.trim().toLowerCase())
