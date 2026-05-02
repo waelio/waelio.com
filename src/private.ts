@@ -56,10 +56,13 @@ interface AppState {
 const DEFAULT_CURRENCY = "USD";
 const MAYBE_PREFIX = "Maybe / needs confirmation: ";
 const MAYBE_ONLY_MESSAGE = "Maybe / needs confirmation.";
+const LOGOUT_ENDPOINT = "/api/logout";
 
 const state: AppState = {
     data: null,
 };
+
+let hasTriggeredExitLogout = false;
 
 const backButton = requireElement<HTMLAnchorElement>("back-btn");
 const userNameEl = requireElement<HTMLSpanElement>("user-name");
@@ -204,6 +207,21 @@ function showStatus(target: HTMLDivElement, message: string, type: StatusTone): 
     target.hidden = false;
     target.textContent = message;
     target.className = `ledger-status-banner ledger-status-banner-${type}`;
+}
+
+async function triggerExitLogout(): Promise<void> {
+    if (hasTriggeredExitLogout) return;
+    hasTriggeredExitLogout = true;
+
+    try {
+        await fetch(LOGOUT_ENDPOINT, {
+            method: "POST",
+            credentials: "same-origin",
+            keepalive: true,
+        });
+    } catch {
+        // Ignore background logout failures during navigation.
+    }
 }
 
 async function readJson(response: Response): Promise<unknown> {
@@ -791,10 +809,22 @@ async function handleReview(button: HTMLButtonElement): Promise<void> {
 }
 
 backButton.addEventListener("click", (event) => {
-    if (window.history.length > 1) {
-        event.preventDefault();
-        window.history.back();
-    }
+    event.preventDefault();
+
+    void (async () => {
+        await triggerExitLogout();
+
+        if (window.history.length > 1) {
+            window.history.back();
+            return;
+        }
+
+        window.location.href = "/";
+    })();
+});
+
+window.addEventListener("pagehide", () => {
+    void triggerExitLogout();
 });
 
 kindField.addEventListener("change", updateFormForKind);

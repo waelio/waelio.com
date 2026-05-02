@@ -269,9 +269,27 @@ const server = createServer(async (req, res) => {
     }
 
     if (path === "/api/logout") {
-        res.writeHead(302, {
-            Location: "/",
-            "Set-Cookie": clearSessionCookie(),
+        if (req.method === "POST") {
+            res.writeHead(204, {
+                "Set-Cookie": clearSessionCookie(),
+                "Cache-Control": "no-store",
+            });
+            res.end();
+            return;
+        }
+
+        if (!req.method || req.method === "GET") {
+            res.writeHead(302, {
+                Location: "/",
+                "Set-Cookie": clearSessionCookie(),
+                "Cache-Control": "no-store",
+            });
+            res.end();
+            return;
+        }
+
+        res.writeHead(405, {
+            Allow: "GET, POST",
             "Cache-Control": "no-store",
         });
         res.end();
