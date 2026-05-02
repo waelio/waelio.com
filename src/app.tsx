@@ -199,6 +199,14 @@ function formatDownloads(downloadsWeek: number | undefined): string {
     return new Intl.NumberFormat().format(downloadsWeek ?? 0);
 }
 
+function isLoadedPackageState(state: PackageState): state is Extract<PackageState, { status: "loaded" }> {
+    return state.status === "loaded";
+}
+
+function isErrorPackageState(state: PackageState): state is Extract<PackageState, { status: "error" }> {
+    return state.status === "error";
+}
+
 function getRepositoryUrl(repository: NpmRepository | undefined): string | null {
     if (!repository?.url) {
         return null;
@@ -316,6 +324,37 @@ function PackageCard(props: { title: string; state: PackageState }): ReactNode {
     );
 }
 
+function DownloadsSummary(props: {
+    packageDefinitions: PackageDefinition[];
+    packages: Record<string, PackageState>;
+}): ReactNode {
+    const states = props.packageDefinitions.map((definition) => props.packages[definition.key] ?? LOADING_PACKAGE_STATE);
+    const loadedStates = states.filter(isLoadedPackageState);
+    const errorCount = states.filter(isErrorPackageState).length;
+    const totalWeeklyDownloads = loadedStates.reduce(
+        (sum, state) => sum + (state.meta.downloadsWeek ?? 0),
+        0,
+    );
+    const allLoaded = loadedStates.length === props.packageDefinitions.length;
+    const caption = allLoaded
+        ? `${props.packageDefinitions.length} packages counted from npm last week`
+        : `${loadedStates.length}/${props.packageDefinitions.length} packages loaded so far`;
+    const meta = errorCount > 0
+        ? `${errorCount} package${errorCount === 1 ? "" : "s"} could not be loaded right now.`
+        : "Live total based on the package cards below.";
+
+    return (
+        <section className="summary-card" aria-label="Total downloads summary">
+            <div className="summary-eyebrow">Combined downloads</div>
+            <div className="summary-value">
+                {loadedStates.length > 0 ? formatDownloads(totalWeeklyDownloads) : "Loading…"}
+            </div>
+            <div className="summary-caption">Weekly npm downloads across your packages</div>
+            <div className="summary-meta">{caption} · {meta}</div>
+        </section>
+    );
+}
+
 function App(): ReactNode {
     const [packageDefinitions, setPackageDefinitions] = useState<PackageDefinition[]>(FALLBACK_PACKAGE_DEFINITIONS);
     const [packages, setPackages] = useState<Record<string, PackageState>>(() => (
@@ -410,6 +449,10 @@ function App(): ReactNode {
                     <a href="/private" className="nav-link">🔒 Private</a>
                 </div>
             </header>
+
+            <div className="page-shell">
+                <DownloadsSummary packageDefinitions={packageDefinitions} packages={packages} />
+            </div>
 
             <div className="container">
                 {packageDefinitions.map((definition) => (
