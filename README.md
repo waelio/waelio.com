@@ -2,6 +2,8 @@
 
 This repository contains a small TypeScript-powered site that serves static files from `public/`, exposes lightweight APIs, and protects `/private` with Google Sign-In.
 
+# No VERCEL in any projects any private project, even if my life depended on it, I will never use this piece of shit VERCEL. 
+
 ## Structure
 
 - `src/`
