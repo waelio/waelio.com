@@ -94,13 +94,13 @@ const amountInput = requireElement<HTMLInputElement>("entry-amount");
 const detailsInput = requireElement<HTMLTextAreaElement>("entry-details");
 const maybeField = requireElement<HTMLInputElement>("entry-is-maybe");
 
-function requireElement<TElement extends HTMLElement>(id: string): TElement {
+function requireElement<TElement>(id: string): TElement {
     const element = document.getElementById(id);
-    if (!(element instanceof HTMLElement)) {
+    if (element === null) {
         throw new Error(`Missing element: ${id}`);
     }
 
-    return element as TElement;
+    return element as unknown as TElement;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

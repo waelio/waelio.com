@@ -24,7 +24,6 @@
     "scripts/**/*.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "netlify/functions/**/*.ts",
     "functions/**/*.ts"
   ],
   "exclude": ["node_modules", "public", "main.ts", "main_test.ts"]

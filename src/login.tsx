@@ -94,7 +94,7 @@ async function loadGoogleConfig(): Promise<GoogleConfigResponse> {
 
     if (!response.ok) {
         throw new Error(
-            "Authentication backend is not deployed yet. Deploy the Netlify functions for /api/config.",
+            "Authentication backend is not deployed yet. Deploy the Cloudflare Pages Functions for /api/config.",
         );
     }
 

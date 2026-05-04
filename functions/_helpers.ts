@@ -1,7 +1,6 @@
 /**
  * Shared helpers for Cloudflare Pages Functions.
- * Replaces the old netlify/functions/_auth.ts — same logic,
- * but uses Web-standard Request/Response instead of Netlify's event model.
+ * Uses Web-standard Request/Response primitives for auth and API responses.
  */
 import {
     clearSessionCookie,
