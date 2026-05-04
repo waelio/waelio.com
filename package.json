@@ -8,21 +8,23 @@
     "build:web": "tsc -p tsconfig.web.json && tsx scripts/build-react-web.ts",
     "build": "pnpm run build:web",
     "dev": "tsx scripts/dev.ts",
+    "pages:dev": "pnpm run build:web && npx wrangler pages dev public --kv=WAELIO_PRIVATE --compatibility-date=2024-12-01 --compatibility-flags=nodejs_compat",
     "start": "pnpm run build:web && tsx server.ts",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@netlify/blobs": "^10.7.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "waelio-utils": "^5.0.3"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250501.0",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "esbuild": "^0.28.0",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.16.0"
   }
 }

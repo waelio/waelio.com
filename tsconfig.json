@@ -12,7 +12,7 @@
     "useUnknownInCatchVariables": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
-    "types": ["node"],
+    "types": ["node", "@cloudflare/workers-types"],
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "noEmit": true
   },
@@ -24,7 +24,8 @@
     "scripts/**/*.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "netlify/functions/**/*.ts"
+    "netlify/functions/**/*.ts",
+    "functions/**/*.ts"
   ],
   "exclude": ["node_modules", "public", "main.ts", "main_test.ts"]
 }

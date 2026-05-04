@@ -33,3 +33,6 @@ logs
 public/*.js
 public/shared/*.js
 public/private-app/
+
+# Cloudflare local dev
+.wrangler

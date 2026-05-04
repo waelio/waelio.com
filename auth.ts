@@ -141,7 +141,7 @@ export function parseCookies(source: CookieSource | string | undefined): Record<
 }
 
 function secureCookieAttribute(): string {
-    return process.env.CONTEXT ? "; Secure" : "";
+    return (process.env.CONTEXT || process.env.CLOUDFLARE) ? "; Secure" : "";
 }
 
 export function createSessionCookie(session: AuthSession): string {

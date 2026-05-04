@@ -1,0 +1,11 @@
+# Cloudflare Pages configuration for waelio.com
+name = "waelio-com"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# KV namespace binding for the private ledger storage
+# After creating the KV namespace, replace the placeholder ID:
+#   npx wrangler kv namespace create WAELIO_PRIVATE
+[[kv_namespaces]]
+binding = "WAELIO_PRIVATE"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
