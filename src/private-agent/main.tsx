@@ -73,12 +73,107 @@ function createMessageId(): string {
         : `msg-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
+const FRONTEND_ONLY_AGENT_HOSTS = new Set(["waelio-agent.pages.dev"]);
+
 function normalizeApiUrl(url: string): string {
     return url.trim().replace(/\/+$/, "");
 }
 
 function normalizeAppName(appName: string): string {
     return appName.trim() || "Agent";
+}
+
+function parseAbsoluteHttpUrl(url: string): URL | null {
+    const normalizedUrl = normalizeApiUrl(url);
+    if (!normalizedUrl) {
+        return null;
+    }
+
+    try {
+        const parsedUrl = new URL(normalizedUrl);
+        if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+            return null;
+        }
+
+        return parsedUrl;
+    } catch {
+        return null;
+    }
+}
+
+function getApiBaseUrlProblem(url: string): string | null {
+    const normalizedUrl = normalizeApiUrl(url);
+    if (!normalizedUrl) {
+        return null;
+    }
+
+    const parsedUrl = parseAbsoluteHttpUrl(normalizedUrl);
+    if (!parsedUrl) {
+        return "Enter a full backend URL like https://your-adk-backend.example.com.";
+    }
+
+    if (FRONTEND_ONLY_AGENT_HOSTS.has(parsedUrl.hostname.toLowerCase())) {
+        return `${parsedUrl.origin} is the public waelio agent frontend, not the ADK backend. Enter your backend API URL instead.`;
+    }
+
+    return null;
+}
+
+function resolveApiBaseUrl(url: string): { apiBaseUrl: string; problem: string | null } {
+    const normalizedUrl = normalizeApiUrl(url);
+    const problem = getApiBaseUrlProblem(normalizedUrl);
+
+    return {
+        apiBaseUrl: problem ? "" : normalizedUrl,
+        problem,
+    };
+}
+
+function getDefaultApiBaseUrl(
+    storedApiBaseUrl: string,
+    configuredApiBaseUrl: string,
+): { apiBaseUrl: string; warning: string | null } {
+    const sources = [
+        {
+            label: "saved browser override",
+            value: storedApiBaseUrl,
+            clearStorage: true,
+        },
+        {
+            label: "configured default backend URL",
+            value: configuredApiBaseUrl,
+            clearStorage: false,
+        },
+        {
+            label: "localhost default",
+            value: isLocalhost() ? "http://localhost:8000" : "",
+            clearStorage: false,
+        },
+    ];
+
+    let warning: string | null = null;
+
+    for (const source of sources) {
+        const { apiBaseUrl, problem } = resolveApiBaseUrl(source.value);
+        if (problem) {
+            if (source.clearStorage) {
+                persistValue(API_BASE_URL_STORAGE_KEY, "");
+            }
+
+            warning ??= source.label === "saved browser override"
+                ? `Ignored your saved backend URL. ${problem}`
+                : source.label === "configured default backend URL"
+                    ? `Ignored the configured default backend URL. ${problem}`
+                    : problem;
+            continue;
+        }
+
+        if (apiBaseUrl) {
+            return { apiBaseUrl, warning };
+        }
+    }
+
+    return { apiBaseUrl: "", warning };
 }
 
 function isLocalhost(): boolean {
@@ -148,6 +243,11 @@ async function requestJson<TResponse>(
 }
 
 function buildConnectHelp(apiBaseUrl: string): string {
+    const problem = getApiBaseUrlProblem(apiBaseUrl);
+    if (problem) {
+        return problem;
+    }
+
     if (!apiBaseUrl) {
         return "Set your private ADK backend URL to start chatting.";
     }
@@ -233,11 +333,10 @@ async function runAgent(
                     content?: {
                         parts?: Array<{ text?: string }>;
                     };
-                };
-                const part = event.content?.parts?.[0]?.text;
-                if (part) {
-                    reply += part;
-                }
+                const {
+                    apiBaseUrl: defaultApiBaseUrl,
+                    warning: defaultApiBaseUrlWarning,
+                } = getDefaultApiBaseUrl(storedApiBaseUrl, nextConfig.apiBaseUrl);
             } catch {
                 // Ignore partial SSE frames until more bytes arrive.
             }
@@ -255,443 +354,467 @@ function StatusBanner(props: { status: StatusMessage | null }): ReactNode {
             {props.status.text}
         </div>
     );
-}
+    text: defaultApiBaseUrlWarning
+        || "Add your private backend URL to begin. This page uses only the backend you point it at.",
 
-function App(): ReactNode {
-    const [me, setMe] = useState<MeResponse | null>(null);
-    const [config, setConfig] = useState<AgentConfigResponse>({ apiBaseUrl: "", appName: "Agent" });
-    const [apiBaseUrl, setApiBaseUrl] = useState("");
-    const [apiBaseUrlInput, setApiBaseUrlInput] = useState("");
-    const [appName, setAppName] = useState("Agent");
-    const [appNameInput, setAppNameInput] = useState("Agent");
-    const [sessionId, setSessionId] = useState<string | null>(null);
-    const [messages, setMessages] = useState<ChatMessage[]>([]);
-    const [draftMessage, setDraftMessage] = useState("");
-    const [pageStatus, setPageStatus] = useState<StatusMessage | null>(null);
-    const [settingsStatus, setSettingsStatus] = useState<StatusMessage | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [connecting, setConnecting] = useState(false);
-    const [sending, setSending] = useState(false);
-    const { theme, setTheme, themeOptions } = useThemeMode();
-    const chatEndRef = useRef<HTMLDivElement | null>(null);
+        function App(): ReactNode {
+            const [me, setMe] = useState<MeResponse | null>(null);
+            const [config, setConfig] = useState<AgentConfigResponse>({ apiBaseUrl: "", appName: "Agent" });
+        } else if (defaultApiBaseUrlWarning) {
+            setPageStatus({
+                tone: "warning",
+                text: defaultApiBaseUrlWarning,
+            });
+            const [apiBaseUrl, setApiBaseUrl] = useState("");
+            const [apiBaseUrlInput, setApiBaseUrlInput] = useState("");
+            const [appName, setAppName] = useState("Agent");
+            const [appNameInput, setAppNameInput] = useState("Agent");
+            const [sessionId, setSessionId] = useState<string | null>(null);
+            const [messages, setMessages] = useState<ChatMessage[]>([]);
+            const [draftMessage, setDraftMessage] = useState("");
+            const [pageStatus, setPageStatus] = useState<StatusMessage | null>(null);
+            const [settingsStatus, setSettingsStatus] = useState<StatusMessage | null>(null);
+            const [loading, setLoading] = useState(true);
+            const [connecting, setConnecting] = useState(false);
+            const [sending, setSending] = useState(false);
+            const { theme, setTheme, themeOptions } = useThemeMode();
+            const chatEndRef = useRef<HTMLDivElement | null>(null);
 
-    const canSend = Boolean(sessionId && draftMessage.trim() && !sending && !connecting);
-    const userId = useMemo(() => me?.email.trim().toLowerCase() ?? "", [me?.email]);
+            const canSend = Boolean(sessionId && draftMessage.trim() && !sending && !connecting);
+            const userId = useMemo(() => me?.email.trim().toLowerCase() ?? "", [me?.email]);
 
-    useEffect(() => {
-        chatEndRef.current?.scrollIntoView({ block: "end" });
-    }, [messages]);
+            useEffect(() => {
+                chatEndRef.current?.scrollIntoView({ block: "end" });
+            }, [messages]);
 
-    useEffect(() => {
-        let cancelled = false;
+            useEffect(() => {
+                let cancelled = false;
 
-        const loadPage = async () => {
-            setLoading(true);
+                const loadPage = async () => {
+                    setLoading(true);
 
-            try {
-                await disableWaelioRuntimeCaching();
+                    try {
+                        await disableWaelioRuntimeCaching();
 
-                const [nextMe, nextConfig] = await Promise.all([
-                    requestJson("/api/me", parseMeResponse),
-                    requestJson("/api/agent/config", parseAgentConfigResponse),
+                        const [nextMe, nextConfig] = await Promise.all([
+            const { apiBaseUrl: normalizedApiBaseUrl, problem } = resolveApiBaseUrl(nextApiBaseUrl);
+                        requestJson("/api/agent/config", parseAgentConfigResponse),
                 ]);
 
-                if (cancelled) return;
+            if (cancelled) return;
 
-                const storedApiBaseUrl = normalizeApiUrl(readStoredValue(API_BASE_URL_STORAGE_KEY));
+            text: problem || "Add a backend URL first.",
                 const storedAppName = normalizeAppName(readStoredValue(APP_NAME_STORAGE_KEY));
-                const defaultApiBaseUrl = normalizeApiUrl(
-                    storedApiBaseUrl
-                    || nextConfig.apiBaseUrl
-                    || (isLocalhost() ? "http://localhost:8000" : ""),
-                );
-                const defaultAppName = normalizeAppName(storedAppName || nextConfig.appName || "Agent");
-
-                setMe(nextMe);
-                setConfig(nextConfig);
-                setApiBaseUrl(defaultApiBaseUrl);
-                setApiBaseUrlInput(defaultApiBaseUrl);
-                setAppName(defaultAppName);
-                setAppNameInput(defaultAppName);
-                setMessages(defaultApiBaseUrl
-                    ? [{
-                        id: createMessageId(),
-                        role: "system",
-                        text: `Ready to connect. ${buildConnectHelp(defaultApiBaseUrl)}`,
-                    }]
-                    : [{
-                        id: createMessageId(),
-                        role: "system",
-                        text: "Add your private backend URL to begin. This page uses only the backend you point it at.",
-                    }]);
-
-                if (defaultApiBaseUrl) {
-                    await connect(defaultApiBaseUrl, defaultAppName, nextMe.email, false);
-                } else {
-                    setPageStatus({
-                        tone: "warning",
-                        text: "No default backend URL is configured yet. Add one below and connect when you are ready.",
-                    });
-                }
-            } catch (error) {
-                if (cancelled) return;
-
-                const statusCode = isRecord(error) && typeof error.statusCode === "number" ? error.statusCode : null;
-                if (statusCode === 401) {
-                    window.location.href = LOGIN_PAGE;
-                    return;
-                }
-
-                setPageStatus({
-                    tone: "error",
-                    text: error instanceof Error ? error.message : String(error),
+            if (problem) {
+                setSettingsStatus({
+                    tone: "warning",
+                    text: "Use your ADK backend URL here, not the public frontend URL.",
                 });
-            } finally {
-                if (!cancelled) {
-                    setLoading(false);
-                }
             }
-        };
+            const defaultApiBaseUrl = normalizeApiUrl(
+                storedApiBaseUrl
+                || nextConfig.apiBaseUrl
+                || (isLocalhost() ? "http://localhost:8000" : ""),
+            );
+            const defaultAppName = normalizeAppName(storedAppName || nextConfig.appName || "Agent");
 
-        const connect = async (
-            nextApiBaseUrl: string,
-            nextAppName: string,
-            nextUserId: string,
-            persist: boolean,
-        ): Promise<void> => {
-            const normalizedApiBaseUrl = normalizeApiUrl(nextApiBaseUrl);
-            const normalizedAppName = normalizeAppName(nextAppName);
+            setMe(nextMe);
+            setConfig(nextConfig);
+            setApiBaseUrl(defaultApiBaseUrl);
+            setApiBaseUrlInput(defaultApiBaseUrl);
+            setAppName(defaultAppName);
+            setAppNameInput(defaultAppName);
+            setMessages(defaultApiBaseUrl
+                ? [{
+                    id: createMessageId(),
+                    role: "system",
+                    text: `Ready to connect. ${buildConnectHelp(defaultApiBaseUrl)}`,
+                }]
+                : [{
+                    id: createMessageId(),
+                    role: "system",
+                    text: "Add your private backend URL to begin. This page uses only the backend you point it at.",
+                }]);
 
-            if (!normalizedApiBaseUrl) {
+            if (defaultApiBaseUrl) {
+                await connect(defaultApiBaseUrl, defaultAppName, nextMe.email, false);
+            } else {
                 setPageStatus({
                     tone: "warning",
-                    text: "Add a backend URL first.",
+                    text: "No default backend URL is configured yet. Add one below and connect when you are ready.",
                 });
+            }
+        } catch (error) {
+            if (cancelled) return;
+
+            const statusCode = isRecord(error) && typeof error.statusCode === "number" ? error.statusCode : null;
+            if (statusCode === 401) {
+                window.location.href = LOGIN_PAGE;
                 return;
             }
 
-            setConnecting(true);
-            setSettingsStatus({ tone: "info", text: `Connecting to ${normalizedApiBaseUrl}…` });
-
-            try {
-                const nextSessionId = await createSession(normalizedApiBaseUrl, normalizedAppName, nextUserId);
-                if (cancelled) return;
-
-                setApiBaseUrl(normalizedApiBaseUrl);
-                setAppName(normalizedAppName);
-                setSessionId(nextSessionId);
-                setMessages([{
-                    id: createMessageId(),
-                    role: "system",
-                    text: `Connected to ${normalizedApiBaseUrl} as ${nextUserId}. Ask the agent anything when you are ready.`,
-                }]);
-                setPageStatus({
-                    tone: "success",
-                    text: `Connected successfully. ${buildConnectHelp(normalizedApiBaseUrl)}`,
-                });
-                setSettingsStatus({
-                    tone: "success",
-                    text: `Saved and connected to ${normalizedApiBaseUrl}.`,
-                });
-
-                if (persist) {
-                    persistValue(API_BASE_URL_STORAGE_KEY, normalizedApiBaseUrl);
-                    persistValue(APP_NAME_STORAGE_KEY, normalizedAppName);
-                }
-            } catch (error) {
-                if (cancelled) return;
-
-                setSessionId(null);
-                setPageStatus({
-                    tone: "error",
-                    text: error instanceof Error
-                        ? `${error.message} Check the backend URL and CORS settings.`
-                        : String(error),
-                });
-                setSettingsStatus({
-                    tone: "error",
-                    text: "Connection failed. Make sure your ADK backend is running and allows this origin.",
-                });
-            } finally {
-                if (!cancelled) {
-                    setConnecting(false);
-                }
-            }
-        };
-
-        void loadPage();
-
-        return () => {
-            cancelled = true;
-        };
-    }, []);
-
-    async function connectAndPersist(event?: FormEvent<HTMLFormElement>): Promise<void> {
-        event?.preventDefault();
-
-        if (!me) return;
-
-        const nextApiBaseUrl = normalizeApiUrl(apiBaseUrlInput);
-        const nextAppName = normalizeAppName(appNameInput);
-        if (!nextApiBaseUrl) {
-            setSettingsStatus({ tone: "warning", text: "Enter a backend URL first." });
-            return;
-        }
-
-        setConnecting(true);
-        setSettingsStatus({ tone: "info", text: `Connecting to ${nextApiBaseUrl}…` });
-
-        try {
-            const nextSessionId = await createSession(nextApiBaseUrl, nextAppName, me.email);
-            setApiBaseUrl(nextApiBaseUrl);
-            setAppName(nextAppName);
-            setSessionId(nextSessionId);
-            setMessages([{
-                id: createMessageId(),
-                role: "system",
-                text: `Connected to ${nextApiBaseUrl} as ${me.email}.`,
-            }]);
-            setPageStatus({ tone: "success", text: `Connected successfully. ${buildConnectHelp(nextApiBaseUrl)}` });
-            setSettingsStatus({ tone: "success", text: `Saved and connected to ${nextApiBaseUrl}.` });
-            persistValue(API_BASE_URL_STORAGE_KEY, nextApiBaseUrl);
-            persistValue(APP_NAME_STORAGE_KEY, nextAppName);
-        } catch (error) {
-            setSessionId(null);
             setPageStatus({
                 tone: "error",
-                text: error instanceof Error
-                    ? `${error.message} Check the backend URL and CORS settings.`
-                    : String(error),
-            });
-            setSettingsStatus({
-                tone: "error",
-                text: "Connection failed. Make sure your ADK backend is running and allows this origin.",
+                text: error instanceof Error ? error.message : String(error),
             });
         } finally {
-            setConnecting(false);
+        if (!cancelled) {
+            setLoading(false);
+        }
+    }
+};
+
+const connect = async (
+    nextApiBaseUrl: string,
+    nextAppName: string,
+    nextUserId: string,
+    persist: boolean,
+): Promise<void> => {
+    const normalizedApiBaseUrl = normalizeApiUrl(nextApiBaseUrl);
+    const normalizedAppName = normalizeAppName(nextAppName);
+
+    if (!normalizedApiBaseUrl) {
+        setPageStatus({
+            const { apiBaseUrl: nextApiBaseUrl, problem } = resolveApiBaseUrl(apiBaseUrlInput);
+            text: "Add a backend URL first.",
+        });
+        setSettingsStatus({ tone: "warning", text: problem || "Enter a backend URL first." });
+        if (problem) {
+            setPageStatus({
+                tone: "warning",
+                text: problem,
+            });
         }
     }
 
-    function resetToDefaults(): void {
-        const defaultApiBaseUrl = normalizeApiUrl(config.apiBaseUrl || (isLocalhost() ? "http://localhost:8000" : ""));
-        const defaultAppName = normalizeAppName(config.appName || "Agent");
+    setConnecting(true);
+    setSettingsStatus({ tone: "info", text: `Connecting to ${normalizedApiBaseUrl}…` });
 
-        persistValue(API_BASE_URL_STORAGE_KEY, "");
-        persistValue(APP_NAME_STORAGE_KEY, "");
-        setApiBaseUrl(defaultApiBaseUrl);
-        setApiBaseUrlInput(defaultApiBaseUrl);
-        setAppName(defaultAppName);
-        setAppNameInput(defaultAppName);
-        setSessionId(null);
+    try {
+        const nextSessionId = await createSession(normalizedApiBaseUrl, normalizedAppName, nextUserId);
+        if (cancelled) return;
+
+        setApiBaseUrl(normalizedApiBaseUrl);
+        setAppName(normalizedAppName);
+        setSessionId(nextSessionId);
         setMessages([{
             id: createMessageId(),
             role: "system",
-            text: defaultApiBaseUrl
-                ? `Defaults restored. Reconnect when you are ready.`
-                : "Defaults restored. Add a backend URL and connect when ready.",
+            text: `Connected to ${normalizedApiBaseUrl} as ${nextUserId}. Ask the agent anything when you are ready.`,
         }]);
-        setSettingsStatus({ tone: "info", text: "Saved browser overrides cleared." });
-    }
+        setPageStatus({
+            tone: "success",
+            text: `Connected successfully. ${buildConnectHelp(normalizedApiBaseUrl)}`,
+        });
+        setSettingsStatus({
+            tone: "success",
+            text: `Saved and connected to ${normalizedApiBaseUrl}.`,
+        });
 
-    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
-        event.preventDefault();
-
-        if (!canSend || !userId || !sessionId) {
-            return;
+        if (persist) {
+            persistValue(API_BASE_URL_STORAGE_KEY, normalizedApiBaseUrl);
+            persistValue(APP_NAME_STORAGE_KEY, normalizedAppName);
         }
+    } catch (error) {
+        if (cancelled) return;
 
-        const text = draftMessage.trim();
-        const thinkingId = createMessageId();
-
-        setDraftMessage("");
-        setSending(true);
-        setPageStatus(null);
-        setMessages((current) => ([
-            ...current,
-            { id: createMessageId(), role: "user", text },
-            { id: thinkingId, role: "agent", text: "Thinking…", pending: true },
-        ]));
-
-        try {
-            const reply = await runAgent(apiBaseUrl, appName, userId, sessionId, text);
-            setMessages((current) => current.map((message) => message.id === thinkingId
-                ? { ...message, text: reply, pending: false }
-                : message));
-        } catch (error) {
-            const errorText = error instanceof Error
+        setSessionId(null);
+        setPageStatus({
+            tone: "error",
+            text: error instanceof Error
                 ? `${error.message} Check the backend URL and CORS settings.`
-                : String(error);
-            setMessages((current) => current.map((message) => message.id === thinkingId
-                ? { ...message, text: errorText, pending: false }
-                : message));
-            setPageStatus({ tone: "error", text: errorText });
-        } finally {
-            setSending(false);
+        const {
+                apiBaseUrl: defaultApiBaseUrl,
+                warning: defaultApiBaseUrlWarning,
+            } = getDefaultApiBaseUrl("", config.apiBaseUrl);
+        });
+        setSettingsStatus({
+            tone: "error",
+            text: "Connection failed. Make sure your ADK backend is running and allows this origin.",
+        });
+    } finally {
+        if (!cancelled) {
+            setConnecting(false);
         }
     }
+};
 
-    if (loading) {
-        return <div className="loading-state">Loading your private agent workspace…</div>;
+void loadPage();
+
+                : defaultApiBaseUrlWarning || "Defaults restored. Add a backend URL and connect when ready.",
+    cancelled = true;
+setSettingsStatus({
+    tone: defaultApiBaseUrlWarning ? "warning" : "info",
+    text: defaultApiBaseUrlWarning || "Saved browser overrides cleared.",
+});
+    }, []);
+
+async function connectAndPersist(event?: FormEvent<HTMLFormElement>): Promise<void> {
+    event?.preventDefault();
+
+    if (!me) return;
+
+    const nextApiBaseUrl = normalizeApiUrl(apiBaseUrlInput);
+    const nextAppName = normalizeAppName(appNameInput);
+    if (!nextApiBaseUrl) {
+        setSettingsStatus({ tone: "warning", text: "Enter a backend URL first." });
+        return;
     }
 
-    return (
-        <div className="agent-page-shell">
-            <header className="agent-page-header">
-                <div>
-                    <div className="agent-eyebrow">Private agent</div>
-                    <h1>waelio private agent</h1>
-                    <p className="agent-subtitle">
-                        Personal agent access for {me?.name ?? "you"}. Your frontend is private here; your billing depends only on the backend URL you choose.
+    setConnecting(true);
+    setSettingsStatus({ tone: "info", text: `Connecting to ${nextApiBaseUrl}…` });
+
+    try {
+        const nextSessionId = await createSession(nextApiBaseUrl, nextAppName, me.email);
+        setApiBaseUrl(nextApiBaseUrl);
+        setAppName(nextAppName);
+        setSessionId(nextSessionId);
+        setMessages([{
+            id: createMessageId(),
+            role: "system",
+            text: `Connected to ${nextApiBaseUrl} as ${me.email}.`,
+        }]);
+        setPageStatus({ tone: "success", text: `Connected successfully. ${buildConnectHelp(nextApiBaseUrl)}` });
+        setSettingsStatus({ tone: "success", text: `Saved and connected to ${nextApiBaseUrl}.` });
+        persistValue(API_BASE_URL_STORAGE_KEY, nextApiBaseUrl);
+        persistValue(APP_NAME_STORAGE_KEY, nextAppName);
+    } catch (error) {
+        setSessionId(null);
+        setPageStatus({
+            tone: "error",
+            text: error instanceof Error
+                ? `${error.message} Check the backend URL and CORS settings.`
+                : String(error),
+        });
+        setSettingsStatus({
+            tone: "error",
+            text: "Connection failed. Make sure your ADK backend is running and allows this origin.",
+        });
+    } finally {
+        setConnecting(false);
+    }
+}
+
+function resetToDefaults(): void {
+    const defaultApiBaseUrl = normalizeApiUrl(config.apiBaseUrl || (isLocalhost() ? "http://localhost:8000" : ""));
+    const defaultAppName = normalizeAppName(config.appName || "Agent");
+
+    persistValue(API_BASE_URL_STORAGE_KEY, "");
+    persistValue(APP_NAME_STORAGE_KEY, "");
+    setApiBaseUrl(defaultApiBaseUrl);
+    setApiBaseUrlInput(defaultApiBaseUrl);
+    setAppName(defaultAppName);
+    setAppNameInput(defaultAppName);
+    setSessionId(null);
+    setMessages([{
+        id: createMessageId(),
+        role: "system",
+        text: defaultApiBaseUrl
+            ? `Defaults restored. Reconnect when you are ready.`
+            : "Defaults restored. Add a backend URL and connect when ready.",
+    }]);
+    setSettingsStatus({ tone: "info", text: "Saved browser overrides cleared." });
+}
+
+async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
+    event.preventDefault();
+
+    if (!canSend || !userId || !sessionId) {
+        return;
+    }
+
+    const text = draftMessage.trim();
+    const thinkingId = createMessageId();
+
+    setDraftMessage("");
+    setSending(true);
+    setPageStatus(null);
+    setMessages((current) => ([
+        ...current,
+        { id: createMessageId(), role: "user", text },
+        { id: thinkingId, role: "agent", text: "Thinking…", pending: true },
+    ]));
+
+    try {
+        const reply = await runAgent(apiBaseUrl, appName, userId, sessionId, text);
+        setMessages((current) => current.map((message) => message.id === thinkingId
+            ? { ...message, text: reply, pending: false }
+            : message));
+    } catch (error) {
+        const errorText = error instanceof Error
+            ? `${error.message} Check the backend URL and CORS settings.`
+            : String(error);
+        setMessages((current) => current.map((message) => message.id === thinkingId
+            ? { ...message, text: errorText, pending: false }
+            : message));
+        setPageStatus({ tone: "error", text: errorText });
+    } finally {
+        setSending(false);
+    }
+}
+
+if (loading) {
+    return <div className="loading-state">Loading your private agent workspace…</div>;
+}
+
+return (
+    <div className="agent-page-shell">
+        <header className="agent-page-header">
+            <div>
+                <div className="agent-eyebrow">Private agent</div>
+                <h1>waelio private agent</h1>
+                <p className="agent-subtitle">
+                    Personal agent access for {me?.name ?? "you"}. Your frontend is private here; your billing depends only on the backend URL you choose.
+                </p>
+            </div>
+            <div className="agent-toolbar">
+                <div className="theme-switcher" role="group" aria-label="Choose theme">
+                    {themeOptions.map((option) => (
+                        <button
+                            key={option.value}
+                            type="button"
+                            className={theme === option.value ? "theme-option theme-option-active" : "theme-option"}
+                            aria-pressed={theme === option.value}
+                            onClick={() => {
+                                setTheme(option.value);
+                            }}
+                        >
+                            <span className="theme-option-icon" aria-hidden="true">{option.icon}</span>
+                            <span>{option.label}</span>
+                        </button>
+                    ))}
+                </div>
+                <a href={PRIVATE_HOME} className="btn-outline">Back to private</a>
+            </div>
+        </header>
+
+        <StatusBanner status={pageStatus} />
+
+        <div className="agent-grid">
+            <section className="agent-card">
+                <div className="agent-card-header">
+                    <div>
+                        <h2>Connection settings</h2>
+                        <p>Point this page at your own ADK backend. Nothing here forces you to pay for anyone else.</p>
+                    </div>
+                    <span className={sessionId ? "agent-pill agent-pill-connected" : "agent-pill"}>
+                        {sessionId ? "Connected" : "Not connected"}
+                    </span>
+                </div>
+
+                <form className="agent-settings-form" onSubmit={(event) => { void connectAndPersist(event); }}>
+                    <label className="agent-field">
+                        <span>Backend URL</span>
+                        <input
+                            type="url"
+                            inputMode="url"
+                            placeholder="https://your-adk-backend.example.com"
+                            value={apiBaseUrlInput}
+                            onChange={(event) => {
+                                setApiBaseUrlInput(event.target.value);
+                            }}
+                        />
+                        <small>{buildConnectHelp(apiBaseUrlInput || apiBaseUrl)}</small>
+                    </label>
+
+                    <label className="agent-field">
+                        <span>App name</span>
+                        <input
+                            type="text"
+                            value={appNameInput}
+                            onChange={(event) => {
+                                setAppNameInput(event.target.value);
+                            }}
+                            placeholder="Agent"
+                        />
+                        <small>Defaults to the configured agent app name. Change it only if your backend uses a different ADK app name.</small>
+                    </label>
+
+                    <div className="agent-actions">
+                        <button type="submit" className="btn-primary agent-connect-btn" disabled={connecting || !me}>
+                            {connecting ? "Connecting…" : "Save and connect"}
+                        </button>
+                        <button type="button" className="btn-outline" onClick={resetToDefaults} disabled={connecting}>
+                            Clear browser override
+                        </button>
+                    </div>
+                </form>
+
+                <StatusBanner status={settingsStatus} />
+
+                <dl className="agent-meta-list">
+                    <div>
+                        <dt>Signed in as</dt>
+                        <dd>{me?.email ?? "—"}</dd>
+                    </div>
+                    <div>
+                        <dt>Active backend</dt>
+                        <dd>{apiBaseUrl || "Not set"}</dd>
+                    </div>
+                    <div>
+                        <dt>Configured default</dt>
+                        <dd>{config.apiBaseUrl || (isLocalhost() ? "http://localhost:8000" : "Not set")}</dd>
+                    </div>
+                    <div>
+                        <dt>Agent app name</dt>
+                        <dd>{appName}</dd>
+                    </div>
+                </dl>
+
+                <div className="agent-note-box">
+                    <strong>Backend reminder</strong>
+                    <p>
+                        Cloudflare Pages hosts this UI only. Your ADK backend must run somewhere else and allow this site origin in CORS.
                     </p>
                 </div>
-                <div className="agent-toolbar">
-                    <div className="theme-switcher" role="group" aria-label="Choose theme">
-                        {themeOptions.map((option) => (
-                            <button
-                                key={option.value}
-                                type="button"
-                                className={theme === option.value ? "theme-option theme-option-active" : "theme-option"}
-                                aria-pressed={theme === option.value}
-                                onClick={() => {
-                                    setTheme(option.value);
-                                }}
-                            >
-                                <span className="theme-option-icon" aria-hidden="true">{option.icon}</span>
-                                <span>{option.label}</span>
-                            </button>
-                        ))}
+            </section>
+
+            <section className="agent-card agent-chat-card">
+                <div className="agent-card-header">
+                    <div>
+                        <h2>Chat</h2>
+                        <p>Once connected, messages go only to the backend URL shown in your settings.</p>
                     </div>
-                    <a href={PRIVATE_HOME} className="btn-outline">Back to private</a>
+                    <span className="agent-pill">{appName}</span>
                 </div>
-            </header>
 
-            <StatusBanner status={pageStatus} />
+                <div className="agent-chat-log" aria-live="polite">
+                    {messages.map((message) => (
+                        <article
+                            key={message.id}
+                            className={`agent-message agent-message-${message.role}${message.pending ? " agent-message-pending" : ""}`}
+                        >
+                            <div className="agent-message-label">
+                                {message.role === "user" ? "You" : message.role === "agent" ? "Agent" : "Status"}
+                            </div>
+                            <div className="agent-message-text">{message.text}</div>
+                        </article>
+                    ))}
+                    <div ref={chatEndRef} />
+                </div>
 
-            <div className="agent-grid">
-                <section className="agent-card">
-                    <div className="agent-card-header">
-                        <div>
-                            <h2>Connection settings</h2>
-                            <p>Point this page at your own ADK backend. Nothing here forces you to pay for anyone else.</p>
-                        </div>
-                        <span className={sessionId ? "agent-pill agent-pill-connected" : "agent-pill"}>
-                            {sessionId ? "Connected" : "Not connected"}
-                        </span>
+                <form className="agent-chat-form" onSubmit={(event) => { void handleSubmit(event); }}>
+                    <textarea
+                        rows={4}
+                        placeholder={sessionId
+                            ? "Ask your private agent anything…"
+                            : "Connect to your backend before sending a message…"}
+                        value={draftMessage}
+                        onChange={(event) => {
+                            setDraftMessage(event.target.value);
+                        }}
+                        disabled={!sessionId || sending || connecting}
+                    />
+                    <div className="agent-actions">
+                        <button type="submit" className="btn-primary agent-send-btn" disabled={!canSend}>
+                            {sending ? "Sending…" : "Send"}
+                        </button>
                     </div>
-
-                    <form className="agent-settings-form" onSubmit={(event) => { void connectAndPersist(event); }}>
-                        <label className="agent-field">
-                            <span>Backend URL</span>
-                            <input
-                                type="url"
-                                inputMode="url"
-                                placeholder="https://your-adk-backend.example.com"
-                                value={apiBaseUrlInput}
-                                onChange={(event) => {
-                                    setApiBaseUrlInput(event.target.value);
-                                }}
-                            />
-                            <small>{buildConnectHelp(apiBaseUrlInput || apiBaseUrl)}</small>
-                        </label>
-
-                        <label className="agent-field">
-                            <span>App name</span>
-                            <input
-                                type="text"
-                                value={appNameInput}
-                                onChange={(event) => {
-                                    setAppNameInput(event.target.value);
-                                }}
-                                placeholder="Agent"
-                            />
-                            <small>Defaults to the configured agent app name. Change it only if your backend uses a different ADK app name.</small>
-                        </label>
-
-                        <div className="agent-actions">
-                            <button type="submit" className="btn-primary agent-connect-btn" disabled={connecting || !me}>
-                                {connecting ? "Connecting…" : "Save and connect"}
-                            </button>
-                            <button type="button" className="btn-outline" onClick={resetToDefaults} disabled={connecting}>
-                                Clear browser override
-                            </button>
-                        </div>
-                    </form>
-
-                    <StatusBanner status={settingsStatus} />
-
-                    <dl className="agent-meta-list">
-                        <div>
-                            <dt>Signed in as</dt>
-                            <dd>{me?.email ?? "—"}</dd>
-                        </div>
-                        <div>
-                            <dt>Active backend</dt>
-                            <dd>{apiBaseUrl || "Not set"}</dd>
-                        </div>
-                        <div>
-                            <dt>Configured default</dt>
-                            <dd>{config.apiBaseUrl || (isLocalhost() ? "http://localhost:8000" : "Not set")}</dd>
-                        </div>
-                        <div>
-                            <dt>Agent app name</dt>
-                            <dd>{appName}</dd>
-                        </div>
-                    </dl>
-
-                    <div className="agent-note-box">
-                        <strong>Backend reminder</strong>
-                        <p>
-                            Cloudflare Pages hosts this UI only. Your ADK backend must run somewhere else and allow this site origin in CORS.
-                        </p>
-                    </div>
-                </section>
-
-                <section className="agent-card agent-chat-card">
-                    <div className="agent-card-header">
-                        <div>
-                            <h2>Chat</h2>
-                            <p>Once connected, messages go only to the backend URL shown in your settings.</p>
-                        </div>
-                        <span className="agent-pill">{appName}</span>
-                    </div>
-
-                    <div className="agent-chat-log" aria-live="polite">
-                        {messages.map((message) => (
-                            <article
-                                key={message.id}
-                                className={`agent-message agent-message-${message.role}${message.pending ? " agent-message-pending" : ""}`}
-                            >
-                                <div className="agent-message-label">
-                                    {message.role === "user" ? "You" : message.role === "agent" ? "Agent" : "Status"}
-                                </div>
-                                <div className="agent-message-text">{message.text}</div>
-                            </article>
-                        ))}
-                        <div ref={chatEndRef} />
-                    </div>
-
-                    <form className="agent-chat-form" onSubmit={(event) => { void handleSubmit(event); }}>
-                        <textarea
-                            rows={4}
-                            placeholder={sessionId
-                                ? "Ask your private agent anything…"
-                                : "Connect to your backend before sending a message…"}
-                            value={draftMessage}
-                            onChange={(event) => {
-                                setDraftMessage(event.target.value);
-                            }}
-                            disabled={!sessionId || sending || connecting}
-                        />
-                        <div className="agent-actions">
-                            <button type="submit" className="btn-primary agent-send-btn" disabled={!canSend}>
-                                {sending ? "Sending…" : "Send"}
-                            </button>
-                        </div>
-                    </form>
-                </section>
-            </div>
+                </form>
+            </section>
         </div>
-    );
+    </div>
+);
 }
 
 const container = document.getElementById("app");
