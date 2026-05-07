@@ -738,19 +738,41 @@ function LedgerTable(
     );
 }
 
-function SummaryTable(props: { rows: Array<{ label: string; value: ReactNode; note: ReactNode }> }): ReactNode {
+function SummaryCards(props: { rows: Array<{ label: string; value: ReactNode; note: ReactNode }> }): ReactNode {
+    if (props.rows.length === 0) {
+        return <div className="sheet-empty">No workbook summary available yet.</div>;
+    }
+
     return (
-        <table className="summary-table">
-            <tbody>
-                {props.rows.map((row) => (
-                    <tr key={row.label}>
-                        <th>{row.label}</th>
-                        <td>{row.value}</td>
-                        <td className="workbook-secondary">{row.note}</td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        <div className="summary-card-grid">
+            {props.rows.map((row) => (
+                <article key={row.label} className="summary-card-item">
+                    <div className="summary-card-label">{row.label}</div>
+                    <div className="summary-card-value">{row.value}</div>
+                    <div className="summary-card-note">{row.note}</div>
+                </article>
+            ))}
+        </div>
+    );
+}
+
+function ControlList(props: { rows: Array<{ label: string; value: ReactNode; note: ReactNode }> }): ReactNode {
+    if (props.rows.length === 0) {
+        return <div className="sheet-empty">No ledger controls configured yet.</div>;
+    }
+
+    return (
+        <ol className="control-list">
+            {props.rows.map((row) => (
+                <li key={row.label} className="control-item">
+                    <span className="control-item-badge">{row.label}</span>
+                    <div className="control-item-copy">
+                        <p>{row.value}</p>
+                        <small>{row.note}</small>
+                    </div>
+                </li>
+            ))}
+        </ol>
     );
 }
 
@@ -1245,29 +1267,29 @@ function App(): ReactNode {
 
                 <div className="workbook-grid">
                     <SheetPanel
-                        title="Workbook overview sheet"
+                        title="Workbook overview"
                         subtitle="High-level counts, audit status, and workbook state."
                     >
-                        <SummaryTable rows={overviewRows} />
+                        <SummaryCards rows={overviewRows} />
                     </SheetPanel>
 
                     <SheetPanel
-                        title="Balances and settlement sheet"
+                        title="Balances and settlement"
                         subtitle="Partner balances, settlement due, and approved totals."
                     >
-                        <SummaryTable rows={balanceRows} />
+                        <SummaryCards rows={balanceRows} />
+                    </SheetPanel>
+
+                    <SheetPanel
+                        title="Ledger controls"
+                        subtitle="Approval, audit, and correction rules without wasting half the page."
+                    >
+                        <ControlList rows={controlsRows} />
                     </SheetPanel>
                 </div>
 
                 <SheetPanel
-                    title="Ledger controls sheet"
-                    subtitle="Operating controls for approvals, audit discipline, and correction policy."
-                >
-                    <SummaryTable rows={controlsRows} />
-                </SheetPanel>
-
-                <SheetPanel
-                    title="Journal entry sheet"
+                    title="Journal entry"
                     subtitle="Post a new row to the workbook. It remains pending until the counterparty approves it."
                 >
                     <form className="sheet-form" onSubmit={(event) => { void handleSubmit(event); }}>
@@ -1434,7 +1456,7 @@ function App(): ReactNode {
                 </SheetPanel>
 
                 <SheetPanel
-                    title="Pending approvals sheet"
+                    title="Pending approvals"
                     subtitle="Rows awaiting counterparty approval before they post to balances."
                 >
                     <LedgerTable
@@ -1445,7 +1467,7 @@ function App(): ReactNode {
                 </SheetPanel>
 
                 <SheetPanel
-                    title={`${viewerLabel} ledger sheet`}
+                    title={`${viewerLabel} ledger`}
                     subtitle="Personal worksheet showing how each row affects your position."
                 >
                     <LedgerTable
@@ -1456,7 +1478,7 @@ function App(): ReactNode {
                 </SheetPanel>
 
                 <SheetPanel
-                    title={`${otherPartnerLabel} ledger sheet`}
+                    title={`${otherPartnerLabel} ledger`}
                     subtitle="Counterparty worksheet showing how each row affects your partner."
                 >
                     <LedgerTable
@@ -1467,7 +1489,7 @@ function App(): ReactNode {
                 </SheetPanel>
 
                 <SheetPanel
-                    title="Website operations sheet"
+                    title="Website operations"
                     subtitle="Income and expense rows for the website or operating business."
                 >
                     <LedgerTable
@@ -1478,7 +1500,7 @@ function App(): ReactNode {
                 </SheetPanel>
 
                 <SheetPanel
-                    title="Shared register sheet"
+                    title="Shared register"
                     subtitle="Complete register of every approved, pending, rejected, and memo row."
                 >
                     <LedgerTable

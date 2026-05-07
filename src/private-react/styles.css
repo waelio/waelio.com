@@ -229,7 +229,8 @@ body {
 .workbook-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: start;
 }
 
 .sheet-panel {
@@ -548,24 +549,99 @@ body {
   width: auto;
 }
 
-.summary-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.92rem;
+.summary-card-grid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
-.summary-table th,
-.summary-table td {
-  padding: 0.72rem 0.15rem;
-  border-bottom: 1px solid var(--workbook-border);
-  text-align: left;
-  vertical-align: top;
+.summary-card-item {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  padding: 0.95rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--workbook-border);
+  background: var(--workbook-surface-alt);
 }
 
-.summary-table th {
+.summary-card-label {
   color: var(--workbook-text-soft);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.summary-card-value {
+  color: var(--workbook-text-strong);
+  font-size: 1rem;
   font-weight: 700;
-  width: 190px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.summary-card-note {
+  color: var(--workbook-text-soft);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.control-list {
+  list-style: none;
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+}
+
+.control-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: start;
+  padding: 0.95rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--workbook-border);
+  background: var(--workbook-surface-alt);
+}
+
+.control-item-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.7rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--workbook-border-strong);
+  background: var(--workbook-pill-bg);
+  color: var(--workbook-text-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.control-item-copy {
+  display: grid;
+  gap: 0.22rem;
+  min-width: 0;
+}
+
+.control-item-copy p,
+.control-item-copy small {
+  margin: 0;
+}
+
+.control-item-copy p {
+  color: var(--workbook-text-strong);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.control-item-copy small {
+  color: var(--workbook-text-soft);
+  line-height: 1.45;
 }
 
 .loading-state {
@@ -614,6 +690,15 @@ body {
   .sheet-checkbox {
     column-gap: 0.6rem;
     padding: 0.85rem 0.9rem;
+  }
+
+  .control-item {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .control-item-badge {
+    justify-self: start;
   }
 
   .workbook-toolbar,
