@@ -13,8 +13,9 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
+    "@waelio/agent": "^0.1.1",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "waelio-utils": "^5.0.3"
   },
   "devDependencies": {
