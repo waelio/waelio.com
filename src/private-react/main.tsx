@@ -1228,6 +1228,9 @@ function App(): ReactNode {
                     <button type="button" className="btn-outline" onClick={() => { void handleBack(); }}>
                         Back and sign out
                     </button>
+                    <a href="/private/agent" className="btn-outline">
+                        Agent
+                    </a>
                     <button type="button" className="btn-outline" onClick={() => exportWorkbook(view)}>
                         Export workbook
                     </button>

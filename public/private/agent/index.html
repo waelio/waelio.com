@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent – waelio.com</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#dbe1e8" />
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("waelio-theme");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const themeColors = {
+            dim: "#dbe1e8",
+            light: "#f4f7fb",
+            dark: "#171d2c",
+          };
+          const theme =
+            storedTheme === "light" ||
+            storedTheme === "dim" ||
+            storedTheme === "dark"
+              ? storedTheme
+              : prefersDark
+                ? "dark"
+                : "dim";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme =
+            theme === "dark" ? "dark" : "light";
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", themeColors[theme]);
+        } catch {
+          document.documentElement.dataset.theme = "dim";
+          document.documentElement.style.colorScheme = "light";
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", "#dbe1e8");
+        }
+      })();
+    </script>
+    <link
+      rel="icon"
+      href="/favicon.png?v=20260502"
+      sizes="512x512"
+      type="image/png"
+    />
+    <link rel="shortcut icon" href="/favicon.png?v=20260502" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon.png?v=20260502" />
+    <link rel="stylesheet" href="/styles.css?v=20260502-theme-ui-6" />
+    <link rel="stylesheet" href="/private-agent/main.css?v=20260507-agent-1" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script
+      type="module"
+      src="/private-agent/main.js?v=20260507-agent-1"
+    ></script>
+  </body>
+</html>

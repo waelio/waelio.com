@@ -1,6 +1,8 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import { Buffer } from "node:buffer";
 import { readFile } from "node:fs/promises";
 import { extname, join } from "node:path";
+import process from "node:process";
 import { fileURLToPath } from "node:url";
 import {
     clearSessionCookie,
@@ -21,6 +23,7 @@ import type {
     GoogleTokenInfo,
     MeResponse,
 } from "./src/shared/auth.ts";
+import type { AgentConfigResponse } from "./src/shared/agent.ts";
 
 const ROOT_DIR = fileURLToPath(new URL(".", import.meta.url));
 loadEnvFile(ROOT_DIR);
@@ -124,6 +127,21 @@ function buildMeResponse(session: AuthSession): MeResponse {
     };
 }
 
+function buildAgentConfigResponse(): AgentConfigResponse {
+    return {
+        apiBaseUrl: (process.env.AGENT_API_BASE_URL ?? "").trim().replace(/\/+$/, ""),
+        appName: (process.env.AGENT_APP_NAME ?? "").trim() || "Agent",
+    };
+}
+
+function isProtectedPagePath(path: string): boolean {
+    return path === "/private"
+        || path === "/private.html"
+        || path === "/private/agent"
+        || path === "/private/agent/"
+        || path === "/private/agent/index.html";
+}
+
 function add(a: number, b: number): number {
     return a + b;
 }
@@ -185,19 +203,34 @@ function buildNpmPayload(name: string, metaValue: unknown, downloadsValue: unkno
 
 async function serveStatic(pathname: string, res: ServerResponse): Promise<boolean> {
     const safePath = pathname.replace(/\.\./g, "");
-    const filePath = join(PUBLIC_DIR, safePath === "/" ? "index.html" : safePath);
+    const normalizedPath = safePath === "/" ? "" : safePath.replace(/^\/+|\/+$/g, "");
+    const candidates = normalizedPath
+        ? [
+            join(PUBLIC_DIR, normalizedPath),
+            ...(extname(normalizedPath)
+                ? []
+                : [
+                    join(PUBLIC_DIR, `${normalizedPath}.html`),
+                    join(PUBLIC_DIR, normalizedPath, "index.html"),
+                ]),
+        ]
+        : [join(PUBLIC_DIR, "index.html")];
 
-    try {
-        const data = await readFile(filePath);
-        const extension = extname(filePath);
-        res.writeHead(200, {
-            "Content-Type": MIME[extension] || "application/octet-stream",
-        });
-        res.end(data);
-        return true;
-    } catch {
-        return false;
+    for (const filePath of candidates) {
+        try {
+            const data = await readFile(filePath);
+            const extension = extname(filePath);
+            res.writeHead(200, {
+                "Content-Type": MIME[extension] || "application/octet-stream",
+            });
+            res.end(data);
+            return true;
+        } catch {
+            // Try the next candidate path.
+        }
     }
+
+    return false;
 }
 
 const server = createServer(async (req, res) => {
@@ -265,6 +298,17 @@ const server = createServer(async (req, res) => {
     if (path === "/api/config") {
         const payload: GoogleConfigResponse = { googleClientId: GOOGLE_CLIENT_ID };
         sendJson(res, 200, payload);
+        return;
+    }
+
+    if (path === "/api/agent/config") {
+        const session = getAuthSession(req);
+        if (!session) {
+            sendJson(res, 401, { error: "Not authenticated" } satisfies ApiErrorResponse);
+            return;
+        }
+
+        sendJson(res, 200, buildAgentConfigResponse());
         return;
     }
 
@@ -340,7 +384,7 @@ const server = createServer(async (req, res) => {
         return;
     }
 
-    if (path === "/private" || path === "/private.html") {
+    if (isProtectedPagePath(path)) {
         if (!getAuthSession(req)) {
             res.writeHead(302, { Location: "/login.html", "Cache-Control": "no-store" });
             res.end();

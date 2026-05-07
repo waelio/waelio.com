@@ -38,6 +38,8 @@ export function injectEnv(env: Env): void {
     if (env.LEDGER_SECRET) process.env.LEDGER_SECRET = env.LEDGER_SECRET;
     if (env.GOOGLE_CLIENT_ID) process.env.GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID;
     if (env.ALLOWED_EMAILS) process.env.ALLOWED_EMAILS = env.ALLOWED_EMAILS;
+    if (env.AGENT_API_BASE_URL) process.env.AGENT_API_BASE_URL = env.AGENT_API_BASE_URL;
+    if (env.AGENT_APP_NAME) process.env.AGENT_APP_NAME = env.AGENT_APP_NAME;
 
     // Signal that we're running in Cloudflare (used by private-ledger-store)
     process.env.CLOUDFLARE = "1";
@@ -55,6 +57,14 @@ export function getClientId(env: Env): string {
  */
 export function getAllowed(env: Env): string[] {
     return getAllowedEmails(env.ALLOWED_EMAILS);
+}
+
+export function getAgentApiBaseUrl(env: Env): string {
+    return (env.AGENT_API_BASE_URL ?? "").trim().replace(/\/+$/, "");
+}
+
+export function getAgentAppName(env: Env): string {
+    return (env.AGENT_APP_NAME ?? "").trim() || "Agent";
 }
 
 /* ── request helpers ────────────────────────────────────────── */

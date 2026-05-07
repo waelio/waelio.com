@@ -8,6 +8,7 @@ This repository contains a small TypeScript-powered site that serves static file
   - `app.ts` – TypeScript source for the npm package stats page
   - `login.ts` – TypeScript source for Google sign-in
   - `private.ts` – TypeScript source for the shared finance room
+  - `private-agent/` – private agent chat UI that talks to your own ADK backend
   - `service-worker.ts` – TypeScript source for the service worker
   - `shared/` – shared auth and ledger type definitions
 - `public/`
@@ -55,6 +56,11 @@ Required variables:
 - `GOOGLE_CLIENT_ID` – Google OAuth 2.0 **Web application** client ID
 - `ALLOWED_EMAILS` – comma-separated email allowlist for Google Sign-In
 
+Optional variables for the private agent page:
+
+- `AGENT_API_BASE_URL` – default ADK backend URL for `/private/agent`
+- `AGENT_APP_NAME` – default ADK app name used by `/private/agent` (defaults to `Agent`)
+
 ### Google Sign-In notes
 
 If `GOOGLE_CLIENT_ID` is blank, the login page shows a Google configuration error and no alternate sign-in is available.
@@ -70,12 +76,14 @@ Also make sure the account you use is included in `ALLOWED_EMAILS`.
 
 - `GET /api/add?a=NUMBER&b=NUMBER`
 - `GET /api/npm?name=PACKAGE_NAME`
+- `GET /api/agent/config`
 - `POST /api/auth/google`
 - `GET /api/me`
 - `GET /api/private-ledger`
 - `POST /api/private-ledger/entries`
 - `POST /api/private-ledger/review`
 - `GET /api/logout`
+- `GET /private/agent`
 
 ## Shared finance ledger
 

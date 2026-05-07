@@ -13,6 +13,12 @@
 /private-app/main.css
   Cache-Control: public, max-age=0, must-revalidate
 
+/private-agent/main.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/private-agent/main.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 /styles.css
   Cache-Control: public, max-age=0, must-revalidate
 

@@ -32,6 +32,7 @@ interface PackageDefinition {
 const NPM_MAINTAINER = "waelio";
 
 const FALLBACK_PACKAGE_NAMES = [
+    "@waelio/agent",
     "@waelio/messaging",
     "@waelio/ustore",
     "@waelio/utils",

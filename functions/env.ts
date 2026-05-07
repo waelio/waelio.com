@@ -11,6 +11,8 @@ export interface Env {
     LEDGER_SECRET: string;
     GOOGLE_CLIENT_ID: string;
     ALLOWED_EMAILS: string;
+    AGENT_API_BASE_URL?: string;
+    AGENT_APP_NAME?: string;
 }
 
 /**
