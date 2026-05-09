@@ -13,19 +13,19 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@waelio/agent": "^0.1.1",
+    "@waelio/agent": "^0.1.3",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "waelio-utils": "^5.0.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250501.0",
-    "@types/node": "^25.6.0",
+    "@cloudflare/workers-types": "^4.20260509.1",
+    "@types/node": "^25.6.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "esbuild": "^0.28.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3",
-    "wrangler": "^4.16.0"
+    "wrangler": "^4.90.0"
   }
 }
