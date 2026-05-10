@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@waelio/agent": "^0.1.3",
+    "@waelio/data": "file:../data",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "waelio-utils": "^5.0.3"

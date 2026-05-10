@@ -361,6 +361,10 @@ function isCloudflareRuntime(): boolean {
     return Boolean(process.env.CLOUDFLARE) && _kvNamespace !== null;
 }
 
+import { FileStore } from "../data/src/FileStore.ts";
+
+const fileStore = new FileStore({ storageDir: dirname(LOCAL_LEDGER_FILE) });
+
 async function readLedgerPayload(): Promise<string | null> {
     if (isCloudflareRuntime()) {
         try {
@@ -372,12 +376,18 @@ async function readLedgerPayload(): Promise<string | null> {
     }
 
     try {
-        return await readFile(LOCAL_LEDGER_FILE, "utf8");
-    } catch (error) {
-        if (isRecord(error) && error.code === "ENOENT") {
+        if (!fileStore.hasFile("private-ledger.enc")) {
             return null;
         }
-
+        return new Promise((resolve, reject) => {
+            const stream = fileStore.getFileStream("private-ledger.enc");
+            if (!stream) return resolve(null);
+            const chunks: Buffer[] = [];
+            stream.on("data", (chunk: any) => chunks.push(Buffer.from(chunk as Buffer)));
+            stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+            stream.on("error", reject);
+        });
+    } catch (error) {
         throw error;
     }
 }
@@ -392,8 +402,7 @@ async function writeLedgerPayload(payload: string): Promise<void> {
         }
     }
 
-    await mkdir(dirname(LOCAL_LEDGER_FILE), { recursive: true });
-    await writeFile(LOCAL_LEDGER_FILE, payload, "utf8");
+    fileStore.saveFile("private-ledger.enc", Buffer.from(payload, "utf8"));
 }
 
 async function loadLedger(): Promise<LedgerData> {
