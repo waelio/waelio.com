@@ -361,7 +361,7 @@ function isCloudflareRuntime(): boolean {
     return Boolean(process.env.CLOUDFLARE) && _kvNamespace !== null;
 }
 
-import { FileStore } from "../data/src/FileStore.ts";
+import { FileStore } from "@waelio/data";
 
 const fileStore = new FileStore({ storageDir: dirname(LOCAL_LEDGER_FILE) });
 
