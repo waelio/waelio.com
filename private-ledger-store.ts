@@ -363,7 +363,13 @@ function isCloudflareRuntime(): boolean {
 
 import { FileStore } from "@waelio/data";
 
-const fileStore = new FileStore({ storageDir: dirname(LOCAL_LEDGER_FILE) });
+let _fileStore: FileStore | null = null;
+function getFileStore(): FileStore {
+    if (!_fileStore) {
+        _fileStore = new FileStore({ storageDir: dirname(LOCAL_LEDGER_FILE) });
+    }
+    return _fileStore;
+}
 
 async function readLedgerPayload(): Promise<string | null> {
     if (isCloudflareRuntime()) {
@@ -376,11 +382,11 @@ async function readLedgerPayload(): Promise<string | null> {
     }
 
     try {
-        if (!fileStore.hasFile("private-ledger.enc")) {
+        if (!getFileStore().hasFile("private-ledger.enc")) {
             return null;
         }
         return new Promise((resolve, reject) => {
-            const stream = fileStore.getFileStream("private-ledger.enc");
+            const stream = getFileStore().getFileStream("private-ledger.enc");
             if (!stream) return resolve(null);
             const chunks: Buffer[] = [];
             stream.on("data", (chunk: any) => chunks.push(Buffer.from(chunk as Buffer)));
@@ -402,7 +408,7 @@ async function writeLedgerPayload(payload: string): Promise<void> {
         }
     }
 
-    fileStore.saveFile("private-ledger.enc", Buffer.from(payload, "utf8"));
+    getFileStore().saveFile("private-ledger.enc", Buffer.from(payload, "utf8"));
 }
 
 async function loadLedger(): Promise<LedgerData> {
