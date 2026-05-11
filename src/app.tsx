@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import type { ReactNode } from "react";
 import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
 import { useThemeMode } from "./shared/theme.ts";
+import ReactMarkdown from "react-markdown";
 
 type NpmRepository = { url?: string } | null;
 
@@ -16,6 +17,7 @@ interface NpmMeta {
     keywords?: string[];
     license?: string;
     hasTypes?: boolean;
+    readme?: string;
 }
 
 type PackageState =
@@ -135,6 +137,7 @@ async function loadPackage(name: string): Promise<NpmMeta> {
     const homepage = readString(versionMeta, "homepage") || readString(metaRecord, "homepage") || "";
     const repository = normalizeRepository(versionMeta.repository ?? metaRecord.repository ?? null);
     const keywords = readStringArray(versionMeta, "keywords") ?? readStringArray(metaRecord, "keywords") ?? [];
+    const readme = readString(metaRecord, "readme") || readString(versionMeta, "readme") || "";
 
     return {
         name: readString(metaRecord, "name") || name,
@@ -146,6 +149,7 @@ async function loadPackage(name: string): Promise<NpmMeta> {
         keywords,
         license,
         hasTypes,
+        readme,
     };
 }
 
@@ -263,8 +267,8 @@ function renderBadges(meta: NpmMeta): ReactNode {
     ));
 }
 
-function PackageCard(props: { title: string; state: PackageState }): ReactNode {
-    const { state, title } = props;
+function PackageCard(props: { title: string; state: PackageState; isPackageRoute?: boolean }): ReactNode {
+    const { state, title, isPackageRoute } = props;
     const [copied, setCopied] = useState(false);
 
     if (state.status === "loading") {
@@ -361,6 +365,12 @@ function PackageCard(props: { title: string; state: PackageState }): ReactNode {
                     ) : <span className="muted">—</span>}
                 </span>
             </div>
+            
+            {isPackageRoute && meta.readme && (
+                <div className="package-readme" style={{ marginTop: "2rem", padding: "1.5rem", background: "var(--wa-surface-soft)", borderRadius: "12px", border: "1px solid var(--wa-border-strong)", overflowX: "auto" }}>
+                    <ReactMarkdown>{meta.readme}</ReactMarkdown>
+                </div>
+            )}
         </div>
     );
 }
@@ -540,6 +550,7 @@ function App(): ReactNode {
                         key={definition.key}
                         title={definition.title}
                         state={packages[definition.key] ?? LOADING_PACKAGE_STATE}
+                        isPackageRoute={isPackageRoute}
                     />
                 ))}
             </div>
