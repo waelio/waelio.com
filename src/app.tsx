@@ -371,9 +371,18 @@ function HeroIntro(): ReactNode {
 }
 
 function App(): ReactNode {
-    const [packageDefinitions, setPackageDefinitions] = useState<PackageDefinition[]>(FALLBACK_PACKAGE_DEFINITIONS);
+    const path = window.location.pathname;
+    const extractedName = decodeURIComponent(path.replace(/^\/packages\/?/, "").replace(/\/$/, ""));
+    const isPackageRoute = path.startsWith("/packages/") && extractedName.length > 0;
+    const specificPackageName = isPackageRoute ? extractedName : null;
+
+    const initialDefinitions = specificPackageName 
+        ? buildPackageDefinitions([specificPackageName]) 
+        : FALLBACK_PACKAGE_DEFINITIONS;
+
+    const [packageDefinitions, setPackageDefinitions] = useState<PackageDefinition[]>(initialDefinitions);
     const [packages, setPackages] = useState<Record<string, PackageState>>(() => (
-        buildInitialPackageState(FALLBACK_PACKAGE_DEFINITIONS)
+        buildInitialPackageState(initialDefinitions)
     ));
     const { theme, setTheme, themeOptions } = useThemeMode();
 
@@ -381,13 +390,17 @@ function App(): ReactNode {
         let cancelled = false;
 
         const loadAllPackages = async () => {
-            let definitions = FALLBACK_PACKAGE_DEFINITIONS;
+            let definitions = specificPackageName 
+                ? buildPackageDefinitions([specificPackageName]) 
+                : FALLBACK_PACKAGE_DEFINITIONS;
 
-            try {
-                const maintainerPackageNames = await loadMaintainerPackageNames(NPM_MAINTAINER);
-                definitions = buildPackageDefinitions(maintainerPackageNames);
-            } catch {
-                // Keep the fallback list if npm maintainer search is unavailable.
+            if (!specificPackageName) {
+                try {
+                    const maintainerPackageNames = await loadMaintainerPackageNames(NPM_MAINTAINER);
+                    definitions = buildPackageDefinitions(maintainerPackageNames);
+                } catch {
+                    // Keep the fallback list if npm maintainer search is unavailable.
+                }
             }
 
             if (cancelled) {
@@ -436,15 +449,23 @@ function App(): ReactNode {
         <>
             <header>
                 <div className="site-branding">
-                    <img
-                        src="/logo.png?v=20260502"
-                        alt="waelio logo"
-                        className="brand-lockup brand-lockup-header"
-                    />
-                    <h1 className="site-title">Package stats</h1>
+                    <a href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", color: "inherit" }}>
+                        <img
+                            src="/logo.png?v=20260502"
+                            alt="waelio logo"
+                            className="brand-lockup brand-lockup-header"
+                        />
+                        <h1 className="site-title">Package stats</h1>
+                    </a>
                 </div>
                 <div className="header-nav">
-                    <span className="muted">{packageDefinitions.length} npm packages · live metadata</span>
+                    <span className="muted">
+                        {isPackageRoute ? (
+                            <a href="/" className="nav-link">← All packages</a>
+                        ) : (
+                            `${packageDefinitions.length} npm packages · live metadata`
+                        )}
+                    </span>
                     <div className="theme-switcher" role="group" aria-label="Choose theme">
                         {themeOptions.map((option) => (
                             <button
@@ -466,8 +487,12 @@ function App(): ReactNode {
             </header>
 
             <div className="page-shell">
-                <HeroIntro />
-                <DownloadsSummary packageDefinitions={packageDefinitions} packages={packages} />
+                {!isPackageRoute && (
+                    <>
+                        <HeroIntro />
+                        <DownloadsSummary packageDefinitions={packageDefinitions} packages={packages} />
+                    </>
+                )}
             </div>
 
             <div className="container">

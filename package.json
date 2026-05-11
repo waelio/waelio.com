@@ -5,11 +5,11 @@
   "type": "module",
   "description": "waelio.com – Package stats site",
   "scripts": {
-    "build:web": "tsc -p tsconfig.web.json && tsx scripts/build-react-web.ts",
+    "build:web": "tsc -p tsconfig.web.json && node --import tsx scripts/build-react-web.ts",
     "build": "pnpm run build:web",
-    "dev": "tsx scripts/dev.ts",
+    "dev": "node --import tsx scripts/dev.ts",
     "pages:dev": "pnpm run build:web && npx wrangler pages dev public --kv=WAELIO_PRIVATE --compatibility-date=2024-12-01 --compatibility-flags=nodejs_compat",
-    "start": "pnpm run build:web && tsx server.ts",
+    "start": "pnpm run build:web && node --import tsx server.ts",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
