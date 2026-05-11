@@ -42,8 +42,6 @@ for pkg in "${PACKAGES[@]}"; do
   echo "   Installing dependencies..."
   if [ -f "pnpm-lock.yaml" ]; then
     pnpm install
-  elif [ -f "yarn.lock" ]; then
-    yarn install
   else
     npm install
   fi
