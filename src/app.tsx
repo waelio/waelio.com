@@ -271,6 +271,7 @@ function renderBadges(meta: NpmMeta): ReactNode {
 function PackageCard(props: { title: string; state: PackageState; isPackageRoute?: boolean }): ReactNode {
     const { state, title, isPackageRoute } = props;
     const [copied, setCopied] = useState(false);
+    const [copiedUrl, setCopiedUrl] = useState(false);
 
     if (state.status === "loading") {
         return (
@@ -303,9 +304,29 @@ function PackageCard(props: { title: string; state: PackageState; isPackageRoute
         });
     };
 
+    const packageUrl = `https://waelio.com/packages/${meta.name}`;
+    const handleCopyUrl = () => {
+        navigator.clipboard.writeText(packageUrl).then(() => {
+            setCopiedUrl(true);
+            setTimeout(() => setCopiedUrl(false), 2000);
+        }).catch(() => {});
+    };
+
     return (
         <div className="card">
-            <h2>{title}</h2>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <h2 style={{ margin: 0 }}>
+                    <a href={`/packages/${meta.name}`} style={{ color: "inherit", textDecoration: "none" }}>{title}</a>
+                </h2>
+                <button 
+                    onClick={handleCopyUrl} 
+                    className="btn-outline"
+                    style={{ padding: "0.3rem 0.6rem", fontSize: "0.85rem", borderRadius: "6px", display: "flex", alignItems: "center", gap: "0.3rem", border: "1px solid var(--wa-outline-border)", cursor: "pointer", background: "transparent" }}
+                    title="Copy package URL"
+                >
+                    {copiedUrl ? "✅ Copied URL" : "🔗 Copy URL"}
+                </button>
+            </div>
             <div className="muted">{meta.description || "—"}</div>
             
             <div className="row" style={{ marginTop: "1.25rem", marginBottom: "1.5rem", width: "100%" }}>
