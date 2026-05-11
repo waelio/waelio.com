@@ -1,0 +1,2 @@
+overrides:
+  '@waelio/data': link:../data
