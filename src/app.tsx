@@ -303,17 +303,30 @@ function PackageCard(props: { title: string; state: PackageState }): ReactNode {
             <h2>{title}</h2>
             <div className="muted">{meta.description || "—"}</div>
             
-            <div className="row" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
-                <code style={{ background: "rgba(0,0,0,0.1)", padding: "4px 8px", borderRadius: "4px", flexGrow: 1, border: "1px solid rgba(0,0,0,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    {installCmd}
+            <div className="row" style={{ marginTop: "1.25rem", marginBottom: "1.5rem", width: "100%" }}>
+                <div style={{ 
+                    display: "flex", 
+                    width: "100%", 
+                    justifyContent: "space-between", 
+                    alignItems: "center", 
+                    background: "var(--wa-surface-soft)", 
+                    border: "1px solid var(--wa-border-strong)", 
+                    borderRadius: "12px", 
+                    padding: "0.5rem 0.5rem 0.5rem 1.25rem",
+                    boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)"
+                }}>
+                    <code style={{ fontFamily: "monospace", fontSize: "0.95rem", color: "var(--wa-accent-strong)", fontWeight: 600 }}>
+                        {installCmd}
+                    </code>
                     <button 
                         onClick={handleCopy} 
-                        style={{ marginLeft: "10px", cursor: "pointer", border: "none", background: "none", fontSize: "0.9em" }}
+                        className="btn-outline"
+                        style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.4rem 0.8rem", borderRadius: "8px", border: "1px solid var(--wa-outline-border)" }}
                         title="Copy to clipboard"
                     >
                         {copied ? "✅ Copied" : "📋 Copy"}
                     </button>
-                </code>
+                </div>
             </div>
 
             <div className="row">
