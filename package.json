@@ -8,6 +8,7 @@
     "build:web": "tsc -p tsconfig.web.json && node --import tsx scripts/build-react-web.ts",
     "build": "pnpm run build:web",
     "dev": "node --import tsx scripts/dev.ts",
+    "deploy": "pnpm run build:web && npx wrangler pages deploy public | tee /dev/tty | awk '/Take a peek over at/ {print $NF}' | pbcopy && echo '\\n✅ Deployed and URL copied to clipboard!'",
     "pages:dev": "pnpm run build:web && npx wrangler pages dev public --kv=WAELIO_PRIVATE --compatibility-date=2024-12-01 --compatibility-flags=nodejs_compat",
     "start": "pnpm run build:web && node --import tsx server.ts",
     "typecheck": "tsc -p tsconfig.json"
