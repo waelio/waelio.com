@@ -55,9 +55,19 @@ for pkg in "${PACKAGES[@]}"; do
     npm run build
   fi
   
-  # Bump patch version without crashing on uncommitted changes
-  echo "   Bumping patch version..."
-  npm version patch --no-git-tag-version
+  PKG_NAME=$(node -p "require('./package.json').name")
+  LOCAL_VERSION=$(node -p "require('./package.json').version")
+  NPM_VERSION=$(npm show "$PKG_NAME" version 2>/dev/null || echo "0.0.0")
+  
+  echo "   Current Local: $LOCAL_VERSION | Published: $NPM_VERSION"
+
+  # Only bump if the local version matches the published version
+  if [ "$LOCAL_VERSION" == "$NPM_VERSION" ]; then
+    echo "   Bumping patch version..."
+    npm version patch --no-git-tag-version
+  else
+    echo "   Version already differs from NPM (likely bumped already). Skipping bump."
+  fi
   
   # Publish to public registry
   echo "   Publishing to NPM..."
