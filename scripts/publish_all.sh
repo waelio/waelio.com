@@ -8,7 +8,6 @@ set -e
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 PACKAGES=(
-  "Agent"
   "cli"
   "data"
   "waelio-messaging"
@@ -56,9 +55,9 @@ for pkg in "${PACKAGES[@]}"; do
     npm run build
   fi
   
-  # Bump patch version
+  # Bump patch version without crashing on uncommitted changes
   echo "   Bumping patch version..."
-  npm version patch
+  npm version patch --no-git-tag-version
   
   # Publish to public registry
   echo "   Publishing to NPM..."
