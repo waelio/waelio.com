@@ -15,6 +15,7 @@ PACKAGES=(
   "utils"
   "quasar-app-extension-waelio"
   "waelio-utils"
+  "waelio-sync"
 )
 
 echo "🚀 Starting bulk publish from $ROOT_DIR"

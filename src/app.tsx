@@ -42,6 +42,7 @@ const FALLBACK_PACKAGE_NAMES = [
     "@waelio/utils",
     "quasar-app-extension-waelio",
     "waelio-utils",
+    "@waelio/sync",
 ];
 
 const LOADING_PACKAGE_STATE: PackageState = { status: "loading" };
