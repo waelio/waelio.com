@@ -265,6 +265,7 @@ function renderBadges(meta: NpmMeta): ReactNode {
 
 function PackageCard(props: { title: string; state: PackageState }): ReactNode {
     const { state, title } = props;
+    const [copied, setCopied] = useState(false);
 
     if (state.status === "loading") {
         return (
@@ -286,11 +287,35 @@ function PackageCard(props: { title: string; state: PackageState }): ReactNode {
 
     const { meta } = state;
     const links = buildLinks(meta);
+    const installCmd = `npm i ${meta.name}`;
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(installCmd).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }).catch(() => {
+            // fallback or ignore
+        });
+    };
 
     return (
         <div className="card">
             <h2>{title}</h2>
             <div className="muted">{meta.description || "—"}</div>
+            
+            <div className="row" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+                <code style={{ background: "rgba(0,0,0,0.1)", padding: "4px 8px", borderRadius: "4px", flexGrow: 1, border: "1px solid rgba(0,0,0,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    {installCmd}
+                    <button 
+                        onClick={handleCopy} 
+                        style={{ marginLeft: "10px", cursor: "pointer", border: "none", background: "none", fontSize: "0.9em" }}
+                        title="Copy to clipboard"
+                    >
+                        {copied ? "✅ Copied" : "📋 Copy"}
+                    </button>
+                </code>
+            </div>
+
             <div className="row">
                 <span className="label">Latest:</span>
                 <span className="val">{meta.version || "—"}</span>
