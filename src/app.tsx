@@ -264,7 +264,7 @@ function renderBadges(meta: NpmMeta): ReactNode {
     }
 
     return badges.map((badge) => (
-        <img key={badge.alt} alt={badge.alt} src={badge.src} />
+        <img key={badge.alt} alt={badge.alt} src={badge.src} style={{ marginRight: "0.5rem" }} />
     ));
 }
 
