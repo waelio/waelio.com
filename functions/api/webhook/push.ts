@@ -1,6 +1,8 @@
 // functions/api/webhook/push.ts
 // Webhook endpoint for push events with its own secret
+
 import { serve } from "https://deno.land/std@0.203.0/http/server.ts";
+import { saveBlueprint } from "../../../siteforgee/store.ts";
 
 function getPushSecret(): string | undefined {
     return Deno.env.get("WEBHOOK_PUSH_SECRET") || (typeof process !== "undefined" ? process.env.WEBHOOK_PUSH_SECRET : undefined);
@@ -27,8 +29,7 @@ serve(async (req) => {
         return new Response("Forbidden: invalid secret", { status: 403 });
     }
 
-    // Log the received JSON for now
-    console.log("Received push webhook:", JSON.stringify(payload));
-
-    return new Response("Push webhook received", { status: 200 });
+    // Save the webhook as a blueprint for siteforgee
+    await saveBlueprint("push", payload);
+    return new Response("Push webhook received and saved", { status: 200 });
 });

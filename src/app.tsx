@@ -1,9 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type { ReactNode } from "react";
 import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
 import { useThemeMode } from "./shared/theme.ts";
 import ReactMarkdown from "react-markdown";
+
+declare global {
+    interface Window {
+        adsbygoogle?: Array<Record<string, unknown>>;
+    }
+}
+
+const ADSENSE_CLIENT = "ca-pub-6570379153890315";
+// Set to true once you have real ad slot IDs from AdSense
+const ADSENSE_ENABLED = false;
+
+function AdBanner(props: { slot: string; format?: string; className?: string }): ReactNode {
+    if (!ADSENSE_ENABLED) {
+        return null;
+    }
+
+    const adRef = useRef<HTMLModElement>(null);
+    const pushed = useRef(false);
+
+    useEffect(() => {
+        if (pushed.current) {
+            return;
+        }
+
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            pushed.current = true;
+        } catch {
+            // AdSense not loaded or blocked — fail silently.
+        }
+    }, []);
+
+    return (
+        <div className={`ad-container ${props.className ?? ""}`} aria-label="Advertisement">
+            <ins
+                ref={adRef}
+                className="adsbygoogle"
+                style={{ display: "block" }}
+                data-ad-client={ADSENSE_CLIENT}
+                data-ad-slot={props.slot}
+                data-ad-format={props.format ?? "auto"}
+                data-full-width-responsive="true"
+            />
+        </div>
+    );
+}
 
 type NpmRepository = { url?: string } | null;
 
@@ -562,19 +608,27 @@ function App(): ReactNode {
                     <>
                         <HeroIntro />
                         <DownloadsSummary packageDefinitions={packageDefinitions} packages={packages} />
+                        <AdBanner slot="1234567890" className="ad-after-summary" />
                     </>
                 )}
             </div>
 
             <div className="container">
-                {packageDefinitions.map((definition) => (
-                    <PackageCard
-                        key={definition.key}
-                        title={definition.title}
-                        state={packages[definition.key] ?? LOADING_PACKAGE_STATE}
-                        isPackageRoute={isPackageRoute}
-                    />
+                {packageDefinitions.map((definition, index) => (
+                    <div key={definition.key}>
+                        <PackageCard
+                            title={definition.title}
+                            state={packages[definition.key] ?? LOADING_PACKAGE_STATE}
+                            isPackageRoute={isPackageRoute}
+                        />
+                        {!isPackageRoute && (index + 1) % 3 === 0 && index < packageDefinitions.length - 1 && (
+                            <AdBanner slot="1234567891" className="ad-mid-feed" />
+                        )}
+                    </div>
                 ))}
+                {isPackageRoute && (
+                    <AdBanner slot="1234567892" className="ad-after-package" />
+                )}
             </div>
 
             <footer className="site-footer">
