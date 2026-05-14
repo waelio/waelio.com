@@ -153,14 +153,14 @@ function normalizeRepository(value: unknown): NpmRepository {
 
 async function loadPackage(name: string): Promise<NpmMeta> {
     const [meta, downloads] = await Promise.all([
-        fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`).then(async (response) => {
+        fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`, { cache: "no-store" }).then(async (response) => {
             if (!response.ok) {
                 throw new Error(`registry: ${response.status}`);
             }
 
             return await response.json() as unknown;
         }),
-        fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`)
+        fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`, { cache: "no-store" })
             .then(async (response) => {
                 if (!response.ok) {
                     throw new Error(`downloads: ${response.status}`);
@@ -215,6 +215,7 @@ async function loadPreferredUtilsPackage(): Promise<NpmMeta> {
 async function loadMaintainerPackageNames(maintainer: string): Promise<string[]> {
     const response = await fetch(
         `https://registry.npmjs.org/-/v1/search?text=${encodeURIComponent(`maintainer:${maintainer}`)}&size=250`,
+        { cache: "no-store" },
     );
 
     if (!response.ok) {
