@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Docs – @waelio packages</title>
+    <meta
+      name="description"
+      content="API reference and documentation for all @waelio npm packages: utils, ustore, cli, messaging, agent, sync, and more."
+    />
+    <meta name="author" content="waelio" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://waelio.com/docs" />
+    <meta name="theme-color" content="#dbe1e8" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Docs – @waelio packages" />
+    <meta
+      property="og:description"
+      content="API reference and documentation for all @waelio npm packages."
+    />
+    <meta property="og:url" content="https://waelio.com/docs" />
+    <meta property="og:site_name" content="waelio.com" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Docs – @waelio packages" />
+    <meta
+      name="twitter:description"
+      content="API reference and documentation for all @waelio npm packages."
+    />
+
+    <link
+      rel="icon"
+      href="/favicon.png?v=20260514"
+      sizes="512x512"
+      type="image/png"
+    />
+    <link rel="shortcut icon" href="/favicon.png?v=20260514" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon.png?v=20260514" />
+    <link rel="manifest" href="/manifest.webmanifest?v=20260514" />
+    <link rel="stylesheet" href="/styles.css?v=20260514" />
+
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("waelio-theme");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const themeColors = {
+            dim: "#dbe1e8",
+            light: "#f4f7fb",
+            dark: "#171d2c",
+          };
+          const theme =
+            storedTheme === "light" ||
+            storedTheme === "dim" ||
+            storedTheme === "dark"
+              ? storedTheme
+              : prefersDark
+                ? "dark"
+                : "dim";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme =
+            theme === "dark" ? "dark" : "light";
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", themeColors[theme]);
+        } catch {
+          document.documentElement.dataset.theme = "dim";
+          document.documentElement.style.colorScheme = "light";
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", "#dbe1e8");
+        }
+      })();
+    </script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Docs – @waelio packages",
+        "url": "https://waelio.com/docs",
+        "description": "API reference and documentation for all @waelio npm packages.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "waelio.com",
+          "url": "https://waelio.com/"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "waelio"
+        }
+      }
+    </script>
+  </head>
+  <body style="padding: 0;">
+    <div id="app"></div>
+    <script type="module" src="/docs.js?v=20260514"></script>
+  </body>
+</html>
