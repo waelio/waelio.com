@@ -406,7 +406,7 @@ function PackageCard(props: { title: string; state: PackageState; isPackageRoute
                 <span className="val">{meta.version || "—"}</span>
             </div>
             <div className="row">
-                <span className="label">Last week:</span>
+                <span className="label">Downloads (last week):</span>
                 <span className="val">{formatDownloads(meta.downloadsWeek)}</span>
             </div>
             <div className="row">
