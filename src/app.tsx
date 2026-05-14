@@ -466,7 +466,7 @@ function DownloadsSummary(props: {
             <div className="summary-value">
                 {loadedStates.length > 0 ? formatDownloads(totalWeeklyDownloads) : "Loading…"}
             </div>
-            <div className="summary-caption">Weekly npm downloads across all packages</div>
+            <div className="summary-caption">Weekly npm downloads across your packages</div>
             <div className="summary-meta">{caption} · {meta}</div>
         </section>
     );
@@ -475,12 +475,12 @@ function DownloadsSummary(props: {
 function HeroIntro(): ReactNode {
     return (
         <section className="hero-card" aria-label="Homepage introduction">
-            <div className="hero-eyebrow">Open-source npm packages</div>
-            <h2 className="hero-title">Built with love to help developers save time.</h2>
+            <div className="hero-eyebrow">Built for developers like me</div>
+            <h2 className="hero-title">Built with love to help developers like me save time.</h2>
             <p className="hero-description">
                 Practical npm packages, live stats, and small tools I actually reach for when shipping things.
             </p>
-            <div className="hero-note">Live data pulled straight from the npm registry.</div>
+            <div className="hero-note">Made with love for developers who just want to ship.</div>
         </section>
     );
 }
