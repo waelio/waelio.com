@@ -11,7 +11,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT/builder"
 
 echo "Publishing @waelio/builder as $(npm whoami)"
-pnpm install --ignore-workspace-root-check 2>/dev/null || pnpm install
+pnpm install
 pnpm run build
 if [ -n "${NPM_OTP:-}" ]; then
   npm publish --access public --otp="$NPM_OTP"

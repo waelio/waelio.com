@@ -33,7 +33,13 @@ for pkg in "${PACKAGES[@]}"; do
   fi
   if [ -f package.json ] && grep -q '"build":' package.json; then
     echo "  build..."
-    npm run build --if-present 2>/dev/null || npm run build
+    if [ -f pnpm-lock.yaml ] && command -v pnpm >/dev/null 2>&1; then
+      pnpm install
+      pnpm run build
+    else
+      npm install
+      npm run build --if-present 2>/dev/null || npm run build
+    fi
   fi
   echo "  npm pack --dry-run..."
   npm pack --dry-run

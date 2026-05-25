@@ -50,7 +50,7 @@ publish_pkg() {
 publish_pkg waelio-messaging
 publish_pkg cli
 publish_pkg data
-publish_pkg builder
 
 echo ""
-echo "Wave 1 publish complete."
+echo "Wave 1 publish complete (messaging, cli, data)."
+echo "For @waelio/builder (pnpm repo), run: bash scripts/publish_builder.sh"

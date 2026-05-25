@@ -8,10 +8,21 @@ Publishing uses the **terminal only** — not Cursor’s embedded browser.
 
 1. In **Chrome**: https://www.npmjs.com/settings/tokens → Generate **Publish** token.
 2. In terminal: `npm config set //registry.npmjs.org/:_authToken=TOKEN` then `npm whoami`.
-3. Per package: `npm install` → `npm run build` → `npm publish --access public`.
+3. Per package: install → build → `npm publish --access public`.
 4. If npm asks for 2FA: `NPM_OTP=123456 bash scripts/publish_wave1.sh` (code from your authenticator app).
 
 Never paste tokens in chat.
+
+## Publish scripts
+
+| Script | Packages | Notes |
+|--------|----------|-------|
+| `scripts/publish_wave1.sh` | messaging, cli, data | Uses `npm install`; skips builder |
+| `scripts/publish_builder.sh` | `@waelio/builder` only | Uses **pnpm** (`../builder` has `pnpm-lock.yaml`) |
+| `scripts/verify_packages.sh` | dry-run pack | Does not publish |
+
+**Wave 1 published (2026-05-25):** `@waelio/messaging@2.3.6`, `@waelio/cli@0.1.14`, `@waelio/data@1.0.7`  
+**Pending:** `@waelio/builder@0.1.1` — run `bash scripts/publish_builder.sh` after `npm whoami` works.
 
 ## Package tiers
 
