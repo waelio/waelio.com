@@ -8,3 +8,9 @@ compatibility_flags = ["nodejs_compat"]
 [[kv_namespaces]]
 binding = "WAELIO_PRIVATE"
 id = "76f81e03e097497a84e5c86ea944d829"
+
+# Optional R2 bucket binding for Cloudflare Pages / Workers.
+# Uncomment and fill in your R2 bucket name if you want native R2 access.
+# [[r2_buckets]]
+# binding = "WAELIO_R2"
+# bucket_name = "your-bucket-name"

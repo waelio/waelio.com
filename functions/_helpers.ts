@@ -40,6 +40,11 @@ export function injectEnv(env: Env): void {
     if (env.ALLOWED_EMAILS) process.env.ALLOWED_EMAILS = env.ALLOWED_EMAILS;
     if (env.AGENT_API_BASE_URL) process.env.AGENT_API_BASE_URL = env.AGENT_API_BASE_URL;
     if (env.AGENT_APP_NAME) process.env.AGENT_APP_NAME = env.AGENT_APP_NAME;
+    if (env.R2_ACCOUNT_ID) process.env.R2_ACCOUNT_ID = env.R2_ACCOUNT_ID;
+    if (env.R2_BUCKET_NAME) process.env.R2_BUCKET_NAME = env.R2_BUCKET_NAME;
+    if (env.R2_ACCESS_KEY_ID) process.env.R2_ACCESS_KEY_ID = env.R2_ACCESS_KEY_ID;
+    if (env.R2_SECRET_ACCESS_KEY) process.env.R2_SECRET_ACCESS_KEY = env.R2_SECRET_ACCESS_KEY;
+    if (env.R2_ENDPOINT) process.env.R2_ENDPOINT = env.R2_ENDPOINT;
 
     // Signal that we're running in Cloudflare (used by private-ledger-store)
     process.env.CLOUDFLARE = "1";

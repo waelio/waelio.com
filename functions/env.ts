@@ -13,6 +13,13 @@ export interface Env {
     ALLOWED_EMAILS: string;
     AGENT_API_BASE_URL?: string;
     AGENT_APP_NAME?: string;
+
+    // Optional R2/S3 credentials for Cloudflare R2 usage.
+    R2_ACCOUNT_ID?: string;
+    R2_BUCKET_NAME?: string;
+    R2_ACCESS_KEY_ID?: string;
+    R2_SECRET_ACCESS_KEY?: string;
+    R2_ENDPOINT?: string;
 }
 
 /**

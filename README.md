@@ -60,6 +60,15 @@ Optional variables for the private agent page:
 
 - `AGENT_API_BASE_URL` – default ADK backend URL for `/private/agent`
 - `AGENT_APP_NAME` – default ADK app name used by `/private/agent` (defaults to `Agent`)
+- `R2_ACCOUNT_ID` – Cloudflare R2 account ID (optional, used for S3-compatible access)
+- `R2_BUCKET_NAME` – R2 bucket name
+- `R2_ACCESS_KEY_ID` – R2 access key ID for S3-compatible requests
+- `R2_SECRET_ACCESS_KEY` – R2 secret access key for S3-compatible requests
+- `R2_ENDPOINT` – R2 S3 endpoint, e.g. `https://f8e411adbc0ac8c96ac4e00beaacd9cd.r2.cloudflarestorage.com`
+
+### Cloudflare R2 notes
+
+If you want to use Cloudflare R2 for file storage, add the bucket as an R2 binding in `wrangler.toml` or set the S3-compatible credentials via environment variables. For native Pages/Workers access, use `[[r2_buckets]]` in `wrangler.toml` and bind it to a name like `WAELIO_R2`.
 
 ### Google Sign-In notes
 
