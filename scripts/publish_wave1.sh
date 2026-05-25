@@ -24,11 +24,20 @@ publish_pkg() {
   version=$(node -p "require('./package.json').version")
   echo ""
   echo ">>> $name@$version ($dir)"
-  echo "  npm install..."
-  npm install
-  if grep -q '"build":' package.json 2>/dev/null; then
-    echo "  npm run build..."
-    npm run build
+  if [ -f pnpm-lock.yaml ] && command -v pnpm >/dev/null 2>&1; then
+    echo "  pnpm install..."
+    pnpm install
+    if grep -q '"build":' package.json 2>/dev/null; then
+      echo "  pnpm run build..."
+      pnpm run build
+    fi
+  else
+    echo "  npm install..."
+    npm install
+    if grep -q '"build":' package.json 2>/dev/null; then
+      echo "  npm run build..."
+      npm run build
+    fi
   fi
   if [ -n "${NPM_OTP:-}" ]; then
     npm publish --access public --otp="$NPM_OTP"
