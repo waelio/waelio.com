@@ -17,8 +17,8 @@ Never paste tokens in chat.
 
 | Script | Packages | Notes |
 |--------|----------|-------|
-| `scripts/publish_wave1.sh` | messaging, cli, data | Uses `npm install`; skips builder |
-| `scripts/publish_builder.sh` | `@waelio/builder` only | Uses **pnpm** (`../builder` has `pnpm-lock.yaml`) |
+| `scripts/publish_wave1.sh` | messaging, cli, data | Skips if version already on npm; no double build when `prepublishOnly` exists |
+| `scripts/publish_builder.sh` | `@waelio/builder` only | Same guards; uses **pnpm** in `../builder` |
 | `scripts/verify_packages.sh` | dry-run pack | Does not publish |
 
 **Wave 1 published (2026-05-25):** `@waelio/messaging@2.3.6`, `@waelio/cli@0.1.14`, `@waelio/data@1.0.7`  

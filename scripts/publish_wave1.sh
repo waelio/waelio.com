@@ -1,6 +1,11 @@
 #!/bin/bash
 # Publish Wave 1 metadata fixes. Requires: npm whoami works.
+# Skips packages already on npm at the same version (no double publish).
 set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=publish_lib.sh
+source "$SCRIPT_DIR/publish_lib.sh"
 
 if ! npm whoami >/dev/null 2>&1; then
   echo "ERROR: npm whoami failed. In Chrome create a Publish token, then:"
@@ -14,7 +19,7 @@ if [ -z "${NPM_OTP:-}" ]; then
 fi
 
 echo "Publishing as $(npm whoami)"
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 publish_pkg() {
   local dir="$1"
@@ -24,26 +29,15 @@ publish_pkg() {
   version=$(node -p "require('./package.json').version")
   echo ""
   echo ">>> $name@$version ($dir)"
-  if [ -f pnpm-lock.yaml ] && command -v pnpm >/dev/null 2>&1; then
-    echo "  pnpm install..."
-    pnpm install
-    if grep -q '"build":' package.json 2>/dev/null; then
-      echo "  pnpm run build..."
-      pnpm run build
-    fi
-  else
-    echo "  npm install..."
-    npm install
-    if grep -q '"build":' package.json 2>/dev/null; then
-      echo "  npm run build..."
-      npm run build
-    fi
+
+  if npm_version_already_published "$name" "$version"; then
+    echo "  SKIP: already published on npm (no republish)"
+    return 0
   fi
-  if [ -n "${NPM_OTP:-}" ]; then
-    npm publish --access public --otp="$NPM_OTP"
-  else
-    npm publish --access public
-  fi
+
+  npm_install_deps
+  npm_build_if_needed
+  npm_publish_package
   echo "Published $name@$version"
 }
 
@@ -52,5 +46,5 @@ publish_pkg cli
 publish_pkg data
 
 echo ""
-echo "Wave 1 publish complete (messaging, cli, data)."
-echo "For @waelio/builder (pnpm repo), run: bash scripts/publish_builder.sh"
+echo "Wave 1 complete (messaging, cli, data). Skipped any version already on npm."
+echo "For @waelio/builder only: bash scripts/publish_builder.sh"
