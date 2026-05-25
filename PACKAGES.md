@@ -8,7 +8,8 @@ Publishing uses the **terminal only** — not Cursor’s embedded browser.
 
 1. In **Chrome**: https://www.npmjs.com/settings/tokens → Generate **Publish** token.
 2. In terminal: `npm config set //registry.npmjs.org/:_authToken=TOKEN` then `npm whoami`.
-3. Per package: `npm run build` (if needed) → `npm pack --dry-run` → `npm publish --access public`.
+3. Per package: `npm install` → `npm run build` → `npm publish --access public`.
+4. If npm asks for 2FA: `NPM_OTP=123456 bash scripts/publish_wave1.sh` (code from your authenticator app).
 
 Never paste tokens in chat.
 

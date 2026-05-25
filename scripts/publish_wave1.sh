@@ -9,6 +9,10 @@ if ! npm whoami >/dev/null 2>&1; then
   exit 1
 fi
 
+if [ -z "${NPM_OTP:-}" ]; then
+  echo "Tip: if publish asks for 2FA, run: NPM_OTP=123456 bash $0"
+fi
+
 echo "Publishing as $(npm whoami)"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
@@ -20,10 +24,17 @@ publish_pkg() {
   version=$(node -p "require('./package.json').version")
   echo ""
   echo ">>> $name@$version ($dir)"
+  echo "  npm install..."
+  npm install
   if grep -q '"build":' package.json 2>/dev/null; then
+    echo "  npm run build..."
     npm run build
   fi
-  npm publish --access public
+  if [ -n "${NPM_OTP:-}" ]; then
+    npm publish --access public --otp="$NPM_OTP"
+  else
+    npm publish --access public
+  fi
   echo "Published $name@$version"
 }
 
