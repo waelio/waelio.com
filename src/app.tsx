@@ -44,6 +44,7 @@ const FALLBACK_PACKAGE_NAMES = [
     "quasar-app-extension-waelio",
     "waelio-utils",
     "@waelio/sync",
+    "peace2074",
 ];
 
 const LOADING_PACKAGE_STATE: PackageState = { status: "loading" };
@@ -311,7 +312,7 @@ function PackageCard(props: { title: string; state: PackageState; isPackageRoute
         navigator.clipboard.writeText(packageUrl).then(() => {
             setCopiedUrl(true);
             setTimeout(() => setCopiedUrl(false), 2000);
-        }).catch(() => {});
+        }).catch(() => { });
     };
 
     return (
@@ -320,8 +321,8 @@ function PackageCard(props: { title: string; state: PackageState; isPackageRoute
                 <h2 style={{ margin: 0 }}>
                     <a href={`/packages/${meta.name}`} style={{ color: "inherit", textDecoration: "none" }}>{title}</a>
                 </h2>
-                <button 
-                    onClick={handleCopyUrl} 
+                <button
+                    onClick={handleCopyUrl}
                     className="btn-outline"
                     style={{ padding: "0.3rem 0.6rem", fontSize: "0.85rem", borderRadius: "6px", display: "flex", alignItems: "center", gap: "0.3rem", border: "1px solid var(--wa-outline-border)", cursor: "pointer", background: "transparent" }}
                     title="Copy package URL"
@@ -330,24 +331,24 @@ function PackageCard(props: { title: string; state: PackageState; isPackageRoute
                 </button>
             </div>
             <div className="muted">{meta.description || "—"}</div>
-            
+
             <div className="row" style={{ marginTop: "1.25rem", marginBottom: "1.5rem", width: "100%" }}>
-                <div style={{ 
-                    display: "flex", 
-                    width: "100%", 
-                    justifyContent: "space-between", 
-                    alignItems: "center", 
-                    background: "var(--wa-surface-soft)", 
-                    border: "1px solid var(--wa-border-strong)", 
-                    borderRadius: "12px", 
+                <div style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    background: "var(--wa-surface-soft)",
+                    border: "1px solid var(--wa-border-strong)",
+                    borderRadius: "12px",
                     padding: "0.5rem 0.5rem 0.5rem 1.25rem",
                     boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)"
                 }}>
                     <code style={{ fontFamily: "monospace", fontSize: "0.95rem", color: "var(--wa-accent-strong)", fontWeight: 600 }}>
                         {installCmd}
                     </code>
-                    <button 
-                        onClick={handleCopy} 
+                    <button
+                        onClick={handleCopy}
                         className="btn-outline"
                         style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.4rem 0.8rem", borderRadius: "8px", border: "1px solid var(--wa-outline-border)" }}
                         title="Copy to clipboard"
@@ -389,7 +390,7 @@ function PackageCard(props: { title: string; state: PackageState; isPackageRoute
                     ) : <span className="muted">—</span>}
                 </span>
             </div>
-            
+
             {isPackageRoute && meta.readme && (
                 <div className="package-readme" style={{ marginTop: "2rem", padding: "1.5rem", background: "var(--wa-surface-soft)", borderRadius: "12px", border: "1px solid var(--wa-border-strong)", overflowX: "auto" }}>
                     <ReactMarkdown>{meta.readme}</ReactMarkdown>
@@ -449,8 +450,8 @@ function App(): ReactNode {
     const isPackageRoute = path.startsWith("/packages/") && extractedName.length > 0;
     const specificPackageName = isPackageRoute ? extractedName : null;
 
-    const initialDefinitions = specificPackageName 
-        ? buildPackageDefinitions([specificPackageName]) 
+    const initialDefinitions = specificPackageName
+        ? buildPackageDefinitions([specificPackageName])
         : FALLBACK_PACKAGE_DEFINITIONS;
 
     const [packageDefinitions, setPackageDefinitions] = useState<PackageDefinition[]>(initialDefinitions);
@@ -463,8 +464,8 @@ function App(): ReactNode {
         let cancelled = false;
 
         const loadAllPackages = async () => {
-            let definitions = specificPackageName 
-                ? buildPackageDefinitions([specificPackageName]) 
+            let definitions = specificPackageName
+                ? buildPackageDefinitions([specificPackageName])
                 : FALLBACK_PACKAGE_DEFINITIONS;
 
             if (!specificPackageName) {

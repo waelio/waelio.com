@@ -24,6 +24,7 @@ const PACKAGES: PackageDef[] = [
     { name: "@waelio/messaging", slug: "messaging", tagline: "Cross-context messaging system", category: "core", icon: "📡" },
     { name: "@waelio/sync", slug: "sync", tagline: "Real-time data synchronization", category: "core", icon: "🔄" },
     { name: "quasar-app-extension-waelio", slug: "quasar-ext", tagline: "Quasar framework extension", category: "framework", icon: "🎯" },
+    { name: "peace2074", slug: "peace2074", tagline: "Personal project site and package registry", category: "tooling", icon: "🕊️" },
 ];
 
 const CATEGORIES: Record<string, { label: string; icon: string }> = {
@@ -265,7 +266,7 @@ function CopyButton(props: { text: string; label?: string }): ReactNode {
         navigator.clipboard.writeText(props.text).then(() => {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
-        }).catch(() => {});
+        }).catch(() => { });
     };
     return (
         <button className="btn-outline docs-copy-btn" onClick={handleCopy} title="Copy to clipboard">
@@ -277,11 +278,11 @@ function CopyButton(props: { text: string; label?: string }): ReactNode {
 function ApiTable(props: { entries: ApiEntry[]; search: string }): ReactNode {
     const filtered = props.search
         ? props.entries.filter(
-              (e) =>
-                  e.name.toLowerCase().includes(props.search.toLowerCase()) ||
-                  e.description.toLowerCase().includes(props.search.toLowerCase()) ||
-                  e.category.toLowerCase().includes(props.search.toLowerCase()),
-          )
+            (e) =>
+                e.name.toLowerCase().includes(props.search.toLowerCase()) ||
+                e.description.toLowerCase().includes(props.search.toLowerCase()) ||
+                e.category.toLowerCase().includes(props.search.toLowerCase()),
+        )
         : props.entries;
 
     const grouped = filtered.reduce<Record<string, ApiEntry[]>>((acc, entry) => {
