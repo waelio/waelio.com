@@ -24,7 +24,6 @@ const PACKAGES: PackageDef[] = [
     { name: "@waelio/messaging", slug: "messaging", tagline: "Cross-context messaging system", category: "core", icon: "📡" },
     { name: "@waelio/sync", slug: "sync", tagline: "Real-time data synchronization", category: "core", icon: "🔄" },
     { name: "quasar-app-extension-waelio", slug: "quasar-ext", tagline: "Quasar framework extension", category: "framework", icon: "🎯" },
-    { name: "peace2074", slug: "peace2074", tagline: "Personal project site and package registry", category: "tooling", icon: "🕊️" },
 ];
 
 const CATEGORIES: Record<string, { label: string; icon: string }> = {
