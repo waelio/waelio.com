@@ -431,6 +431,7 @@ function App(): ReactNode {
             <footer className="site-footer">
                 <span className="muted">© 2026 waelio.com</span>
                 <div className="footer-links">
+                    <a href="/advertise.html">📣 Advertise</a>
                     <a href="/privacy.html">Privacy Policy</a>
                     <a href="/terms.html">Terms of Service</a>
                 </div>
