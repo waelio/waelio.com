@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Advertise on waelio.com – Reach JavaScript & TypeScript Developers</title>
+    <meta
+      name="description"
+      content="Place your ad in front of thousands of JavaScript and TypeScript developers. Direct, no middleman, no Google Ads. Sponsor a package page on waelio.com."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://waelio.com/advertise" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Advertise on waelio.com – Reach JS/TS Developers" />
+    <meta property="og:description" content="Direct ads for developer tools companies. Sponsor a package page and get in front of the right audience." />
+    <meta property="og:url" content="https://waelio.com/advertise" />
+    <meta property="og:site_name" content="waelio.com" />
+    <link rel="icon" href="/favicon.png?v=20260514" sizes="512x512" type="image/png" />
+    <link rel="stylesheet" href="/styles.css?v=20260514" />
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("waelio-theme");
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const themeColors = { dim: "#dbe1e8", light: "#f4f7fb", dark: "#171d2c" };
+          const theme =
+            storedTheme === "light" || storedTheme === "dim" || storedTheme === "dark"
+              ? storedTheme
+              : prefersDark ? "dark" : "dim";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme === "dark" ? "dark" : "light";
+          document.querySelector('meta[name="theme-color"]')?.setAttribute("content", themeColors[theme]);
+        } catch {
+          document.documentElement.dataset.theme = "dim";
+        }
+      })();
+    </script>
+    <style>
+      /* ── Advertise page specific styles ── */
+      .adv-shell {
+        max-width: 860px;
+        margin: 0 auto;
+        padding-bottom: 4rem;
+      }
+
+      /* Hero */
+      .adv-hero {
+        text-align: center;
+        padding: 4rem 2rem 3rem;
+      }
+      .adv-hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--wa-accent-strong);
+        background: var(--wa-accent-soft);
+        border: 1px solid var(--wa-border);
+        padding: 0.3rem 0.85rem;
+        border-radius: 999px;
+        margin-bottom: 1.5rem;
+      }
+      .adv-hero-title {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        font-weight: 800;
+        line-height: 1.15;
+        color: var(--wa-text-strong);
+        margin: 0 0 1.2rem;
+      }
+      .adv-hero-title span {
+        background: linear-gradient(135deg, var(--wa-accent), var(--wa-accent-strong));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .adv-hero-sub {
+        font-size: 1.15rem;
+        color: var(--wa-text-muted);
+        max-width: 52ch;
+        margin: 0 auto 2.5rem;
+        line-height: 1.65;
+      }
+      .adv-cta-row {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .adv-btn-main {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.85rem 2rem;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--wa-accent), var(--wa-accent-strong));
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 6px 20px rgba(93,105,214,0.3);
+        transition: opacity 0.2s, transform 0.15s;
+      }
+      .adv-btn-main:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        text-decoration: none;
+        color: #fff;
+      }
+      .adv-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.85rem 1.75rem;
+        border-radius: 12px;
+        border: 1px solid var(--wa-border-strong);
+        background: var(--wa-surface);
+        color: var(--wa-text-muted);
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: border-color 0.2s, background 0.2s;
+      }
+      .adv-btn-secondary:hover {
+        border-color: var(--wa-accent);
+        background: var(--wa-accent-soft);
+        color: var(--wa-accent-strong);
+        text-decoration: none;
+      }
+
+      /* Stats row */
+      .adv-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+        margin: 0 0 3rem;
+      }
+      .adv-stat-card {
+        padding: 1.5rem 1.25rem;
+        border: 1px solid var(--wa-border-strong);
+        border-radius: 18px;
+        background: var(--wa-surface);
+        box-shadow: var(--wa-shadow-sm);
+        text-align: center;
+        backdrop-filter: blur(8px);
+      }
+      .adv-stat-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--wa-text-strong);
+        line-height: 1;
+      }
+      .adv-stat-label {
+        margin-top: 0.4rem;
+        font-size: 0.85rem;
+        color: var(--wa-text-muted);
+      }
+
+      /* Section headings */
+      .adv-section {
+        margin-bottom: 3rem;
+      }
+      .adv-section-eyebrow {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--wa-accent-strong);
+        margin-bottom: 0.5rem;
+      }
+      .adv-section-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--wa-text-strong);
+        margin: 0 0 1rem;
+      }
+      .adv-section-body {
+        color: var(--wa-text-muted);
+        font-size: 0.98rem;
+        line-height: 1.7;
+        max-width: 60ch;
+      }
+
+      /* Audience */
+      .adv-audience-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      .adv-audience-card {
+        padding: 1.25rem;
+        border: 1px solid var(--wa-border-strong);
+        border-radius: 16px;
+        background: var(--wa-surface);
+        box-shadow: var(--wa-shadow-sm);
+      }
+      .adv-audience-icon {
+        font-size: 1.8rem;
+        margin-bottom: 0.6rem;
+      }
+      .adv-audience-title {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--wa-text-strong);
+        margin-bottom: 0.3rem;
+      }
+      .adv-audience-desc {
+        font-size: 0.85rem;
+        color: var(--wa-text-muted);
+        line-height: 1.5;
+      }
+
+      /* Placements */
+      .adv-placement-list {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      .adv-placement {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 1rem 1.25rem;
+        align-items: center;
+        padding: 1.25rem 1.5rem;
+        border: 1px solid var(--wa-border-strong);
+        border-radius: 16px;
+        background: var(--wa-surface);
+        box-shadow: var(--wa-shadow-sm);
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .adv-placement:hover {
+        border-color: var(--wa-accent);
+        box-shadow: var(--wa-shadow-lg);
+      }
+      .adv-placement-badge {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: var(--wa-accent-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+      }
+      .adv-placement-name {
+        font-weight: 700;
+        color: var(--wa-text-strong);
+        font-size: 0.98rem;
+      }
+      .adv-placement-desc {
+        font-size: 0.85rem;
+        color: var(--wa-text-muted);
+        margin-top: 0.2rem;
+      }
+      .adv-placement-price {
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .adv-placement-amount {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--wa-text-strong);
+      }
+      .adv-placement-period {
+        font-size: 0.78rem;
+        color: var(--wa-text-subtle);
+      }
+      .adv-placement-tag {
+        display: inline-block;
+        margin-top: 0.3rem;
+        padding: 0.15rem 0.55rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        background: var(--wa-accent-soft);
+        color: var(--wa-accent-strong);
+        border: 1px solid var(--wa-border);
+      }
+
+      /* Why section */
+      .adv-why-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      .adv-why-card {
+        padding: 1.25rem;
+        border: 1px solid var(--wa-border-strong);
+        border-radius: 16px;
+        background: var(--wa-surface);
+        box-shadow: var(--wa-shadow-sm);
+      }
+      .adv-why-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .adv-why-title {
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: var(--wa-text-strong);
+        margin-bottom: 0.3rem;
+      }
+      .adv-why-desc {
+        font-size: 0.83rem;
+        color: var(--wa-text-muted);
+        line-height: 1.55;
+      }
+
+      /* Contact CTA */
+      .adv-contact-box {
+        margin-top: 3rem;
+        padding: 2.5rem;
+        border-radius: 24px;
+        border: 1px solid var(--wa-border-strong);
+        background:
+          radial-gradient(circle at top left, var(--wa-accent-soft), transparent 50%),
+          linear-gradient(135deg, var(--wa-surface-solid), var(--wa-surface-soft));
+        box-shadow: var(--wa-shadow-lg);
+        text-align: center;
+      }
+      .adv-contact-title {
+        font-size: 1.7rem;
+        font-weight: 800;
+        color: var(--wa-text-strong);
+        margin: 0 0 0.75rem;
+      }
+      .adv-contact-sub {
+        color: var(--wa-text-muted);
+        margin-bottom: 1.75rem;
+        font-size: 1rem;
+      }
+      .adv-email-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--wa-accent-strong);
+        text-decoration: none;
+        border-bottom: 2px solid var(--wa-accent);
+        padding-bottom: 2px;
+        transition: opacity 0.2s;
+      }
+      .adv-email-link:hover {
+        opacity: 0.75;
+        text-decoration: none;
+        color: var(--wa-accent-strong);
+      }
+      .adv-contact-note {
+        margin-top: 1.25rem;
+        font-size: 0.85rem;
+        color: var(--wa-text-subtle);
+      }
+
+      /* divider */
+      .adv-divider {
+        height: 1px;
+        background: var(--wa-border);
+        margin: 3rem 0;
+      }
+
+      /* back nav */
+      .adv-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--wa-text-muted);
+        font-size: 0.9rem;
+        text-decoration: none;
+        margin-bottom: 2rem;
+      }
+      .adv-back:hover {
+        color: var(--wa-accent-strong);
+        text-decoration: none;
+      }
+
+      @media (max-width: 600px) {
+        .adv-placement {
+          grid-template-columns: auto 1fr;
+        }
+        .adv-placement-price {
+          grid-column: 2;
+          text-align: left;
+        }
+        .adv-hero {
+          padding: 2.5rem 0 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="adv-shell">
+      <a href="/" class="adv-back">← waelio.com</a>
+
+      <!-- Hero -->
+      <section class="adv-hero" aria-label="Advertise hero">
+        <div class="adv-hero-eyebrow">📣 Advertise with us</div>
+        <h1 class="adv-hero-title">
+          Reach <span>JavaScript &amp; TypeScript</span><br />developers directly
+        </h1>
+        <p class="adv-hero-sub">
+          waelio.com serves developers who actively look up npm packages, install tools,
+          and make purchasing decisions. No middleman. No Google. Your ad, your message, your audience.
+        </p>
+        <div class="adv-cta-row">
+          <a href="mailto:ads@waelio.com?subject=Advertising%20on%20waelio.com" class="adv-btn-main" id="hero-contact-cta">
+            📩 Get in touch
+          </a>
+          <a href="#placements" class="adv-btn-secondary" id="hero-placements-cta">
+            View placements ↓
+          </a>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <section aria-label="Audience stats">
+        <div class="adv-stats">
+          <div class="adv-stat-card">
+            <div class="adv-stat-value">11+</div>
+            <div class="adv-stat-label">npm packages published</div>
+          </div>
+          <div class="adv-stat-card">
+            <div class="adv-stat-value">100%</div>
+            <div class="adv-stat-label">developer audience</div>
+          </div>
+          <div class="adv-stat-card">
+            <div class="adv-stat-value">0</div>
+            <div class="adv-stat-label">ad network middlemen</div>
+          </div>
+          <div class="adv-stat-card">
+            <div class="adv-stat-value">Direct</div>
+            <div class="adv-stat-label">you deal with the owner</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="adv-divider"></div>
+
+      <!-- Who is the audience -->
+      <section class="adv-section" aria-label="Audience">
+        <div class="adv-section-eyebrow">The audience</div>
+        <h2 class="adv-section-title">Who sees your ad</h2>
+        <p class="adv-section-body">
+          Every visitor on waelio.com is a developer actively researching packages —
+          exactly the moment they're deciding what to install, use, or recommend.
+        </p>
+        <div class="adv-audience-grid">
+          <div class="adv-audience-card">
+            <div class="adv-audience-icon">🧑‍💻</div>
+            <div class="adv-audience-title">JavaScript developers</div>
+            <div class="adv-audience-desc">Frontend, backend, and full-stack engineers looking for reliable tooling.</div>
+          </div>
+          <div class="adv-audience-card">
+            <div class="adv-audience-icon">🔷</div>
+            <div class="adv-audience-title">TypeScript users</div>
+            <div class="adv-audience-desc">Developers who care about types, quality, and maintainability.</div>
+          </div>
+          <div class="adv-audience-card">
+            <div class="adv-audience-icon">🏗️</div>
+            <div class="adv-audience-title">App builders</div>
+            <div class="adv-audience-desc">Indie developers and startup engineers shipping real products.</div>
+          </div>
+          <div class="adv-audience-card">
+            <div class="adv-audience-icon">📦</div>
+            <div class="adv-audience-title">Package evaluators</div>
+            <div class="adv-audience-desc">People actively comparing tools before making a decision — high intent.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="adv-divider" id="placements"></div>
+
+      <!-- Ad placements -->
+      <section class="adv-section" aria-label="Ad placements">
+        <div class="adv-section-eyebrow">Ad placements</div>
+        <h2 class="adv-section-title">Where your ad appears</h2>
+        <p class="adv-section-body">
+          Simple, honest pricing. You pick a spot, we place your ad. No auctions, no algorithms.
+        </p>
+        <div class="adv-placement-list">
+
+          <div class="adv-placement">
+            <div class="adv-placement-badge">📄</div>
+            <div>
+              <div class="adv-placement-name">Package Page Sponsor</div>
+              <div class="adv-placement-desc">
+                Your ad shown on a specific package landing page (e.g. <code>waelio.com/packages/@waelio/ustore</code>).
+                Includes headline, short body copy, and a call-to-action link.
+              </div>
+              <span class="adv-placement-tag">Text + link</span>
+            </div>
+            <div class="adv-placement-price">
+              <div class="adv-placement-amount">Contact us</div>
+              <div class="adv-placement-period">per month</div>
+            </div>
+          </div>
+
+          <div class="adv-placement">
+            <div class="adv-placement-badge">🏠</div>
+            <div>
+              <div class="adv-placement-name">Homepage Featured Slot</div>
+              <div class="adv-placement-desc">
+                A featured banner at the top of the homepage package grid — seen by every visitor.
+                Ideal for brand awareness among the full developer audience.
+              </div>
+              <span class="adv-placement-tag">Banner · high visibility</span>
+            </div>
+            <div class="adv-placement-price">
+              <div class="adv-placement-amount">Contact us</div>
+              <div class="adv-placement-period">per month</div>
+            </div>
+          </div>
+
+          <div class="adv-placement">
+            <div class="adv-placement-badge">🎯</div>
+            <div>
+              <div class="adv-placement-name">All Package Pages Bundle</div>
+              <div class="adv-placement-desc">
+                Your ad appears on all 11 package pages. Maximum reach across every page
+                on the site where developers are researching tools.
+              </div>
+              <span class="adv-placement-tag">Best value</span>
+            </div>
+            <div class="adv-placement-price">
+              <div class="adv-placement-amount">Contact us</div>
+              <div class="adv-placement-period">per month</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <div class="adv-divider"></div>
+
+      <!-- Why advertise here -->
+      <section class="adv-section" aria-label="Why advertise here">
+        <div class="adv-section-eyebrow">Why waelio.com</div>
+        <h2 class="adv-section-title">What makes this different</h2>
+        <div class="adv-why-grid">
+          <div class="adv-why-card">
+            <div class="adv-why-icon">🚫</div>
+            <div class="adv-why-title">No Google, no middlemen</div>
+            <div class="adv-why-desc">100% of your spend goes toward the placement. No platform fees, no cut.</div>
+          </div>
+          <div class="adv-why-card">
+            <div class="adv-why-icon">🎯</div>
+            <div class="adv-why-title">Intent-based audience</div>
+            <div class="adv-why-desc">Visitors are actively evaluating tools — not just browsing. High purchase intent.</div>
+          </div>
+          <div class="adv-why-card">
+            <div class="adv-why-icon">⚡</div>
+            <div class="adv-why-title">Fast setup</div>
+            <div class="adv-why-desc">Send us your headline, body text, and link. We put it live, usually within 24 hours.</div>
+          </div>
+          <div class="adv-why-card">
+            <div class="adv-why-icon">🤝</div>
+            <div class="adv-why-title">Talk to the owner</div>
+            <div class="adv-why-desc">No sales team. You deal directly with the developer who built and runs the site.</div>
+          </div>
+          <div class="adv-why-card">
+            <div class="adv-why-icon">📊</div>
+            <div class="adv-why-title">Honest reporting</div>
+            <div class="adv-why-desc">We share real package download stats so you know the audience size before you commit.</div>
+          </div>
+          <div class="adv-why-card">
+            <div class="adv-why-icon">🔄</div>
+            <div class="adv-why-title">Flexible terms</div>
+            <div class="adv-why-desc">Month-to-month. No long contracts. Cancel or change your placement anytime.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact CTA -->
+      <div class="adv-contact-box" aria-label="Contact">
+        <h2 class="adv-contact-title">Ready to advertise?</h2>
+        <p class="adv-contact-sub">
+          Email us with your company name, what you want to promote, and which placement interests you.
+          We'll reply within 24 hours with availability and pricing.
+        </p>
+        <a href="mailto:ads@waelio.com?subject=Advertising%20inquiry%20–%20waelio.com" class="adv-email-link" id="contact-email-link">
+          📩 ads@waelio.com
+        </a>
+        <p class="adv-contact-note">
+          No automated forms. Just a real conversation. We keep it simple.
+        </p>
+      </div>
+    </div>
+
+    <footer class="site-footer" style="max-width:860px;margin:2rem auto 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-top:1.5rem;border-top:1px solid var(--wa-border);">
+      <span class="muted">© 2026 waelio.com</span>
+      <div class="footer-links">
+        <a href="/">← All packages</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </div>
+    </footer>
+  </body>
+</html>
