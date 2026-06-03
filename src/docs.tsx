@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type { ReactNode } from "react";
 import { useThemeMode } from "./shared/theme.ts";
-import ReactMarkdown from "react-markdown";
+import { ReadmeMarkdown } from "./readme-markdown.tsx";
 
 /* ── Package Registry ────────────────────────────────── */
 
@@ -406,9 +406,7 @@ function PackageDetail(props: { pkg: PackageDef; search: string }): ReactNode {
                         </button>
                     </div>
                     {showReadme && (
-                        <div className="docs-readme">
-                            <ReactMarkdown>{meta.readme}</ReactMarkdown>
-                        </div>
+                        <ReadmeMarkdown source={meta.readme} />
                     )}
                 </section>
             )}

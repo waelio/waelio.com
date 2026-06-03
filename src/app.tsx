@@ -1,10 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type { ReactNode } from "react";
 import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
 import { useThemeMode } from "./shared/theme.ts";
-import ReactMarkdown from "react-markdown";
-
+import { ALL_PACKAGE_NAMES } from "./package-marketing.ts";
+import { PackageGridCard } from "./package-grid-card.tsx";
+import {
+    PackageLandingError,
+    PackageLandingLoading,
+    PackageLandingPage,
+} from "./package-landing-page.tsx";
 
 type NpmRepository = { url?: string } | null;
 
@@ -33,19 +38,6 @@ interface PackageDefinition {
 }
 
 const NPM_MAINTAINER = "waelio";
-
-const FALLBACK_PACKAGE_NAMES = [
-    "@waelio/agent",
-    "@waelio/cli",
-    "@waelio/data",
-    "@waelio/messaging",
-    "@waelio/ustore",
-    "@waelio/utils",
-    "quasar-app-extension-waelio",
-    "waelio-utils",
-    "@waelio/sync",
-];
-
 const LOADING_PACKAGE_STATE: PackageState = { status: "loading" };
 
 function buildPackageDefinitions(names: string[]): PackageDefinition[] {
@@ -66,7 +58,7 @@ function buildPackageDefinitions(names: string[]): PackageDefinition[] {
     });
 }
 
-const FALLBACK_PACKAGE_DEFINITIONS = buildPackageDefinitions(FALLBACK_PACKAGE_NAMES);
+const FALLBACK_PACKAGE_DEFINITIONS = buildPackageDefinitions([...ALL_PACKAGE_NAMES]);
 
 function buildInitialPackageState(definitions: PackageDefinition[]): Record<string, PackageState> {
     return Object.fromEntries(definitions.map(({ key }) => [key, LOADING_PACKAGE_STATE])) as Record<string, PackageState>;
@@ -155,20 +147,6 @@ async function loadPackage(name: string): Promise<NpmMeta> {
     };
 }
 
-async function loadPreferredUtilsPackage(): Promise<NpmMeta> {
-    const candidates = ["waelio-utils", "@waelio/utils", "@waelio/waelio-utils"];
-
-    for (const candidate of candidates) {
-        try {
-            return await loadPackage(candidate);
-        } catch {
-            // Try the next package name.
-        }
-    }
-
-    throw new Error("Package not found on npm");
-}
-
 async function loadMaintainerPackageNames(maintainer: string): Promise<string[]> {
     const response = await fetch(
         `https://registry.npmjs.org/-/v1/search?text=${encodeURIComponent(`maintainer:${maintainer}`)}&size=250`,
@@ -201,10 +179,6 @@ async function loadMaintainerPackageNames(maintainer: string): Promise<string[]>
     return uniqueNames;
 }
 
-function shieldsName(name: string): string {
-    return name.replaceAll("/", "%2F");
-}
-
 function formatDownloads(downloadsWeek: number | undefined): string {
     return new Intl.NumberFormat().format(downloadsWeek ?? 0);
 }
@@ -217,185 +191,21 @@ function isErrorPackageState(state: PackageState): state is Extract<PackageState
     return state.status === "error";
 }
 
-function getRepositoryUrl(repository: NpmRepository | undefined): string | null {
-    if (!repository?.url) {
-        return null;
+function weeklyDownloads(packages: Record<string, PackageState>, key: string): number {
+    const state = packages[key];
+    if (state?.status === "loaded") {
+        return state.meta.downloadsWeek ?? 0;
     }
-
-    return repository.url.replace(/^git\+/, "").replace(/\.git$/, "");
+    return -1;
 }
 
-function buildLinks(meta: NpmMeta): Array<{ href: string; label: string }> {
-    const links: Array<{ href: string; label: string }> = [];
-
-    if (meta.homepage) {
-        links.push({ href: meta.homepage, label: "homepage" });
-    }
-
-    const repositoryUrl = getRepositoryUrl(meta.repository);
-    if (repositoryUrl) {
-        links.push({ href: repositoryUrl, label: "repository" });
-    }
-
-    links.push({ href: `https://www.npmjs.com/package/${encodeURIComponent(meta.name)}`, label: "npm" });
-    return links;
-}
-
-function renderBadges(meta: NpmMeta): ReactNode {
-    const safeName = shieldsName(meta.name);
-    const badges = [
-        {
-            alt: "npm version",
-            src: `https://img.shields.io/npm/v/${safeName}?label=version`,
-        },
-        {
-            alt: "weekly downloads",
-            src: `https://img.shields.io/npm/dw/${safeName}`,
-        },
-        {
-            alt: "license",
-            src: `https://img.shields.io/npm/l/${safeName}`,
-        },
-    ];
-
-    if (meta.hasTypes) {
-        badges.push({
-            alt: "types included",
-            src: "https://img.shields.io/badge/types-included-blue?logo=typescript",
-        });
-    }
-
-    return badges.map((badge) => (
-        <img key={badge.alt} alt={badge.alt} src={badge.src} style={{ marginRight: "0.5rem" }} />
-    ));
-}
-
-function PackageCard(props: { title: string; state: PackageState; isPackageRoute?: boolean }): ReactNode {
-    const { state, title, isPackageRoute } = props;
-    const [copied, setCopied] = useState(false);
-    const [copiedUrl, setCopiedUrl] = useState(false);
-
-    if (state.status === "loading") {
-        return (
-            <div className="card">
-                <h2>{title}</h2>
-                <div className="muted">Loading…</div>
-            </div>
-        );
-    }
-
-    if (state.status === "error") {
-        return (
-            <div className="card">
-                <h2>{title}</h2>
-                <div className="error">{state.error}</div>
-            </div>
-        );
-    }
-
-    const { meta } = state;
-    const links = buildLinks(meta);
-    const installCmd = `npm i ${meta.name}`;
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(installCmd).then(() => {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        }).catch(() => {
-            // fallback or ignore
-        });
-    };
-
-    const packageUrl = `https://waelio.com/packages/${meta.name}`;
-    const handleCopyUrl = () => {
-        navigator.clipboard.writeText(packageUrl).then(() => {
-            setCopiedUrl(true);
-            setTimeout(() => setCopiedUrl(false), 2000);
-        }).catch(() => { });
-    };
-
-    return (
-        <div className="card">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <h2 style={{ margin: 0 }}>
-                    <a href={`/packages/${meta.name}`} style={{ color: "inherit", textDecoration: "none" }}>{title}</a>
-                </h2>
-                <button
-                    onClick={handleCopyUrl}
-                    className="btn-outline"
-                    style={{ padding: "0.3rem 0.6rem", fontSize: "0.85rem", borderRadius: "6px", display: "flex", alignItems: "center", gap: "0.3rem", border: "1px solid var(--wa-outline-border)", cursor: "pointer", background: "transparent" }}
-                    title="Copy package URL"
-                >
-                    {copiedUrl ? "✅ Copied URL" : "🔗 Copy URL"}
-                </button>
-            </div>
-            <div className="muted">{meta.description || "—"}</div>
-
-            <div className="row" style={{ marginTop: "1.25rem", marginBottom: "1.5rem", width: "100%" }}>
-                <div style={{
-                    display: "flex",
-                    width: "100%",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    background: "var(--wa-surface-soft)",
-                    border: "1px solid var(--wa-border-strong)",
-                    borderRadius: "12px",
-                    padding: "0.5rem 0.5rem 0.5rem 1.25rem",
-                    boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)"
-                }}>
-                    <code style={{ fontFamily: "monospace", fontSize: "0.95rem", color: "var(--wa-accent-strong)", fontWeight: 600 }}>
-                        {installCmd}
-                    </code>
-                    <button
-                        onClick={handleCopy}
-                        className="btn-outline"
-                        style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.4rem 0.8rem", borderRadius: "8px", border: "1px solid var(--wa-outline-border)" }}
-                        title="Copy to clipboard"
-                    >
-                        {copied ? "✅ Copied" : "📋 Copy"}
-                    </button>
-                </div>
-            </div>
-
-            <div className="row">
-                <span className="label">Latest:</span>
-                <span className="val">{meta.version || "—"}</span>
-            </div>
-            <div className="row">
-                <span className="label">Downloads (last week):</span>
-                <span className="val">{formatDownloads(meta.downloadsWeek)}</span>
-            </div>
-            <div className="row">
-                <span className="label">Links:</span>
-                <span>
-                    {links.map((link, index) => (
-                        <span key={link.label}>
-                            {index > 0 ? " · " : null}
-                            <a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>
-                        </span>
-                    ))}
-                </span>
-            </div>
-            <div className="badges">{renderBadges(meta)}</div>
-            <div className="row">
-                <span className="label">Tags:</span>
-                <span>
-                    {meta.keywords && meta.keywords.length > 0 ? (
-                        <span className="chips">
-                            {meta.keywords.map((keyword) => (
-                                <span key={keyword} className="chip">{keyword}</span>
-                            ))}
-                        </span>
-                    ) : <span className="muted">—</span>}
-                </span>
-            </div>
-
-            {isPackageRoute && meta.readme && (
-                <div className="package-readme" style={{ marginTop: "2rem", padding: "1.5rem", background: "var(--wa-surface-soft)", borderRadius: "12px", border: "1px solid var(--wa-border-strong)", overflowX: "auto" }}>
-                    <ReactMarkdown>{meta.readme}</ReactMarkdown>
-                </div>
-            )}
-        </div>
+/** Homepage order: highest weekly downloads first; loading/errors last. */
+function sortDefinitionsByDownloads(
+    definitions: PackageDefinition[],
+    packages: Record<string, PackageState>,
+): PackageDefinition[] {
+    return [...definitions].sort(
+        (a, b) => weeklyDownloads(packages, b.key) - weeklyDownloads(packages, a.key),
     );
 }
 
@@ -438,16 +248,26 @@ function HeroIntro(): ReactNode {
             <p className="hero-description">
                 Practical npm packages, live stats, and small tools I actually reach for when shipping things.
             </p>
-            <div className="hero-note">Made with love for developers who just want to ship.</div>
+            <div className="hero-note">Sorted by weekly downloads · click any package for its landing page.</div>
         </section>
     );
 }
 
+function parsePackageNameFromPath(pathname: string): string | null {
+    if (!pathname.startsWith("/packages/")) {
+        return null;
+    }
+    const raw = pathname.replace(/^\/packages\/?/, "").replace(/\/$/, "");
+    if (!raw) {
+        return null;
+    }
+    return decodeURIComponent(raw);
+}
+
 function App(): ReactNode {
     const path = window.location.pathname;
-    const extractedName = decodeURIComponent(path.replace(/^\/packages\/?/, "").replace(/\/$/, ""));
-    const isPackageRoute = path.startsWith("/packages/") && extractedName.length > 0;
-    const specificPackageName = isPackageRoute ? extractedName : null;
+    const specificPackageName = parsePackageNameFromPath(path);
+    const isPackageRoute = specificPackageName !== null;
 
     const initialDefinitions = specificPackageName
         ? buildPackageDefinitions([specificPackageName])
@@ -458,6 +278,11 @@ function App(): ReactNode {
         buildInitialPackageState(initialDefinitions)
     ));
     const { theme, setTheme, themeOptions } = useThemeMode();
+
+    const sortedDefinitions = useMemo(
+        () => (isPackageRoute ? packageDefinitions : sortDefinitionsByDownloads(packageDefinitions, packages)),
+        [isPackageRoute, packageDefinitions, packages],
+    );
 
     useEffect(() => {
         let cancelled = false;
@@ -516,7 +341,19 @@ function App(): ReactNode {
         return () => {
             cancelled = true;
         };
-    }, []);
+    }, [specificPackageName]);
+
+    useEffect(() => {
+        if (isPackageRoute && specificPackageName) {
+            document.title = `${specificPackageName} – waelio.com`;
+            return;
+        }
+        document.title = "waelio.com – Open Source npm Package Stats";
+    }, [isPackageRoute, specificPackageName]);
+
+    const packageState = specificPackageName
+        ? packages[specificPackageName] ?? LOADING_PACKAGE_STATE
+        : null;
 
     return (
         <>
@@ -528,7 +365,7 @@ function App(): ReactNode {
                             alt="waelio logo"
                             className="brand-lockup brand-lockup-header"
                         />
-                        <h1 className="site-title">Package stats</h1>
+                        <h1 className="site-title">{isPackageRoute ? "Package" : "Package stats"}</h1>
                     </a>
                 </div>
                 <div className="header-nav">
@@ -536,7 +373,7 @@ function App(): ReactNode {
                         {isPackageRoute ? (
                             <a href="/" className="nav-link">← All packages</a>
                         ) : (
-                            `${packageDefinitions.length} npm packages · live metadata`
+                            `${packageDefinitions.length} npm packages · click to open`
                         )}
                     </span>
                     <div className="theme-switcher" role="group" aria-label="Choose theme">
@@ -559,27 +396,37 @@ function App(): ReactNode {
                 </div>
             </header>
 
+            {!isPackageRoute && (
             <div className="page-shell">
-                {!isPackageRoute && (
-                    <>
                         <HeroIntro />
                         <DownloadsSummary packageDefinitions={packageDefinitions} packages={packages} />
+                </div>
+            )}
 
-                    </>
+            {isPackageRoute && specificPackageName && packageState ? (
+                <div className="package-landing-shell">
+                    {packageState.status === "loading" && (
+                        <PackageLandingLoading name={specificPackageName} />
+                    )}
+                    {packageState.status === "error" && (
+                        <PackageLandingError name={specificPackageName} error={packageState.error} />
+                    )}
+                    {packageState.status === "loaded" && (
+                        <PackageLandingPage meta={packageState.meta} />
                 )}
             </div>
-
-            <div className="container">
-                {packageDefinitions.map((definition, index) => (
-                    <div key={definition.key}>
-                        <PackageCard
+            ) : !isPackageRoute ? (
+                <div className="container package-grid">
+                    {sortedDefinitions.map((definition, index) => (
+                        <PackageGridCard
+                            key={definition.key}
                             title={definition.title}
                             state={packages[definition.key] ?? LOADING_PACKAGE_STATE}
-                            isPackageRoute={isPackageRoute}
+                            rank={index + 1}
                         />
-                    </div>
                 ))}
             </div>
+            ) : null}
 
             <footer className="site-footer">
                 <span className="muted">© 2026 waelio.com</span>
