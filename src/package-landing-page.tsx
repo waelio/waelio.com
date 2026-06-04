@@ -125,20 +125,26 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
             </section>
 
             <section className="package-landing-section package-landing-marketing-slot" aria-label="Sponsored">
-                <div className="package-text-ad">
-                    <span className="package-text-ad-label">Ad</span>
-                    <h3 className="package-text-ad-headline">{marketing.textAd.headline}</h3>
-                    <p className="package-text-ad-body">{marketing.textAd.body}</p>
-                    <a
-                        href={marketing.textAd.ctaUrl}
-                        className="package-text-ad-cta"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        {marketing.textAd.ctaLabel}
-                    </a>
+                <div className="package-ad-slot">
+                    <div className="package-ad-slot-inner">
+                        <div className="package-ad-slot-top">
+                            <span className="package-ad-slot-label">Sponsored</span>
+                            <a href="/advertise" className="package-ad-slot-advertise-link">Advertise here →</a>
+                        </div>
+                        <h3 className="package-ad-slot-headline">{marketing.textAd.headline}</h3>
+                        <p className="package-ad-slot-body">{marketing.textAd.body}</p>
+                        <a
+                            href={marketing.textAd.ctaUrl}
+                            className="package-ad-slot-cta"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            {marketing.textAd.ctaLabel} →
+                        </a>
+                    </div>
                 </div>
             </section>
+
 
             <section className="package-landing-section" aria-label="Links">
                 <h2 className="package-landing-section-title">Links</h2>
