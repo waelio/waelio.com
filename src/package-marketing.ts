@@ -181,21 +181,24 @@ const PROFILES: Record<string, PackageMarketing> = {
         },
     },
     "@waelio/negotiate": {
-        tagline: "CLI wrapper for negotiation flows",
-        pitch: "npm-distributed CLI for negotiation-related workflows — install globally or per project.",
+        tagline: "Let two AI agents negotiate — fully automated",
+        pitch: "A production-ready service for multi-agent AI negotiation. Two AI agents exchange proposals, counter-offers, and reach agreements — autonomously. Run it serverless on Cloudflare or self-hosted with Python. Change the context, goal, or agent personas mid-session.",
         benefits: [
-            "CLI on npm",
-            "Scriptable in CI",
-            "Focused single purpose",
+            "Fully autonomous AI vs AI negotiation",
+            "Change context and goals mid-session",
+            "Serverless on Cloudflare or self-hosted",
+            "Session persistence with handoff support",
+            "npm CLI + REST API + live UI included",
         ],
-        useCases: ["Automation scripts", "CLI tooling chains", "Backend integrations"],
+        useCases: ["Salary negotiation simulation", "Contract term discussions", "Multi-agent AI workflows", "AI agent handoff and resumption"],
         textAd: {
-            headline: "Negotiation flows from the CLI",
-            body: "@waelio/negotiate — scriptable, npm-distributed, built for automation.",
-            ctaLabel: "Install @waelio/negotiate",
+            headline: "AI agents that negotiate for you",
+            body: "@waelio/negotiate — deploy in minutes, let two AI agents negotiate autonomously with full session history.",
+            ctaLabel: "Try @waelio/negotiate",
             ctaUrl: "https://www.npmjs.com/package/@waelio/negotiate",
         },
     },
+
 };
 
 export const ALL_PACKAGE_NAMES = [
