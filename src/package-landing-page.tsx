@@ -72,7 +72,10 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
     return (
         <article className="package-landing">
             <section className="package-landing-hero" aria-label="Package overview">
-                <p className="package-landing-eyebrow">@waelio package</p>
+                <div className="package-landing-eyebrow-row">
+                    <p className="package-landing-eyebrow">@waelio package</p>
+                    <span className="package-landing-peak-badge">⚡ 6,000+ weekly downloads at peak</span>
+                </div>
                 <h1 className="package-landing-title">{meta.name}</h1>
                 <p className="package-landing-tagline">{marketing.tagline}</p>
                 <p className="package-landing-pitch">{marketing.pitch}</p>
