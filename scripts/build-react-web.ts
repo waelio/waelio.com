@@ -77,7 +77,8 @@ async function main(): Promise<void> {
 
     for (const name of ALL_PACKAGE_NAMES) {
         const marketing = getPackageMarketing(name);
-        const descriptionText = `${marketing.tagline}. Live npm version, weekly downloads, and documentation for ${name}.`;
+        const cleanedTagline = marketing.tagline.replace(/\.$/, "");
+        const descriptionText = `${cleanedTagline}. Live npm version, weekly downloads, and documentation for ${name}.`;
         const canonicalUrl = `https://waelio.com/packages/${encodeURIComponent(name)}`;
 
         // Replace metadata

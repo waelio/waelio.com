@@ -20,7 +20,7 @@ export interface PackageMarketing {
 
 const PROFILES: Record<string, PackageMarketing> = {
     "@waelio/ustore": {
-        tagline: "Persistent storage that stays out of your way",
+        tagline: "Unshakeable Foundations, Uncompromising Performance: Reliable Storage Solutions for the Modern Developer.",
         pitch: "A practical storage layer for apps that need reliable local state without heavy infrastructure.",
         benefits: [
             "Simple API for read/write and sync patterns",
