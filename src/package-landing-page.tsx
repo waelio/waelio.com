@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
-import { getPackageMarketing } from "./package-marketing.ts";
+import { getPackageMarketing, packagePagePath } from "./package-marketing.ts";
 import { ReadmeMarkdown } from "./readme-markdown.tsx";
 
 interface NpmMeta {
@@ -74,7 +74,11 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
             <section className="package-landing-hero" aria-label="Package overview">
                 <div className="package-landing-eyebrow-row">
                     <p className="package-landing-eyebrow">@waelio package</p>
-                    <span className="package-landing-peak-badge">⚡ 6,000+ weekly downloads at peak</span>
+                    {marketing.peakWeeklyDownloads && (
+                        <span className="package-landing-peak-badge">
+                            ⚡ {new Intl.NumberFormat().format(marketing.peakWeeklyDownloads)}+ weekly downloads at peak
+                        </span>
+                    )}
                 </div>
                 <h1 className="package-landing-title">{meta.name}</h1>
                 <p className="package-landing-tagline">{marketing.tagline}</p>
@@ -171,6 +175,24 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                 <section className="package-landing-section package-landing-docs" aria-label="Documentation">
                     <h2 className="package-landing-section-title">Documentation</h2>
                     <ReadmeMarkdown source={meta.readme} />
+                </section>
+            )}
+
+            {marketing.relatedPackages && marketing.relatedPackages.length > 0 && (
+                <section className="package-landing-section" aria-label="Related packages">
+                    <h2 className="package-landing-section-title">Related @waelio packages</h2>
+                    <div className="package-landing-related">
+                        {marketing.relatedPackages.map((pkg) => (
+                            <a
+                                key={pkg}
+                                href={packagePagePath(pkg)}
+                                className="package-landing-related-link"
+                            >
+                                <span className="package-landing-related-name">{pkg}</span>
+                                <span className="package-landing-related-arrow">→</span>
+                            </a>
+                        ))}
+                    </div>
                 </section>
             )}
         </article>
