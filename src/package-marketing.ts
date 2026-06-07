@@ -199,6 +199,25 @@ const PROFILES: Record<string, PackageMarketing> = {
         },
     },
 
+    "@waelio/realdb": {
+        tagline: "A reactive local database built for modern JavaScript apps",
+        pitch: "@waelio/realdb is a lightweight, reactive database layer that brings real-time local data management to your JavaScript and TypeScript projects — without the overhead of a server.",
+        benefits: [
+            "Reactive queries that update automatically",
+            "Works offline — no server required",
+            "TypeScript-first with full type safety",
+            "Tiny footprint, zero external dependencies",
+            "Pairs perfectly with @waelio/sync for edge sync",
+        ],
+        useCases: ["Offline-first apps", "Real-time UI state", "Local-first data architecture", "PWAs and embedded apps"],
+        textAd: {
+            headline: "A reactive database that lives in your app",
+            body: "@waelio/realdb — reactive, local, and TypeScript-native. No server, no hassle.",
+            ctaLabel: "Install @waelio/realdb",
+            ctaUrl: "https://www.npmjs.com/package/@waelio/realdb",
+        },
+    },
+
 };
 
 export const ALL_PACKAGE_NAMES = [
@@ -213,6 +232,7 @@ export const ALL_PACKAGE_NAMES = [
     "@waelio/sync",
     "@waelio/builder",
     "@waelio/negotiate",
+    "@waelio/realdb",
 ] as const;
 
 export function packagePagePath(name: string): string {

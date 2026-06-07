@@ -24,6 +24,7 @@ A recurring cron task has been scheduled to run every day:
 | 9 | `@waelio/data` | Shared data structure schemas | `waelio.com` | Monitored |
 | 10 | `@waelio/builder` | Project blueprints scaffold and AI Express server | `builder/` | Active |
 | 11 | `@waelio/negotiate` | Peer connection negotiation broker | `waelio.com` | Monitored |
+| 12 | `@waelio/realdb` | Reactive local database layer | `realdb/` | Active |
 
 ---
 
