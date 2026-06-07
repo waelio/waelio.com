@@ -243,12 +243,13 @@ function DownloadsSummary(props: {
 function HeroIntro(): ReactNode {
     return (
         <section className="hero-card" aria-label="Homepage introduction">
-            <div className="hero-eyebrow">Built for developers like me</div>
-            <h2 className="hero-title">Built with love to help developers like me save time.</h2>
+            <div className="hero-eyebrow">Open source · npm · TypeScript</div>
+            <h2 className="hero-title">Small packages. Real production use. Built by a developer, for developers.</h2>
             <p className="hero-description">
-                Practical npm packages, live stats, and small tools I actually reach for when shipping things.
+                The <strong>@waelio</strong> ecosystem — focused npm packages for local state, sync, messaging, and tooling.
+                No bloat, no lock-in. Install what you need, ship faster.
             </p>
-            <div className="hero-note">Sorted by weekly downloads · click any package for its landing page.</div>
+            <div className="hero-note">Sorted by weekly downloads · click any package for docs, badges, and install command.</div>
         </section>
     );
 }

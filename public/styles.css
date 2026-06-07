@@ -2851,3 +2851,53 @@ a:hover {
     align-items: stretch;
   }
 }
+
+/* ── Related packages cross-promotion ── */
+
+.package-landing-related {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.package-landing-related-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--wa-border);
+  background: var(--wa-surface);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.package-landing-related-link:hover {
+  border-color: var(--wa-accent);
+  background: var(--wa-accent-soft);
+  transform: translateX(3px);
+  text-decoration: none;
+}
+
+.package-landing-related-name {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--wa-accent-strong);
+}
+
+.package-landing-related-arrow {
+  font-weight: 700;
+  color: var(--wa-accent-strong);
+  opacity: 0.6;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.package-landing-related-link:hover .package-landing-related-arrow {
+  opacity: 1;
+  transform: translateX(2px);
+}
