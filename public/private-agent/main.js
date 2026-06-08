@@ -21736,8 +21736,7 @@ async function disableWaelioRuntimeCaching() {
   if ("caches" in globalThis) {
     try {
       const keys = await caches.keys();
-      const waelioKeys = keys.filter((key) => key.startsWith("waelio-cache"));
-      await Promise.all(waelioKeys.map((key) => caches.delete(key).catch(() => false)));
+      await Promise.all(keys.map((key) => caches.delete(key).catch(() => false)));
     } catch {
     }
   }
