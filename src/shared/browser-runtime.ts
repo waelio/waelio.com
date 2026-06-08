@@ -15,8 +15,8 @@ export async function disableWaelioRuntimeCaching(): Promise<void> {
     if ("caches" in globalThis) {
         try {
             const keys = await caches.keys();
-            const waelioKeys = keys.filter((key) => key.startsWith("waelio-cache"));
-            await Promise.all(waelioKeys.map((key) => caches.delete(key).catch(() => false)));
+            // Delete ALL caches — no prefix filter — so stale npm API responses never persist.
+            await Promise.all(keys.map((key) => caches.delete(key).catch(() => false)));
         } catch {
             // Ignore cache cleanup failures.
         }
