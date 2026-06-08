@@ -308,41 +308,79 @@
     let allData = {};
 
     // ── Fetch ────────────────────────────────────────────
-    async function fetchRange(pkg, days) {
-      const end = new Date();
-      const start = new Date();
-      start.setDate(end.getDate() - days);
-      const s = start.toISOString().split('T')[0];
-      const e = end.toISOString().split('T')[0];
-      const res = await fetch(`https://api.npmjs.org/downloads/range/${s}:${e}/${pkg}`);
+    // Returns a date string in YYYY-MM-DD in LOCAL time (avoids UTC-shift issues)
+    function toDateStr(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    // Fetch a specific date range [startDate, endDate] (YYYY-MM-DD strings)
+    async function fetchDateRange(pkg, startDate, endDate) {
+      const res = await fetch(`https://api.npmjs.org/downloads/range/${startDate}:${endDate}/${pkg}`);
       return res.json();
     }
 
     async function loadAll(days) {
       currentRange = days;
-      const results = await Promise.all(PACKAGES.map(p => fetchRange(p, days)));
+      const half = Math.floor(days / 2);
+
+      // "This period": last `half` days (yesterday inclusive, not today since it's partial)
+      const thisPeriodEnd = new Date();
+      thisPeriodEnd.setDate(thisPeriodEnd.getDate() - 1); // yesterday
+      const thisPeriodStart = new Date(thisPeriodEnd);
+      thisPeriodStart.setDate(thisPeriodEnd.getDate() - half + 1);
+
+      // "Prev period": the `half` days before that
+      const prevPeriodEnd = new Date(thisPeriodStart);
+      prevPeriodEnd.setDate(thisPeriodStart.getDate() - 1);
+      const prevPeriodStart = new Date(prevPeriodEnd);
+      prevPeriodStart.setDate(prevPeriodEnd.getDate() - half + 1);
+
+      const thisStart = toDateStr(thisPeriodStart);
+      const thisEnd   = toDateStr(thisPeriodEnd);
+      const prevStart = toDateStr(prevPeriodStart);
+      const prevEnd   = toDateStr(prevPeriodEnd);
+
+      // Fetch both periods in parallel for all packages
+      const [thisResults, prevResults] = await Promise.all([
+        Promise.all(PACKAGES.map(p => fetchDateRange(p, thisStart, thisEnd))),
+        Promise.all(PACKAGES.map(p => fetchDateRange(p, prevStart, prevEnd)))
+      ]);
+
       allData = {};
-      results.forEach(r => {
-        if (r && r.downloads) {
-          allData[r.package] = r.downloads;
+      PACKAGES.forEach((pkg, i) => {
+        const thisR = thisResults[i];
+        const prevR = prevResults[i];
+        if (thisR && thisR.downloads) {
+          allData[pkg] = {
+            thisDownloads: thisR.downloads,
+            prevDownloads: (prevR && prevR.downloads) ? prevR.downloads : [],
+            periodLabel: { thisStart, thisEnd, prevStart, prevEnd }
+          };
         }
       });
+
       render();
-      document.getElementById('last-updated').textContent = `Updated: ${new Date().toLocaleString()}`;
+      document.getElementById('last-updated').textContent =
+        `Updated: ${new Date().toLocaleString()} — Comparing ${prevStart}→${prevEnd} vs ${thisStart}→${thisEnd}`;
     }
 
-    // ── Compute stats ────────────────────────────────────
-    function computeStats(downloads) {
-      if (!downloads || downloads.length < 2) return null;
-      const total = downloads.reduce((s, d) => s + d.downloads, 0);
-      const half = Math.floor(downloads.length / 2);
-      const prevHalf = downloads.slice(0, half);
-      const lastHalf = downloads.slice(half);
-      const prevSum = prevHalf.reduce((s, d) => s + d.downloads, 0);
-      const lastSum = lastHalf.reduce((s, d) => s + d.downloads, 0);
-      const diff = lastSum - prevSum;
+    // ── Compute stats from two separate period arrays ────
+    function computeStats(pkgData) {
+      if (!pkgData) return null;
+      const { thisDownloads, prevDownloads } = pkgData;
+      if (!thisDownloads || thisDownloads.length === 0) return null;
+
+      const lastSum = thisDownloads.reduce((s, d) => s + d.downloads, 0);
+      const prevSum = prevDownloads.reduce((s, d) => s + d.downloads, 0);
+      const total   = lastSum + prevSum;
+      const diff    = lastSum - prevSum;
       const pct = prevSum > 0 ? ((diff / prevSum) * 100).toFixed(1) : (lastSum > 0 ? 100 : 0);
-      return { total, prevSum, lastSum, diff, pct, daily: downloads };
+      // Combine both periods for daily chart (prev first, then current)
+      const daily = [...prevDownloads, ...thisDownloads];
+      return { total, prevSum, lastSum, diff, pct, daily };
     }
 
     // ── Render ────────────────────────────────────────────
@@ -507,11 +545,12 @@
 
       const arrow = dir => dir === 1 ? '▲' : '▼';
 
+      const half = Math.floor(currentRange / 2);
       const colDef = [
         { key: 'pkg',     label: 'Package' },
-        { key: 'total',   label: 'Total' },
-        { key: 'prevSum', label: `First Half` },
-        { key: 'lastSum', label: `Second Half` },
+        { key: 'total',   label: 'Total (Both Periods)' },
+        { key: 'prevSum', label: `Prev ${half}d` },
+        { key: 'lastSum', label: `This ${half}d` },
         { key: 'diff',    label: 'Change' },
         { key: 'spark',   label: 'Trend' },
       ];
