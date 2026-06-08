@@ -160,7 +160,15 @@ async function loadNpmMeta(name: string): Promise<NpmMeta> {
             if (!r.ok) throw new Error(`registry: ${r.status}`);
             return (await r.json()) as unknown;
         }),
-        fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`, { cache: "no-store" })
+        (() => {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const weekAgo = new Date(yesterday);
+            weekAgo.setDate(yesterday.getDate() - 6);
+            const fmt = (d: Date) =>
+                `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+            return fetch(`https://api.npmjs.org/downloads/point/${fmt(weekAgo)}:${fmt(yesterday)}/${encodeURIComponent(name)}`, { cache: "no-store" });
+        })()
             .then(async (r) => {
                 if (!r.ok) return { downloads: 0 };
                 return (await r.json()) as unknown;

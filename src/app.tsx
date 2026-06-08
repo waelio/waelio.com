@@ -109,7 +109,18 @@ async function loadPackage(name: string): Promise<NpmMeta> {
 
             return await response.json() as unknown;
         }),
-        fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`, { cache: "no-store" })
+        (() => {
+            // `last-week` = previous calendar Sun–Sat: completely static all week.
+            // Use a rolling 7-day range ending yesterday so the number changes daily.
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const weekAgo = new Date(yesterday);
+            weekAgo.setDate(yesterday.getDate() - 6);
+            const fmt = (d: Date) =>
+                `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+            const range = `${fmt(weekAgo)}:${fmt(yesterday)}`;
+            return fetch(`https://api.npmjs.org/downloads/point/${range}/${encodeURIComponent(name)}`, { cache: "no-store" });
+        })()
             .then(async (response) => {
                 if (!response.ok) {
                     throw new Error(`downloads: ${response.status}`);
