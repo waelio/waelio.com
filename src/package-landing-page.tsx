@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
-import { getPackageMarketing, packagePagePath } from "./package-marketing.ts";
+import { getPackageMarketing, getSitePackageConfig, isSitePackage, packageLink } from "./package-marketing.ts";
 import { ReadmeMarkdown } from "./readme-markdown.tsx";
 
 interface NpmMeta {
@@ -50,17 +50,21 @@ function renderBadges(meta: NpmMeta): ReactNode {
 export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
     const { meta } = props;
     const marketing = getPackageMarketing(meta.name, meta.description);
-    const installCmd = `npm i ${meta.name}`;
+    const sitePackage = isSitePackage(meta.name);
+    const siteConfig = getSitePackageConfig(meta.name);
+    const installCmd = sitePackage ? (siteConfig?.cta ?? "Open site") : `npm i ${meta.name}`;
     const [copied, setCopied] = useState(false);
 
     const links: Array<{ href: string; label: string }> = [];
-    if (meta.homepage) links.push({ href: meta.homepage, label: "Homepage" });
+    if (meta.homepage) links.push({ href: meta.homepage, label: sitePackage ? "Open chat" : "Homepage" });
     const repo = getRepositoryUrl(meta.repository);
     if (repo) links.push({ href: repo, label: "Repository" });
-    links.push({
-        href: `https://www.npmjs.com/package/${encodeURIComponent(meta.name)}`,
-        label: "npm",
-    });
+    if (!sitePackage) {
+        links.push({
+            href: `https://www.npmjs.com/package/${encodeURIComponent(meta.name)}`,
+            label: "npm",
+        });
+    }
 
     const handleCopy = () => {
         void navigator.clipboard.writeText(installCmd).then(() => {
@@ -85,10 +89,22 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                 <p className="package-landing-pitch">{marketing.pitch}</p>
 
                 <div className="package-landing-install">
-                    <code>{installCmd}</code>
-                    <button type="button" className="btn-outline package-landing-copy" onClick={handleCopy}>
-                        {copied ? "Copied" : "Copy install"}
-                    </button>
+                    {sitePackage ? (
+                        <a
+                            href={packageLink(meta.name)}
+                            className="btn-outline package-landing-open-chat"
+                            {...(packageLink(meta.name).startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        >
+                            {siteConfig?.cta ?? "Open site →"}
+                        </a>
+                    ) : (
+                        <>
+                            <code>{installCmd}</code>
+                            <button type="button" className="btn-outline package-landing-copy" onClick={handleCopy}>
+                                {copied ? "Copied" : "Copy install"}
+                            </button>
+                        </>
+                    )}
                 </div>
 
                 {marketing.ctaHint && (
@@ -97,12 +113,20 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
 
                 <div className="package-landing-stats">
                     <div className="package-landing-stat">
-                        <span className="package-landing-stat-label">Latest</span>
+                        <span className="package-landing-stat-label">{sitePackage ? "Status" : "Latest"}</span>
                         <span className="package-landing-stat-value">{meta.version || "—"}</span>
                     </div>
                     <div className="package-landing-stat">
-                        <span className="package-landing-stat-label">Downloads / week</span>
-                        <span className="package-landing-stat-value">{formatDownloads(meta.downloadsWeek)}</span>
+                        <span className="package-landing-stat-label">
+                            {sitePackage && meta.name === "peace2074.com" ? "Offline downloads / week" : sitePackage ? "Access" : "Downloads / week"}
+                        </span>
+                        <span className="package-landing-stat-value">
+                            {sitePackage && meta.name === "peace2074.com"
+                                ? formatDownloads(meta.downloadsWeek)
+                                : sitePackage
+                                    ? "Home screen"
+                                    : formatDownloads(meta.downloadsWeek)}
+                        </span>
                     </div>
                     <div className="package-landing-stat">
                         <span className="package-landing-stat-label">License</span>
@@ -110,7 +134,7 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                     </div>
                 </div>
 
-                <div className="package-landing-badges">{renderBadges(meta)}</div>
+                {!sitePackage && <div className="package-landing-badges">{renderBadges(meta)}</div>}
             </section>
 
             <section className="package-landing-section" aria-label="Why this package">
@@ -143,8 +167,7 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                         <a
                             href={marketing.textAd.ctaUrl}
                             className="package-ad-slot-cta"
-                            target="_blank"
-                            rel="noreferrer"
+                            {...(sitePackage ? {} : { target: "_blank", rel: "noreferrer" })}
                         >
                             {marketing.textAd.ctaLabel} →
                         </a>
@@ -157,7 +180,11 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                 <h2 className="package-landing-section-title">Links</h2>
                 <div className="package-landing-links">
                     {links.map((link) => (
-                        <a key={link.label} href={link.href} target="_blank" rel="noreferrer">
+                        <a
+                            key={link.label}
+                            href={link.href}
+                            {...(link.href.startsWith("/") ? {} : { target: "_blank", rel: "noreferrer" })}
+                        >
                             {link.label}
                         </a>
                     ))}
@@ -185,7 +212,7 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                         {marketing.relatedPackages.map((pkg) => (
                             <a
                                 key={pkg}
-                                href={packagePagePath(pkg)}
+                                href={packageLink(pkg)}
                                 className="package-landing-related-link"
                             >
                                 <span className="package-landing-related-name">{pkg}</span>

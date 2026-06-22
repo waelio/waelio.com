@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { packagePagePath } from "./package-marketing.ts";
+import { getSitePackageConfig, isSitePackage, packageLink } from "./package-marketing.ts";
 
 type PackageState =
     | { status: "loading" }
@@ -19,13 +19,21 @@ function rankLabel(rank: number, loaded: boolean): string | null {
 
 export function PackageGridCard(props: { title: string; state: PackageState; rank?: number }): ReactNode {
     const { title, state, rank } = props;
-    const href = packagePagePath(title);
-    const badge = rank ? rankLabel(rank, state.status === "loaded") : null;
-    const featured = rank === 1 && state.status === "loaded";
+    const href = packageLink(title);
+    const sitePackage = isSitePackage(title);
+    const siteConfig = getSitePackageConfig(title);
+    const badge = siteConfig?.badge
+        ?? (rank ? rankLabel(rank, state.status === "loaded") : null);
+    const featured = sitePackage || (rank === 1 && state.status === "loaded");
+    const external = href.startsWith("http");
 
     if (state.status === "loading") {
         return (
-            <a href={href} className="package-grid-card package-grid-card-loading">
+            <a
+                href={href}
+                className="package-grid-card package-grid-card-loading"
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
                 <h2 className="package-grid-card-title">{title}</h2>
                 <p className="muted">Loading…</p>
             </a>
@@ -34,7 +42,11 @@ export function PackageGridCard(props: { title: string; state: PackageState; ran
 
     if (state.status === "error") {
         return (
-            <a href={href} className="package-grid-card package-grid-card-error">
+            <a
+                href={href}
+                className="package-grid-card package-grid-card-error"
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
                 <h2 className="package-grid-card-title">{title}</h2>
                 <p className="error">{state.error}</p>
                 <span className="package-grid-card-cta">View page →</span>
@@ -48,6 +60,7 @@ export function PackageGridCard(props: { title: string; state: PackageState; ran
         <a
             href={href}
             className={featured ? "package-grid-card package-grid-card-featured" : "package-grid-card"}
+            {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         >
             {badge && <span className="package-grid-card-badge">{badge}</span>}
             <div className="package-grid-card-top">
@@ -56,10 +69,23 @@ export function PackageGridCard(props: { title: string; state: PackageState; ran
             </div>
             <p className="package-grid-card-desc">{meta.description || "Open package page for details."}</p>
             <div className="package-grid-card-meta">
-                <span>v{meta.version || "—"}</span>
-                <span>{formatDownloads(meta.downloadsWeek)}/wk</span>
+                {sitePackage ? (
+                    <>
+                        <span>Live now</span>
+                        <span>
+                            {meta.downloadsWeek != null && meta.downloadsWeek > 0
+                                ? `${formatDownloads(meta.downloadsWeek)}/wk`
+                                : (siteConfig?.metaRight ?? "Site package")}
+                        </span>
+                    </>
+                ) : (
+                    <>
+                        <span>v{meta.version || "—"}</span>
+                        <span>{formatDownloads(meta.downloadsWeek)}/wk</span>
+                    </>
+                )}
             </div>
-            <span className="package-grid-card-cta">Open package page</span>
+            <span className="package-grid-card-cta">{siteConfig?.cta ?? (sitePackage ? "Open →" : "Open package page")}</span>
         </a>
     );
 }

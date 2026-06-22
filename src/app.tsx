@@ -3,7 +3,8 @@ import { createRoot } from "react-dom/client";
 import type { ReactNode } from "react";
 import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
 import { useThemeMode } from "./shared/theme.ts";
-import { ALL_PACKAGE_NAMES } from "./package-marketing.ts";
+import { ALL_PACKAGE_NAMES, getSitePackageMeta, isSitePackage, PEACE2074_PACKAGE_NAME, PINNED_PACKAGE_NAMES } from "./package-marketing.ts";
+import { fetchPeace2074DownloadStats } from "./peace2074-stats.ts";
 import { PackageGridCard } from "./package-grid-card.tsx";
 import {
     PackageLandingError,
@@ -101,7 +102,16 @@ function normalizeRepository(value: unknown): NpmRepository {
 }
 
 async function loadPackage(name: string): Promise<NpmMeta> {
-    const [meta, downloads] = await Promise.all([
+    const siteMeta = getSitePackageMeta(name);
+    if (siteMeta) {
+        if (name === PEACE2074_PACKAGE_NAME) {
+            const stats = await fetchPeace2074DownloadStats();
+            return { ...siteMeta, downloadsWeek: stats.downloadsWeek };
+        }
+        return siteMeta;
+    }
+
+    const [meta, downloads, peace2074Stats] = await Promise.all([
         fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`, { cache: "no-store" }).then(async (response) => {
             if (!response.ok) {
                 throw new Error(`registry: ${response.status}`);
@@ -129,6 +139,7 @@ async function loadPackage(name: string): Promise<NpmMeta> {
                 return await response.json() as unknown;
             })
             .catch(() => ({ downloads: 0 })),
+        fetchPeace2074DownloadStats(),
     ]);
 
     const metaRecord = isRecord(meta) ? meta : {};
@@ -144,13 +155,16 @@ async function loadPackage(name: string): Promise<NpmMeta> {
     const keywords = readStringArray(versionMeta, "keywords") ?? readStringArray(metaRecord, "keywords") ?? [];
     const readme = readString(metaRecord, "readme") || readString(versionMeta, "readme") || "";
 
+    const npmDownloadsWeek = Number(downloadsRecord.downloads ?? 0);
+    const peace2074DownloadsWeek = name === "@waelio/realdb" ? peace2074Stats.downloadsWeek : 0;
+
     return {
         name: readString(metaRecord, "name") || name,
         description: readString(versionMeta, "description") || readString(metaRecord, "description") || "",
         version: latest,
         homepage,
         repository,
-        downloadsWeek: Number(downloadsRecord.downloads ?? 0),
+        downloadsWeek: npmDownloadsWeek + peace2074DownloadsWeek,
         keywords,
         license,
         hasTypes,
@@ -210,14 +224,24 @@ function weeklyDownloads(packages: Record<string, PackageState>, key: string): n
     return -1;
 }
 
-/** Homepage order: highest weekly downloads first; loading/errors last. */
+function mergePackageDefinitions(names: string[]): PackageDefinition[] {
+    const mergedNames = [...PINNED_PACKAGE_NAMES, ...names.filter((name) => !isSitePackage(name))];
+    return buildPackageDefinitions(mergedNames);
+}
+
+/** Homepage order: pinned packages first, then highest weekly downloads. */
 function sortDefinitionsByDownloads(
     definitions: PackageDefinition[],
     packages: Record<string, PackageState>,
 ): PackageDefinition[] {
-    return [...definitions].sort(
-        (a, b) => weeklyDownloads(packages, b.key) - weeklyDownloads(packages, a.key),
-    );
+    const pinned = definitions.filter((definition) => isSitePackage(definition.key));
+    const rest = definitions.filter((definition) => !isSitePackage(definition.key));
+    return [
+        ...pinned,
+        ...[...rest].sort(
+            (a, b) => weeklyDownloads(packages, b.key) - weeklyDownloads(packages, a.key),
+        ),
+    ];
 }
 
 function DownloadsSummary(props: {
@@ -245,7 +269,7 @@ function DownloadsSummary(props: {
             <div className="summary-value">
                 {loadedStates.length > 0 ? formatDownloads(totalWeeklyDownloads) : "Loading…"}
             </div>
-            <div className="summary-caption">Weekly npm downloads across your packages</div>
+            <div className="summary-caption">Weekly downloads — npm plus peace2074.com offline recitation</div>
             <div className="summary-meta">{caption} · {meta}</div>
         </section>
     );
@@ -307,7 +331,7 @@ function App(): ReactNode {
             if (!specificPackageName) {
                 try {
                     const maintainerPackageNames = await loadMaintainerPackageNames(NPM_MAINTAINER);
-                    definitions = buildPackageDefinitions(maintainerPackageNames);
+                    definitions = mergePackageDefinitions(maintainerPackageNames);
                 } catch {
                     // Keep the fallback list if npm maintainer search is unavailable.
                 }
@@ -404,7 +428,8 @@ function App(): ReactNode {
                             </button>
                         ))}
                     </div>
-                    <a href="/private" className="nav-link">🔒 Private</a>
+                    <a href="/chat" className="nav-link">💬 Chat</a>
+                    <a href="/private" className="nav-link" title="You and your partner only">🔒 Private</a>
                 </div>
             </header>
 
