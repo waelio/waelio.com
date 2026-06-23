@@ -151,3 +151,11 @@ export function createSessionCookie(session: AuthSession): string {
 export function clearSessionCookie(): string {
     return `session=; HttpOnly; Path=/; Max-Age=0; SameSite=Strict${secureCookieAttribute()}`;
 }
+
+export function createChatSessionCookie(session: AuthSession): string {
+    return `chat_session=${createToken(session)}; HttpOnly; Path=/; Max-Age=${TOKEN_MAX_AGE}; SameSite=Strict${secureCookieAttribute()}`;
+}
+
+export function clearChatSessionCookie(): string {
+    return `chat_session=; HttpOnly; Path=/; Max-Age=0; SameSite=Strict${secureCookieAttribute()}`;
+}

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { getSitePackageConfig, isSitePackage, packageLink } from "./package-marketing.ts";
+import { getPackageMarketing, getSitePackageConfig, isSitePackage, packageLink } from "./package-marketing.ts";
 
 type PackageState =
     | { status: "loading" }
@@ -22,9 +22,19 @@ export function PackageGridCard(props: { title: string; state: PackageState; ran
     const href = packageLink(title);
     const sitePackage = isSitePackage(title);
     const siteConfig = getSitePackageConfig(title);
+    const marketing = getPackageMarketing(title);
+    const productionBadge = marketing.productionProof
+        ? `★ ${marketing.productionProof.appName}`
+        : null;
+    const liveBadge = marketing.liveShowcase ? "⚡ Live demo" : null;
     const badge = siteConfig?.badge
+        ?? productionBadge
+        ?? liveBadge
         ?? (rank ? rankLabel(rank, state.status === "loaded") : null);
-    const featured = sitePackage || (rank === 1 && state.status === "loaded");
+    const featured = sitePackage
+        || Boolean(marketing.productionProof)
+        || Boolean(marketing.liveShowcase)
+        || (rank === 1 && state.status === "loaded");
     const external = href.startsWith("http");
 
     if (state.status === "loading") {
@@ -70,13 +80,27 @@ export function PackageGridCard(props: { title: string; state: PackageState; ran
             <p className="package-grid-card-desc">{meta.description || "Open package page for details."}</p>
             <div className="package-grid-card-meta">
                 {sitePackage ? (
+                    meta.name === "peace2074.com" ? (
+                        <strong className="package-grid-card-big-stat" aria-label={`${formatDownloads(meta.downloadsWeek)} weekly total for peace2074.com`}>
+                            {formatDownloads(meta.downloadsWeek)}/wk total
+                        </strong>
+                    ) : (
+                        <>
+                            <span>Live now</span>
+                            <span>{siteConfig?.metaRight ?? "Site package"}</span>
+                        </>
+                    )
+                ) : marketing.liveShowcase ? (
                     <>
-                        <span>Live now</span>
-                        <span>
-                            {meta.downloadsWeek != null && meta.downloadsWeek > 0
-                                ? `${formatDownloads(meta.downloadsWeek)}/wk`
-                                : (siteConfig?.metaRight ?? "Site package")}
-                        </span>
+                        <span>v{meta.version || "—"}</span>
+                        <strong className="package-grid-card-big-stat">Live on Cloudflare</strong>
+                    </>
+                ) : marketing.productionProof ? (
+                    <>
+                        <span>v{meta.version || "—"}</span>
+                        <strong className="package-grid-card-big-stat">
+                            {formatDownloads(meta.downloadsWeek)}/wk incl. production
+                        </strong>
                     </>
                 ) : (
                     <>
@@ -85,7 +109,9 @@ export function PackageGridCard(props: { title: string; state: PackageState; ran
                     </>
                 )}
             </div>
-            <span className="package-grid-card-cta">{siteConfig?.cta ?? (sitePackage ? "Open →" : "Open package page")}</span>
+            <span className="package-grid-card-cta">
+                {marketing.liveShowcase ? "Open live demo →" : siteConfig?.cta ?? (sitePackage ? "Open →" : "Open package page")}
+            </span>
         </a>
     );
 }

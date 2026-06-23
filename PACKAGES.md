@@ -28,6 +28,7 @@ Never paste tokens in chat.
 
 | Package | Folder | Tier | Notes |
 |---------|--------|------|-------|
+| `@waelio/chat` | `waelio.com` | hosted-first | Live at https://waelio.com/chat — site package, not on npm |
 | `@waelio/ustore` | `../ustore` | npm-first | Hero library |
 | `@waelio/utils` | `../utils` | npm-first | Modern utilities |
 | `@waelio/data` | `../data` | npm-first | Schemas / local DB |

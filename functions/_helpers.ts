@@ -4,7 +4,9 @@
  */
 import {
     clearSessionCookie,
+    clearChatSessionCookie,
     createSessionCookie,
+    createChatSessionCookie,
     createToken,
     getAllowedEmails,
     getGoogleClientId,
@@ -18,7 +20,9 @@ import type { Env, CFContext } from "./env.ts";
 export {
     TOKEN_MAX_AGE,
     clearSessionCookie,
+    clearChatSessionCookie,
     createSessionCookie,
+    createChatSessionCookie,
     createToken,
     parseCookies,
     verifyToken,

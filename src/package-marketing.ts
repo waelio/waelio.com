@@ -5,6 +5,18 @@ export interface TextAd {
     ctaUrl: string;
 }
 
+export interface LiveShowcase {
+    title: string;
+    url: string;
+    detail: string;
+}
+
+export interface ProductionProof {
+    appName: string;
+    appUrl: string;
+    detail: string;
+}
+
 export interface PackageMarketing {
     /** Short marketing headline shown in hero */
     tagline: string;
@@ -18,6 +30,10 @@ export interface PackageMarketing {
     textAd: TextAd;
     /** Documented all-time weekly download peak for this specific package */
     peakWeeklyDownloads?: number;
+    /** Live app that ships this package in production */
+    productionProof?: ProductionProof;
+    /** Try-it-now URL — no npm install required */
+    liveShowcase?: LiveShowcase;
     /** Related @waelio packages to cross-promote */
     relatedPackages?: string[];
 }
@@ -88,12 +104,49 @@ const PROFILES: Record<string, PackageMarketing> = {
         ],
         useCases: ["Event-driven backends", "Cross-tab communication", "Worker messaging", "Notification pipelines"],
         peakWeeklyDownloads: 6000,
-        relatedPackages: ["@waelio/sync", "@waelio/negotiate", "@waelio/cli"],
+        relatedPackages: ["@waelio/sync", "@waelio/negotiate", "@waelio/chat"],
         textAd: {
             headline: "Messaging primitives that just work",
             body: "@waelio/messaging — connect services with clear, production-ready patterns. No bloat.",
             ctaLabel: "Get @waelio/messaging",
             ctaUrl: "https://www.npmjs.com/package/@waelio/messaging",
+        },
+    },
+    "@waelio/chat": {
+        tagline: "Your direct channel — no WhatsApp, no social networks.",
+        pitch: "Sign in with Google and message Wael on waelio.com. Open to anyone. No WhatsApp or Facebook.",
+        benefits: [
+            "Always available from waelio.com",
+            "Google sign-in — real names, not anonymous noise",
+            "No WhatsApp, Facebook, or third-party social apps",
+            "Powered by your own @waelio/messaging stack",
+        ],
+        useCases: ["Direct conversations", "Community support", "Staying in touch on your own platform", "Replacing social-app DMs"],
+        ctaHint: "Install to your home screen for one-tap access",
+        relatedPackages: ["@waelio/messaging", "peace2074.com", "@waelio/sync"],
+        textAd: {
+            headline: "Talk on waelio.com — not on WhatsApp",
+            body: "@waelio/chat is your signed-in direct channel. Open it any time from your packages or home screen.",
+            ctaLabel: "Open secure chat",
+            ctaUrl: "https://waelio.com/chat",
+        },
+    },
+    "peace2074.com": {
+        tagline: "Quran, reflection, and community — live at peace2074.com.",
+        pitch: "The main PEACE2074 app: multilingual Quran, recitation, blog, chat, and more. Built on the @waelio stack.",
+        benefits: [
+            "Live web app and native iOS wrapper",
+            "Many languages including Arabic, English, Uzbek, and more",
+            "Uses @waelio/messaging, @waelio/realdb, and @waelio/sync",
+            "Open source and always improving",
+        ],
+        useCases: ["Daily Quran reading", "Community and blog", "Peace2074 mobile app", "Production home for @waelio packages"],
+        relatedPackages: ["@waelio/chat", "@waelio/messaging", "@waelio/realdb"],
+        textAd: {
+            headline: "peace2074.com — the main app",
+            body: "Open the live PEACE2074 site. Quran, chat, blog, and the @waelio ecosystem in one place.",
+            ctaLabel: "Open peace2074.com",
+            ctaUrl: "https://peace2074.com",
         },
     },
     "@waelio/cli": {
@@ -199,39 +252,61 @@ const PROFILES: Record<string, PackageMarketing> = {
         },
     },
     "@waelio/negotiate": {
-        tagline: "Two AI agents negotiate, autonomously — you just watch.",
-        pitch: "A production-ready multi-agent AI negotiation service. Two AI agents exchange proposals, counter-offers, and reach agreements — fully autonomously. Deploy serverless on Cloudflare or self-hosted. Change context, goals, and personas mid-session.",
+        tagline: "Your real situation — two AIs negotiate what you write",
+        pitch: "Bring a real negotiation from your life or work. You describe the topic and both sides. Agent A and Agent B argue only your words — not a canned demo.",
         benefits: [
-            "Fully autonomous AI vs AI negotiation",
-            "Hot-swap context and goals mid-session",
-            "Serverless on Cloudflare or self-hosted with Python",
-            "Persistent sessions with handoff support",
-            "Ships with npm CLI + REST API + live web UI",
+            "You supply the real topic — nothing pre-written",
+            "Two AIs negotiate only what you type",
+            "Continue rounds until you stop",
+            "Runs on Cloudflare — no install to try it",
+            "Self-host with npm when you need your own server",
         ],
-        useCases: ["Salary negotiation simulation", "Contract term discussions", "Multi-agent AI workflows", "AI product demos", "Agent handoff and resumption"],
-        relatedPackages: ["@waelio/messaging", "@waelio/sync"],
+        useCases: [
+            "A deal or dispute you are actually facing",
+            "Practice before a real conversation",
+            "Exploring both sides of a decision",
+            "Multi-agent experiments with your own context",
+        ],
+        liveShowcase: {
+            title: "Your scenario",
+            url: "https://negotiate-ui.pages.dev",
+            detail: "Your topic, your two sides — no built-in demo script.",
+        },
+        ctaHint: "Type your real situation first. The AIs follow your words.",
+        relatedPackages: ["@waelio/messaging", "@waelio/sync", "@waelio/agent"],
         textAd: {
-            headline: "Let two AIs negotiate — fully automated",
-            body: "@waelio/negotiate — deploy in minutes, change context mid-session, watch agents reach real agreements.",
-            ctaLabel: "Try @waelio/negotiate",
-            ctaUrl: "https://www.npmjs.com/package/@waelio/negotiate",
+            headline: "Two AIs negotiate what you write",
+            body: "Real topic from you. Agent A and Agent B argue your scenario — not a canned example.",
+            ctaLabel: "Open negotiate",
+            ctaUrl: "https://negotiate-ui.pages.dev",
         },
     },
 
     "@waelio/realdb": {
-        tagline: "A reactive local database built for modern JavaScript apps",
-        pitch: "@waelio/realdb is a lightweight, reactive database layer that brings real-time local data management to your JavaScript and TypeScript projects — without the overhead of a server.",
+        tagline: "Reactive local database — powers offline Quran audio on peace2074.com",
+        pitch: "@waelio/realdb stores and tracks offline recitation downloads in production on peace2074.com. Reactive collections, TypeScript-first, no server required.",
         benefits: [
+            "In production on peace2074.com — offline recitation download state",
             "Reactive queries that update automatically",
-            "Works offline — no server required",
+            "Works offline — LocalStorage and memory adapters",
             "TypeScript-first with full type safety",
-            "Tiny footprint, zero external dependencies",
-            "Pairs perfectly with @waelio/sync for edge sync",
+            "Pairs with @waelio/sync for cross-device Quran position",
         ],
-        useCases: ["Offline-first apps", "Real-time UI state", "Local-first data architecture", "PWAs and embedded apps"],
+        useCases: [
+            "Offline-first PWAs",
+            "Download progress tracking",
+            "Local-first mobile apps",
+            "Reactive UI state",
+        ],
+        productionProof: {
+            appName: "peace2074.com",
+            appUrl: "https://peace2074.com",
+            detail: "Tracks every offline Quran recitation download — reactive, persistent, queryable.",
+        },
+        ctaHint: "Used in production on peace2074.com today.",
         textAd: {
-            headline: "A reactive database that lives in your app",
-            body: "@waelio/realdb — reactive, local, and TypeScript-native. No server, no hassle.",
+            headline: "The database behind peace2074 offline audio",
+            body: "@waelio/realdb — battle-tested for offline recitation downloads, not just demos.",
             ctaLabel: "Install @waelio/realdb",
             ctaUrl: "https://www.npmjs.com/package/@waelio/realdb",
         },
@@ -240,6 +315,8 @@ const PROFILES: Record<string, PackageMarketing> = {
 };
 
 export const ALL_PACKAGE_NAMES = [
+    "@waelio/chat",
+    "peace2074.com",
     "@waelio/ustore",
     "@waelio/utils",
     "@waelio/data",
@@ -253,6 +330,99 @@ export const ALL_PACKAGE_NAMES = [
     "@waelio/negotiate",
     "@waelio/realdb",
 ] as const;
+
+export const CHAT_PACKAGE_NAME = "@waelio/chat";
+export const CHAT_PACKAGE_URL = "/chat";
+export const PEACE2074_PACKAGE_NAME = "peace2074.com";
+export const PEACE2074_PACKAGE_URL = "https://peace2074.com";
+export const PINNED_PACKAGE_NAMES = [CHAT_PACKAGE_NAME, PEACE2074_PACKAGE_NAME] as const;
+
+export interface SitePackageConfig {
+    url: string;
+    badge: string;
+    cta: string;
+    metaRight: string;
+}
+
+const SITE_PACKAGE_CONFIG: Record<string, SitePackageConfig> = {
+    [CHAT_PACKAGE_NAME]: {
+        url: CHAT_PACKAGE_URL,
+        badge: "💬 Chat",
+        cta: "Open chat →",
+        metaRight: "Secure chat",
+    },
+    [PEACE2074_PACKAGE_NAME]: {
+        url: PEACE2074_PACKAGE_URL,
+        badge: "★ Main app",
+        cta: "Open peace2074 →",
+        metaRight: "Live site",
+    },
+};
+
+export function getSitePackageConfig(name: string): SitePackageConfig | null {
+    return SITE_PACKAGE_CONFIG[name] ?? null;
+}
+
+export interface SitePackageMeta {
+    name: string;
+    description?: string;
+    version?: string;
+    homepage?: string;
+    repository?: { url?: string } | null;
+    downloadsWeek?: number;
+    keywords?: string[];
+    license?: string;
+    hasTypes?: boolean;
+    readme?: string;
+}
+
+export function isSitePackage(name: string): boolean {
+    return (PINNED_PACKAGE_NAMES as readonly string[]).includes(name);
+}
+
+export function packageLink(name: string): string {
+    return getSitePackageConfig(name)?.url ?? packagePagePath(name);
+}
+
+export function getSitePackageMeta(name: string): SitePackageMeta | null {
+    const config = getSitePackageConfig(name);
+    if (!config) {
+        return null;
+    }
+
+    const marketing = getPackageMarketing(name);
+    const readmeByPackage: Record<string, string[]> = {
+        [CHAT_PACKAGE_NAME]: [
+            "## @waelio/chat",
+            "",
+            "Your signed-in direct channel on waelio.com.",
+            "",
+            "- [Open secure chat](/chat)",
+        ],
+        [PEACE2074_PACKAGE_NAME]: [
+            "## peace2074.com",
+            "",
+            "Quran, blog, chat, and community.",
+            "",
+            "- [Open peace2074.com](https://peace2074.com)",
+        ],
+    };
+
+    return {
+        name,
+        description: marketing.tagline,
+        version: "live",
+        homepage: config.url.startsWith("http") ? config.url : `https://waelio.com${config.url}`,
+        repository: name === PEACE2074_PACKAGE_NAME
+            ? { url: "https://github.com/waelio/peace2074.com" }
+            : null,
+        keywords: name === CHAT_PACKAGE_NAME
+            ? ["chat", "direct", "secure", "messaging"]
+            : ["quran", "peace2074", "app", "community"],
+        license: name === CHAT_PACKAGE_NAME ? "Your channel" : "Open app",
+        readme: (readmeByPackage[name] ?? []).join("\n"),
+    };
+}
 
 export function packagePagePath(name: string): string {
     return `/packages/${encodeURIComponent(name)}`;

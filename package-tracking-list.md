@@ -13,18 +13,19 @@ A recurring cron task has been scheduled to run every day:
 
 | # | Package Name | Scope / Role | Repository Location | Current Status |
 |---|---|---|---|---|
-| 1 | `waelio-utils` | Legacy / General utility library | `waelio.com` | Monitored |
-| 2 | `@waelio/utils` | General modern ESM utilities | `waelio.com` | Monitored |
-| 3 | `@waelio/ustore` | Local storage state manager | `waelio.com` | Monitored |
-| 4 | `quasar-app-extension-waelio` | Quasar framework integration | `waelio.com` | Monitored |
-| 5 | `@waelio/agent` | Local AI agent chat frontend PWA | `builder/` | Active |
-| 6 | `@waelio/messaging` | Custom event and message passing broker | `waelio.com` | Monitored |
-| 7 | `@waelio/cli` | Workspace scaffold/runner CLI | `waelio.com` | Monitored |
-| 8 | `@waelio/sync` | Live sync database utility layer | `waelio.com` | Monitored |
-| 9 | `@waelio/data` | Shared data structure schemas | `waelio.com` | Monitored |
-| 10 | `@waelio/builder` | Project blueprints scaffold and AI Express server | `builder/` | Active |
-| 11 | `@waelio/negotiate` | Peer connection negotiation broker | `waelio.com` | Monitored |
-| 12 | `@waelio/realdb` | Reactive local database layer | `realdb/` | Active |
+| 1 | `@waelio/chat` | Secure direct chat on waelio.com (any Google sign-in) | `waelio.com` | Active |
+| 2 | `waelio-utils` | Legacy / General utility library | `waelio.com` | Monitored |
+| 3 | `@waelio/utils` | General modern ESM utilities | `waelio.com` | Monitored |
+| 4 | `@waelio/ustore` | Local storage state manager | `waelio.com` | Monitored |
+| 5 | `quasar-app-extension-waelio` | Quasar framework integration | `waelio.com` | Monitored |
+| 6 | `@waelio/agent` | Local AI agent chat frontend PWA | `builder/` | Active |
+| 7 | `@waelio/messaging` | Custom event and message passing broker | `waelio.com` | Monitored |
+| 8 | `@waelio/cli` | Workspace scaffold/runner CLI | `waelio.com` | Monitored |
+| 9 | `@waelio/sync` | Live sync database utility layer | `waelio.com` | Monitored |
+| 10 | `@waelio/data` | Shared data structure schemas | `waelio.com` | Monitored |
+| 11 | `@waelio/builder` | Project blueprints scaffold and AI Express server | `builder/` | Active |
+| 12 | `@waelio/negotiate` | Peer connection negotiation broker | `waelio.com` | Monitored |
+| 13 | `@waelio/realdb` | Reactive local database layer | `realdb/` | Active |
 
 ---
 

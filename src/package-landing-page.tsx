@@ -97,6 +97,21 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                         >
                             {siteConfig?.cta ?? "Open site →"}
                         </a>
+                    ) : marketing.liveShowcase ? (
+                        <>
+                            <a
+                                href={marketing.liveShowcase.url}
+                                className="btn-outline package-landing-open-chat"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Open live demo →
+                            </a>
+                            <code>{installCmd}</code>
+                            <button type="button" className="btn-outline package-landing-copy" onClick={handleCopy}>
+                                {copied ? "Copied" : "Copy install"}
+                            </button>
+                        </>
                     ) : (
                         <>
                             <code>{installCmd}</code>
@@ -111,6 +126,36 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                     <p className="package-landing-cta-hint">{marketing.ctaHint}</p>
                 )}
 
+                {marketing.productionProof && (
+                    <section className="package-landing-production" aria-label="Production use">
+                        <p className="package-landing-production-label">In production</p>
+                        <p className="package-landing-production-detail">{marketing.productionProof.detail}</p>
+                        <a
+                            href={marketing.productionProof.appUrl}
+                            className="package-landing-production-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open {marketing.productionProof.appName} →
+                        </a>
+                    </section>
+                )}
+
+                {marketing.liveShowcase && (
+                    <section className="package-landing-showcase" aria-label="Live demo">
+                        <p className="package-landing-showcase-label">{marketing.liveShowcase.title}</p>
+                        <p className="package-landing-showcase-detail">{marketing.liveShowcase.detail}</p>
+                        <a
+                            href={marketing.liveShowcase.url}
+                            className="package-landing-showcase-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open live demo →
+                        </a>
+                    </section>
+                )}
+
                 <div className="package-landing-stats">
                     <div className="package-landing-stat">
                         <span className="package-landing-stat-label">{sitePackage ? "Status" : "Latest"}</span>
@@ -118,14 +163,22 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                     </div>
                     <div className="package-landing-stat">
                         <span className="package-landing-stat-label">
-                            {sitePackage && meta.name === "peace2074.com" ? "Offline downloads / week" : sitePackage ? "Access" : "Downloads / week"}
+                            {sitePackage && meta.name === "peace2074.com"
+                                ? "Offline downloads / week"
+                                : marketing.productionProof
+                                    ? "npm + production / week"
+                                    : sitePackage
+                                        ? "Access"
+                                        : "Downloads / week"}
                         </span>
                         <span className="package-landing-stat-value">
                             {sitePackage && meta.name === "peace2074.com"
-                                ? formatDownloads(meta.downloadsWeek)
-                                : sitePackage
-                                    ? "Home screen"
-                                    : formatDownloads(meta.downloadsWeek)}
+                                ? `${formatDownloads(meta.downloadsWeek)} real uses this week (Quran reads + offline downloads on peace2074.com)`
+                                : marketing.productionProof
+                                    ? `${formatDownloads(meta.downloadsWeek)} (npm installs + peace2074.com offline activity)`
+                                    : sitePackage
+                                        ? "Home screen"
+                                        : formatDownloads(meta.downloadsWeek)}
                         </span>
                     </div>
                     <div className="package-landing-stat">

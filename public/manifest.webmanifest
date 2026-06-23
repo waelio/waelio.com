@@ -23,5 +23,20 @@
             "type": "image/png",
             "purpose": "any maskable"
         }
+    ],
+    "shortcuts": [
+        {
+            "name": "@waelio/chat",
+            "short_name": "Chat",
+            "description": "Open secure direct chat",
+            "url": "/chat",
+            "icons": [
+                {
+                    "src": "/favicon.png?v=20260514",
+                    "sizes": "512x512",
+                    "type": "image/png"
+                }
+            ]
+        }
     ]
 }
