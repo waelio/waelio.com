@@ -52,11 +52,13 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
     const marketing = getPackageMarketing(meta.name, meta.description);
     const sitePackage = isSitePackage(meta.name);
     const siteConfig = getSitePackageConfig(meta.name);
-    const installCmd = sitePackage ? (siteConfig?.cta ?? "Open site") : `npm i ${meta.name}`;
+    const installCmd = `npm i ${meta.name}`;
     const [copied, setCopied] = useState(false);
 
     const links: Array<{ href: string; label: string }> = [];
-    if (meta.homepage) links.push({ href: meta.homepage, label: sitePackage ? "Open chat" : "Homepage" });
+    if (meta.homepage) {
+        links.push({ href: meta.homepage, label: sitePackage ? "Open app" : "Homepage" });
+    }
     const repo = getRepositoryUrl(meta.repository);
     if (repo) links.push({ href: repo, label: "Repository" });
     if (!sitePackage) {
@@ -77,7 +79,7 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
         <article className="package-landing">
             <section className="package-landing-hero" aria-label="Package overview">
                 <div className="package-landing-eyebrow-row">
-                    <p className="package-landing-eyebrow">@waelio package</p>
+                    <p className="package-landing-eyebrow">{sitePackage ? "waelio.com app" : "Published on npm"}</p>
                     {marketing.peakWeeklyDownloads && (
                         <span className="package-landing-peak-badge">
                             ⚡ {new Intl.NumberFormat().format(marketing.peakWeeklyDownloads)}+ weekly downloads at peak
@@ -95,23 +97,8 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                             className="btn-outline package-landing-open-chat"
                             {...(packageLink(meta.name).startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                         >
-                            {siteConfig?.cta ?? "Open site →"}
+                            {siteConfig?.cta ?? "Open →"}
                         </a>
-                    ) : marketing.liveShowcase ? (
-                        <>
-                            <a
-                                href={marketing.liveShowcase.url}
-                                className="btn-outline package-landing-open-chat"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Open live demo →
-                            </a>
-                            <code>{installCmd}</code>
-                            <button type="button" className="btn-outline package-landing-copy" onClick={handleCopy}>
-                                {copied ? "Copied" : "Copy install"}
-                            </button>
-                        </>
                     ) : (
                         <>
                             <code>{installCmd}</code>
@@ -137,21 +124,6 @@ export function PackageLandingPage(props: { meta: NpmMeta }): ReactNode {
                             rel="noopener noreferrer"
                         >
                             Open {marketing.productionProof.appName} →
-                        </a>
-                    </section>
-                )}
-
-                {marketing.liveShowcase && (
-                    <section className="package-landing-showcase" aria-label="Live demo">
-                        <p className="package-landing-showcase-label">{marketing.liveShowcase.title}</p>
-                        <p className="package-landing-showcase-detail">{marketing.liveShowcase.detail}</p>
-                        <a
-                            href={marketing.liveShowcase.url}
-                            className="package-landing-showcase-link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Open live demo →
                         </a>
                     </section>
                 )}

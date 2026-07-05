@@ -16,6 +16,7 @@
   "dependencies": {
     "@waelio/agent": "^0.1.3",
     "@waelio/data": "^1.0.2",
+    "@waelio/sockets": "^1.0.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-markdown": "^10.1.0",

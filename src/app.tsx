@@ -229,19 +229,65 @@ function mergePackageDefinitions(names: string[]): PackageDefinition[] {
     return buildPackageDefinitions(mergedNames);
 }
 
-/** Homepage order: pinned packages first, then highest weekly downloads. */
-function sortDefinitionsByDownloads(
+type PackageSortMode = "downloads" | "name";
+
+/** One list for every package — sorted by downloads or name. */
+function orderPackageDefinitions(
     definitions: PackageDefinition[],
     packages: Record<string, PackageState>,
+    sortMode: PackageSortMode,
 ): PackageDefinition[] {
-    const pinned = definitions.filter((definition) => isSitePackage(definition.key));
-    const rest = definitions.filter((definition) => !isSitePackage(definition.key));
-    return [
-        ...pinned,
-        ...[...rest].sort(
-            (a, b) => weeklyDownloads(packages, b.key) - weeklyDownloads(packages, a.key),
-        ),
-    ];
+    if (sortMode === "name") {
+        return [...definitions].sort((a, b) => a.key.localeCompare(b.key));
+    }
+
+    return [...definitions].sort(
+        (a, b) => weeklyDownloads(packages, b.key) - weeklyDownloads(packages, a.key),
+    );
+}
+
+function filterPackageDefinitions(
+    definitions: PackageDefinition[],
+    packages: Record<string, PackageState>,
+    filterQuery: string,
+): PackageDefinition[] {
+    const query = filterQuery.trim().toLowerCase();
+    if (!query) {
+        return definitions;
+    }
+
+    return definitions.filter((definition) => {
+        if (definition.key.toLowerCase().includes(query)) {
+            return true;
+        }
+
+        const state = packages[definition.key];
+        if (state?.status === "loaded") {
+            return (state.meta.description ?? "").toLowerCase().includes(query);
+        }
+
+        return false;
+    });
+}
+
+/** Rank all packages by weekly downloads (#1 = highest). */
+function computeDownloadRanks(
+    definitions: PackageDefinition[],
+    packages: Record<string, PackageState>,
+): Map<string, number> {
+    const ranked = definitions
+        .map((definition) => ({
+            key: definition.key,
+            downloads: weeklyDownloads(packages, definition.key),
+        }))
+        .filter((entry) => entry.downloads >= 0)
+        .sort((a, b) => b.downloads - a.downloads);
+
+    const ranks = new Map<string, number>();
+    ranked.forEach((entry, index) => {
+        ranks.set(entry.key, index + 1);
+    });
+    return ranks;
 }
 
 function DownloadsSummary(props: {
@@ -261,7 +307,7 @@ function DownloadsSummary(props: {
         : `${loadedStates.length}/${props.packageDefinitions.length} packages loaded so far`;
     const meta = errorCount > 0
         ? `${errorCount} package${errorCount === 1 ? "" : "s"} could not be loaded right now.`
-        : "Live total based on the package cards below.";
+        : "Total from the package cards below.";
 
     return (
         <section className="summary-card" aria-label="Total downloads summary">
@@ -284,7 +330,7 @@ function HeroIntro(): ReactNode {
                 The <strong>@waelio</strong> ecosystem — focused npm packages for local state, sync, messaging, and tooling.
                 No bloat, no lock-in. Install what you need, ship faster.
             </p>
-            <div className="hero-note">Sorted by weekly downloads · click any package for docs, badges, and install command.</div>
+            <div className="hero-note">Published on npm · sorted by weekly downloads · filter or sort below.</div>
         </section>
     );
 }
@@ -314,11 +360,22 @@ function App(): ReactNode {
         buildInitialPackageState(initialDefinitions)
     ));
     const { theme, setTheme, themeOptions } = useThemeMode();
+    const [filterQuery, setFilterQuery] = useState("");
+    const [sortMode, setSortMode] = useState<PackageSortMode>("downloads");
 
-    const sortedDefinitions = useMemo(
-        () => (isPackageRoute ? packageDefinitions : sortDefinitionsByDownloads(packageDefinitions, packages)),
-        [isPackageRoute, packageDefinitions, packages],
+    const downloadRanks = useMemo(
+        () => computeDownloadRanks(packageDefinitions, packages),
+        [packageDefinitions, packages],
     );
+
+    const visibleDefinitions = useMemo(() => {
+        if (isPackageRoute) {
+            return packageDefinitions;
+        }
+
+        const ordered = orderPackageDefinitions(packageDefinitions, packages, sortMode);
+        return filterPackageDefinitions(ordered, packages, filterQuery);
+    }, [isPackageRoute, packageDefinitions, packages, sortMode, filterQuery]);
 
     useEffect(() => {
         let cancelled = false;
@@ -453,16 +510,44 @@ function App(): ReactNode {
                 )}
             </div>
             ) : !isPackageRoute ? (
+                <>
+                <div className="container package-grid-toolbar" aria-label="Package filters">
+                    <label className="package-grid-filter">
+                        <span className="package-grid-toolbar-label">Filter</span>
+                        <input
+                            type="search"
+                            value={filterQuery}
+                            onChange={(event) => setFilterQuery(event.target.value)}
+                            placeholder="Name or description…"
+                            aria-label="Filter packages"
+                        />
+                    </label>
+                    <label className="package-grid-sort">
+                        <span className="package-grid-toolbar-label">Sort</span>
+                        <select
+                            value={sortMode}
+                            onChange={(event) => setSortMode(event.target.value as PackageSortMode)}
+                            aria-label="Sort packages"
+                        >
+                            <option value="downloads">Weekly downloads</option>
+                            <option value="name">Name (A–Z)</option>
+                        </select>
+                    </label>
+                    <span className="package-grid-count muted">
+                        {visibleDefinitions.length} package{visibleDefinitions.length === 1 ? "" : "s"}
+                    </span>
+                </div>
                 <div className="container package-grid">
-                    {sortedDefinitions.map((definition, index) => (
+                    {visibleDefinitions.map((definition) => (
                         <PackageGridCard
                             key={definition.key}
                             title={definition.title}
                             state={packages[definition.key] ?? LOADING_PACKAGE_STATE}
-                            rank={index + 1}
+                            downloadRank={downloadRanks.get(definition.key)}
                         />
                 ))}
             </div>
+                </>
             ) : null}
 
             <footer className="site-footer">

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type { FormEvent, ReactNode } from "react";
-import { io, type Socket } from "socket.io-client";
+import { createSocket, type WaelioSocket } from "@waelio/sockets";
 import type {
     ApiErrorResponse,
     GoogleAuthRequest,
@@ -12,7 +12,7 @@ import type {
 import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
 import { useThemeMode } from "./shared/theme.ts";
 
-const MESSAGING_URL = "https://waelio-messagin-live.onrender.com";
+const MESSAGING_URL = "wss://waelio-messagin-live.onrender.com";
 const MAX_MESSAGES = 200;
 const GOOGLE_BUTTON_WIDTH = 340;
 
@@ -181,7 +181,7 @@ function ChatApp(): ReactNode {
     const [error, setError] = useState<string | null>(null);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [draft, setDraft] = useState("");
-    const socketRef = useRef<Socket | null>(null);
+    const socketRef = useRef<WaelioSocket | null>(null);
     const logEndRef = useRef<HTMLDivElement | null>(null);
     const googleButtonRef = useRef<HTMLDivElement | null>(null);
 
@@ -204,12 +204,10 @@ function ChatApp(): ReactNode {
         }
 
         setConnecting(true);
-        const client = io(MESSAGING_URL, {
-            transports: ["websocket", "polling"],
-            timeout: 10000,
-            reconnection: true,
-            reconnectionAttempts: 5,
-            withCredentials: false,
+        const client = createSocket(MESSAGING_URL, {
+            reconnect: true,
+            maxRetries: 5,
+            retryDelay: 2000,
         });
         socketRef.current = client;
 
@@ -227,40 +225,39 @@ function ChatApp(): ReactNode {
             });
         };
 
-        client.on("connect", () => {
+        client.onOpen(() => {
             setConnected(true);
             setConnecting(false);
             setError(null);
-            client.emit("find", "messages", {}, {});
+            client.send({ type: "get-history" });
         });
 
-        client.on("disconnect", (reason) => {
+        client.onClose(() => {
             setConnected(false);
             setConnecting(false);
-            if (reason !== "io client disconnect") {
-                setError("Disconnected from chat server");
-            }
+            setError("Disconnected from chat server");
         });
 
-        client.on("connect_error", (err) => {
+        client.onError(() => {
             setConnected(false);
             setConnecting(false);
-            setError(err?.message ? `Connection error: ${err.message}` : "Connection error");
+            setError("Connection error: websocket error");
         });
 
-        client.on("messages created", (msg: MessagingEnvelope) => {
+        // MessagingHub sends { type: 'message', from, payload, isBroadcast }
+        client.on("message", (msg: MessagingEnvelope) => {
             pushMessage(normalizeMessage(msg));
         });
 
-        client.on("history", (history: MessagingEnvelope[]) => {
-            if (!Array.isArray(history)) {
-                return;
-            }
+        // MessagingHub sends { type: 'message-history', history: [...] }
+        client.on("message-history", (data: { history?: MessagingEnvelope[] }) => {
+            const history = Array.isArray(data?.history) ? data.history : [];
             setMessages(history.map((entry) => normalizeMessage(entry)).slice(-MAX_MESSAGES));
         });
 
+        client.connect();
+
         return () => {
-            client.removeAllListeners();
             client.disconnect();
             socketRef.current = null;
             setConnected(false);
@@ -391,17 +388,13 @@ function ChatApp(): ReactNode {
         }
 
         setError(null);
-        client.emit("create", "messages", {
+        client.send({
             type: "broadcast",
             payload: {
                 text,
                 fromName: user.name,
             },
-            meta: {
-                fromName: user.name,
-                email: user.email,
-            },
-        }, {});
+        });
         setDraft("");
     }
 

@@ -5,12 +5,6 @@ export interface TextAd {
     ctaUrl: string;
 }
 
-export interface LiveShowcase {
-    title: string;
-    url: string;
-    detail: string;
-}
-
 export interface ProductionProof {
     appName: string;
     appUrl: string;
@@ -32,8 +26,6 @@ export interface PackageMarketing {
     peakWeeklyDownloads?: number;
     /** Live app that ships this package in production */
     productionProof?: ProductionProof;
-    /** Try-it-now URL — no npm install required */
-    liveShowcase?: LiveShowcase;
     /** Related @waelio packages to cross-promote */
     relatedPackages?: string[];
 }
@@ -132,10 +124,10 @@ const PROFILES: Record<string, PackageMarketing> = {
         },
     },
     "peace2074.com": {
-        tagline: "Quran, reflection, and community — live at peace2074.com.",
+        tagline: "Quran, reflection, and community — at peace2074.com.",
         pitch: "The main PEACE2074 app: multilingual Quran, recitation, blog, chat, and more. Built on the @waelio stack.",
         benefits: [
-            "Live web app and native iOS wrapper",
+            "Web app and native iOS wrapper",
             "Many languages including Arabic, English, Uzbek, and more",
             "Uses @waelio/messaging, @waelio/realdb, and @waelio/sync",
             "Open source and always improving",
@@ -144,7 +136,7 @@ const PROFILES: Record<string, PackageMarketing> = {
         relatedPackages: ["@waelio/chat", "@waelio/messaging", "@waelio/realdb"],
         textAd: {
             headline: "peace2074.com — the main app",
-            body: "Open the live PEACE2074 site. Quran, chat, blog, and the @waelio ecosystem in one place.",
+            body: "Open peace2074.com — Quran, chat, blog, and the @waelio ecosystem in one place.",
             ctaLabel: "Open peace2074.com",
             ctaUrl: "https://peace2074.com",
         },
@@ -203,25 +195,25 @@ const PROFILES: Record<string, PackageMarketing> = {
     },
     "@waelio/agent": {
         tagline: "Agent tooling for modern workflows",
-        pitch: "Host and embed agent experiences — npm for embedders, hosted URLs when you want zero setup.",
+        pitch: "Embed agent experiences in your app — install from npm and wire it into your stack.",
         benefits: [
             "Embeddable agent UI",
             "Works with your stack",
-            "Hosted and npm distribution options",
+            "Published on npm",
         ],
         useCases: ["In-app assistants", "Internal tools", "Product copilots"],
         textAd: {
             headline: "Embed an agent in your product",
-            body: "@waelio/agent — npm for embedders, hosted options when you want zero setup.",
-            ctaLabel: "Learn about @waelio/agent",
+            body: "@waelio/agent — install from npm and integrate with your app.",
+            ctaLabel: "Install @waelio/agent",
             ctaUrl: "https://www.npmjs.com/package/@waelio/agent",
         },
     },
     "@waelio/sync": {
         tagline: "Keep your data in sync — on the edge, without the overhead.",
-        pitch: "A worker-oriented sync layer for keeping data aligned across clients and services. Built for Cloudflare Workers and edge-first architectures.",
+        pitch: "A worker-oriented sync layer for keeping data aligned across clients and services. Built for edge and worker runtimes.",
         benefits: [
-            "Edge-native — runs on Cloudflare Workers",
+            "Edge-native — runs in worker environments",
             "Multi-client data alignment out of the box",
             "Minimal footprint, focused scope",
             "Pairs perfectly with @waelio/realdb and @waelio/ustore",
@@ -230,8 +222,8 @@ const PROFILES: Record<string, PackageMarketing> = {
         relatedPackages: ["@waelio/realdb", "@waelio/ustore", "@waelio/messaging"],
         textAd: {
             headline: "Sync clients at the edge — no heavy backend",
-            body: "@waelio/sync keeps clients aligned with an edge-first architecture built for Cloudflare Workers.",
-            ctaLabel: "See @waelio/sync",
+            body: "@waelio/sync keeps clients aligned with a lightweight edge-first architecture.",
+            ctaLabel: "Install @waelio/sync",
             ctaUrl: "https://www.npmjs.com/package/@waelio/sync",
         },
     },
@@ -258,8 +250,7 @@ const PROFILES: Record<string, PackageMarketing> = {
             "You supply the real topic — nothing pre-written",
             "Two AIs negotiate only what you type",
             "Continue rounds until you stop",
-            "Runs on Cloudflare — no install to try it",
-            "Self-host with npm when you need your own server",
+            "Install from npm for your own server",
         ],
         useCases: [
             "A deal or dispute you are actually facing",
@@ -267,18 +258,13 @@ const PROFILES: Record<string, PackageMarketing> = {
             "Exploring both sides of a decision",
             "Multi-agent experiments with your own context",
         ],
-        liveShowcase: {
-            title: "Your scenario",
-            url: "https://negotiate-ui.pages.dev",
-            detail: "Your topic, your two sides — no built-in demo script.",
-        },
-        ctaHint: "Type your real situation first. The AIs follow your words.",
+        ctaHint: "Install with npm, then run your own negotiation server.",
         relatedPackages: ["@waelio/messaging", "@waelio/sync", "@waelio/agent"],
         textAd: {
             headline: "Two AIs negotiate what you write",
-            body: "Real topic from you. Agent A and Agent B argue your scenario — not a canned example.",
-            ctaLabel: "Open negotiate",
-            ctaUrl: "https://negotiate-ui.pages.dev",
+            body: "Real topic from you. Agent A and Agent B argue your scenario — install from npm.",
+            ctaLabel: "Install @waelio/negotiate",
+            ctaUrl: "https://www.npmjs.com/package/@waelio/negotiate",
         },
     },
 
@@ -355,7 +341,7 @@ const SITE_PACKAGE_CONFIG: Record<string, SitePackageConfig> = {
         url: PEACE2074_PACKAGE_URL,
         badge: "★ Main app",
         cta: "Open peace2074 →",
-        metaRight: "Live site",
+        metaRight: "Web app",
     },
 };
 
@@ -411,7 +397,7 @@ export function getSitePackageMeta(name: string): SitePackageMeta | null {
     return {
         name,
         description: marketing.tagline,
-        version: "live",
+        version: "published",
         homepage: config.url.startsWith("http") ? config.url : `https://waelio.com${config.url}`,
         repository: name === PEACE2074_PACKAGE_NAME
             ? { url: "https://github.com/waelio/peace2074.com" }
@@ -439,7 +425,7 @@ export function getPackageMarketing(name: string, npmDescription?: string): Pack
         pitch: npmDescription || "Explore this package, install it, and use the documentation below to get started.",
         benefits: [
             "Published on npm under @waelio",
-            "Live version and download stats",
+            "Current version and download stats",
             "Documentation included below",
         ],
         useCases: ["JavaScript and TypeScript projects", "Node and browser tooling", "Open source workflows"],
