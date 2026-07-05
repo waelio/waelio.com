@@ -1,0 +1,12 @@
+name = "waelio-chat-ws"
+main = "src/index.ts"
+compatibility_date = "2026-05-05"
+compatibility_flags = ["nodejs_compat"]
+
+[[durable_objects.bindings]]
+name = "CHAT_ROOM"
+class_name = "ChatRoom"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["ChatRoom"]

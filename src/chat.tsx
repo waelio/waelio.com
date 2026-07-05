@@ -12,7 +12,7 @@ import type {
 import { disableWaelioRuntimeCaching } from "./shared/browser-runtime.ts";
 import { useThemeMode } from "./shared/theme.ts";
 
-const MESSAGING_URL = "wss://waelio-messagin-live.onrender.com";
+const MESSAGING_URL = "wss://waelio-chat-ws.waelio.workers.dev";
 const MAX_MESSAGES = 200;
 const GOOGLE_BUTTON_WIDTH = 340;
 
