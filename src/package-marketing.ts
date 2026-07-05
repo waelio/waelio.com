@@ -268,6 +268,25 @@ const PROFILES: Record<string, PackageMarketing> = {
         },
     },
 
+    "@waelio/sockets": {
+        tagline: "Native WebSocket client — event-driven, typed, reconnect-ready.",
+        pitch: "A lightweight, typed WebSocket client for browsers and Node. Drop-in socket.io replacement with zero dependencies — familiar API, native speed.",
+        benefits: [
+            "Zero dependencies — uses native WebSocket",
+            "Event-emitter API: socket.on(), socket.send(), socket.off()",
+            "Auto-reconnect with configurable retry delay",
+            "TypeScript-first with full type safety",
+        ],
+        useCases: ["Real-time apps", "Chat and collaboration", "Live dashboards", "Replacing socket.io-client"],
+        relatedPackages: ["@waelio/messaging", "@waelio/sync", "@waelio/chat"],
+        textAd: {
+            headline: "Native WebSocket — no socket.io overhead",
+            body: "@waelio/sockets — typed, reconnect-ready, zero deps. The WebSocket client you actually want.",
+            ctaLabel: "Install @waelio/sockets",
+            ctaUrl: "https://www.npmjs.com/package/@waelio/sockets",
+        },
+    },
+
     "@waelio/realdb": {
         tagline: "Reactive local database — powers offline Quran audio on peace2074.com",
         pitch: "@waelio/realdb stores and tracks offline recitation downloads in production on peace2074.com. Reactive collections, TypeScript-first, no server required.",
@@ -307,6 +326,7 @@ export const ALL_PACKAGE_NAMES = [
     "@waelio/utils",
     "@waelio/data",
     "@waelio/messaging",
+    "@waelio/sockets",
     "@waelio/cli",
     "quasar-app-extension-waelio",
     "waelio-utils",
