@@ -3,7 +3,9 @@
  * Handles Google OAuth credential verification and session creation.
  */
 import {
+    cleanEmail,
     createSessionCookie,
+    getAllowed,
     getClientId,
     injectEnv,
     json,
@@ -50,10 +52,7 @@ export const onRequest: PagesFunction<CFContext["env"]> = async (context) => {
         return json(503, { error: "Google sign-in is not configured" } satisfies ApiErrorResponse);
     }
 
-    const ALLOWED_EMAILS = (context.env.ALLOWED_EMAILS || "")
-        .split(",")
-        .map((e: string) => e.trim().toLowerCase())
-        .filter(Boolean);
+    const ALLOWED_EMAILS = getAllowed(context.env);
 
     try {
         const body = parseGoogleAuthRequest(await readJsonBody(context.request));
@@ -70,9 +69,12 @@ export const onRequest: PagesFunction<CFContext["env"]> = async (context) => {
             return json(401, { error: "Token audience mismatch" } satisfies ApiErrorResponse);
         }
 
-        const email = String(tokenInfo.email ?? "").trim().toLowerCase();
+        const email = cleanEmail(tokenInfo.email);
+        if (!email) {
+            return json(401, { error: "Google account email is required" } satisfies ApiErrorResponse);
+        }
         if (!ALLOWED_EMAILS.includes(email)) {
-            return json(403, { error: "Email not authorized" } satisfies ApiErrorResponse);
+            return json(403, { error: `Email ${email} not authorized` } satisfies ApiErrorResponse);
         }
 
         const session: AuthSession = {

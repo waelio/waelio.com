@@ -5,6 +5,7 @@ import { extname, join } from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import {
+    cleanEmail,
     clearSessionCookie,
     createSessionCookie,
     getAllowedEmails,
@@ -268,9 +269,13 @@ const server = createServer(async (req, res) => {
                 return;
             }
 
-            const email = String(tokenInfo.email ?? "").trim().toLowerCase();
+            const email = cleanEmail(tokenInfo.email);
+            if (!email) {
+                sendJson(res, 401, { error: "Google account email is required" } satisfies ApiErrorResponse);
+                return;
+            }
             if (!ALLOWED_EMAILS.includes(email)) {
-                sendJson(res, 403, { error: "Email not authorized" } satisfies ApiErrorResponse);
+                sendJson(res, 403, { error: `Email ${email} not authorized` } satisfies ApiErrorResponse);
                 return;
             }
 

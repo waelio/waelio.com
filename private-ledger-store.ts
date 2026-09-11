@@ -13,6 +13,7 @@ export function setKVNamespace(kv: KVNamespace): void {
     _kvNamespace = kv;
 }
 import { _decrypt, _encrypt } from "waelio-utils";
+import { cleanEmail, getAllowedEmails } from "./auth.ts";
 import type { AuthSession } from "./src/shared/auth.ts";
 import {
     LEDGER_ENTRY_KINDS,
@@ -122,7 +123,7 @@ function parseBooleanLike(value: unknown): boolean {
 }
 
 function normalizeEmail(value: unknown): string {
-    return String(value ?? "").trim().toLowerCase();
+    return cleanEmail(value);
 }
 
 function titleCase(value: string): string {
@@ -446,8 +447,8 @@ async function saveLedger(ledger: LedgerData): Promise<LedgerData> {
 export function getPartners(rawAllowedEmails: string | string[] | undefined): Partner[] {
     const seen = new Set<string>();
     const values = Array.isArray(rawAllowedEmails)
-        ? rawAllowedEmails
-        : String(rawAllowedEmails ?? "").split(",");
+        ? rawAllowedEmails.map(cleanEmail)
+        : getAllowedEmails(rawAllowedEmails ?? "");
 
     const partners = values
         .map((value) => normalizeEmail(value))

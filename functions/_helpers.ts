@@ -3,6 +3,7 @@
  * Uses Web-standard Request/Response primitives for auth and API responses.
  */
 import {
+    cleanEmail,
     clearSessionCookie,
     clearChatSessionCookie,
     createSessionCookie,
@@ -19,11 +20,13 @@ import type { Env, CFContext } from "./env.ts";
 /* ── re-exports ─────────────────────────────────────────────── */
 export {
     TOKEN_MAX_AGE,
+    cleanEmail,
     clearSessionCookie,
     clearChatSessionCookie,
     createSessionCookie,
     createChatSessionCookie,
     createToken,
+    getAllowedEmails,
     parseCookies,
     verifyToken,
 };

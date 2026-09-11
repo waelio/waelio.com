@@ -49,12 +49,21 @@ export function getGoogleClientId(): string {
     return resolveGoogleClientId(process.env.GOOGLE_CLIENT_ID);
 }
 
-export function getAllowedEmails(rawValue = process.env.ALLOWED_EMAILS ?? ""): string[] {
-    return rawValue
-        .split(",")
-        .map((email) => email.trim().toLowerCase())
-        .filter(Boolean);
+export function cleanEmail(value: unknown): string {
+    return String(value ?? "")
+        .replace(/^["'\[\(\s]+|["'\]\)\s]+$/g, "")
+        .trim()
+        .toLowerCase();
 }
+
+export function getAllowedEmails(rawValue = process.env.ALLOWED_EMAILS ?? ""): string[] {
+    const raw = typeof rawValue === "string" ? rawValue : String(rawValue ?? "");
+    return raw
+        .split(/[,;\n\r]+/)
+        .map(cleanEmail)
+        .filter((email) => email.length > 0 && email.includes("@"));
+}
+
 
 function encodeSession(value: SessionTokenPayload): string {
     return Buffer.from(JSON.stringify(value)).toString("base64url");

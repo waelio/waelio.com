@@ -816,16 +816,6 @@ function App(): ReactNode {
         }
     }
 
-    useEffect(() => {
-        const handlePageHide = () => {
-            void triggerExitLogout();
-        };
-
-        window.addEventListener("pagehide", handlePageHide);
-        return () => {
-            window.removeEventListener("pagehide", handlePageHide);
-        };
-    }, []);
 
     useEffect(() => {
         void loadWorkbook();
